@@ -5,13 +5,10 @@ from django.contrib.admin.widgets import AdminDateWidget
 from sua.models import Sua, Sua_Application, Proof, Student, Appeal, SuaGroup, GSua, GSuaPublicity
 
 
-def get_SuaGroup_Choices():
-    suaGroups = SuaGroup.objects.order_by('rank')
-    suaGroup_Choices = []
-    for suaGroup in suaGroups:
-        suaGroup_Choices.append((suaGroup.pk, suaGroup.name))
-    return suaGroup_Choices
-
+SUA_GROUP_CHOICES = [
+    (1, '个人用户'),
+    (2, '数学学院（珠海）学工办'),
+]
 
 class MyDateWidget(AdminDateWidget):
     def format_value(self, value):
@@ -36,14 +33,15 @@ class LoginForm(forms.Form):
 
 
 class StudentForm(ModelForm):
+    CHOICES = []
     initial_password = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'placeholder': '请输入新的初始密码',
-    }), required=False)
+            'class': 'form-control',
+            'placeholder': '请输入新的初始密码',
+            }), required=False)
     group = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={
-        'class': 'checkbox-inline',
-    }), choices=get_SuaGroup_Choices())
-
+            'class': 'checkbox-inline',
+            }), choices=SUA_GROUP_CHOICES)
+    
     class Meta:
         model = Student
 

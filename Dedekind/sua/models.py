@@ -20,7 +20,7 @@ class Student(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        primary_key=True,
+        # primary_key=True,
     )
     number = models.IntegerField(_("Student Number"))
     suahours = models.FloatField(default=0)
@@ -42,7 +42,7 @@ class SuaGroup(models.Model):
     group = models.OneToOneField(
         Group,
         on_delete=models.CASCADE,
-        primary_key=True,
+        # primary_key=True,
     )
     name = models.CharField(max_length=100)
     is_staff = models.BooleanField(default=False)
