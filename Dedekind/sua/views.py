@@ -16,6 +16,7 @@ from .forms import LoginForm, SuaForm, Sua_ApplicationForm, ProofForm, AppealFor
 from .models import Sua, Proof, Sua_Application, GSuaPublicity, GSua, Student, Appeal, SuaGroup
 from .api import check_signature
 import json
+import pprint
 
 
 class JSONResponseMixin(object):
@@ -1017,6 +1018,7 @@ def index(request):
                 teams[sua.team][sua.suahours] = []
             teams[sua.team][sua.suahours].append(sua.student.name)
         gsap_list.append((gsap, teams))
+    pprint.pprint(appeals_list)
     return render(request, 'sua/index.html', {
         'stu_name': name,
         'stu_number': number,
