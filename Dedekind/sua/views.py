@@ -393,7 +393,7 @@ class Sua_ApplicationDetailView(UserPassesTestMixin, generic.DetailView):
     def test_func(self):
         usr = self.request.user
         application = self.get_object()
-        return usr.is_superuser or usr.pk == application.sua.student.pk
+        return usr.is_superuser or usr.student.pk == application.sua.student.pk
 
     def get_queryset(self):
         return Sua_Application.objects.all()

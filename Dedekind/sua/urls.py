@@ -6,12 +6,12 @@ from . import views
 app_name = 'sua'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('playMFS、', views.playMFS, name='playMFS'),
+    path('playMFS/', views.playMFS, name='playMFS'),
     path('admin/', views.adminIndex, name='admin-index'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('apply_sua/', views.apply_sua, name='apply_sua'),
-    path('appeal_for', views.appeal_for, name='appeal_for'),
+    path('appeal_for/', views.appeal_for, name='appeal_for'),
     path(
         'student/list/',
         views.JSONStudentListView.as_view(),
