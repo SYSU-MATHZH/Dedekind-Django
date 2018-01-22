@@ -22,7 +22,7 @@
   </header>
   <!-- 导航栏部分结束 -->
   <div class="container my-space-line">
-	<form enctype="multipart/form-data" role="form" action="/apply_sua" method="POST">
+	<form enctype="multipart/form-data" role="form" action="" method="POST">
 		  {% csrf_token %}
 		<div class="row">
 			<div class="col-xs-4"></div>
@@ -41,13 +41,13 @@
 								<label>
 								姓名:
 								</label>
-								<p>{{form.name}}</p>
+								{{form.name}}
 							</div>
 							<div class="col-xs-4">
 								<label>
 								学号：
 								</label>
-								<p>{{form.number}}</p>
+								{{form.number}}
 							</div>
 						</div>
 					</div>
@@ -57,13 +57,23 @@
 								<label>
 									年级:
 								</label>
-								<p>{{form.grade}}</p>
+								{{form.grade}}
 							</div>
 							<div class="col-xs-4">
 							<label>
 							公益时数:
 							</label>
-								<p>{{form.suahours}}</p>
+								{{form.suahours}}
+							</div>
+						</div>
+					</div>
+                    <div class="row">
+						<div class="form-group">
+							<div class="col-xs-8">
+							<label>
+							组别：
+							</label>
+								{{form.group}}
 							</div>
 						</div>
 					</div>
@@ -73,13 +83,13 @@
 							<label>
 							密码:
 							</label>
-								<p>{{form.initial_password}}</p>
+								{{form.initial_password}}
 							</div>
 						</div>
 					</div>
 				<div class="row">
 						<div class="col-xs-6 col-xs-offset-1">
-							<button type="button" class="btn btn-primary btn-lg" style="width: 250px">提交</button>
+							<button type="submit" class="btn btn-primary btn-lg" style="width: 250px">提交</button>
 						</div>
 				</div>
 				</div>

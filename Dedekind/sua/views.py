@@ -309,8 +309,8 @@ class StudentCreate(PermissionRequiredMixin, generic.edit.CreateView):
     login_url = '/'
 
     def form_valid(self, form):
-        username = form.cleaned_data['number']
-        password = form.cleaned_data['initial_password']
+        username = str(form.cleaned_data['number'])
+        password = str(form.cleaned_data['initial_password'])
         group_pk_list = form.cleaned_data['group']
         if password == '' or None:
             password = '12345678'
@@ -708,6 +708,7 @@ class GSuaPublicityCreate(PermissionRequiredMixin, generic.edit.CreateView):
                     sua.is_valid = True
                     sua.save()
                     suas.append(sua)
+            print(gsuap.title)
             gsua = GSua.objects.create(title=gsuap.title, group=group, date=date, is_valid=True)
             for sua in suas:
                 gsua.suas.add(sua)
