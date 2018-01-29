@@ -11,11 +11,12 @@
 ### 本地部署
 
 1. 安装virtualenv
-2. clone仓库，用virtualenv创建虚拟环境venv
+2. clone仓库，用virtualenv创建虚拟环境venv，并激活venv
 
 ```bash
 cd Dedekind-Django
 virtualenv venv
+source venv/bin/activate
 ```
 
 3. 安装依赖
@@ -28,7 +29,7 @@ pip install -Ur requirements/local.txt
 
 ```bash
 touch project/sua/token.py
-echo "TOKEN='YourTokenHere'" > project/sua/token.py
+echo "TOKEN = 'YourTokenHere'" > project/sua/token.py
 ```
 
 5. 初始化数据库，并创建超级用户
@@ -36,7 +37,7 @@ echo "TOKEN='YourTokenHere'" > project/sua/token.py
 ```bash
 python manage.py makemigrations sua
 python manage.py migrate
-python manage.py createsuperuser testadmin
+python manage.py createsuperuser
 ```
 
 6. 启动服务器
@@ -46,3 +47,4 @@ python manage.py runserver
 ```
 
 7. 用浏览器打开[http://localhost:8000/](http://localhost:8000/)
+（由于后端代码还不完善，启动服务器后应通过[http://localhost:8000/super/admin](http://localhost/super/admin:8000/)及时添加两个SuaGroup：“个人用户”及“学院”）
