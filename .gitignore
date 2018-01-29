@@ -103,14 +103,17 @@ ENV/
 # tmp
 tmp/container_file/
 tmp/container_file_lock/
-.idea/
+
+#test
 test.tpl
 test.py
-tab/
-Dedekind/db.sqlite3
-Dedekind/media/
-Dedekind/Dedekind/key.py
-Dedekind/sua/token.py
-.DS_Store
 
+#database
+*.sqlite3
+
+#secret
+token.py
+project/media/proofs/
+
+#backup
 *.backup

@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Sua, Student, Proof, Sua_Application, SuaGroup, GSua, GSuaPublicity
-from .models import Appeal
+from project.sua.models import Sua, Student, Proof, Sua_Application, SuaGroup, GSua, GSuaPublicity
+from project.sua.models import Appeal
 
 
 admin.site.register(Sua)
