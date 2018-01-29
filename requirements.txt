@@ -1,11 +1,3 @@
 django==2.0.1
-django-sslserver==0.20
-django_crontab==0.7.1
 djangorestframework==3.7.7
-
-分别运行
-pip install django==2.0.1
-pip install django-sslserver
-pip install django_crontab
-pip install djangorestframework
-来安装它们
+django-envrion
