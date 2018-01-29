@@ -1,4 +1,4 @@
-from sua.models import Nonce
+from project.sua.models import Nonce
 from .api import EXPIRE_TIME
 import time
 

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext as _
 from django.utils import timezone
-from sua.storage import FileStorage
+from project.sua.storage import FileStorage
 import datetime
 import hashlib
 from .token import TOKEN
