@@ -45,4 +45,4 @@ python manage.py createsuperuser testadmin
 python manage.py runserver
 ```
 
-7. 用浏览器打开[http://localhost:8000]
+7. 用浏览器打开[http://localhost:8000/](http://localhost:8000/)
