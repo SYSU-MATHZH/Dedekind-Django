@@ -50,176 +50,42 @@
     </header>
     <!-- 导航栏部分结束 -->
     <div class="container my-space-line">
-        <div role="tabpanel">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#home1" data-toggle="tab" role="tab" aria-controls="tab1">公告</a></li>
-                <li role="presentation"><a href="#paneTwo1" data-toggle="tab" role="tab" aria-controls="tab2">公益时详情</a></li>
-                <li role="presentation" class="dropdown pull-right"><a href="#" id="tabDropOne1" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-controls="tab3" aria-haspopup="true" aria-expanded="false">更多<span class="caret"></span></a>
-                    <ul class="dropdown-menu" aria-labelledby="tabDropOne1">
-                        <li><a href="#tabDropDownOne1" tabindex="-1" data-toggle="tab">申请记录</a></li>
-                        <li><a href="#tabDropDownTwo1" tabindex="-1" data-toggle="tab">申诉记录</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <div id="tabContent1" class="tab-content my-tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="home1">
-                    <div class="row"><div class="col-lg-12">
-
-                      <!-- 这个部分用来展示后台提供的数据 -->
-                        <p>{{ student }}</p>  <!-- 用户信息(Student) -->
-                        <p><a href={% url 'sua:student-sualist-json' student.pk %}>StudentSuaList API</a></p>
-                      <!-- 本页面完成时记得删掉这部分代码哟 -->
-
-                        {% for gsapc in gsap_list %}
-                           <div class="col-lg-6">
-                            <div class="panel panel-primary my-panel">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">{{ gsapc.0.title }}</h3>
-                                </div>
-                                <div class="panel-body">
-                                    <p id="user_notice_detail">{{gsapc.0.detail}}</p>
-                                    <div class="table-responsive">
-                                    <table class="table  table-hover ">
-                                        <thead><tr style=" white-space:nowrap">
-                                            <th>所属组别</th>
-                                            <th>公益时</th>
-                                            <th>姓名</th>
-                                        </tr></thead>
-                                        {% if gsapc.1 %}
-                                        <tbody>
-                                        {% for team,hours in gsapc.1.items %}
-                                            {% for hour,names in hours.items %}
-                                            <tr>
-                                                <td>{{ team }}</td>
-                                                <td>{{ hour }}</td>
-                                                <td>{% for name in names %}
-                                                        {{ name }}{% if not forloop.last %},{% endif %}
-                                                    {% endfor %}
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        {% endfor %}
-                                        </tbody>
-                                        {% endif %}
-                                    </table>
-                                        <div class="container-fluid">
-                                        <div class="row" >
-                                            <div class="col-xs-9">
-                                                <p>公告截止日期:{{gsapc.0.published_end_date}}</p>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <a href="{% url 'sua:appeal_for' %}?gsuap_id={{ gsapc.0.pk }}" class="btn btn-default btn-sm active" role="button">提出申诉</a>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        </div>
-                                </div>
-                            </div>
-                           </div>
-                        {% endfor %}
-                    </div></div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="paneTwo1">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>序号</th>
-                                    <th>活动名称</th>
-                                    <th>举办单位</th>
-                                    <th>公益时</th>
-                                </tr>
-                            </thead>
-                            {% if sua_list %}
-                            <tbody>
-                                {% for sua in sua_list %}
-                                <tr>
-                                    <td>{{ sua.0 }}</td>
-                                    <td>{{ sua.1.title }}</td>
-                                    <td>{{ sua.1.group }}</td>
-                                    <td>{{ sua.1.suahours }} h</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                            {% endif %}
-                        </table>
-                    </div>
-
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>序号</th>
-                                    <th>申请日期</th>
-                                    <th>活动名称</th>
-                                    <th>举办单位</th>
-                                    <th>公益时</th>
-                                    <th>是否通过</th>
-                                </tr>
-                            </thead>
-                            {% if sa_list %}
-                            <tbody>
-                                {% for sa in sa_list %}
-                                <tr>
-                                    <td>{{ sa.0 }}</td>
-                                    <td>{{ sa.1.date }}</td>
-                                    <td><a href="{% url 'sua:application_detail' sa.1.id %}">{{ sa.1.sua.title }}</a></td>
-                                    <td>{{ sa.1.sua.group }}</td>
-                                    <td>{{ sa.1.sua.suahours }}</td>
-                                    <td>
-                                        {% if sa.1.is_checked %}
-                                            {% if sa.1.sua.is_valid %}
-                                                是
-                                            {% else %}
-                                                否
-                                            {% endif %}
-                                        {% else %}
-                                            待审核
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                            {% endif %}
-                        </table>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>序号</th>
-                                <th>申请日期</th>
-                                <th>申请项目</th>
-                                <th>审批状态</th>
-                            </tr>
-                            </thead>
-                            {% if ap_list %}
-                            <tbody>
-                                {% for ap in ap_list %}
-                                <tr>
-                                    <td>{{ ap.0 }}</td>
-                                    <td>{{ ap.1.date }}</td>
-                                    <td>“{{ ap.1.gsua.title }}”的申诉</td>
-                                    <td>
-                                        {% if ap.1.is_checked %}
-                                            {{ ap.1.feedback }}
-                                        {% else %}
-                                            待处理
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                            {% endif %}
-                        </table>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <p> 姓名：{{ student }}</p>
             </div>
         </div>
+         <div class="row">
+            <div class="col-xs-4">
+        <p>学号：{{student.number}}</p>
+            </div>
+         </div>
+        <div class="row">
+            <div class="col-xs-4">
+        <p>公益时总数:{{ student.suahours }}</p><!-- 用户信息(Student) -->
+        </div>
+        </div>
+        <table class="table table table-striped table-brodered">
+            <tr>
+                <td>项目名称</td>
+                <td>举办单位</td>
+                <td>公益时数</td>
+                <td>是否审批</td>
+            </tr>
+            <tr>
+                <td>公益时统计平台的设计</td>
+                <td>公益时小组</td>
+                <td>10</td>
+                <td>是</td>
+            </tr>
+            <tr>
+                <td>公益时统计平台的设计</td>
+                <td>公益时小组</td>
+                <td>10</td>
+                <td>否</td>
+            </tr>
+        </table>
+        <p><a href={% url 'sua:student-sualist-json' student.pk %}>StudentSuaList API</a></p>
     </div>
 </body>
 </html>

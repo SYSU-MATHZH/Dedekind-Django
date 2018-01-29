@@ -19,7 +19,7 @@
         <div class="logo_title">
             <h1>公益时平台登录系统</h1>
         </div>
-        <form action="/login" method="POST">
+        <form action="" method="POST">
             {% csrf_token %}
             <label for="id_{{ form.user_name.name }}">{{ form.user_name.label }}</label>
             {{ form.user_name }}

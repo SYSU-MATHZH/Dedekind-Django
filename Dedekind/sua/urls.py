@@ -1,105 +1,146 @@
-from django.conf.urls import url
+from django.urls import path
 from django.contrib.auth.decorators import login_required
 from . import views
 
 
 app_name = 'sua'
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^playMFS$', views.playMFS, name='playMFS'),
-    url(r'^admin/$', views.adminIndex, name='admin-index'),
-    url(r'^login$', views.login_view, name='login'),
-    url(r'^logout$', views.logout_view, name='logout'),
-    url(r'^apply_sua$', views.apply_sua, name='apply_sua'),
-    url(r'^appeal_for$', views.appeal_for, name='appeal_for'),
-    url(
-        r'^student/list$',
-        login_required(views.JSONStudentListView.as_view()),
+    path('', views.index, name='index'),
+    path('playMFS/', views.playMFS, name='playMFS'),
+    path('admin/', views.adminIndex, name='admin-index'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('apply_sua/', views.apply_sua, name='apply_sua'),
+    path('appeal_for/', views.appeal_for, name='appeal_for'),
+    path(
+        'student/list/',
+        views.JSONStudentListView.as_view(),
         name='student-list-json',
     ),
-    url(
-        r'^student/([0-9]+)/sualist$',
-        login_required(views.JSONStudentSuaListView.as_view()),
+    path(
+        'student/<int:pk>/sualist/',
+        views.JSONStudentSuaListView.as_view(),
         name='student-sualist-json',
     ),
-    url(
-        r'^sua/([0-9]+)/application$',
+    path(
+        'student/<int:pk>/grouplist/',
+        login_required(views.JSONStudentGroupListView.as_view()),
+        name='student-grouplist-json',
+    ),
+    path(
+        'sua/<int:pk>/application/',
         login_required(views.JSONSuaApplicationView.as_view()),
         name='sua-application-json',
     ),
-    url(
-        r'^sua/([0-9]+)/gsua$',
+    path(
+        'sua/<int:pk>/gsua/',
         login_required(views.JSONSuaGSuaListView.as_view()),
         name='sua-gsua-json',
     ),
-    url(
-        r'^application/checklist$',
+    path(
+        'application/checklist/',
         login_required(views.JSONApplicationCheckListView.as_view()),
         name='application-checklist-json',
     ),
-    url(
-        r'^gsuap/list$',
+    path(
+        'gsuap/list/',
         login_required(views.JSONGSuaPublicityListView.as_view()),
         name='gsuap-list-json',
     ),
-    url(
-        r'^gsua/([0-9]+)/sualist$',
+    path(
+        'gsua/<int:pk>/sualist/',
         login_required(views.JSONGSuaSuaListView.as_view()),
         name='gsua-sualist-json',
     ),
-    url(
-        r'^student/(?P<pk>[0-9]+)/$',
+    path(
+        'suagroup/<int:pk>/appeallist/',
+        login_required(views.JSONSuaGroupAppealListView.as_view()),
+        name='suagroup-appeallist-json',
+    ),
+    path(
+        'suagroup/list/',
+        login_required(views.JSONSuaGroupListView.as_view()),
+        name='suagroup-list-json',
+    ),
+    path(
+        'student/<int:pk>/',
         login_required(views.StudentDetailView.as_view()),
         name='student-detail',
     ),
-    url(
-        r'^student/add/$',
+    path(
+        'student/add/',
         login_required(views.StudentCreate.as_view()),
         name='student-add',
     ),
-    url(
-        r'^student/(?P<pk>[0-9]+)/update/$',
+    path(
+        'student/<int:pk>/update/',
         login_required(views.StudentUpdate.as_view()),
         name='student-update',
     ),
-    url(
-        r'^student/(?P<pk>[0-9]+)/delete/$',
+    path(
+        'student/<int:pk>/delete/',
         login_required(views.StudentDelete.as_view()),
         name='student-delete',
     ),
-    url(
-        r'^application/(?P<pk>[0-9]+)/$',
+    path(
+        'application/<int:pk>/',
         login_required(views.Sua_ApplicationDetailView.as_view()),
         name='application-detail',
     ),
-    url(
-        r'^application/student/([0-9]+)/add$',
+    path(
+        'application/student/<int:pk>/add/',
         login_required(views.Sua_ApplicationCreate.as_view()),
         name='application-add',
     ),
-    url(
-        r'^application/(?P<pk>[0-9]+)/update$',
+    path(
+        'application/<int:pk>/update/',
         login_required(views.Sua_ApplicationUpdate.as_view()),
         name='application-update',
     ),
-    url(
-        r'^application/(?P<pk>[0-9]+)/delete/$',
+    path(
+        'application/<int:pk>/delete/',
         login_required(views.Sua_ApplicationDelete.as_view()),
         name='application-delete',
     ),
-    url(
-        r'^application/(?P<pk>[0-9]+)/check/$',
+    path(
+        'application/<int:pk>/check/',
         login_required(views.Sua_ApplicationCheck.as_view()),
         name='application-check',
     ),
-    url(
-        r'^gsuap/(?P<pk>[0-9]+)/$',
+    path(
+        'gsuap/<int:pk>/',
         login_required(views.GSuaPublicityDetailView.as_view()),
         name='gsuap-detail',
     ),
-    url(
-        r'^gsuap/add$',
+    path(
+        'gsuap/add/',
         login_required(views.GSuaPublicityCreate.as_view()),
         name='gsuap-add',
     ),
+    path(
+        'gsuap/<int:pk>/update/',
+        login_required(views.GSuaPublicityUpdate.as_view()),
+        name='gsuap-update',
+    ),
+    path(
+        'gsua/<int:pk>/delete/',
+        login_required(views.GSuaDelete.as_view()),
+        name='gsua-delete',
+    ),
+    path(
+        'appeal/<int:pk>/',
+        login_required(views.AppealDetailView.as_view()),
+        name='appeal-detail',
+    ),
+    path(
+        'appeal/<int:pk>/update/',
+        login_required(views.AppealUpdate.as_view()),
+        name='appeal-update',
+    ),
+    path(
+        'appeal/<int:pk>/check/',
+        login_required(views.AppealCheck.as_view()),
+        name='appeal-check',
+    ),
+
 ]

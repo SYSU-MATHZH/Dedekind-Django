@@ -63,50 +63,6 @@
   	  		<form enctype="multipart/form-data" role="form" action="{% url 'sua:index' %}" method="GET">
             {% csrf_token %}
   	  			<div class="row">
-					<div class="col-md-6">
-						<div class="row">
-							<div class="col-xs-6">
-  	  				<div class="form-group">
-  	  					<label for="actor-name">
-  	  					姓名
-  	  					</label>
-						<p id="actor-name" class="form-control-static">{{ sa.sua.student.name }}</p>
-  	  				</div>
-  	  				</div>
-  	  				<div class="col-xs-6">
-  	  				<div class="form-group">
-  	  					<label for="actor-code">
-  	  					学号
-  	  					</label>
-  	  					<p id="actor-code" class="form-control-static">{{ sa.sua.student.number }}</p>
-  	  				</div>
-  	  				</div>
-						</div>
-					</div>
-
-
-					<div class="col-md-6">
-						<div class="row">
-						  	  				<div class="col-xs-6">
-  	  				<div class="form-group">
-  	  					<label for="actor-date">
-  	  					申请日期
-  	  					</label>
-  	  					<p id="actor-date" class="form-control-static">{{ sa.date|date }}</p>
-  	  				</div>
-  	  				</div>
-  	  				<div class="col-xs-6">
-  	  				<div class="form-group">
-  	  					<label for="actor-date">
-  	  					学年度
-  	  					</label>
-  	  					<p id="actor-date" class="form-control-static">{{ year_before }}~{{ year_after }}</p>
-  	  				</div>
-  	  				</div>
-						</div>
-					</div>
-				</div>
-  	  			<div class="row">
   	  				<div class="col-lg-6">
   	  				<div class="form-group">
   	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.title.name }}">
@@ -146,24 +102,15 @@
   	  				<div class="col-lg-6">
   	  				<div class="form-group">
   	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.team.name }}">
-  	  					参与组别
+  	  					活动详情
   	  					</label>
   	  					<p id="" class="form-control-static">{{ sa.sua.team }}</p>
   	  				</div>
   	  				</div>
-  	  				<div class="col-lg-6">
-  	  				<div class="form-group">
-  	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.suahours.name }}">
-  	  					公益时数
-  	  					</label>
-                <div class="input-group">
-                  <input type="text" class="form-control" id="" placeholder="{{ sa.sua.suahours }}" readonly>
-                  <div class="input-group-addon">小时</div>
-                </div>
-  	  				</div>
-  	  				</div>
+
+				</div>
   	  			</div>
-  	  			<div class="row">
+
   	  				<div class="col-lg-6">
   	  				<div class="form-group">
   	  					<label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
@@ -179,9 +126,9 @@
   	  				<div class="col-lg-6">
 
   	  				</div>
-  	  			</div>
+
   	  			<hr>
-            <div class="row">
+
   	  				<div class="col-lg-12">
   	  				<div class="form-group">
   	  					<label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
@@ -201,9 +148,14 @@
   	  				<div class="col-lg-6">
 
   	  				</div>
-  	  			</div>
+
   	  			<hr>
-				<div class="row">
+          <div class="row">
+  				<div class="col-lg-12">
+  						<a class="btn btn-block btn-danger" href={% url 'sua:gsua-delete' object.gsua.pk %}>删除</a>
+  				</div>
+  				</div>
+				  <div class="row">
 					<div class="col-lg-12">
 						<a class="btn btn-block btn-default" href='/'>返回</a>
 					</div>

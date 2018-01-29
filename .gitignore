@@ -110,3 +110,7 @@ tab/
 Dedekind/db.sqlite3
 Dedekind/media/
 Dedekind/Dedekind/key.py
+Dedekind/sua/token.py
+.DS_Store
+
+*.backup

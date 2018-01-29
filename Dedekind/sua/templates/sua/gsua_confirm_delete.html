@@ -49,29 +49,19 @@
  	  <div class="col-lg-3">
   	  </div>
   	  <div class="col-lg-6">
-  	  	<h3>是否删除该用户</h3>
-
+  	  	<h3>是否删除这个公益时活动？</h3>
+  	  	<p class="subtitle-descript">创建新的学生帐号。</p>
   	  	<hr>
  	  	<div class="row">
  	  	<div class="col-xs-12">
   	  		<form enctype="multipart/form-data" role="form" action="" method="POST">
             {% csrf_token %}
-				<table class="table table-bordered table-condensed table-striped">
-					<tr><td>姓名</td>
-						<td>{{ object}}</td>
-					</tr>
-					<tr><td>学号</td>
-						<td>{{object.number}}</td>
-					</tr>
-					<tr><td>年级</td>
-						<td>{{object.grade}}</td>
-					</tr>
-				</table>
+            {{ object }}
   	  		<div class="row">
-					<div class="col-xs-4">
-						<button type="submit" value="Confirm" class="btn btn-danger btn-block">删除</button>
+					<div class="col-lg-6">
+						<button type="submit" value="Confirm" class="btn btn-warning btn-block">删除</button>
 					</div>
-          <div class="col-xs-4">
+          <div class="col-lg-6">
             <a class="btn btn-default btn-block" href={% url 'sua:admin-index' %}>取消</a>
 					</div>
 					</div>

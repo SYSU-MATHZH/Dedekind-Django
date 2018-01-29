@@ -32,13 +32,16 @@ ALLOWED_HOSTS = [
     '192.168.1.101',
     'linouzan.oicp.io',
     'projectdedekind.imwork.net',
+    '172.16.19.130',
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'sslserver',
     'sua.apps.SuaConfig',
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -133,3 +136,7 @@ LOGIN_URL = '/login'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
+
+CRONJOBS = [
+    ('*/2 * * * *', 'sua.cron.cleanNonce')
+]

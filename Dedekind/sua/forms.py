@@ -1,17 +1,14 @@
 from django import forms
 from django.forms import ModelForm
-from django.forms.extras.widgets import SelectDateWidget
+# from django.forms.extras.widgets import SelectDateWidget
 from django.contrib.admin.widgets import AdminDateWidget
 from sua.models import Sua, Sua_Application, Proof, Student, Appeal, SuaGroup, GSua, GSuaPublicity
 
 
-def get_SuaGroup_Choices():
-    suaGroups = SuaGroup.objects.order_by('rank')
-    suaGroup_Choices = []
-    for suaGroup in suaGroups:
-        suaGroup_Choices.append((suaGroup.pk, suaGroup.name))
-    return suaGroup_Choices
-
+SUA_GROUP_CHOICES = [
+    (1, '个人用户'),
+    (2, '数学学院（珠海）学工办'),
+]
 
 class MyDateWidget(AdminDateWidget):
     def format_value(self, value):
@@ -36,14 +33,15 @@ class LoginForm(forms.Form):
 
 
 class StudentForm(ModelForm):
+    CHOICES = []
     initial_password = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'placeholder': '请输入新的初始密码',
-    }), required=False)
+            'class': 'form-control',
+            'placeholder': '请输入新的初始密码',
+            }), required=False)
     group = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={
-        'class': 'checkbox-inline',
-    }), choices=get_SuaGroup_Choices())
-
+            'class': 'checkbox-inline',
+            }), choices=SUA_GROUP_CHOICES)
+    
     class Meta:
         model = Student
 
@@ -168,6 +166,24 @@ class AppealForm(ModelForm):
         }
 
 
+class AppealCheckForm(ModelForm):
+    is_passed = forms.BooleanField(required=False),
+    feedback = forms.CharField(required=False, widget=forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': '请写下公益时申请不通过的理由。',
+                'cols': 20,
+            })),
+
+    class Meta:
+        model = Appeal
+        fields = [
+            'is_passed',
+            'feedback',
+        ]
+        widgets = {
+        }
+
+
 class GSuaPublicityForm(ModelForm):
     is_published = forms.BooleanField(required=False)
     date = forms.DateTimeField(widget=MyDateWidget(attrs={
@@ -199,9 +215,9 @@ class GSuaPublicityForm(ModelForm):
                 'placeholder': '请输入活动负责人联系方式',
             }),
             'published_begin_date': MyDateWidget(attrs={
-                'class': 'form-control',
+                'class': 'date',
             }),
             'published_end_date': MyDateWidget(attrs={
-                'class': 'form-control',
+                'class': 'date',
             }),
         }

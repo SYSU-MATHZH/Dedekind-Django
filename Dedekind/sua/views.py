@@ -12,9 +12,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.models import User, Group
-from .forms import LoginForm, SuaForm, Sua_ApplicationForm, ProofForm, AppealForm, StudentForm, Sua_ApplicationCheckForm, GSuaPublicityForm
+from .forms import LoginForm, SuaForm, Sua_ApplicationForm, ProofForm, AppealForm, StudentForm, Sua_ApplicationCheckForm, GSuaPublicityForm, AppealCheckForm
 from .models import Sua, Proof, Sua_Application, GSuaPublicity, GSua, Student, Appeal, SuaGroup
+from .api import check_signature
 import json
+import pprint
 
 
 class JSONResponseMixin(object):
@@ -57,14 +59,15 @@ class JSONStudentSuaListView(JSONListView):
         return hasattr(usr, 'student') and usr.student == self.student
 
     def get_queryset(self):
-        self.student = get_object_or_404(Student, pk=self.args[0])
-        return Sua.objects.filter(student=self.student, is_valid=True)
+        # print(dir(self))
+        self.student = get_object_or_404(Student, pk=self.kwargs['pk'])
+        return Sua.objects.filter(student=self.student, is_valid=True).order_by('date')
 
     def get_context_data(self, **kwargs):
         context = super(JSONStudentSuaListView, self).get_context_data(**kwargs)
         usr = self.request.user
         json_context = {}
-        if usr.is_superuser or self.is_itself():
+        if usr.is_superuser or self.is_itself() or check_signature(self.request):
             json_context['res'] = "success"
             json_context['msg'] = {'sua_list': context['object_list']}
         else:
@@ -82,7 +85,7 @@ class JSONSuaApplicationView(JSONListView):
         return hasattr(usr, 'student') and usr.student == self.sua.student
 
     def get_queryset(self):
-        self.sua = get_object_or_404(Sua, pk=self.args[0])
+        self.sua = get_object_or_404(Sua, pk=self.kwargs['pk'])
         return Sua_Application.objects.filter(sua=self.sua)
 
     def get_context_data(self, **kwargs):
@@ -92,6 +95,31 @@ class JSONSuaApplicationView(JSONListView):
         if usr.is_superuser or self.is_itself():
             json_context['res'] = "success"
             json_context['msg'] = {'application': context['object_list']}
+        else:
+            json_context['res'] = "failure"
+            json_context['msg'] = None
+        return json_context
+
+
+class JSONStudentGroupListView(JSONListView):
+    """
+    查询单个Student对应的SuaGroup的JSON API
+    """
+    def is_itself(self):
+        usr = self.request.user
+        return hasattr(usr, 'student') and usr.student == self.student
+
+    def get_queryset(self):
+        self.student = get_object_or_404(Student, pk=self.kwargs['pk'])
+        return self.student.user.groups.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(JSONStudentGroupListView, self).get_context_data(**kwargs)
+        usr = self.request.user
+        json_context = {}
+        if usr.is_superuser or self.is_itself():
+            json_context['res'] = "success"
+            json_context['msg'] = {'suagroup_list': context['object_list']}
         else:
             json_context['res'] = "failure"
             json_context['msg'] = None
@@ -109,7 +137,7 @@ class JSONStudentListView(JSONListView):
         context = super(JSONStudentListView, self).get_context_data(**kwargs)
         usr = self.request.user
         json_context = {}
-        if usr.is_superuser:
+        if usr.is_superuser or check_signature(self.request):
             json_context['res'] = "success"
             json_context['msg'] = {'student_list': context['object_list']}
         else:
@@ -166,7 +194,7 @@ class JSONGSuaSuaListView(JSONListView):
     """
 
     def get_queryset(self):
-        self.gsua = get_object_or_404(GSua, pk=self.args[0])
+        self.gsua = get_object_or_404(GSua, pk=self.kwargs['pk'])
         return self.gsua.suas.all()
 
     def get_context_data(self, **kwargs):
@@ -188,7 +216,7 @@ class JSONSuaGSuaListView(JSONListView):
     """
 
     def get_queryset(self):
-        self.sua = get_object_or_404(Sua, pk=self.args[0])
+        self.sua = get_object_or_404(Sua, pk=self.kwargs['pk'])
         return self.sua.gsua_set.all()
 
     def get_context_data(self, **kwargs):
@@ -198,6 +226,53 @@ class JSONSuaGSuaListView(JSONListView):
         if usr.is_superuser:
             json_context['res'] = "success"
             json_context['msg'] = {'gsua': context['object_list']}
+        else:
+            json_context['res'] = "failure"
+            json_context['msg'] = None
+        return json_context
+
+
+class JSONSuaGroupAppealListView(JSONListView):
+    """
+    查询某一SuaGroup的Appeal列表的JSON API
+    """
+
+    def get_queryset(self):
+        usr = self.request.user
+        self.group = get_object_or_404(SuaGroup, pk=self.kwargs['pk'])
+        appeals = QuerySet()
+        if usr.is_superuser or self.group.group in usr.groups.all():
+            appeals = Appeal.objects.filter(gsua__group=self.group)
+        return appeals
+
+    def get_context_data(self, **kwargs):
+        context = super(JSONSuaGroupAppealListView, self).get_context_data(**kwargs)
+        usr = self.request.user
+        json_context = {}
+        if usr.is_superuser or self.group.group in usr.groups.all():
+            json_context['res'] = "success"
+            json_context['msg'] = {'appeal_list': context['object_list']}
+        else:
+            json_context['res'] = "failure"
+            json_context['msg'] = None
+        return json_context
+
+
+class JSONSuaGroupListView(JSONListView):
+    """
+    查询全体SuaGroup的JSON API
+    """
+
+    def get_queryset(self):
+        return SuaGroup.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(JSONSuaGroupListView, self).get_context_data(**kwargs)
+        usr = self.request.user
+        json_context = {}
+        if usr.is_superuser:
+            json_context['res'] = "success"
+            json_context['msg'] = {'suagroup_list': context['object_list']}
         else:
             json_context['res'] = "failure"
             json_context['msg'] = None
@@ -235,8 +310,8 @@ class StudentCreate(PermissionRequiredMixin, generic.edit.CreateView):
     login_url = '/'
 
     def form_valid(self, form):
-        username = form.cleaned_data['number']
-        password = form.cleaned_data['initial_password']
+        username = str(form.cleaned_data['number'])
+        password = str(form.cleaned_data['initial_password'])
         group_pk_list = form.cleaned_data['group']
         if password == '' or None:
             password = '12345678'
@@ -319,7 +394,7 @@ class Sua_ApplicationDetailView(UserPassesTestMixin, generic.DetailView):
     def test_func(self):
         usr = self.request.user
         application = self.get_object()
-        return usr.is_superuser or usr.pk == application.sua.student.pk
+        return usr.is_superuser or usr.student.pk == application.sua.student.pk
 
     def get_queryset(self):
         return Sua_Application.objects.all()
@@ -392,7 +467,7 @@ class Sua_ApplicationCreate(PermissionRequiredMixin, generic.edit.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(Sua_ApplicationCreate, self).get_context_data(**kwargs)
-        self.stu = get_object_or_404(Student, pk=self.args[0])
+        self.stu = get_object_or_404(Student, pk=self.kwargs['pk'])
         date = timezone.now()
         year = date.year
         month = date.month
@@ -620,7 +695,7 @@ class GSuaPublicityCreate(PermissionRequiredMixin, generic.edit.CreateView):
         if usr.is_superuser:
             group = SuaGroup.objects.get(pk=2)
         else:
-            group = (usr.groups.order_by('-rank').first).suagroup
+            group = (usr.groups.order_by('-suagroup__rank').first()).suagroup
         suas = []
         gsuap = form.save(commit=False)
         if context['formset'].is_valid():
@@ -634,6 +709,7 @@ class GSuaPublicityCreate(PermissionRequiredMixin, generic.edit.CreateView):
                     sua.is_valid = True
                     sua.save()
                     suas.append(sua)
+            print(gsuap.title)
             gsua = GSua.objects.create(title=gsuap.title, group=group, date=date, is_valid=True)
             for sua in suas:
                 gsua.suas.add(sua)
@@ -649,7 +725,7 @@ class GSuaPublicityCreate(PermissionRequiredMixin, generic.edit.CreateView):
     def get_context_data(self, **kwargs):
         context = super(GSuaPublicityCreate, self).get_context_data(**kwargs)
         SuaFormSet = modelformset_factory(
-            Sua, fields=('student', 'team', 'suahours'), extra=1,
+            Sua, fields=('student', 'team', 'suahours'), extra=0,
             widgets={
                 'student': forms.Select(attrs={
                     'class': 'form-control'
@@ -680,7 +756,187 @@ class GSuaPublicityCreate(PermissionRequiredMixin, generic.edit.CreateView):
         context['formset'] = formset
         context['apply_year_before'] = year_before
         context['apply_year_after'] = year_after
+        context['title'] = '创建新的公益时活动'
+        context['description'] = '您可以在这里创建新的公益时活动'
         return context
+
+
+class GSuaPublicityUpdate(PermissionRequiredMixin, generic.edit.UpdateView):
+    template_name = 'sua/gsua_publicity_form.html'
+    form_class = GSuaPublicityForm
+    permission_required = 'sua.change_gsuapublicity'
+    login_url = '/'
+    success_url = '/'
+
+    def get_queryset(self):
+        return GSuaPublicity.objects.all()
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        usr = self.request.user
+        date = form.cleaned_data['date']
+        group = self.get_object().gsua.group
+        suas = []
+        gsuap = form.save(commit=False)
+        if context['formset'].is_valid():
+            for suaform in context['formset']:
+                if suaform.cleaned_data != {} and (not suaform.cleaned_data['DELETE']):
+                    sua = suaform.save(commit=False)
+                    sua.group = group
+                    sua.title = gsuap.title
+                    sua.date = date
+                    sua.is_valid = True
+                    sua.save()
+                    suas.append(sua)
+            gsua = self.get_object().gsua
+            for sua in gsua.suas.all():
+                if sua not in suas:
+                    gsua.suas.remove(sua)
+                    sua.is_valid = False
+                    sua.save()
+                    sua.delete()
+            for sua in suas:
+                if sua not in gsua.suas.all():
+                    gsua.suas.add(sua)
+
+            gsua.title = gsuap.title
+            gsua.date = date
+            gsua.save()
+            self.success_url = reverse('sua:gsuap-detail', kwargs={'pk': self.get_object().pk})
+        else:
+            print('invalid')
+            self.form_invalid(form)
+        return super(GSuaPublicityUpdate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(GSuaPublicityUpdate, self).get_context_data(**kwargs)
+        SuaFormSet = modelformset_factory(
+            Sua, fields=('student', 'team', 'suahours'), extra=0, can_delete=True,
+            widgets={
+                'student': forms.Select(attrs={
+                    'class': 'form-control'
+                }),
+                'team': forms.TextInput(attrs={
+                    'class': 'form-control'
+                }),
+                'suahours': forms.TextInput(attrs={
+                    'class': 'form-control',
+                    'placeholder': '请输入公益时数',
+                }),
+                'DELETE': forms.CheckboxInput(attrs={
+                    'class': 'checkbox',
+                    'placeholder': '请输入公益时数',
+                }),
+            }
+        )
+        gsuap = self.get_object()
+        date = gsuap.published_begin_date
+        year = date.year
+        month = date.month
+        if month < 9:
+            year_before = year - 1
+            year_after = year
+        else:
+            year_before = year
+            year_after = year + 1
+
+        if self.request.method == 'POST':
+            formset = SuaFormSet(self.request.POST, self.request.FILES)
+        else:
+            formset = SuaFormSet(queryset=gsuap.gsua.suas.all())
+        context['formset'] = formset
+        context['apply_year_before'] = year_before
+        context['apply_year_after'] = year_after
+        context['title'] = '修改公益时活动'
+        context['description'] = '您正在修改公益时活动'
+        return context
+
+    def get_initial(self):
+        initial = super(GSuaPublicityUpdate, self).get_initial()
+        initial['date'] = self.get_object().gsua.date
+        return initial
+
+
+class GSuaDelete(PermissionRequiredMixin, generic.edit.DeleteView):
+    model = GSua
+    success_url = reverse_lazy('sua:admin-index')
+    permission_required = 'sua.delete_gsua'
+    login_url = '/'
+
+
+class AppealDetailView(UserPassesTestMixin, generic.DetailView):
+    """
+    查询Appeal详情的View
+    """
+    model = Appeal
+    template_name = 'sua/appeal_detail.html'
+    context_object_name = 'appealForm'
+    login_url = '/'
+
+    def test_func(self):
+        flag = False
+        usr = self.request.user
+        appeal = self.get_object()
+        if appeal.student.pk == usr.pk:
+            flag = True
+        return usr.is_superuser or flag
+
+    def get_queryset(self):
+        return Appeal.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(AppealDetailView, self).get_context_data(**kwargs)
+        appeal = self.get_object()
+        gsuap = appeal.gsua.gsuapublicity_set.first()
+
+        year = appeal.date.year
+        month = appeal.gsua.date.month
+        if month < 9:
+            year_before = year - 1
+            year_after = year
+        else:
+            year_before = year
+            year_after = year + 1
+
+        context['year_before'] = year_before
+        context['year_after'] = year_after
+        context['gsuap'] = gsuap
+        return context
+
+
+class AppealUpdate(PermissionRequiredMixin, generic.edit.UpdateView):
+    template_name = 'sua/appeal_form.html'
+    form_class = AppealForm
+    model = Appeal
+    permission_required = 'sua.change_appeal'
+    login_url = '/'
+    success_url = '/'
+
+    def form_valid(self, form):
+        # 也许这个函数是用不着的.
+        appeal = get_object_or_404(Appeal, pk=form.instance.pk)
+        return super(AppealUpdate, self).form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super(AppealUpdate, self).get_form_kwargs()
+        kwargs['instance'] = self.get_object()
+        return kwargs
+
+
+class AppealCheck(PermissionRequiredMixin, generic.edit.UpdateView):
+    template_name = 'sua/appeal_check.html'
+    form_class = AppealCheckForm
+    permission_required = 'sua.change_appeal'
+    login_url = '/'
+    success_url = '/'
+
+    def get_queryset(self):
+        return Appeal.objects.all()
+
+    def form_valid(self, form):
+        self.appeal = self.get_object()
+        form.instance.is_checked = True
+        return super(AppealCheck, self).form_valid(form)
 
 
 def login_view(request):
@@ -762,6 +1018,7 @@ def index(request):
                 teams[sua.team][sua.suahours] = []
             teams[sua.team][sua.suahours].append(sua.student.name)
         gsap_list.append((gsap, teams))
+    pprint.pprint(appeals_list)
     return render(request, 'sua/index.html', {
         'stu_name': name,
         'stu_number': number,

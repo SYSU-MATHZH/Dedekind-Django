@@ -2,20 +2,25 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext as _
+from django.utils import timezone
 from sua.storage import FileStorage
 import datetime
+import hashlib
+from .token import TOKEN
 
 
 YEAR_CHOICES = []
 for r in range(1980, (datetime.datetime.now().year + 4)):
     YEAR_CHOICES.append((r, r))
 
+EXPIRE_TIME = 86400
+
 
 class Student(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        primary_key=True,
+        # primary_key=True,
     )
     number = models.IntegerField(_("Student Number"))
     suahours = models.FloatField(default=0)
@@ -37,7 +42,7 @@ class SuaGroup(models.Model):
     group = models.OneToOneField(
         Group,
         on_delete=models.CASCADE,
-        primary_key=True,
+        # primary_key=True,
     )
     name = models.CharField(max_length=100)
     is_staff = models.BooleanField(default=False)
@@ -159,3 +164,13 @@ class Appeal(models.Model):
             return self.student.name + '的“' + self.gsua.title + '”的申诉'
         else:
             return self.student.name + '的申诉'
+
+
+class Nonce(models.Model):
+    nonce = models.IntegerField()
+    timestamp = models.IntegerField()
+
+    def getSignature(self):
+        s = bytes(str(self.nonce) + str(self.timestamp) + TOKEN, encoding='utf8')
+        signature = hashlib.sha1(s).hexdigest()
+        return signature
