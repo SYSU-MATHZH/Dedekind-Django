@@ -19,6 +19,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 urlpatterns = [
-    path('', include('project.sua.urls')),
+    # path('', include('project.sua.urls')),
     path('super/admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

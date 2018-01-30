@@ -20,29 +20,29 @@ class Student(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        # primary_key=True,
     )
     number = models.IntegerField(_("Student Number"))
     suahours = models.FloatField(default=0)
     name = models.CharField(max_length=100)
+    classtype = models.CharField(max_length=100)
     grade = models.IntegerField(
         _("Student Grade"),
         choices=YEAR_CHOICES,
         default=datetime.datetime.now().year
     )
+    phone = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('sua:student-detail', kwargs={'pk': self.pk})
+        pass
 
 
 class SuaGroup(models.Model):
     group = models.OneToOneField(
         Group,
         on_delete=models.CASCADE,
-        # primary_key=True,
     )
     name = models.CharField(max_length=100)
     is_staff = models.BooleanField(default=False)
@@ -50,45 +50,71 @@ class SuaGroup(models.Model):
     rank = models.IntegerField(blank=True)
 
     def __str__(self):
-        if self.is_staff:
-            result = '院内：' + self.name
-        else:
-            result = '院外：' + self.name
-        return result
+        return self.name
 
 
-class Sua(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    group = models.ForeignKey(SuaGroup, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    team = models.CharField(max_length=200)
+class Activity(models.Model):
+    owner = models.ForeignKey(
+        'auth.User',
+        related_name='activities',
+        on_delete=models.CASCADE,
+    )
+    created = models.DateTimeField('创建日期', auto_now_add=True)
+    title = models.CharField(max_length=100)
+    detail = models.CharField(max_length=400)
+    group = models.CharField(max_length=100)
     date = models.DateTimeField('活动日期')
-    suahours = models.FloatField()
-    last_time_suahours = models.FloatField(default=0.0)
     is_valid = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.student.name + '的 ' + self.title
+        return self.title
+
+
+class Sua(models.Model):
+    owner = models.ForeignKey(
+        'auth.User',
+        related_name='suas',
+        on_delete=models.CASCADE,
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    student = models.ForeignKey(
+        Student,
+        related_name='suas',
+        on_delete=models.CASCADE,
+    )
+    activity = models.ForeignKey(
+        Activity,
+        related_name='suas',
+        on_delete=models.CASCADE,
+    )
+    team = models.CharField(max_length=100)
+    suahours = models.FloatField()
+    added = models.FloatField(default=0.0)
+    is_valid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.student.name + '的 ' + self.activity.title
 
     def clean_suahours(self):
-        self.student.suahours -= self.last_time_suahours
+        self.student.suahours -= self.added
         self.student.save()
-        self.last_time_suahours = 0.0
+        self.added = 0.0
 
     def update_student_suahours(self):
-        if self.last_time_suahours != self.suahours:
+        if self.added != self.suahours:
             self.clean_suahours()
             self.student.suahours += self.suahours
             self.student.save()
-            self.last_time_suahours = self.suahours
+            self.added = self.suahours
 
 
 class Proof(models.Model):
-    user = models.ForeignKey(
+    owner = models.ForeignKey(
         User,
+        related_name='proofs',
         on_delete=models.CASCADE,
     )
-    date = models.DateTimeField('生成日期')
+    created = models.DateTimeField(auto_now_add=True)
     is_offline = models.BooleanField(default=False)
     proof_file = models.FileField(
         upload_to='proofs',
@@ -105,65 +131,79 @@ class Proof(models.Model):
                 self.date.strftime("%Y%m%d%H%M%S")
 
 
-class Sua_Application(models.Model):
+class Application(models.Model):
     sua = models.OneToOneField(
         Sua,
+        related_name='application',
         on_delete=models.CASCADE,
     )
-    date = models.DateTimeField('申请日期')
-    detail = models.CharField(max_length=400)
+    owner = models.ForeignKey(
+        'auth.User',
+        related_name='applications',
+        on_delete=models.CASCADE,
+    )
+    created = models.DateTimeField('创建日期', auto_now_add=True)
     contact = models.CharField(max_length=100, blank=True)
-    proof = models.ForeignKey(Proof, on_delete=models.CASCADE)
+    proof = models.ForeignKey(
+        Proof,
+        related_name='applications',
+        on_delete=models.CASCADE,
+    )
     is_checked = models.BooleanField(default=False)
+    status = models.IntegerField(default=0)  # 0: 通过; 1: 未通过; 2: 需要线下证明
     feedback = models.CharField(max_length=400, blank=True)
 
     def __str__(self):
-        return self.sua.student.name + '的 ' + self.sua.title + '的 ' + '申请'
+        return self.sua.student.name + '的 ' + self.sua.activity.title + '的 ' + '申请'
 
 
-class GSua(models.Model):
-    title = models.CharField(max_length=200)
-    group = models.ForeignKey(SuaGroup, on_delete=models.CASCADE)
-    suas = models.ManyToManyField(Sua)
-    date = models.DateTimeField('活动日期')
-    is_valid = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.group.name + '的 ' + self.title + '的活动'
-
-
-class GSuaPublicity(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    gsua = models.ForeignKey(GSua, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    detail = models.CharField(max_length=400)
+class Publicity(models.Model):
+    owner = models.ForeignKey(
+        'auth.User',
+        related_name='publicities',
+        on_delete=models.CASCADE,
+    )
+    created = models.DateTimeField('创建日期', auto_now_add=True)
+    activity = models.ForeignKey(
+        Activity,
+        related_name='publicities',
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=100)
+    content = models.CharField(max_length=400)
     contact = models.CharField(max_length=100, blank=True)
     is_published = models.BooleanField(default=False)
-    published_begin_date = models.DateTimeField('开始公示时间', default=datetime.datetime.now())
-    published_end_date = models.DateTimeField('结束公示时间')
+    begin = models.DateTimeField('开始公示时间', default=timezone.now)
+    end = models.DateTimeField('结束公示时间')
 
     def __str__(self):
-        return str(self.gsua) + '的公示'
+        return self.title
 
 
 class Appeal(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    date = models.DateTimeField('申诉日期')
-    sua = models.ForeignKey(Sua, on_delete=models.CASCADE, null=True, blank=True)
-    gsua = models.ForeignKey(GSua, on_delete=models.CASCADE, null=True, blank=True)
-    claim = models.CharField(max_length=400)
+    owner = models.ForeignKey(
+        'auth.User',
+        related_name='appeals',
+        on_delete=models.CASCADE,
+    )
+    created = models.DateTimeField('创建日期', auto_now_add=True)
+    student = models.ForeignKey(
+        Student,
+        related_name='appeals',
+        on_delete=models.CASCADE,
+    )
+    publicity = models.ForeignKey(
+        Publicity,
+        related_name='appeals',
+        on_delete=models.CASCADE,
+    )
     reason = models.CharField(max_length=400, blank=True)
-    is_passed = models.BooleanField(default=False)
+    status = models.IntegerField(default=0)  # 0: 通过; 1: 未通过; 2: 需要线下证明
     is_checked = models.BooleanField(default=False)
     feedback = models.CharField(max_length=400, blank=True)
 
     def __str__(self):
-        if self.sua is not None:
-            return self.student.name + '的“' + self.sua.title + '”的申诉'
-        elif self.gsua is not None:
-            return self.student.name + '的“' + self.gsua.title + '”的申诉'
-        else:
-            return self.student.name + '的申诉'
+        return '对' + str(self.publicity) + '的申诉'
 
 
 class Nonce(models.Model):
