@@ -1,7 +1,7 @@
 from django.db.models.signals import pre_save, post_save, pre_delete, post_delete
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
-from sua.models import Sua, Student, Sua_Application, GSua
+from project.sua.models import Sua, Student, Sua_Application, GSua
 
 
 @receiver(pre_save, sender=Sua, dispatch_uid="Sua_pre_save")
