@@ -7,6 +7,7 @@ from project.sua.models import Sua, Student, Sua_Application, GSua
 @receiver(pre_save, sender=Sua, dispatch_uid="Sua_pre_save")
 def Sua_pre_save_handler(sender, **kwargs):
     sua = kwargs['instance']
+    print('handling sua save')
     if sua.is_valid:
         sua.update_student_suahours()
     else:

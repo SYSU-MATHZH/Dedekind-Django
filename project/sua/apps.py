@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class SuaConfig(AppConfig):
-    name = 'sua'
+    name = 'project.sua'
 
     def ready(self):
-        import sua.signals.handlers
+        import project.sua.signals.handlers
