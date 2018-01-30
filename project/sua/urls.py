@@ -21,12 +21,12 @@ router.register(r'proofs', views.ProofViewSet)
 #
 # app_name = 'sua'
 urlpatterns = [
-#     path('', views.index, name='index'),
-#     path('playMFS/', views.playMFS, name='playMFS'),
-#     path('admin/', views.adminIndex, name='admin-index'),
     path('api/', include(router.urls)),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+#     path('', views.index, name='index'),
+#     path('playMFS/', views.playMFS, name='playMFS'),
+#     path('admin/', views.adminIndex, name='admin-index'),
 #     path('apply_sua/', views.apply_sua, name='apply_sua'),
 #     path('appeal_for/', views.appeal_for, name='appeal_for'),
 #     path(

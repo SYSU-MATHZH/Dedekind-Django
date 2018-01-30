@@ -8,20 +8,21 @@ from django.core import serializers
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.contrib.auth.models import User, Group
+# from .forms import LoginForm, SuaForm, Sua_ApplicationForm, ProofForm, AppealForm, StudentForm, Sua_ApplicationCheckForm, GSuaPublicityForm, AppealCheckForm
+from .api import check_signature
+import json
+import pprint
+
+# 上面是旧Views的依赖
 
 from rest_framework import viewsets
 import project.sua.serializers as sirs
 
-# from .forms import LoginForm, SuaForm, Sua_ApplicationForm, ProofForm, AppealForm, StudentForm, Sua_ApplicationCheckForm, GSuaPublicityForm, AppealCheckForm
 from .forms import LoginForm
 from .models import Sua, Proof, Application, Publicity, Activity, Student, Appeal, SuaGroup
-from .api import check_signature
-import json
-import pprint
+from django.contrib.auth.models import User, Group
 
 
 class UserViewSet(viewsets.ModelViewSet):

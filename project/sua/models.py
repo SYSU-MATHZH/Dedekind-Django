@@ -123,9 +123,9 @@ class Proof(models.Model):
         if self.is_offline:
             return '线下证明'
         else:
-            return self.user.username +\
+            return self.owner.username +\
                 '_' +\
-                self.date.strftime("%Y%m%d%H%M%S")
+                self.created.strftime("%Y%m%d%H%M%S")
 
 
 class Application(models.Model):
