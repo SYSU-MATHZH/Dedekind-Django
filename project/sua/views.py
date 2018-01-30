@@ -1,22 +1,108 @@
-# from django.views import generic
-# from django import forms
-# from django.forms import modelformset_factory
-# from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
-# from django.db.models.query import QuerySet
-# from django.urls import reverse_lazy, reverse
-# from django.core import serializers
-# from django.shortcuts import render, get_object_or_404
-# from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-# from django.contrib.auth import authenticate, login, logout
-# from django.contrib.auth.models import User
-# from django.contrib.auth.decorators import login_required
-# from django.utils import timezone
-# from django.contrib.auth.models import User, Group
+from django.views import generic
+from django import forms
+from django.forms import modelformset_factory
+from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
+from django.db.models.query import QuerySet
+from django.urls import reverse_lazy, reverse
+from django.core import serializers
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from django.contrib.auth.models import User, Group
+
+from rest_framework import viewsets
+import project.sua.serializers as sirs
+
 # from .forms import LoginForm, SuaForm, Sua_ApplicationForm, ProofForm, AppealForm, StudentForm, Sua_ApplicationCheckForm, GSuaPublicityForm, AppealCheckForm
-# from .models import Sua, Proof, Sua_Application, GSuaPublicity, GSua, Student, Appeal, SuaGroup
-# from .api import check_signature
-# import json
-# import pprint
+from .forms import LoginForm
+from .models import Sua, Proof, Application, Publicity, Activity, Student, Appeal, SuaGroup
+from .api import check_signature
+import json
+import pprint
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = sirs.UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = sirs.GroupSerializer
+
+
+class StudentViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows students to be viewed or edited.
+    """
+    queryset = Student.objects.all()
+    serializer_class = sirs.StudentSerializer
+
+
+class SuaGroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows students to be viewed or edited.
+    """
+    queryset = SuaGroup.objects.all()
+    serializer_class = sirs.SuaGroupSerializer
+
+
+class SuaViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Sua.objects.all()
+    serializer_class = sirs.SuaSerializer
+
+
+class ActivityViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Activity.objects.all()
+    serializer_class = sirs.ActivitySerializer
+
+
+class ApplicationViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows students to be viewed or edited.
+    """
+    queryset = Application.objects.all()
+    serializer_class = sirs.ApplicationSerializer
+
+
+class PublicityViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows students to be viewed or edited.
+    """
+    queryset = Publicity.objects.all()
+    serializer_class = sirs.PublicitySerializer
+
+
+class AppealViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows students to be viewed or edited.
+    """
+    queryset = Appeal.objects.all()
+    serializer_class = sirs.AppealSerializer
+
+
+class ProofViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows students to be viewed or edited.
+    """
+    queryset = Proof.objects.all()
+    serializer_class = sirs.ProofSerializer
+
 #
 #
 # class JSONResponseMixin(object):
@@ -939,31 +1025,31 @@
 #         return super(AppealCheck, self).form_valid(form)
 #
 #
-# def login_view(request):
-#     if request.method == 'POST':
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['user_name']
-#             password = form.cleaned_data['user_password']
-#             loginstatus = form.cleaned_data['loginstatus']
-#             user = authenticate(request, username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 if(loginstatus):
-#                     request.session.set_expiry(15 * 24 * 3600)
-#                 else:
-#                     request.session.set_expiry(0)
-#                 return HttpResponseRedirect('/')
-#             else:
-#                 return HttpResponseRedirect('/login')
-#     else:
-#         form = LoginForm()
-#     return render(request, 'sua/login.html', {'form': form})
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['user_name']
+            password = form.cleaned_data['user_password']
+            loginstatus = form.cleaned_data['loginstatus']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                if(loginstatus):
+                    request.session.set_expiry(15 * 24 * 3600)
+                else:
+                    request.session.set_expiry(0)
+                return HttpResponseRedirect('/')
+            else:
+                return HttpResponseRedirect('/login')
+    else:
+        form = LoginForm()
+    return render(request, 'sua/login.html', {'form': form})
 #
 #
-# def logout_view(request):
-#     logout(request)
-#     return HttpResponseRedirect('/login')
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/login')
 #
 #
 # @login_required

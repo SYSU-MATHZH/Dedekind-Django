@@ -1,15 +1,32 @@
-# from django.urls import path
-# from django.contrib.auth.decorators import login_required
-# from . import views
+from django.urls import path, include
+from django.contrib.auth.decorators import login_required
+from . import views
+
+from rest_framework import routers
+
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
+router.register(r'students', views.StudentViewSet)
+router.register(r'suagroups', views.SuaGroupViewSet)
+router.register(r'suas', views.SuaViewSet)
+router.register(r'activities', views.ActivityViewSet)
+router.register(r'applications', views.ApplicationViewSet)
+router.register(r'publicities', views.PublicityViewSet)
+router.register(r'appeals', views.AppealViewSet)
+router.register(r'proofs', views.ProofViewSet)
+
 #
 #
 # app_name = 'sua'
-# urlpatterns = [
+urlpatterns = [
 #     path('', views.index, name='index'),
 #     path('playMFS/', views.playMFS, name='playMFS'),
 #     path('admin/', views.adminIndex, name='admin-index'),
-#     path('login/', views.login_view, name='login'),
-#     path('logout/', views.logout_view, name='logout'),
+    path('api/', include(router.urls)),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 #     path('apply_sua/', views.apply_sua, name='apply_sua'),
 #     path('appeal_for/', views.appeal_for, name='appeal_for'),
 #     path(
@@ -143,4 +160,4 @@
 #         name='appeal-check',
 #     ),
 #
-# ]
+]

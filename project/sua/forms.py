@@ -1,8 +1,8 @@
-# from django import forms
-# from django.forms import ModelForm
-# # from django.forms.extras.widgets import SelectDateWidget
-# from django.contrib.admin.widgets import AdminDateWidget
-# from project.sua.models import Sua, Sua_Application, Proof, Student, Appeal, SuaGroup, GSua, GSuaPublicity
+from django import forms
+from django.forms import ModelForm
+# from django.forms.extras.widgets import SelectDateWidget
+from django.contrib.admin.widgets import AdminDateWidget
+from project.sua.models import Sua, Application, Proof, Student, Appeal, SuaGroup, Activity, Publicity
 #
 #
 # SUA_GROUP_CHOICES = [
@@ -20,16 +20,16 @@
 #         return new_value
 #
 #
-# class LoginForm(forms.Form):
-#     user_name = forms.CharField(
-#         label='用户名',
-#         widget=forms.TextInput(attrs={'class': 'text_box'})
-#     )
-#     user_password = forms.CharField(
-#         label='密码',
-#         widget=forms.PasswordInput(attrs={'class': 'text_box'})
-#     )
-#     loginstatus = forms.BooleanField(required=False)
+class LoginForm(forms.Form):
+    user_name = forms.CharField(
+        label='用户名',
+        widget=forms.TextInput(attrs={'class': 'text_box'})
+    )
+    user_password = forms.CharField(
+        label='密码',
+        widget=forms.PasswordInput(attrs={'class': 'text_box'})
+    )
+    loginstatus = forms.BooleanField(required=False)
 #
 #
 # class StudentForm(ModelForm):
