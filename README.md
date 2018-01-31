@@ -1,14 +1,27 @@
-### 项目说明
+### 项目说明(model_v2)
 
 这是一个开发中的用于中珠数院公益时管理的Django Web App，代号：Project Dedekind
 
+你现在所在的分支是model_v2，这是重新设计过models的Dedekind版本。
 
-### 项目进展
+### 项目进展(model_v2)
 
-- 基本完成学生端，正在进行代码整理
-- 基本完成管理端后端，正在开发前端及整理后端代码
+- [1] models重新设计
+- [1] 编写每一个model的基本serializers(用于测试及list API)
+- [1] 编写list API View(通过ReadOnlyModelViewSet)
+- [1] 编写AddFormMixin #18
+- [ ] 编写ChangeFormMixin #19
+- [ ] 编写DetailMixin #20
+- [ ] 编写每一个model的add html View #13 #14 #15 #16 #17
+- [ ] 编写每一个model的change html View
+- [ ] 编写每一个model的detail html View
+- [ ] 编写学生端主页的index html View
+- [ ] 编写管理端主页的admin html View
+- [ ] 编写权限管理部分代码...
+- [ ] 制作相应网页模板...
 
-### 本地部署
+
+### 本地部署(model_v2暂不可用)
 
 1. 安装virtualenv
 2. clone仓库，用virtualenv创建虚拟环境venv，并激活venv
