@@ -53,7 +53,8 @@ class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     """
     queryset = Student.objects.all()
     serializer_class = sirs.StudentSerializer
-    template_name = None
+
+    template_name = None  # 请务必要添加这一行，否则会报错
 
     @list_route(
         methods=['get', 'post'],  # HTTP METHODS
@@ -63,12 +64,19 @@ class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
         add_success_url='/',  # 成功后的跳转url
     )
     def add(self, request):
+        '''
+        url: api/students/add/
+        template: sua/student_form.html
+        GET: 返回空Student序列化器，渲染Student创建表单
+        POST: 接受Student创建表单数据，创建Student实例，并重定向至Student实例详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
         return super(StudentViewSet, self).add(request)
 
 
 class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows students to be viewed or edited.
+    API endpoint that allows suagroups to be viewed or edited.
     """
     queryset = SuaGroup.objects.all()
     serializer_class = sirs.SuaGroupSerializer
@@ -76,12 +84,12 @@ class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):
 
 class SuaViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint that allows suas to be viewed or edited.
     """
     queryset = Sua.objects.all()
     serializer_class = sirs.SuaSerializer
 
-    template_name = None
+    template_name = None  # 请务必要添加这一行，否则会报错
 
     @list_route(
         methods=['get', 'post'],  # HTTP METHODS
@@ -91,6 +99,13 @@ class SuaViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
         add_success_url='/',  # 成功后的跳转url
     )
     def add(self, request):
+        '''
+        url: api/suas/add/
+        template: sua/sua_form.html
+        GET: 返回空Sua序列化器，渲染Sua创建表单
+        POST: 接受Sua创建表单数据，创建Sua实例，并重定向至对应的Activity详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
         return super(SuaViewSet, self).add(request)
 
     def perform_add(self, serializer):
@@ -99,12 +114,12 @@ class SuaViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
 
 class ActivityViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows activities to be viewed or edited.
     """
     queryset = Activity.objects.all()
     serializer_class = sirs.ActivitySerializer
 
-    template_name = None
+    template_name = None  # 请务必要添加这一行，否则会报错
 
     @list_route(
         methods=['get', 'post'],  # HTTP METHODS
@@ -114,6 +129,13 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
         add_success_url='/',  # 成功后的跳转url
     )
     def add(self, request):
+        '''
+        url: api/activities/add/
+        template: sua/activity_form.html
+        GET: 返回空Activity序列化器，渲染Activity创建表单
+        POST: 接受Activity创建表单数据，创建Activity实例，并重定向至对应的Activity详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
         return super(ActivityViewSet, self).add(request)
 
     def perform_add(self, serializer):
@@ -122,7 +144,7 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
 
 class ApplicationViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows students to be viewed or edited.
+    API endpoint that allows applications to be viewed or edited.
     """
     queryset = Application.objects.all()
     serializer_class = sirs.ApplicationSerializer
@@ -130,7 +152,7 @@ class ApplicationViewSet(viewsets.ReadOnlyModelViewSet):
 
 class PublicityViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows students to be viewed or edited.
+    API endpoint that allows publicities to be viewed or edited.
     """
     queryset = Publicity.objects.all()
     serializer_class = sirs.PublicitySerializer
@@ -138,7 +160,7 @@ class PublicityViewSet(viewsets.ReadOnlyModelViewSet):
 
 class AppealViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows students to be viewed or edited.
+    API endpoint that allows appeals to be viewed or edited.
     """
     queryset = Appeal.objects.all()
     serializer_class = sirs.AppealSerializer
@@ -146,7 +168,7 @@ class AppealViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ProofViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows students to be viewed or edited.
+    API endpoint that allows proofs to be viewed or edited.
     """
     queryset = Proof.objects.all()
     serializer_class = sirs.ProofSerializer
