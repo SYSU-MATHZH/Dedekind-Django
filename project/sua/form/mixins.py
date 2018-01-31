@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
-from rest_framework.decorators import list_route
+from rest_framework.decorators import list_route, detail_route
 from rest_framework.renderers import TemplateHTMLRenderer
 
 from django.http import HttpResponseRedirect
@@ -108,3 +108,26 @@ class DetailFormMixin(object):
 
     def get_detail_response(self, serializer):
         return Response({'serializer': serializer})
+
+
+class DeleteFormMixin(object):
+    """
+    删除一个Model实例
+    """
+    delete_success_url = None
+
+    @detail_route(methods=['get', 'delete'])
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        pk = instance.pk
+        self.perform_delete(instance)
+        return self.get_delete_response()
+
+    def get_delete_success_url(self, *args, **kwargs):
+        return self.delete_success_url
+
+    def perform_delete(self, instance):
+        instance.delete()
+
+    def get_delete_response(self):
+        return HttpResponseRedirect(self.get_delete_success_url())
