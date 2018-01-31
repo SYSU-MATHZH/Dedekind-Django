@@ -67,7 +67,7 @@ class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin, mymix
         '''
         url: api/students/add/
         template: sua/student_form.html
-        GET: 返回空Student序列化器，渲染Student创建表单
+        GET: 向模板代码提供空Student序列化器(serializer)，渲染并返回Student创建表单
         POST: 接受Student创建表单数据，创建Student实例，并重定向至Student实例详情页面
         表单字段：表单字段请参考REST framework自动生成的表单
         '''
@@ -81,6 +81,13 @@ class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin, mymix
         change_success_url='/',  # 成功后的跳转url
     )
     def change(self, request, *args, **kwargs):
+        '''
+        url: api/students/<int:pk>/change/
+        template: sua/student_form.html
+        GET: 向模板代码提供pk对应的student的序列化器(serializer)，渲染并返回Student更新表单
+        POST: 接受Student更新表单数据，更新Student实例及对应的User实例，并重定向至Student实例详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
         return super(StudentViewSet, self).change(request, *args, **kwargs)
 
 

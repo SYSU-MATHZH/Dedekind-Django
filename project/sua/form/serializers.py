@@ -30,6 +30,14 @@ class AddStudentSerializer(serializers.ModelSerializer):
         student = Student.objects.create(user=user, **validated_data)
         return student
 
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')
+        user = instance.user
+        user.username = validated_data['number']
+        user.password = make_password(user_data['password'])
+        user.save()
+        return super(AddStudentSerializer, self).update(instance, validated_data)
+
 
 class AddSuaSerializer(serializers.ModelSerializer):
     class Meta:
