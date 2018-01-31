@@ -90,3 +90,21 @@ class ChangeFormMixin(object):
 
     def get_change_response(self, serializer):
         return HttpResponseRedirect(self.get_change_success_url() + '?id=%s' % serializer.data['id'])
+
+
+class DetailFormMixin(object):
+    """
+    以Html的方式显示一个model实例。
+    """
+    detail_serializer_class = None
+
+    def detail(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_detail_serializer(instance)
+        return self.get_detail_response(serializer)
+
+    def get_detail_serializer(self, *args, **kwargs):
+        return self.detail_serializer_class(*args, **kwargs)
+
+    def get_detail_response(self, serializer):
+        return Response({'serializer': serializer})

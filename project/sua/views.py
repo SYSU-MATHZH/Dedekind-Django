@@ -47,7 +47,12 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = sirs.GroupSerializer
 
 
-class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin, mymixins.ChangeFormMixin):
+class StudentViewSet(
+        viewsets.ReadOnlyModelViewSet,
+        mymixins.AddFormMixin,
+        mymixins.ChangeFormMixin,
+        mymixins.DetailFormMixin
+    ):
     """
     API endpoint that allows students to be viewed or edited.
     """
@@ -89,6 +94,22 @@ class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin, mymix
         表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(StudentViewSet, self).change(request, *args, **kwargs)
+
+    @detail_route(
+        methods=['get'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/student_detail.html',  # 模板文件
+        detail_serializer_class=firs.AddStudentSerializer,  # 序列化器
+    )
+    def detail(self, request, *args, **kwargs):
+        '''
+        url: api/students/<int:pk>/change/
+        template: sua/student_form.html
+        GET: 向模板代码提供pk对应的student的序列化器(serializer)，渲染并返回Student更新表单
+        POST: 接受Student更新表单数据，更新Student实例及对应的User实例，并重定向至Student实例详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
+        return super(StudentViewSet, self).detail(request, *args, **kwargs)
 
 
 class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):
