@@ -18,7 +18,12 @@ import pprint
 # 上面是旧Views的依赖
 
 from rest_framework import viewsets
+from rest_framework.decorators import list_route
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.response import Response
+
 import project.sua.serializers as sirs
+import project.sua.form.serializers as firs
 
 from .forms import LoginForm
 from .models import Sua, Proof, Application, Publicity, Activity, Student, Appeal, SuaGroup
@@ -33,7 +38,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = sirs.UserSerializer
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
@@ -41,15 +46,32 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = sirs.GroupSerializer
 
 
-class StudentViewSet(viewsets.ModelViewSet):
+class StudentViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows students to be viewed or edited.
     """
     queryset = Student.objects.all()
     serializer_class = sirs.StudentSerializer
+    template_name = 'sua/student_detail.html'
+
+    @list_route(
+        methods=['get', 'post'],
+        renderer_classes=[TemplateHTMLRenderer],
+        template_name='sua/student_form.html',
+    )
+    def add(self, request):
+        if request.method == 'GET':
+            serializer = firs.AddStudentSerializer()
+            return Response({'serializer': serializer})
+        elif request.method == 'POST':
+            serializer = firs.AddStudentSerializer(data=request.data)
+            if not serializer.is_valid():
+                return Response({'serializer': serializer})
+            serializer.save()
+            return HttpResponseRedirect('/?id=%s' % serializer.data['id'])
 
 
-class SuaGroupViewSet(viewsets.ModelViewSet):
+class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows students to be viewed or edited.
     """
@@ -57,7 +79,7 @@ class SuaGroupViewSet(viewsets.ModelViewSet):
     serializer_class = sirs.SuaGroupSerializer
 
 
-class SuaViewSet(viewsets.ModelViewSet):
+class SuaViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
@@ -65,7 +87,7 @@ class SuaViewSet(viewsets.ModelViewSet):
     serializer_class = sirs.SuaSerializer
 
 
-class ActivityViewSet(viewsets.ModelViewSet):
+class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
@@ -73,7 +95,7 @@ class ActivityViewSet(viewsets.ModelViewSet):
     serializer_class = sirs.ActivitySerializer
 
 
-class ApplicationViewSet(viewsets.ModelViewSet):
+class ApplicationViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows students to be viewed or edited.
     """
@@ -81,7 +103,7 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     serializer_class = sirs.ApplicationSerializer
 
 
-class PublicityViewSet(viewsets.ModelViewSet):
+class PublicityViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows students to be viewed or edited.
     """
@@ -89,7 +111,7 @@ class PublicityViewSet(viewsets.ModelViewSet):
     serializer_class = sirs.PublicitySerializer
 
 
-class AppealViewSet(viewsets.ModelViewSet):
+class AppealViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows students to be viewed or edited.
     """
@@ -97,7 +119,7 @@ class AppealViewSet(viewsets.ModelViewSet):
     serializer_class = sirs.AppealSerializer
 
 
-class ProofViewSet(viewsets.ModelViewSet):
+class ProofViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows students to be viewed or edited.
     """

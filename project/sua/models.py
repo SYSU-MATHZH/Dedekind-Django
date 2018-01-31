@@ -10,7 +10,7 @@ from .token import TOKEN
 
 
 YEAR_CHOICES = []
-for r in range(1980, (datetime.datetime.now().year + 4)):
+for r in range(2016, datetime.datetime.now().year):
     YEAR_CHOICES.append((r, r))
 
 EXPIRE_TIME = 86400
