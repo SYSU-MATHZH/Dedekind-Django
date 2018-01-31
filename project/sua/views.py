@@ -24,6 +24,7 @@ from rest_framework.response import Response
 
 import project.sua.serializers as sirs
 import project.sua.form.serializers as firs
+import project.sua.form.mixins as mymixins
 
 from .forms import LoginForm
 from .models import Sua, Proof, Application, Publicity, Activity, Student, Appeal, SuaGroup
@@ -46,29 +47,23 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = sirs.GroupSerializer
 
 
-class StudentViewSet(viewsets.ReadOnlyModelViewSet):
+class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     """
     API endpoint that allows students to be viewed or edited.
     """
     queryset = Student.objects.all()
     serializer_class = sirs.StudentSerializer
-    template_name = 'sua/student_detail.html'
+    template_name = None
 
     @list_route(
         methods=['get', 'post'],
         renderer_classes=[TemplateHTMLRenderer],
         template_name='sua/student_form.html',
+        add_serializer_class=firs.AddStudentSerializer,
+        add_success_url='/',
     )
     def add(self, request):
-        if request.method == 'GET':
-            serializer = firs.AddStudentSerializer()
-            return Response({'serializer': serializer})
-        elif request.method == 'POST':
-            serializer = firs.AddStudentSerializer(data=request.data)
-            if not serializer.is_valid():
-                return Response({'serializer': serializer})
-            serializer.save()
-            return HttpResponseRedirect('/?id=%s' % serializer.data['id'])
+        return super(StudentViewSet, self).add(request)
 
 
 class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):
