@@ -29,3 +29,25 @@ class AddStudentSerializer(serializers.ModelSerializer):
         )
         student = Student.objects.create(user=user, **validated_data)
         return student
+
+
+class AddSuaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sua
+        fields = ('id', 'activity', 'student', 'team', 'suahours')
+
+
+class AddActivitySerializer(serializers.ModelSerializer):
+    suas = AddSuaSerializer(many=True)
+
+    class Meta:
+        model = Activity
+        fields = ('id', 'title', 'detail', 'group', 'date', 'suas')
+
+    def create(self, validated_data):
+        sua_datas = validated_data.pop('suas')
+        activity = Activity.objects.create(**validated_data)
+        owner = validated_data['owner']
+        for sua_data in sua_datas:
+            sua = Sua.objects.create(owner=owner, activity=activity, **sua_data)
+        return activity

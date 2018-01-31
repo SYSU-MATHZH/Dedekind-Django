@@ -44,7 +44,7 @@ class AddFormMixin(object):
             if not serializer.is_valid():
                 return Response({'serializer': serializer})
             self.perform_add(serializer)
-            return HttpResponseRedirect(self.get_add_success_url() + '?id=%s' % serializer.data['id'])
+            return self.get_add_response(serializer)
 
     def get_add_serializer(self, *args, **kwargs):
         return self.add_serializer_class(*args, **kwargs)
@@ -54,3 +54,6 @@ class AddFormMixin(object):
 
     def perform_add(self, serializer):
         serializer.save()
+
+    def get_add_response(self, serializer):
+        return HttpResponseRedirect(self.get_add_success_url() + '?id=%s' % serializer.data['id'])

@@ -56,11 +56,11 @@ class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     template_name = None
 
     @list_route(
-        methods=['get', 'post'],
-        renderer_classes=[TemplateHTMLRenderer],
-        template_name='sua/student_form.html',
-        add_serializer_class=firs.AddStudentSerializer,
-        add_success_url='/',
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/student_form.html',  # 模板文件
+        add_serializer_class=firs.AddStudentSerializer,  # 序列化器
+        add_success_url='/',  # 成功后的跳转url
     )
     def add(self, request):
         return super(StudentViewSet, self).add(request)
@@ -74,20 +74,50 @@ class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = sirs.SuaGroupSerializer
 
 
-class SuaViewSet(viewsets.ReadOnlyModelViewSet):
+class SuaViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     """
     API endpoint that allows users to be viewed or edited.
     """
     queryset = Sua.objects.all()
     serializer_class = sirs.SuaSerializer
 
+    template_name = None
 
-class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
+    @list_route(
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/sua_form.html',  # 模板文件
+        add_serializer_class=firs.AddSuaSerializer,  # 序列化器
+        add_success_url='/',  # 成功后的跳转url
+    )
+    def add(self, request):
+        return super(SuaViewSet, self).add(request)
+
+    def perform_add(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class ActivityViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     """
     API endpoint that allows groups to be viewed or edited.
     """
     queryset = Activity.objects.all()
     serializer_class = sirs.ActivitySerializer
+
+    template_name = None
+
+    @list_route(
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/activity_form.html',  # 模板文件
+        add_serializer_class=firs.AddActivitySerializer,  # 序列化器
+        add_success_url='/',  # 成功后的跳转url
+    )
+    def add(self, request):
+        return super(ActivityViewSet, self).add(request)
+
+    def perform_add(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class ApplicationViewSet(viewsets.ReadOnlyModelViewSet):
