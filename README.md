@@ -10,8 +10,9 @@
 - [x] 编写每一个model的基本serializers(用于测试及list API)
 - [x] 编写list API View(通过ReadOnlyModelViewSet)
 - [x] 编写AddFormMixin #18
-- [ ] 编写ChangeFormMixin #19
-- [ ] 编写DetailMixin #20
+- [x] 编写ChangeFormMixin #19
+- [x] 编写DetailFormMixin #20
+- [x] 编写DeleteFormMixin #21
 - [ ] 编写每一个model的add html View #13 #14 #15 #16 #17
 - [ ] 编写每一个model的change html View
 - [ ] 编写每一个model的detail html View
