@@ -6,10 +6,10 @@
 
 ### 项目进展(model_v2)
 
-- [1] models重新设计
-- [1] 编写每一个model的基本serializers(用于测试及list API)
-- [1] 编写list API View(通过ReadOnlyModelViewSet)
-- [1] 编写AddFormMixin #18
+- [x] models重新设计
+- [x] 编写每一个model的基本serializers(用于测试及list API)
+- [x] 编写list API View(通过ReadOnlyModelViewSet)
+- [x] 编写AddFormMixin #18
 - [ ] 编写ChangeFormMixin #19
 - [ ] 编写DetailMixin #20
 - [ ] 编写每一个model的add html View #13 #14 #15 #16 #17
