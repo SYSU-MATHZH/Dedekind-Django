@@ -18,7 +18,7 @@ import pprint
 # 上面是旧Views的依赖
 
 from rest_framework import viewsets
-from rest_framework.decorators import list_route
+from rest_framework.decorators import list_route, detail_route
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 
@@ -47,7 +47,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = sirs.GroupSerializer
 
 
-class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
+class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin, mymixins.ChangeFormMixin):
     """
     API endpoint that allows students to be viewed or edited.
     """
@@ -72,6 +72,16 @@ class StudentViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
         表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(StudentViewSet, self).add(request)
+
+    @detail_route(
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/student_form.html',  # 模板文件
+        change_serializer_class=firs.AddStudentSerializer,  # 序列化器
+        change_success_url='/',  # 成功后的跳转url
+    )
+    def change(self, request, *args, **kwargs):
+        return super(StudentViewSet, self).change(request, *args, **kwargs)
 
 
 class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):

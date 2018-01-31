@@ -37,7 +37,7 @@ class AddFormMixin(object):
 
     def add(self, request):
         if request.method == 'GET':
-            serializer = self.get_add_serializer();
+            serializer = self.get_add_serializer()
             return Response({'serializer': serializer})
         elif request.method == 'POST':
             serializer = self.get_add_serializer(data=request.data)
@@ -56,4 +56,30 @@ class AddFormMixin(object):
         serializer.save()
 
     def get_add_response(self, serializer):
+        return HttpResponseRedirect(self.get_add_success_url() + '?id=%s' % serializer.data['id'])
+
+
+class ChangeFormMixin(object):
+    """
+    以表单的方式更新一个model实例。
+    """
+    change_serializer_class = None
+    change_success_url = None
+
+    def change(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.method == 'GET':
+            serializer = self.get_change_serializer(instance)
+            return Response({'serializer': serializer})
+
+    def get_change_serializer(self, *args, **kwargs):
+        return self.change_serializer_class(*args, **kwargs)
+
+    def get_change_success_url(self, *args, **kwargs):
+        return self.add_success_url
+
+    def perform_change(self, serializer):
+        serializer.save()
+
+    def get_change_response(self, serializer):
         return HttpResponseRedirect(self.get_add_success_url() + '?id=%s' % serializer.data['id'])
