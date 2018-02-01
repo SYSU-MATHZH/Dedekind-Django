@@ -78,6 +78,7 @@ class StudentViewSet(
         template_name='sua/student_form.html',  # 模板文件
         add_serializer_class=firs.AddStudentSerializer,  # 序列化器
         add_success_url='/',  # 成功后的跳转url
+        permission_classes = (IsAdminUser, )
     )
     def add(self, request):
         '''
@@ -95,6 +96,7 @@ class StudentViewSet(
         template_name='sua/student_form.html',  # 模板文件
         change_serializer_class=firs.AddStudentSerializer,  # 序列化器
         change_success_url='/',  # 成功后的跳转url
+        permission_classes = (IsAdminUser, )
     )
     def change(self, request, *args, **kwargs):
         '''
