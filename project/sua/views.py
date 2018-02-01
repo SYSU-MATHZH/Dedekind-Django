@@ -1177,68 +1177,10 @@ def logout_view(request):
     return HttpResponseRedirect('/login')
 #
 #
-# @login_required
-# def index(request):
-#     usr = request.user
-#     sua_list = []  # 公益时记录
-#     sa_list = []  # 公益时申请
-#     appeals_list = []  # 申诉记录
-#     gsap_list = []  # 活动记录
-#     if hasattr(usr, 'student'):
-#         stu = usr.student
-#         name = stu.name
-#         number = stu.number
-#         suahours = stu.suahours
-#         i = 0
-#         for sua in stu.sua_set.filter(is_valid=True).order_by('-date'):
-#             i += 1
-#             sua_list.append((i, sua))
-#         i = 0
-#         for sua in stu.sua_set.order_by('-sua_application__date'):
-#             if hasattr(sua, 'sua_application'):
-#                 i += 1
-#                 sa_list.append((i, sua.sua_application))
-#         # 获取申诉列表
-#         i = 0
-#         for appeal in stu.appeal_set.order_by('-date'):
-#             i += 1
-#             appeals_list.append((i, appeal))
-#
-#     else:
-#         if usr.is_staff:
-#             name = 'Admin.' + usr.username
-#         else:
-#             name = 'NoStuInfo.' + usr.username
-#         number = '------'
-#         suahours = '-.-'
-#     # 组织公益时活动的公示
-#     gsaps = GSuaPublicity.objects.filter(
-#         is_published=True,
-#         published_begin_date__lte=timezone.now(),
-#         published_end_date__gt=timezone.now()
-#     )
-#     for gsap in gsaps:
-#         teams = dict()
-#         suass = gsap.gsua.suas.order_by('team', 'suahours', 'student__name')
-#         i = 0
-#         for sua in suass:
-#             i += 1
-#             if sua.team not in teams:
-#                 teams[sua.team] = dict()
-#             if sua.suahours not in teams[sua.team]:
-#                 teams[sua.team][sua.suahours] = []
-#             teams[sua.team][sua.suahours].append(sua.student.name)
-#         gsap_list.append((gsap, teams))
-#     pprint.pprint(appeals_list)
-#     return render(request, 'sua/index.html', {
-#         'stu_name': name,
-#         'stu_number': number,
-#         'stu_suahours': suahours,
-#         'sua_list': sua_list,
-#         'sa_list': sa_list,
-#         'ap_list': appeals_list,
-#         'gsap_list': gsap_list,
-#     })
+@login_required
+def index(request):
+    return render(request, 'sua/index.html', {
+    })
 #
 #
 # @login_required

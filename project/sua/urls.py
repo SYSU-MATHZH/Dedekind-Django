@@ -24,7 +24,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
-#     path('', views.index, name='index'),
+    path('', views.index, name='index'),
 #     path('playMFS/', views.playMFS, name='playMFS'),
 #     path('admin/', views.adminIndex, name='admin-index'),
 #     path('apply_sua/', views.apply_sua, name='apply_sua'),
