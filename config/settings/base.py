@@ -34,6 +34,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'rest_framework',
     'django_crontab',
+    'django_filters',
 )
 
 LOCAL_APPS = (
@@ -138,6 +139,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'EXCEPTION_HANDLER': 'project.sua.utils.redirect_exception_handler',  # 401 or 403 会被重定向至主页
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }
 
 

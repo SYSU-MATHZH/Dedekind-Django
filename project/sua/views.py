@@ -64,6 +64,7 @@ class StudentViewSet(
     queryset = Student.objects.all()
     serializer_class = sirs.StudentSerializer
     permission_classes = (IsAdminUser,)
+    filter_fields = ('grade', 'classtype')
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
