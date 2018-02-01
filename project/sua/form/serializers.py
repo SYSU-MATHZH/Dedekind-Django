@@ -7,11 +7,12 @@ from django.contrib.auth.hashers import make_password
 
 
 class AddUserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(style={'input_type': 'password'}, default='12345678')
+    username = serializers.CharField(read_only=True)
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'}, default='12345678')
 
     class Meta:
         model = User
-        fields = ('password', )
+        fields = ('username', 'password')
 
 
 class AddStudentSerializer(serializers.ModelSerializer):

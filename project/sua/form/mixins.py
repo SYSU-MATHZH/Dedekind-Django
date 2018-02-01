@@ -4,28 +4,8 @@ from rest_framework.settings import api_settings
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.renderers import TemplateHTMLRenderer
 
-from django.http import HttpResponseRedirect
-
-
-class CreateModelMixin(object):
-    """
-    Create a model instance.
-    """
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-    def perform_create(self, serializer):
-        serializer.save()
-
-    def get_success_headers(self, data):
-        try:
-            return {'Location': data[api_settings.URL_FIELD_NAME]}
-        except (TypeError, KeyError):
-            return {}
+from django.http import HttpResponseRedirect, Http404
+from django.urls import reverse, resolve
 
 
 class AddFormMixin(object):
@@ -56,7 +36,7 @@ class AddFormMixin(object):
         serializer.save()
 
     def get_add_response(self, serializer):
-        return HttpResponseRedirect(self.get_add_success_url() + '?id=%s' % serializer.data['id'])
+        return HttpResponseRedirect('/?id=%s' % serializer.data['id'])
 
 
 class ChangeFormMixin(object):
