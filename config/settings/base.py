@@ -134,6 +134,10 @@ LOGIN_URL = '/login/'
 # REST framework config
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'EXCEPTION_HANDLER': 'project.sua.utils.redirect_exception_handler',  # 401 or 403 会被重定向至主页
 }
 
 
