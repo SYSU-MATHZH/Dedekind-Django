@@ -21,6 +21,10 @@ from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from project.sua.permissions import IsTheStudentOrIsAdminUser
+
+
 
 import project.sua.serializers as sirs
 import project.sua.form.serializers as firs
@@ -59,6 +63,7 @@ class StudentViewSet(
     """
     queryset = Student.objects.all()
     serializer_class = sirs.StudentSerializer
+    permission_classes = (IsAdminUser,)
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
@@ -101,6 +106,7 @@ class StudentViewSet(
     @detail_route(
         methods=['get'],  # HTTP METHODS
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        permission_classes = (IsTheStudentOrIsAdminUser,),
         template_name='sua/student_detail.html',  # 模板文件
         detail_serializer_class=firs.AddStudentSerializer,  # 序列化器
     )
