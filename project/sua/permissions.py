@@ -9,7 +9,7 @@ class IsTheStudentOrIsAdminUser(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        if not request.user:
+        if not (request.user and request.user.is_authenticated):
             return False
         if request.user.is_staff:
             return True
@@ -17,3 +17,18 @@ class IsTheStudentOrIsAdminUser(permissions.BasePermission):
             return obj.user == request.user
         else:
             return obj.student.user == request.user
+
+
+class IsAdminUserOrReadOnly(permissions.BasePermission):
+    """
+    要求登录，如果不是管理员则只读
+    """
+
+    def has_permission(self, request, view):
+        if not (request.user and request.user.is_authenticated):
+            return False
+
+        return (
+            request.method in permissions.SAFE_METHODS or
+            request.user.is_staff
+        )

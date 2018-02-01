@@ -22,7 +22,7 @@ from rest_framework.decorators import list_route, detail_route
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from project.sua.permissions import IsTheStudentOrIsAdminUser
+from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly
 
 
 
@@ -41,6 +41,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = sirs.UserSerializer
+    permission_classes = (IsAdminUserOrReadOnly,)
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
@@ -49,6 +50,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = sirs.GroupSerializer
+    permission_classes = (IsAdminUserOrReadOnly,)
 
 
 class StudentViewSet(
@@ -63,7 +65,7 @@ class StudentViewSet(
     """
     queryset = Student.objects.all()
     serializer_class = sirs.StudentSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUserOrReadOnly, )
     filter_fields = ('grade', 'classtype')
 
     template_name = None  # 请务必要添加这一行，否则会报错
@@ -127,6 +129,7 @@ class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = SuaGroup.objects.all()
     serializer_class = sirs.SuaGroupSerializer
+    permission_classes = (IsAdminUserOrReadOnly,)
 
 
 class SuaViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
@@ -135,6 +138,7 @@ class SuaViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     """
     queryset = Sua.objects.all()
     serializer_class = sirs.SuaSerializer
+    permission_classes = (IsAdminUserOrReadOnly,)
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
@@ -165,6 +169,7 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     """
     queryset = Activity.objects.all()
     serializer_class = sirs.ActivitySerializer
+    permission_classes = (IsAdminUserOrReadOnly,)
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
@@ -195,6 +200,7 @@ class ApplicationViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Application.objects.all()
     serializer_class = sirs.ApplicationSerializer
+    permission_classes = (IsAdminUserOrReadOnly,)
 
 
 class PublicityViewSet(viewsets.ReadOnlyModelViewSet):
@@ -211,6 +217,7 @@ class AppealViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Appeal.objects.all()
     serializer_class = sirs.AppealSerializer
+    permission_classes = (IsAdminUserOrReadOnly,)
 
 
 class ProofViewSet(viewsets.ReadOnlyModelViewSet):
@@ -219,6 +226,7 @@ class ProofViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Proof.objects.all()
     serializer_class = sirs.ProofSerializer
+    permission_classes = (IsAdminUserOrReadOnly,)
 
 #
 #
