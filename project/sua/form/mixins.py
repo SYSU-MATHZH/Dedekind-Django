@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.permissions import IsAdminUser
 
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse, resolve
@@ -96,7 +97,10 @@ class DeleteFormMixin(object):
     """
     delete_success_url = None
 
-    @detail_route(methods=['get', 'delete'])
+    @detail_route(
+        methods=['get', 'delete'],
+        permission_classes = (IsAdminUser, ),
+    )
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
         pk = instance.pk
