@@ -62,3 +62,8 @@ class AddAppealSerializer(serializers.ModelSerializer):
 #    def create(self,validated_data):
 #        appeal = Appeal.objects.create(**validated_data)
 #        return appeal
+
+class AddPublicitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Publicity
+        fields = ('id', 'owner', 'activity', 'title', 'content', 'contact', 'is_published', 'begin', 'end')

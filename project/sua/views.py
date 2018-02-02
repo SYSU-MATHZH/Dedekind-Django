@@ -205,12 +205,35 @@ class ApplicationViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (IsAdminUserOrReadOnly,)
 
 
-class PublicityViewSet(viewsets.ReadOnlyModelViewSet):
+class PublicityViewSet(viewsets.ReadOnlyModelViewSet,mymixins.AddFormMixin):
     """
     API endpoint that allows publicities to be viewed or edited.
     """
     queryset = Publicity.objects.all()
     serializer_class = sirs.PublicitySerializer
+    permission_classes = (IsAdminUserOrReadOnly,)
+
+    template_name = None  # 请务必要添加这一行，否则会报错
+
+    @list_route(
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/gsua_publicity_form.html',  # 模板文件
+        add_serializer_class=firs.AddPublicitySerializer,  # 序列化器
+        add_success_url='/',  # 成功后的跳转url
+    )
+    def add(self, request):
+        '''
+        url: api/publicities/add/
+        template: sua/gsua_publicity_form.html
+        GET: 返回空Publicity序列化器，渲染Publicity创建表单
+        POST: 接受Publicity创建表单数据，创建Publicity实例，并重定向至对应的Publicity详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
+        return super(PublicityViewSet, self).add(request)
+
+    def perform_add(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class AppealViewSet(viewsets.ReadOnlyModelViewSet,mymixins.AddFormMixin):
