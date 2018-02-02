@@ -58,7 +58,7 @@ class AddAppealSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appeal
         fields = ('id','student', 'publicity', 'content', 'status', 'is_checked', 'feedback')
-        
+
 #    def create(self,validated_data):
 #        appeal = Appeal.objects.create(**validated_data)
 #        return appeal
@@ -67,3 +67,20 @@ class AddPublicitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Publicity
         fields = ('id', 'owner', 'activity', 'title', 'content', 'contact', 'is_published', 'begin', 'end')
+
+class AddProofSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Proof
+        fields = ('id', 'is_offline', 'proof_file')
+
+    def create(self, validated_data):
+        if validated_data['is_offline']:
+            proof = Proof.objects.create(**validated_data)
+            return proof
+        else:
+            if validated_data.get('proof_file',None):
+                proof = Proof.objects.create(**validated_data)
+                return proof
+            else:
+                messagebox.showwarning('提示', '请上传线上文件')
