@@ -213,13 +213,35 @@ class PublicityViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = sirs.PublicitySerializer
 
 
-class AppealViewSet(viewsets.ReadOnlyModelViewSet):
+class AppealViewSet(viewsets.ReadOnlyModelViewSet,mymixins.AddFormMixin):
     """
     API endpoint that allows appeals to be viewed or edited.
     """
     queryset = Appeal.objects.all()
     serializer_class = sirs.AppealSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
+    
+    template_name = None  # 请务必要添加这一行，否则会报错
+
+    @list_route(
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/appeal_form.html',  # 模板文件
+        add_serializer_class=firs.AddAppealSerializer,  # 序列化器
+        add_success_url='/',  # 成功后的跳转url
+    )
+    def add(self, request):
+        '''
+        url: api/appeals/add/
+        template: sua/appeals_form.html
+        GET: 返回空Appeal序列化器，渲染Appeal创建表单
+        POST: 接受Appeal创建表单数据，创建Appeal实例，并重定向至对应的Activity详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
+        return super(AppealViewSet, self).add(request)
+
+    def perform_add(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class ProofViewSet(viewsets.ReadOnlyModelViewSet):
