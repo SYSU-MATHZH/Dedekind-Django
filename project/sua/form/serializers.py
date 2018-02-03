@@ -60,3 +60,43 @@ class AddActivitySerializer(serializers.ModelSerializer):
         for sua_data in sua_datas:
             sua = Sua.objects.create(owner=owner, activity=activity, **sua_data)
         return activity
+
+
+
+class AddProofSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Proof
+        fields = ('id', 'is_offline', 'proof_file')
+
+    def create(self, validated_data):
+        if validated_data['is_offline']:
+            proof = Proof.objects.create(**validated_data)
+            return proof
+        else:
+            if validated_data.get('proof_file',None):
+                proof = Proof.objects.create(**validated_data)
+                return proof
+            else:
+                messagebox.showwarning('提示', '请上传线上文件')
+
+
+
+class AddApplicationSerializer(serializers.ModelSerializer):
+    sua = AddSuaSerializer()
+    #proof = AddProofSerializer()
+    class Meta:
+        model = Application
+        fields = ('id', 'sua', 'created')
+
+    def create(self, validated_data):
+        sua_data = validated_data.pop('sua')
+        sua = Sua.objects.create(**validated_data)
+        #proof_data = validated_data.pop('proof')
+        #proof = Proof.objects.create(**validated_data)
+        application = Application.objects.create(sua=sua, **validated_data)
+        return application
+
+
+
+        
