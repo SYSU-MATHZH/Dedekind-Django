@@ -75,12 +75,5 @@ class AddProofSerializer(serializers.ModelSerializer):
         fields = ('id', 'is_offline', 'proof_file')
 
     def create(self, validated_data):
-        if validated_data['is_offline']:
-            proof = Proof.objects.create(**validated_data)
-            return proof
-        else:
-            if validated_data.get('proof_file',None):
-                proof = Proof.objects.create(**validated_data)
-                return proof
-            else:
-                messagebox.showwarning('提示', '请上传线上文件')
+        proof = Proof.objects.create(**validated_data)
+        return proof

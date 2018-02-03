@@ -267,7 +267,7 @@ class AppealViewSet(viewsets.ReadOnlyModelViewSet,mymixins.AddFormMixin):
         serializer.save(owner=self.request.user)
 
 
-class ProofViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
+class ProofViewSet(viewsets.ReadOnlyModelViewSet,mymixins.AddFormMixin):
     """
     API endpoint that allows proofs to be viewed or edited.
     """
@@ -292,9 +292,21 @@ class ProofViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
         POST: 接受Proof创建表单数据，创建Proof实例，并重定向至对应的Proof详情页面
         表单字段：表单字段请参考REST framework自动生成的表单
         '''
-        return super(ProofViewSet, self).add(request)
 
-    def perform_add(self, serializer):
+        if request.method == 'GET':
+            serializer = self.get_add_serializer()
+            return Response({'serializer': serializer})
+        elif request.method == 'POST':
+            serializer = self.get_add_serializer(data=request.data)
+            if serializer.is_valid():
+                if not request.data.get('is_offline',False):
+                    if not request.data['proof_file']:
+                        return Response({'serializer': serializer})
+                    self.perform_add(serializer)
+                    return self.get_add_response(serializer)
+                self.perform_add(serializer)
+                return self.get_add_response(serializer)
+    def perform_add(self,serializer):
         serializer.save(owner=self.request.user)
 
 
