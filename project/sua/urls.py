@@ -19,7 +19,7 @@ router.register(r'proofs', views.ProofViewSet)
 
 #
 #
-app_name = 'sua'
+# app_name = 'sua'
 urlpatterns = [
     path('api/', include(router.urls)),
     path('login/', views.login_view, name='login'),
