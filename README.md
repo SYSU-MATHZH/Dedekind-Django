@@ -25,12 +25,12 @@
 ### 本地部署(model_v2暂不可用)
 
 1. 安装virtualenv
-2. clone仓库，用virtualenv创建虚拟环境venv，并激活venv
+2. clone仓库，用virtualenv创建虚拟环境venv35，并激活venv35
 
 ```bash
 cd Dedekind-Django
-virtualenv venv
-source venv/bin/activate
+virtualenv venv35 --python=python3.5
+source venv35/bin/activate
 ```
 
 3. 安装依赖

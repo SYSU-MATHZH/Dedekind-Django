@@ -85,6 +85,7 @@ celerybeat-schedule
 # virtualenv
 .venv
 venv/
+venv35/
 ENV/
 
 # Spyder project settings
@@ -117,3 +118,10 @@ project/media/proofs/
 
 #backup
 *.backup
+
+
+# ide
+.vscode/
+
+# local_settings
+project/migrations
