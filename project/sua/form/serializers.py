@@ -62,7 +62,6 @@ class AddActivitySerializer(serializers.ModelSerializer):
         return activity
 
 
-
 class AddProofSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -81,22 +80,18 @@ class AddProofSerializer(serializers.ModelSerializer):
                 messagebox.showwarning('提示', '请上传线上文件')
 
 
-
 class AddApplicationSerializer(serializers.ModelSerializer):
     sua = AddSuaSerializer()
-    #proof = AddProofSerializer()
+    proof = AddProofSerializer()
     class Meta:
         model = Application
-        fields = ('id', 'sua', 'created')
+        fields = ('id', 'sua', 'created','contact', 'proof')
 
     def create(self, validated_data):
+        owner = validated_data['owner']
         sua_data = validated_data.pop('sua')
-        sua = Sua.objects.create(**validated_data)
-        #proof_data = validated_data.pop('proof')
-        #proof = Proof.objects.create(**validated_data)
-        application = Application.objects.create(sua=sua, **validated_data)
+        sua = Sua.objects.create(owner=owner, **sua_data)
+        proof_data = validated_data.pop('proof')
+        proof = Proof.objects.create(owner=owner, **proof_data)
+        application = Application.objects.create(sua=sua, proof=proof,**validated_data)
         return application
-
-
-
-        
