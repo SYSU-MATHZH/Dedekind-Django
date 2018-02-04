@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
-{% include 'sua/_partial/head.html' %}
-
+  <head>
+    <title>{% block title %} 公益时平台 {% endblock %}</title>
+    {% include 'sua/_partial/head.html' %}
+  </head>
   <body>
 
     {% block content %}
