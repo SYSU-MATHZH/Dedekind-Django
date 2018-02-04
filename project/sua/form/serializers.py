@@ -77,3 +77,9 @@ class AddProofSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         proof = Proof.objects.create(**validated_data)
         return proof
+
+    def is_valid(self, *args, **kwargs):
+        is_valid_super = super(AddProofSerializer, self).is_valid(*args, **kwargs)
+        has_upload_file = True if 'proof_file' in self.validated_data.keys() else False
+        is_offline = True if self.validated_data['is_offline'] else False
+        return is_valid_super and (has_upload_file or is_offline)
