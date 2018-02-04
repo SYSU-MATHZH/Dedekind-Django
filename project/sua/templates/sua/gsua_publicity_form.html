@@ -105,7 +105,21 @@
 		$('.add-sua').click(function (ev) {
 			ev.preventDefault();
 			var count = $('#sua-form-container').children().length;
-			var tmplMarkup = $('#sua-template').html();
+			var str="<div id='sua-__prefix__' class='row'>"+
+				"<div class='col-lg-3'>"+
+					"<label>新学生</label>"+
+				"</div>"+
+				"<div class='col-lg-3'>"+
+					"{{ formset.empty_form.student }}"+
+				"</div>"+
+				"<div class='col-lg-3'>"+
+					"{{ formset.empty_form.team }}"+
+				"</div>"+
+				"<div class='col-lg-3'>"+
+					"{{ formset.empty_form.suahours }}"+
+				"</div>"+
+			+"</div>";
+    		var tmplMarkup=$.parseHTML(str);
 			var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
 			$('div#sua-form-container').append(compiledTmpl);
 
@@ -120,21 +134,4 @@
 	});
 </script>
 
-<!-- <script type="text/html" id="sua-template">
-		把html写这里，有病吧
-		<div id="sua-__prefix__" class="row">
-			<div class="col-lg-3">
-				<label>新学生</label>
-			</div>
-			<div class="col-lg-3">
-				{{ formset.empty_form.student }}
-			</div>
-			<div class="col-lg-3">
-				{{ formset.empty_form.team }}
-			</div>
-			<div class="col-lg-3">
-				{{ formset.empty_form.suahours }}
-			</div>
-		</div>
-	</script> -->
 {% endblock %}
