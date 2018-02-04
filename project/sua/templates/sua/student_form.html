@@ -1,27 +1,12 @@
+{% extends 'sua/_layout/base.html' %}{% extends 'sua/_layout/base.html' %}
+
+{% block title %}申请个人公益时{% endblock %}
+
+{% block content %}
+ 
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>申请个人公益时</title>
-    <!-- Bootstrap -->
-	<link rel="stylesheet" type="text/css" href="{% static 'sua/css/bootstrap-3.3.7.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'sua/css/index.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'sua/css/apply.css' %}">
-	  <link rel="stylesheet" type="text/css" href="{% static 'sua/css/home.css' %}">
-  <script src="{% static 'sua/js/jquery-1.11.3.min.js' %}"></script>
-  <script src="{% static 'sua/js/bootstrap.js' %}"></script>
-  </head>
-  <body>
-  <header class="navbar-fixed-top">
-	  <div id="header-inner" class="container">
-		  <a href="/" id="logo">数院公益时</a>
-	  </div>
-  </header>
-  <!-- 导航栏部分结束 -->
-  <div class="container my-space-line">
+
+ <div class="container my-space-line">
 	<form enctype="multipart/form-data" role="form" action="" method="POST">
 		  {% csrf_token %}
 		<div class="row">
@@ -105,5 +90,4 @@
   	</div>
   </div>
   </div>
-  </body>
-</html>
+  {% endblock %}
