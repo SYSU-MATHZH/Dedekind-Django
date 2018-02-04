@@ -7,12 +7,11 @@ from django.contrib.auth.hashers import make_password
 
 
 class AddUserSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(read_only=True)
-    password = serializers.CharField(write_only=True, style={'input_type': 'password'}, default='12345678')
+    password = serializers.CharField(style={'input_type': 'password'}, default='12345678')
 
     class Meta:
         model = User
-        fields = ('username', 'password')
+        fields = ('password', )
 
 
 class AddStudentSerializer(serializers.ModelSerializer):
@@ -30,14 +29,6 @@ class AddStudentSerializer(serializers.ModelSerializer):
         )
         student = Student.objects.create(user=user, **validated_data)
         return student
-
-    def update(self, instance, validated_data):
-        user_data = validated_data.pop('user')
-        user = instance.user
-        user.username = validated_data['number']
-        user.password = make_password(user_data['password'])
-        user.save()
-        return super(AddStudentSerializer, self).update(instance, validated_data)
 
 
 class AddSuaSerializer(serializers.ModelSerializer):
@@ -62,6 +53,23 @@ class AddActivitySerializer(serializers.ModelSerializer):
         return activity
 
 
+
+class AddAppealSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Appeal
+        fields = ('id','student', 'publicity', 'content', 'status', 'is_checked', 'feedback')
+
+#    def create(self,validated_data):
+#        appeal = Appeal.objects.create(**validated_data)
+#        return appeal
+
+class AddPublicitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Publicity
+        fields = ('id', 'owner', 'activity', 'title', 'content', 'contact', 'is_published', 'begin', 'end')
+
+
 class AddProofSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -78,6 +86,8 @@ class AddProofSerializer(serializers.ModelSerializer):
                 return proof
             else:
                 messagebox.showwarning('提示', '请上传线上文件')
+                proof = Proof.objects.create(**validated_data)
+                return proof
 
 
 class AddApplicationSerializer(serializers.ModelSerializer):
