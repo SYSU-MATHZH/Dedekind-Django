@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %} 公益时平台 {% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/bootstrap-3.3.7.css' %}"> 
-    {% if request.path = '/login/' %}
+    {% if request.path == '/login/' %}
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/login.css' %}"> 
     {% else %}
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/home.css' %}">

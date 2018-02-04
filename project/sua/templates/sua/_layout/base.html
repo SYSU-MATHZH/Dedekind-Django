@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'sua/_partial/head.html' %}
+
+  <body>
+
+    {% block content %}
+    <p>加载失败，请刷新重试</p>
+    {% endblock %}
+
+  </body>
+
+{% include 'sua/_partial/load_js.html' %}
+
+</html>
