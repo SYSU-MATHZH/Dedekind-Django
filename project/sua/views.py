@@ -196,13 +196,35 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
         serializer.save(owner=self.request.user)
 
 
-class ApplicationViewSet(viewsets.ReadOnlyModelViewSet):
+class ApplicationViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     """
     API endpoint that allows applications to be viewed or edited.
     """
     queryset = Application.objects.all()
     serializer_class = sirs.ApplicationSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
+
+    template_name = None  # 请务必要添加这一行，否则会报错
+
+    @list_route(
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/sua_form.html',  # 模板文件
+        add_serializer_class=firs.AddApplicationSerializer,  # 序列化器
+        add_success_url='/',  # 成功后的跳转url
+    )
+    def add(self, request):
+        '''
+        url: api/applications/add/
+        template: sua/sua_form.html
+        GET: 返回空Application序列化器，渲染Application创建表单
+        POST: 接受Application创建表单数据，创建Application实例，并重定向至对应的Application详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
+        return super(ApplicationViewSet, self).add(request)
+
+    def perform_add(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class PublicityViewSet(viewsets.ReadOnlyModelViewSet,mymixins.AddFormMixin):
@@ -267,7 +289,7 @@ class AppealViewSet(viewsets.ReadOnlyModelViewSet,mymixins.AddFormMixin):
         serializer.save(owner=self.request.user)
 
 
-class ProofViewSet(viewsets.ReadOnlyModelViewSet,mymixins.AddFormMixin):
+class ProofViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     """
     API endpoint that allows proofs to be viewed or edited.
     """
@@ -295,7 +317,6 @@ class ProofViewSet(viewsets.ReadOnlyModelViewSet,mymixins.AddFormMixin):
         return super(ProofViewSet, self).add(request)
     def perform_add(self,serializer):
         serializer.save(owner=self.request.user)
-
 
 #
 #

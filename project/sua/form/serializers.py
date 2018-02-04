@@ -53,6 +53,7 @@ class AddActivitySerializer(serializers.ModelSerializer):
         return activity
 
 
+
 class AddAppealSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -68,18 +69,32 @@ class AddPublicitySerializer(serializers.ModelSerializer):
         model = Publicity
         fields = ('id', 'owner', 'activity', 'title', 'content', 'contact', 'is_published', 'begin', 'end')
 
+
 class AddProofSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Proof
         fields = ('id', 'is_offline', 'proof_file')
 
-    def create(self, validated_data):
-        proof = Proof.objects.create(**validated_data)
-        return proof
-
     def is_valid(self, *args, **kwargs):
         is_valid_super = super(AddProofSerializer, self).is_valid(*args, **kwargs)
         has_upload_file = True if 'proof_file' in self.validated_data.keys() else False
         is_offline = True if self.validated_data['is_offline'] else False
         return is_valid_super and (has_upload_file or is_offline)
+
+
+class AddApplicationSerializer(serializers.ModelSerializer):
+    sua = AddSuaSerializer()
+    proof = AddProofSerializer()
+    class Meta:
+        model = Application
+        fields = ('id', 'sua', 'created','contact', 'proof')
+
+    def create(self, validated_data):
+        owner = validated_data['owner']
+        sua_data = validated_data.pop('sua')
+        sua = Sua.objects.create(owner=owner, **sua_data)
+        proof_data = validated_data.pop('proof')
+        proof = Proof.objects.create(owner=owner, **proof_data)
+        application = Application.objects.create(sua=sua, proof=proof,**validated_data)
+        return application
