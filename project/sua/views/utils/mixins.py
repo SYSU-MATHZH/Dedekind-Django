@@ -2,7 +2,7 @@ from project.sua.serializers import UserSerializer, StudentSerializer
 
 
 class NavMixin(object):
-    def nav(self, request):
+    def nav(self, request, *args, **kwargs):
         navs = {}
         user = request.user
         student = None
