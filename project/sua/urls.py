@@ -1,7 +1,6 @@
 from django.urls import path, include
 from django.contrib.auth.decorators import login_required
-from project.sua.views import api
-from project.sua.views import views
+from project.sua.views import api, auth, student
 
 from rest_framework import routers
 
@@ -23,9 +22,9 @@ router.register(r'proofs', api.ProofViewSet)
 # app_name = 'sua'
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
-    path('', views.index, name='index'),
+    path('login/', auth.login_view, name='login'),
+    path('logout/', auth.logout_view, name='logout'),
+    path('', login_required(student.IndexView.as_view()), name='index'),
 #     path('playMFS/', views.playMFS, name='playMFS'),
 #     path('admin/', views.adminIndex, name='admin-index'),
 #     path('apply_sua/', views.apply_sua, name='apply_sua'),
