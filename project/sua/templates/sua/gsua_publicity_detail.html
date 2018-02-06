@@ -1,18 +1,135 @@
+{% extends 'sua/_layout/base.html' %}
+
+{% block title %}创建新的公益时活动{% endblock %}
+
+{% block content %}
 {% load static %}
-{% load rest_framework %}
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'sua/css/login.css' %}">
-</head>
+<!-- 导航栏部分开始 -->
+{% include 'sua/_partial/nav.html' %}
+<!-- 导航栏部分结束 -->
 
-<body>
-      {{ serializer.data }}
-      {% url 'student-detail' serializer.data.id %}
-</body>
+<div class="row">
+	<div class="col-lg-3">
+	</div>
+	<div class="col-lg-6">
+		<h3>{{ sa.sua.title }}</h3>
+		<p class="subtitle-descript">{{ gsuap }}</p>
+		<hr>
+		<div class="row">
+			<div class="col-xs-12">
+				<form enctype="multipart/form-data" role="form" action="{% url 'sua:index' %}" method="GET">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="id_{{ suaForm.prefix }}-{{ suaForm.title.name }}">
+                  {{ serializer.data }}
+                  {% url 'student-detail' serializer.data.id %}
+                  活动名称*
+								</label>
+								<p id="" class="form-control-static">{{ sa.sua.title }}</p>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="id_{{ suaForm.prefix }}-{{ suaForm.date.name }}">
+									活动日期*
+								</label>
+								<p id="" class="form-control-static">{{ sa.sua.date|date }}</p>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="id_{{ suaForm.prefix }}-{{ suaForm.group.name }}">
+									活动组织方*
+								</label>
+								<p id="" class="form-control-static">{{ sa.sua.group.name }}</p>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="id_{{ sua_ApplicationForm.prefix }}-{{ sua_ApplicationForm.contact.name }}">
+									负责人手机/电话*
+								</label>
+								<p id="" class="form-control-static">{{ sa.contact }}</p>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="id_{{ suaForm.prefix }}-{{ suaForm.team.name }}">
+									活动详情
+								</label>
+								<p id="" class="form-control-static">{{ sa.sua.team }}</p>
+							</div>
+						</div>
 
-</html>
+					</div>
+			</div>
+
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
+						公益时证明
+					</label>
+					{% if sa.proof.is_offline %}
+					<p id="" class="form-control-static">线下证明</p>
+					{% else %}
+					<p id="" class="form-control-static">
+						<a href="{{ MEDIA_URL }}{{sa.proof.proof_file}}">线上证明</a>
+					</p>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-lg-6">
+
+			</div>
+
+			<hr>
+
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
+						审核结果
+					</label>
+					{% if sa.is_checked %} {% if sa.sua.is_valid %}
+					<p id="" class="form-control-static">审核通过</p>
+					{% else %}
+					<textarea name="sua_ApplicationForm-detail" placeholder="{{ sa.feedback }}" maxlength="400" rows="10" id="" cols="20" class="form-control"
+					  readonly></textarea>
+					{% endif %} {% else %}
+					<p id="" class="form-control-static">待审核</p>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-lg-6">
+
+			</div>
+
+			<hr>
+			<div class="row">
+				<div class="col-lg-12">
+					<a class="btn btn-block btn-danger" href={% url 'sua:gsua-delete' object.gsua.pk %}>删除</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<a class="btn btn-block btn-default" href='/'>返回</a>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<hr>
+	</div>
+</div>
+
+{% endblock %}
