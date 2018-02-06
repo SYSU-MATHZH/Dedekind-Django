@@ -6,6 +6,7 @@ from django.shortcuts import render, get_object_or_404
 
 from project.sua.forms import LoginForm
 from project.sua.serializers import StudentSerializer, UserSerializer, PublicitySerializer, SuaSerializer, ApplicationSerializer
+from project.sua.serializers import ApplicationSerializer, AppealSerializer
 from project.sua.models import Publicity, Sua, Application
 
 
@@ -31,14 +32,18 @@ def index(request):
     suaSerializer = SuaSerializer(student.suas, many=True, context={'request': request})
 
     # load applications
+    applicationSerializer = ApplicationSerializer(user.applications, many=True, context={'request': request})
+
+    # load appeals
+    appealSerializer = AppealSerializer(student.appeals, many=True, context={'request': request})
 
 
     return render(request, 'sua/index.html', {
         'user': userSerializer.data,
         'student': studentSerializer.data,
         'suas': suaSerializer.data,
-        'applications': userSerializer.data['applications'],
-        'appeals': studentSerializer.data['appeals'],
+        'applications': applicationSerializer.data,
+        'appeals': appealSerializer.data,
         'publicities': publicitySerializer.data,
     })
 

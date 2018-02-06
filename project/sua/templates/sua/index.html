@@ -53,26 +53,25 @@
 													<th>姓名</th>
 												</tr>
 											</thead>
-											{% if gsapc.1 %}
+											{% if publicity.activity.suas %}
 											<tbody>
-												{% for team,hours in gsapc.1.items %} {% for hour,names in hours.items %}
+												{% for sua in publicity.activity.suas %}
 												<tr>
-													<td>{{ team }}</td>
-													<td>{{ hour }}</td>
-													<td>{% for name in names %} {{ name }}{% if not forloop.last %},{% endif %} {% endfor %}
-													</td>
+													<td>{{ sua.team }}</td>
+													<td>{{ sua.suahours }}</td>
+													<td>{{ sua.student.name }}</td>
 												</tr>
-												{% endfor %} {% endfor %}
+												{% endfor %}
 											</tbody>
 											{% endif %}
 										</table>
 										<div class="container-fluid">
 											<div class="row">
 												<div class="col-xs-9">
-													<p>公告截止日期:{{gsapc.0.published_end_date}}</p>
+													<p>公告截止日期:{{ publicity.end }}</p>
 												</div>
 												<div class="col-xs-3">
-													<a href="{% url 'sua:appeal_for' %}?gsuap_id={{ gsapc.0.pk }}" class="btn btn-default btn-sm active" role="button">提出申诉</a>
+													<a href="" class="btn btn-default btn-sm active" role="button">提出申诉</a>
 												</div>
 											</div>
 										</div>
@@ -124,19 +123,19 @@
 								<th>是否通过</th>
 							</tr>
 						</thead>
-						{% if sa_list %}
+						{% if applications %}
 						<tbody>
-							{% for sa in sa_list %}
+							{% for application in applications %}
 							<tr>
-								<td>{{ sa.0 }}</td>
-								<td>{{ sa.1.date }}</td>
+								<td>{{ forloop.counter }}</td>
+								<td>{{ application.created }}</td>
 								<td>
-									<a href="{% url 'sua:application-detail' sa.1.id %}">{{ sa.1.sua.title }}</a>
+									<a href="">{{ application.sua.activity.title }}</a>
 								</td>
-								<td>{{ sa.1.sua.group }}</td>
-								<td>{{ sa.1.sua.suahours }}</td>
+								<td>{{ application.sua.activity.group }}</td>
+								<td>{{ application.sua.suahours }}</td>
 								<td>
-									{% if sa.1.is_checked %} {% if sa.1.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
+									{% if application.is_checked %} {% if application.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
 								</td>
 							</tr>
 							{% endfor %}
@@ -156,15 +155,15 @@
 								<th>审批状态</th>
 							</tr>
 						</thead>
-						{% if ap_list %}
+						{% if appeals %}
 						<tbody>
-							{% for ap in ap_list %}
+							{% for appeal in appeals %}
 							<tr>
-								<td>{{ ap.0 }}</td>
-								<td>{{ ap.1.date }}</td>
-								<td>“{{ ap.1.gsua.title }}”的申诉</td>
+								<td>{{ forloop.counter }}</td>
+								<td>{{ appeal.created }}</td>
+								<td>“{{ appeal.publicity.title }}”的申诉</td>
 								<td>
-									{% if ap.1.is_checked %} {{ ap.1.feedback }} {% else %} 待处理 {% endif %}
+									{% if appeal.is_checked %} {{ appeal.feedback }} {% else %} 待处理 {% endif %}
 								</td>
 							</tr>
 							{% endfor %}
