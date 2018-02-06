@@ -21,12 +21,14 @@ class BaseView(APIView):
         return Response(context)
 
     def post(self, request, *args, **kwargs):
-        self.do_deserializations(self, request, *args, **kwargs)
-        url = self.get_redirect_url(*args, **kwargs)
-        if url:
-            return HttpResponseRedirect(url)
+        if self.do_deserializations(request, *args, **kwargs):
+            url = self.get_redirect_url(*args, **kwargs)
+            if url:
+                return HttpResponseRedirect(url)
+            else:
+                return HttpResponseGone()
         else:
-            return HttpResponseGone()
+            self.get(request, *args, **kwargs)
 
     def get_components(self):
         return self.components
@@ -41,7 +43,7 @@ class BaseView(APIView):
         return serializeds
 
     def do_deserializations(self, request, *args, **kwargs):  # 反序列化请重写这个方法
-        pass
+        return True
 
     def get_redirect_url(self, *args, **kwargs):
         if self.url:

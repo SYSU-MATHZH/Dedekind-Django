@@ -13,6 +13,8 @@ from project.sua.serializers import AppealSerializer
 from .utils.base import BaseView
 from .utils.mixins import NavMixin
 
+from .forms.serializers import AddStudentSerializer
+
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/index.html'
@@ -68,3 +70,27 @@ class IndexView(BaseView, NavMixin):
             })
 
         return serializeds
+
+
+class TestBaseView(BaseView, NavMixin):  # 例子：这是一个创建学生的View（怕你们踩坑了）
+    template_name = 'sua/tmp/test.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def do_serializations(self, request, *args, **kwargs):
+        serializeds = super(TestBaseView, self).do_serializations(request)
+        serializer = AddStudentSerializer()
+        serializeds.update({
+            'serializer': serializer
+        })
+        return serializeds
+
+    def do_deserializations(self, request, *args, **kwargs):
+        serializer = AddStudentSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            self.url = serializer.data['url']
+            return True
+        else:
+            return False
