@@ -1,21 +1,22 @@
 from django.urls import path, include
 from django.contrib.auth.decorators import login_required
-from . import views
+from project.sua.views import api
+from project.sua.views import views
 
 from rest_framework import routers
 
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
-router.register(r'students', views.StudentViewSet)
-router.register(r'suagroups', views.SuaGroupViewSet)
-router.register(r'suas', views.SuaViewSet)
-router.register(r'activities', views.ActivityViewSet)
-router.register(r'applications', views.ApplicationViewSet)
-router.register(r'publicities', views.PublicityViewSet)
-router.register(r'appeals', views.AppealViewSet)
-router.register(r'proofs', views.ProofViewSet)
+router.register(r'users', api.UserViewSet)
+router.register(r'groups', api.GroupViewSet)
+router.register(r'students', api.StudentViewSet)
+router.register(r'suagroups', api.SuaGroupViewSet)
+router.register(r'suas', api.SuaViewSet)
+router.register(r'activities', api.ActivityViewSet)
+router.register(r'applications', api.ApplicationViewSet)
+router.register(r'publicities', api.PublicityViewSet)
+router.register(r'appeals', api.AppealViewSet)
+router.register(r'proofs', api.ProofViewSet)
 
 #
 #

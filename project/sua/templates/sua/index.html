@@ -36,14 +36,14 @@
 			<div role="tabpanel" class="tab-pane fade in active" id="home1">
 				<div class="row">
 					<div class="col-lg-12">
-						{% for gsapc in gsap_list %}
+						{% for publicity in publicities %}
 						<div class="col-lg-6">
 							<div class="panel panel-primary my-panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">{{ gsapc.0.title }}</h3>
+									<h3 class="panel-title">{{ publicity.title }}</h3>
 								</div>
 								<div class="panel-body">
-									<p id="user_notice_detail">{{gsapc.0.detail}}</p>
+									<p id="user_notice_detail">{{ publicity.content }}</p>
 									<div class="table-responsive">
 										<table class="table  table-hover ">
 											<thead>
@@ -95,14 +95,14 @@
 								<th>公益时</th>
 							</tr>
 						</thead>
-						{% if sua_list %}
+						{% if suas %}
 						<tbody>
-							{% for sua in sua_list %}
+							{% for sua in suas %}
 							<tr>
-								<td>{{ sua.0 }}</td>
-								<td>{{ sua.1.title }}</td>
-								<td>{{ sua.1.group }}</td>
-								<td>{{ sua.1.suahours }} h</td>
+								<td>{{ forloop.counter }}</td>
+								<td>{{ sua.activity.title }}</td>
+								<td>{{ sua.activity.group }}</td>
+								<td>{{ sua.suahours }} h</td>
 							</tr>
 							{% endfor %}
 						</tbody>
