@@ -71,7 +71,7 @@
 													<p>公告截止日期:{{ publicity.end }}</p>
 												</div>
 												<div class="col-xs-3">
-													<a href="" class="btn btn-default btn-sm active" role="button">提出申诉</a>
+													<a href="#" class="btn btn-default btn-sm active" role="button">提出申诉</a>
 												</div>
 											</div>
 										</div>
@@ -161,7 +161,7 @@
 							<tr>
 								<td>{{ forloop.counter }}</td>
 								<td>{{ appeal.created }}</td>
-								<td>“{{ appeal.publicity.title }}”的申诉</td>
+								<td><a href="{{ appeal.url }}">“{{ appeal.publicity.title }}”的申诉</a></td>
 								<td>
 									{% if appeal.is_checked %} {{ appeal.feedback }} {% else %} 待处理 {% endif %}
 								</td>
