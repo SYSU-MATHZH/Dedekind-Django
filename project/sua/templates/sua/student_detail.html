@@ -9,22 +9,20 @@
 {% load rest_framework %}
 
 <div class="container my-space-line">
-  {{ serializer.data }}
-  {{ serializer.data.url }}
         <div class="row">
             <div class="col-xs-3">
-                <p> 姓名：{{ student }}</p>
+                <p> 姓名：{{ serializer.data.name }}</p>
             </div>
         </div>
          <div class="row">
             <div class="col-xs-4">
-        <p>学号：{{student.number}}</p>
+        <p>学号：{{ serializer.data.number }}</p>
             </div>
          </div>
         <div class="row">
             <div class="col-xs-4">
-        <p>公益时总数:{{ student.suahours }}</p><!-- 用户信息(Student) -->
+        <p>公益时总数:{{ serializer.data.suahours }}</p><!-- 用户信息(Student) -->
         </div>
         </div>
     </div>
-	{% endblock %}
+{% endblock %}

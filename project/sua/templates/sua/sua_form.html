@@ -1,21 +1,17 @@
-{% load static %}
+{% extends 'sua/_layout/base.html' %}
+
+{% block title %}申请个人公益时{% endblock %}
+
+{% block content %}
+ {% load static %}
 {% load rest_framework %}
-<!DOCTYPE html>
-<html>
+<!-- 导航栏部分开始 -->
+{% include 'sua/_partial/nav.html' %}
+<!-- 导航栏部分结束 -->
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'sua/css/login.css' %}">
-</head>
-
-<body>
   <form enctype="multipart/form-data" action="" method="POST">
       {% csrf_token %}
       {% render_form serializer %}
       <input type="submit" name="save" value="提交">
   </form>
-</body>
-
-</html>
+ {% endblock %}

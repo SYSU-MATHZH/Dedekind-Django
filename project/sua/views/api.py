@@ -190,7 +190,7 @@ class ApplicationViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     @list_route(
         methods=['get', 'post'],  # HTTP METHODS
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
-        template_name='sua/sua_form.html',  # 模板文件
+        template_name='sua/application_form.html',  # 模板文件
         add_serializer_class=firs.AddApplicationSerializer,  # 序列化器
         add_success_url='/',  # 成功后的跳转url
     )
@@ -228,7 +228,7 @@ class PublicityViewSet(
     @list_route(
         methods=['get', 'post'],  # HTTP METHODS
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
-        template_name='sua/gsua_publicity_form.html',  # 模板文件
+        template_name='sua/publicity_form.html',  # 模板文件
         add_serializer_class=firs.AddPublicitySerializer,  # 序列化器
         add_success_url='/',  # 成功后的跳转url
     )
@@ -245,7 +245,7 @@ class PublicityViewSet(
     @detail_route(
         methods=['get', 'post'],  # HTTP METHODS
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
-        template_name='sua/gsua_publicity_form.html',  # 模板文件
+        template_name='sua/publicity_form.html',  # 模板文件
         change_serializer_class=firs.AddPublicitySerializer,  # 序列化器
         change_success_url='/',  # 成功后的跳转url
         permission_classes = (IsAdminUser, )
@@ -264,7 +264,7 @@ class PublicityViewSet(
         methods=['get'],  # HTTP METHODS
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
         permission_classes = (IsTheStudentOrIsAdminUser,),
-        template_name='sua/gsua_publicity_detail.html',  # 模板文件
+        template_name='sua/publicity_detail.html',  # 模板文件
         detail_serializer_class=firs.AddPublicitySerializer,  # 序列化器
     )
     def detail(self, request, *args, **kwargs):

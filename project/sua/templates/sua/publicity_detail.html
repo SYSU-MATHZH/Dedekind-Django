@@ -1,0 +1,14 @@
+{% extends 'sua/_layout/base.html' %}
+
+{% block title %}创建新的公益时活动{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<!-- 导航栏部分开始 -->
+{% include 'sua/_partial/nav.html' %}
+<!-- 导航栏部分结束 -->
+
+{{ serializer.data }}
+
+{% endblock %}
