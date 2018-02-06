@@ -20,7 +20,7 @@ class IndexView(BaseView, NavMixin):
         'nav': 'nav',
     }
 
-    def do_serializations(self, request):
+    def do_serializations(self, request, *args, **kwargs):
         serializeds = super(IndexView, self).do_serializations(request)
 
         user = request.user
