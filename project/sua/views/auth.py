@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 
-from project.sua.forms.auth import LoginForm
+from .forms.auth import LoginForm
 
 def login_view(request):
     if request.method == 'POST':

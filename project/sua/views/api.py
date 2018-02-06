@@ -6,8 +6,8 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly
 import project.sua.serializers as sirs
-import project.sua.forms.serializers as firs
-import project.sua.forms.mixins as mymixins
+import project.sua.views.forms.serializers as firs
+import project.sua.views.forms.mixins as mymixins
 from project.sua.models import Sua, Proof, Application, Publicity, Activity, Student, Appeal, SuaGroup
 
 from django.contrib.auth.models import User, Group
