@@ -6,20 +6,20 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 
 
-class AddUserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(style={'input_type': 'password'}, default='12345678')
+class AddUserSerializer(serializers.HyperlinkedModelSerializer):
+    password = serializers.CharField(style={'input_type': 'password'}, default='12345678', write_only=True)
 
     class Meta:
         model = User
         fields = ('password', )
 
 
-class AddStudentSerializer(serializers.ModelSerializer):
+class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
     user = AddUserSerializer()
 
     class Meta:
         model = Student
-        fields = ('id', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user')
+        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user')
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -31,18 +31,18 @@ class AddStudentSerializer(serializers.ModelSerializer):
         return student
 
 
-class AddSuaSerializer(serializers.ModelSerializer):
+class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Sua
-        fields = ('id', 'activity', 'student', 'team', 'suahours')
+        fields = ('url', 'activity', 'student', 'team', 'suahours')
 
 
-class AddActivitySerializer(serializers.ModelSerializer):
+class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
     suas = AddSuaSerializer(many=True)
 
     class Meta:
         model = Activity
-        fields = ('id', 'title', 'detail', 'group', 'date', 'suas')
+        fields = ('url', 'title', 'detail', 'group', 'date', 'suas')
 
     def create(self, validated_data):
         sua_datas = validated_data.pop('suas')
@@ -54,27 +54,27 @@ class AddActivitySerializer(serializers.ModelSerializer):
 
 
 
-class AddAppealSerializer(serializers.ModelSerializer):
+class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Appeal
-        fields = ('id','student', 'publicity', 'content', 'status', 'is_checked', 'feedback')
+        fields = ('url','student', 'publicity', 'content', 'status', 'is_checked', 'feedback')
 
 #    def create(self,validated_data):
 #        appeal = Appeal.objects.create(**validated_data)
 #        return appeal
 
-class AddPublicitySerializer(serializers.ModelSerializer):
+class AddPublicitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Publicity
-        fields = ('id', 'owner', 'activity', 'title', 'content', 'contact', 'is_published', 'begin', 'end')
+        fields = ('url', 'owner', 'activity', 'title', 'content', 'contact', 'is_published', 'begin', 'end')
 
 
-class AddProofSerializer(serializers.ModelSerializer):
+class AddProofSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Proof
-        fields = ('id', 'is_offline', 'proof_file')
+        fields = ('url', 'is_offline', 'proof_file')
 
     def is_valid(self, *args, **kwargs):
         is_valid_super = super(AddProofSerializer, self).is_valid(*args, **kwargs)
@@ -83,12 +83,12 @@ class AddProofSerializer(serializers.ModelSerializer):
         return is_valid_super and (has_upload_file or is_offline)
 
 
-class AddApplicationSerializer(serializers.ModelSerializer):
+class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
     sua = AddSuaSerializer()
     proof = AddProofSerializer()
     class Meta:
         model = Application
-        fields = ('id', 'sua', 'created','contact', 'proof')
+        fields = ('url', 'sua', 'created','contact', 'proof')
 
     def create(self, validated_data):
         owner = validated_data['owner']

@@ -3,6 +3,7 @@ from rest_framework.decorators import list_route, detail_route
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.mixins import ListModelMixin
 
 from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly
 import project.sua.serializers as sirs
@@ -33,7 +34,8 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class StudentViewSet(
-        viewsets.ReadOnlyModelViewSet,
+        viewsets.GenericViewSet,
+        ListModelMixin,
         mymixins.AddFormMixin,
         mymixins.ChangeFormMixin,
         mymixins.DetailFormMixin,

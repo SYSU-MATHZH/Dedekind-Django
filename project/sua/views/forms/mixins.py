@@ -18,10 +18,10 @@ class AddFormMixin(object):
 
     def add(self, request):
         if request.method == 'GET':
-            serializer = self.get_add_serializer()
+            serializer = self.get_add_serializer(context={'request': request})
             return Response({'serializer': serializer})
         elif request.method == 'POST':
-            serializer = self.get_add_serializer(data=request.data)
+            serializer = self.get_add_serializer(data=request.data, context={'request': request})
             if not serializer.is_valid():
                 return Response({'serializer': serializer})
             self.perform_add(serializer)
@@ -37,7 +37,7 @@ class AddFormMixin(object):
         serializer.save()
 
     def get_add_response(self, serializer):
-        return HttpResponseRedirect('/?id=%s' % serializer.data['id'])
+        return HttpResponseRedirect(serializer.data['url'])
 
 
 class ChangeFormMixin(object):
@@ -50,12 +50,12 @@ class ChangeFormMixin(object):
     def change(self, request, *args, **kwargs):
         instance = self.get_object()
         if request.method == 'GET':
-            serializer = self.get_change_serializer(instance)
+            serializer = self.get_change_serializer(instance, context={'request': request})
             return Response({'serializer': serializer})
         elif request.method == 'POST':
-            serializer = self.get_change_serializer(instance=instance, data=request.data)
+            serializer = self.get_change_serializer(instance=instance, data=request.data, context={'request': request})
             if not serializer.is_valid():
-                serializer = self.get_change_serializer(instance)
+                serializer = self.get_change_serializer(instance, context={'request': request})
                 return Response({'serializer': serializer})
             self.perform_change(serializer)
             return self.get_change_response(serializer)
@@ -70,7 +70,7 @@ class ChangeFormMixin(object):
         serializer.save()
 
     def get_change_response(self, serializer):
-        return HttpResponseRedirect(self.get_change_success_url() + '?id=%s' % serializer.data['id'])
+        return HttpResponseRedirect(serializer.data['url'])
 
 
 class DetailFormMixin(object):
@@ -81,7 +81,7 @@ class DetailFormMixin(object):
 
     def detail(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_detail_serializer(instance)
+        serializer = self.get_detail_serializer(instance, context={'request': request})
         return self.get_detail_response(serializer)
 
     def get_detail_serializer(self, *args, **kwargs):
