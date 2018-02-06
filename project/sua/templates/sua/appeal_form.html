@@ -1,22 +1,31 @@
+{% extends 'sua/_layout/base.html' %}
+
+{% block title %}申请个人公益时{% endblock %}
+
+{% block content %}
 {% load static %}
 {% load rest_framework %}
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'sua/css/login.css' %}">
-</head>
+<!-- 导航栏部分开始 -->
+{% include 'sua/_partial/nav.html' %}
+<!-- 导航栏部分结束 -->
 
-<body>
+<div class="container my-space-line">
+  	    <div class="row">
+ 		<div class="col-lg-3">
+  		</div>
+  		<div class="col-lg-6">
+  	  	    <h3>发起对“{{ appeal }}”的申诉</h3>
+  	  	    <p class="subtitle-descript">你可以在这里向学院发起申诉。</p>
+  	  	    <hr>
+
   <form action="" method="POST">
       {% csrf_token %}
       {% render_form serializer %}
       <input type="submit" name="save" value="提交">
   </form>
-</body>
+  </div>
+</div>
+</div>
 
-</html>
-
+{% endblock %}

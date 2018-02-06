@@ -1,18 +1,51 @@
+{% extends 'sua/_layout/base.html' %}{% extends 'sua/_layout/base.html' %}
+
+{% block title %}公益时平台{% endblock %}
+
+{% block content %}
+
 {% load static %}
+
 {% load rest_framework %}
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'sua/css/login.css' %}">
-</head>
-
-<body>
-      {{ serializer.data }}
-      {% url 'student-detail' serializer.data.id %}
-</body>
-
-</html>
+<div class="container my-space-line">
+  {{ serializer.data }}
+  {% url 'student-detail' serializer.data.id %}
+        <div class="row">
+            <div class="col-xs-3">
+                <p> 姓名：{{ student }}</p>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-xs-4">
+        <p>学号：{{student.number}}</p>
+            </div>
+         </div>
+        <div class="row">
+            <div class="col-xs-4">
+        <p>公益时总数:{{ student.suahours }}</p><!-- 用户信息(Student) -->
+        </div>
+        </div>
+        <table class="table table table-striped table-brodered">
+            <tr>
+                <td>项目名称</td>
+                <td>举办单位</td>
+                <td>公益时数</td>
+                <td>是否审批</td>
+            </tr>
+            <tr>
+                <td>公益时统计平台的设计</td>
+                <td>公益时小组</td>
+                <td>10</td>
+                <td>是</td>
+            </tr>
+            <tr>
+                <td>公益时统计平台的设计</td>
+                <td>公益时小组</td>
+                <td>10</td>
+                <td>否</td>
+            </tr>
+        </table>
+        <p><a href={% url 'sua:student-sualist-json' student.pk %}>StudentSuaList API</a></p>
+    </div>
+	{% endblock %}
