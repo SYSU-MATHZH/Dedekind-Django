@@ -15,13 +15,13 @@ class BaseView(APIView):
 
     def get(self, request, *args, **kwargs):
         context = {}
-        serializeds = self.do_serializations(request, *args, **kwargs)
+        serialized = self.serialize(request, *args, **kwargs)
         # context = self.get_context_data(**kwargs, **serializeds)
-        context.update(serializeds)
+        context.update(serialized)
         return Response(context)
 
     def post(self, request, *args, **kwargs):
-        if self.do_deserializations(request, *args, **kwargs):
+        if self.deserialize(request, *args, **kwargs):
             url = self.get_redirect_url(*args, **kwargs)
             if url:
                 return HttpResponseRedirect(url)
@@ -33,16 +33,16 @@ class BaseView(APIView):
     def get_components(self):
         return self.components
 
-    def do_serializations(self, request, *args, **kwargs):  # 序列化请重写这个方法
+    def serialize(self, request, *args, **kwargs):  # 序列化及其他业务逻辑请重写这个方法
         components = self.get_components()
-        serializeds = {}
+        serialized = {}
         for component, handler_name in components.items():
             handler = getattr(self, handler_name)
-            assert component not in serializeds.keys()
-            serializeds[component] = handler(request, *args, **kwargs)
-        return serializeds
+            assert component not in serialized.keys()
+            serialized[component] = handler(request, *args, **kwargs)
+        return serialized
 
-    def do_deserializations(self, request, *args, **kwargs):  # 反序列化请重写这个方法
+    def deserialize(self, request, *args, **kwargs):  # 反序列化请重写这个方法
         return True
 
     def get_redirect_url(self, *args, **kwargs):

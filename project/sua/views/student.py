@@ -22,8 +22,8 @@ class IndexView(BaseView, NavMixin):
         'nav': 'nav',
     }
 
-    def do_serializations(self, request, *args, **kwargs):
-        serializeds = super(IndexView, self).do_serializations(request)
+    def serialize(self, request, *args, **kwargs):
+        serialized = super(IndexView, self).serialize(request)
 
         user = request.user
 
@@ -44,7 +44,7 @@ class IndexView(BaseView, NavMixin):
             context={'request': request}
         )
 
-        serializeds.update({
+        serialized.update({
             'publicities': publicity_data.data,
             'applications': application_data.data
         })
@@ -64,12 +64,12 @@ class IndexView(BaseView, NavMixin):
                 context={'request': request}
             )
 
-            serializeds.update({
+            serialized.update({
                 'suas': sua_data.data,
                 'appeals': appeal_data.data
             })
 
-        return serializeds
+        return serialized
 
 
 class TestBaseView(BaseView, NavMixin):  # 例子：这是一个创建学生的View（怕你们踩坑了）
@@ -78,15 +78,15 @@ class TestBaseView(BaseView, NavMixin):  # 例子：这是一个创建学生的V
         'nav': 'nav',
     }
 
-    def do_serializations(self, request, *args, **kwargs):
-        serializeds = super(TestBaseView, self).do_serializations(request)
+    def serialize(self, request, *args, **kwargs):
+        serialized = super(TestBaseView, self).serialize(request)
         serializer = AddStudentSerializer()
-        serializeds.update({
+        serialized.update({
             'serializer': serializer
         })
-        return serializeds
+        return serialized
 
-    def do_deserializations(self, request, *args, **kwargs):
+    def deserialize(self, request, *args, **kwargs):
         serializer = AddStudentSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()

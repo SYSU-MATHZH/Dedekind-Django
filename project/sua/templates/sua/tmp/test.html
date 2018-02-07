@@ -1,17 +1,16 @@
 {% extends 'sua/_layout/base.html' %}
 
-{% block title %}申请个人公益时{% endblock %}
+{% block title %}测试{% endblock %}
 
 {% block content %}
- {% load static %}
+{% load static %}
 {% load rest_framework %}
 <!-- 导航栏部分开始 -->
 {% include 'sua/_partial/nav.html' %}
 <!-- 导航栏部分结束 -->
-
   <form enctype="multipart/form-data" action="" method="POST">
       {% csrf_token %}
       {% render_form serializer %}
       <input type="submit" name="save" value="提交">
   </form>
- {% endblock %}
+{% endblock %}
