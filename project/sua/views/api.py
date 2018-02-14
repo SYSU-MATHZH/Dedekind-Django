@@ -275,7 +275,7 @@ class PublicityViewSet(
         表单字段：表单字段与serializer.data一致
         '''
         return super(PublicityViewSet, self).detail(request, *args, **kwargs)
-
+        
 
     def perform_add(self, serializer):
         serializer.save(owner=self.request.user)

@@ -58,16 +58,16 @@ class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Appeal
-        fields = ('url','student', 'publicity', 'content', 'status', 'is_checked', 'feedback')
+        fields = ('url','owner','student','publicity', 'content', 'status', 'is_checked', 'feedback')
 
-#    def create(self,validated_data):
-#        appeal = Appeal.objects.create(**validated_data)
-#        return appeal
+    def create(self,validated_data):
+        appeal = Appeal.objects.create(**validated_data)
+        return appeal
 
 class AddPublicitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Publicity
-        fields = ('url', 'owner', 'activity', 'title', 'content', 'contact', 'is_published', 'begin', 'end')
+        fields = ('url','owner','activity', 'title', 'content', 'contact', 'is_published', 'begin', 'end')
 
 
 class AddProofSerializer(serializers.HyperlinkedModelSerializer):
