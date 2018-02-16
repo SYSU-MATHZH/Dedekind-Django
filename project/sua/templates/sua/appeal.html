@@ -1,0 +1,17 @@
+{% extends 'sua/_layout/base.html' %}
+
+{% block title %}提出申诉{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load rest_framework %}
+<!-- 导航栏部分开始 -->
+{% include 'sua/_partial/nav.html' %}
+<!-- 导航栏部分结束 -->
+  <form enctype="multipart/form-data" action="" method="POST">
+      <p>对{{ publicity.title }}的申诉</p>
+      {% csrf_token %}
+      {% render_form serializer %}
+      <input type="submit" name="save" value="提交">
+  </form>
+{% endblock %}

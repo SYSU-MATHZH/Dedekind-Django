@@ -195,7 +195,7 @@ class Appeal(models.Model):
         on_delete=models.CASCADE,
     )
     content = models.CharField(max_length=400, blank=True)
-    status = models.IntegerField(default=0)  # 0: 通过; 1: 未通过; 2: 需要线下证明
+    status = models.IntegerField(default=0)  # 0: 通过; 1: 未通过; 2: 需要线下处理
     is_checked = models.BooleanField(default=False)
     feedback = models.CharField(max_length=400, blank=True)
 

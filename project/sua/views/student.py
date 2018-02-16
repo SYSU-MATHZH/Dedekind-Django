@@ -54,7 +54,7 @@ class IndexView(BaseView, NavMixin):
             student = user.student
 
             sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
-                student.suas,
+                student.suas.filter(is_valid=True),
                 many=True,
                 context={'request': request}
             )
@@ -98,7 +98,7 @@ class TestBaseView(BaseView, NavMixin):  # 例子：这是一个创建学生的V
             
             
 class AppealView(BaseView,NavMixin):
-    template_name = 'sua/tmp/appeal.html'
+    template_name = 'sua/appeal.html'
     components = {
         'nav': 'nav',
     }
@@ -131,7 +131,7 @@ class AppealView(BaseView,NavMixin):
             
        
 class SuasExportView(BaseView,NavMixin):
-    template_name = 'sua/tmp/suas_export.html'
+    template_name = 'sua/suas_export.html'
     components = {
         'nav': 'nav',
     }
