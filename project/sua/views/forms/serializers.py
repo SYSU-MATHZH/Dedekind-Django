@@ -83,6 +83,7 @@ class AddProofSerializer(serializers.HyperlinkedModelSerializer):
         return is_valid_super and (has_upload_file or is_offline)
 
 
+
 class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
     sua = AddSuaSerializer()
     proof = AddProofSerializer()

@@ -275,7 +275,7 @@ class PublicityViewSet(
         表单字段：表单字段与serializer.data一致
         '''
         return super(PublicityViewSet, self).detail(request, *args, **kwargs)
-        
+
 
     def perform_add(self, serializer):
         serializer.save(owner=self.request.user)
@@ -353,7 +353,13 @@ class AppealViewSet(
         serializer.save(owner=self.request.user)
 
 
-class ProofViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
+class ProofViewSet(
+    viewsets.ReadOnlyModelViewSet,
+    mymixins.AddFormMixin,
+    mymixins.ChangeFormMixin,
+    mymixins.DetailFormMixin,
+    mymixins.DeleteFormMixin
+    ):
     """
     API endpoint that allows proofs to be viewed or edited.
     """
@@ -381,3 +387,38 @@ class ProofViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
         return super(ProofViewSet, self).add(request)
     def perform_add(self,serializer):
         serializer.save(owner=self.request.user)
+    @detail_route(
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/sua_form.html',  # 模板文件
+        change_serializer_class=firs.AddProofSerializer,  # 序列化器
+        change_success_url='/',  # 成功后的跳转url
+        permission_classes = (IsAdminUser, )
+    )
+    def change(self, request, *args, **kwargs):
+        '''
+        url: api/proofs/<int:pk>/change/
+        template: sua/sua_form.html
+        GET: 向模板代码提供pk对应的Proof的序列化器(serializer)，渲染并返回Proof更新表单
+        POST: 接受Proof更新表单数据，更新Proof实例及对应的User实例，并重定向至Proof实例详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
+        return super(ProofViewSet, self).change(request, *args, **kwargs)
+    def perform_change(self, serializer):
+        serializer.save(proof_file=None)
+
+    @detail_route(
+        methods=['get'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        permission_classes = (IsTheStudentOrIsAdminUser,),
+        template_name='sua/suas_export.html',  # 模板文件
+        detail_serializer_class=firs.AddProofSerializer,  # 序列化器
+    )
+    def detail(self, request, *args, **kwargs):
+        '''
+        url: api/proofs/<int:pk>/detail/
+        template: sua/suas_export.html
+        GET: 向模板代码提供pk对应的proof的序列化器(serializer)，渲染并返回proof详情页面
+        表单字段：表单字段与serializer.data一致
+        '''
+        return super(ProofViewSet, self).detail(request, *args, **kwargs)
