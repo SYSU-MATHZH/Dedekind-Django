@@ -38,7 +38,7 @@ class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
-    suas = AddSuaSerializer(many=True)
+    suas = AddSuaSerializer(many=True, read_only=True)
 
     class Meta:
         model = Activity
@@ -85,8 +85,8 @@ class AddProofSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
-    sua = AddSuaSerializer()
-    proof = AddProofSerializer()
+    sua = AddSuaSerializer(read_only=True)
+    proof = AddProofSerializer(read_only=True)
     class Meta:
         model = Application
         fields = ('url', 'sua', 'created','contact', 'proof')

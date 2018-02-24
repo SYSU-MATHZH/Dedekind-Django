@@ -20,7 +20,7 @@ router.register(r'proofs', api.ProofViewSet)
 
 #
 #
-# app_name = 'sua'
+#app_name = 'sua'
 urlpatterns = [
     path('suas/export/',login_required(student.SuasExportView.as_view())),
     path('', login_required(student.IndexView.as_view()), name='index'),

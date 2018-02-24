@@ -115,7 +115,14 @@ class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (IsAdminUserOrReadOnly,)
 
 
-class SuaViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
+class SuaViewSet(
+    viewsets.GenericViewSet,
+    ListModelMixin,
+    mymixins.AddFormMixin,
+    mymixins.ChangeFormMixin,
+    mymixins.DetailFormMixin,
+    mymixins.DeleteFormMixin
+):
     """
     API endpoint that allows suas to be viewed or edited.
     """
@@ -145,8 +152,50 @@ class SuaViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     def perform_add(self, serializer):
         serializer.save(owner=self.request.user)
 
+    @detail_route(
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/sua_form.html',  # 模板文件
+        change_serializer_class=firs.AddSuaSerializer,  # 序列化器
+        change_success_url='/',  # 成功后的跳转url
+        permission_classes = (IsAdminUser, )
+    )
+    def change(self, request, *args, **kwargs):
+        '''
+        url: api/suas/<int:pk>/change/
+        template: sua/sua_form.html
+        GET: 向模板代码提供pk对应的sua的序列化器(serializer)，渲染并返回Sua更新表单
+        POST: 接受Sua更新表单数据，更新Sua实例及对应的User实例，并重定向至Sua实例详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
+        return super(SuaViewSet, self).change(request, *args, **kwargs)
 
-class ActivityViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
+    @detail_route(
+        methods=['get'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        permission_classes = (IsTheStudentOrIsAdminUser,),
+        template_name='sua/sua_detail.html',  # 模板文件
+        detail_serializer_class=firs.AddSuaSerializer,  # 序列化器
+    )
+    def detail(self, request, *args, **kwargs):
+        '''
+        url: api/suas/<int:pk>/detail/
+        template: sua/sua_detail.html
+        GET: 向模板代码提供pk对应的sua的序列化器(serializer)，渲染并返回Sua详情页面
+        表单字段：表单字段与serializer.data一致
+        '''
+        return super(SuaViewSet, self).detail(request, *args, **kwargs)
+
+
+
+class ActivityViewSet(
+    viewsets.GenericViewSet,
+    ListModelMixin,
+    mymixins.AddFormMixin,
+    mymixins.ChangeFormMixin,
+    mymixins.DetailFormMixin,
+    mymixins.DeleteFormMixin
+):
     """
     API endpoint that allows activities to be viewed or edited.
     """
@@ -176,8 +225,49 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     def perform_add(self, serializer):
         serializer.save(owner=self.request.user)
 
+    @detail_route(
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/activity_form.html',  # 模板文件
+        change_serializer_class=firs.AddActivitySerializer,  # 序列化器
+        change_success_url='/',  # 成功后的跳转url
+        permission_classes = (IsAdminUser, )
+    )
+    def change(self, request, *args, **kwargs):
+        '''
+        url: api/activities/<int:pk>/change/
+        template: sua/activity_form.html
+        GET: 向模板代码提供pk对应的Activity的序列化器(serializer)，渲染并返回Activity更新表单
+        POST: 接受Activity更新表单数据，更新Activity实例及对应的User实例，并重定向至Activity实例详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
+        return super(ActivityViewSet, self).change(request, *args, **kwargs)
 
-class ApplicationViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
+    @detail_route(
+        methods=['get'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        permission_classes = (IsTheStudentOrIsAdminUser,),
+        template_name='sua/activity_detail.html',  # 模板文件
+        detail_serializer_class=firs.AddActivitySerializer,  # 序列化器
+    )
+    def detail(self, request, *args, **kwargs):
+        '''
+        url: api/activities/<int:pk>/detail/
+        template: sua/activity_detail.html
+        GET: 向模板代码提供pk对应的Activity的序列化器(serializer)，渲染并返回Activity详情页面
+        表单字段：表单字段与serializer.data一致
+        '''
+        return super(ActivityViewSet, self).detail(request, *args, **kwargs)
+
+
+class ApplicationViewSet(
+    viewsets.GenericViewSet,
+    ListModelMixin,
+    mymixins.AddFormMixin,
+    mymixins.ChangeFormMixin,
+    mymixins.DetailFormMixin,
+    mymixins.DeleteFormMixin
+):
     """
     API endpoint that allows applications to be viewed or edited.
     """
@@ -197,7 +287,7 @@ class ApplicationViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
     def add(self, request):
         '''
         url: api/applications/add/
-        template: sua/sua_form.html
+        template: sua/application_form.html
         GET: 返回空Application序列化器，渲染Application创建表单
         POST: 接受Application创建表单数据，创建Application实例，并重定向至对应的Application详情页面
         表单字段：表单字段请参考REST framework自动生成的表单
@@ -206,6 +296,40 @@ class ApplicationViewSet(viewsets.ReadOnlyModelViewSet, mymixins.AddFormMixin):
 
     def perform_add(self, serializer):
         serializer.save(owner=self.request.user)
+
+    @detail_route(
+        methods=['get', 'post'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        template_name='sua/application_form.html',  # 模板文件
+        change_serializer_class=firs.AddApplicationSerializer,  # 序列化器
+        change_success_url='/',  # 成功后的跳转url
+        permission_classes = (IsAdminUser, )
+    )
+    def change(self, request, *args, **kwargs):
+        '''
+        url: api/applications/<int:pk>/change/
+        template: sua/application_form.html
+        GET: 向模板代码提供pk对应的Application的序列化器(serializer)，渲染并返回Application更新表单
+        POST: 接受Student更新表单数据，更新Application实例及对应的User实例，并重定向至Application实例详情页面
+        表单字段：表单字段请参考REST framework自动生成的表单
+        '''
+        return super(ApplicationViewSet, self).change(request, *args, **kwargs)
+
+    @detail_route(
+        methods=['get'],  # HTTP METHODS
+        renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
+        permission_classes = (IsTheStudentOrIsAdminUser,),
+        template_name='sua/application_detail.html',  # 模板文件
+        detail_serializer_class=firs.AddApplicationSerializer,  # 序列化器
+    )
+    def detail(self, request, *args, **kwargs):
+        '''
+        url: api/applications/<int:pk>/detail/
+        template: sua/application_detail.html
+        GET: 向模板代码提供pk对应的Application的序列化器(serializer)，渲染并返回Application详情页面
+        表单字段：表单字段与serializer.data一致
+        '''
+        return super(ApplicationViewSet, self).detail(request, *args, **kwargs)
 
 
 class PublicityViewSet(
@@ -411,13 +535,13 @@ class ProofViewSet(
         methods=['get'],  # HTTP METHODS
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
         permission_classes = (IsTheStudentOrIsAdminUser,),
-        template_name='sua/suas_export.html',  # 模板文件
+        template_name='sua/proof_detail.html',  # 模板文件
         detail_serializer_class=firs.AddProofSerializer,  # 序列化器
     )
     def detail(self, request, *args, **kwargs):
         '''
         url: api/proofs/<int:pk>/detail/
-        template: sua/suas_export.html
+        template: sua/proof_detail.html
         GET: 向模板代码提供pk对应的proof的序列化器(serializer)，渲染并返回proof详情页面
         表单字段：表单字段与serializer.data一致
         '''
