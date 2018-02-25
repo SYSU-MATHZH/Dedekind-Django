@@ -129,7 +129,8 @@ class SuaViewSet(
     queryset = Sua.objects.all()
     serializer_class = sirs.SuaSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
-
+    delete_success_url='/'
+    
     template_name = None  # 请务必要添加这一行，否则会报错
 
     @list_route(
@@ -202,6 +203,7 @@ class ActivityViewSet(
     queryset = Activity.objects.all()
     serializer_class = sirs.ActivitySerializer
     permission_classes = (IsAdminUserOrReadOnly,)
+    delete_success_url='/'
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
@@ -274,6 +276,7 @@ class ApplicationViewSet(
     queryset = Application.objects.all()
     serializer_class = sirs.ApplicationSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
+    delete_success_url='/'
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
@@ -490,6 +493,7 @@ class ProofViewSet(
     queryset = Proof.objects.all()
     serializer_class = sirs.ProofSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
+    delete_success_url='/'
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
