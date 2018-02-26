@@ -1,4 +1,7 @@
 from django.utils import timezone
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+from io import BytesIO
 
 from project.sua.models import Publicity
 from project.sua.models import Sua
@@ -135,7 +138,8 @@ class SuasExportView(BaseView,NavMixin):
     components = {
         'nav': 'nav',
     }
-    
+        
+        
     def serialize(self, request, *args, **kwargs):
         serialized = super(SuasExportView, self).serialize(request)
 
@@ -145,17 +149,77 @@ class SuasExportView(BaseView,NavMixin):
             student = user.student
             
             sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
-                student.suas,
+                student.suas.filter(is_valid=True),
                 many=True,
                 context={'request': request}
             )
+        
+        serialized.update({
+            'suas': sua_data.data,
+            'name':student.name,
+            'number':student.number,
+            'hour':student.suahours,
+            })
+            
 
-            serialized.update({
-                'suas': sua_data.data,
-                'name':student.name,
-                'number':student.number,
-                'hour':student.suahours,
-                })
-                
         return serialized
+#        filename = 'project/media/suasexport/file.pdf'
+
+
+def Download(request):
+    
+    user = request.user
+    
+    student = user.student
+    Filename = str(student.name)
+   
+    sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
+        student.suas.filter(is_valid=True),
+        many=True,
+        context={'request': request}
+    )
+        
+        
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="公益时记录"'
+
+    buffer = BytesIO()
+    bianju = 40
+    p = canvas.Canvas(buffer)
+    p.setFont("Helvetica", 22) 
+    p.drawString(bianju,780,"The suas'record",)
+    p.drawImage('project/sua/static/sua/images/logo-icon.png',460,705,width=90,height=90)
+    p.setFont("Helvetica", 15) 
+    p.drawString(bianju,750,'Number:'+str(user))
+    p.drawString(bianju,720,'Total suahours:'+str(student.suahours)+'h')
+    
+    location = 650
+    p.drawString(bianju,670,"Title")
+    for sua in sua_data.data:
+        p.drawString(bianju,location,str(sua['activity']['title']))
+        location -= 50
+    
+    location = 650
+    p.drawString(bianju+200,670,"Group")
+    for sua in sua_data.data:
+        p.drawString(bianju+200,location,str(sua['activity']['group']))
+        location -= 50
+    
+    location = 650
+    p.drawString(bianju+400,670,"Suahours")
+    for sua in sua_data.data:
+        p.drawString(bianju+400,location,str(sua['suahours'])+'h')
+        location -= 50
+
+    p.showPage()
+    p.save()
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response
+        
+
+        
+
         
