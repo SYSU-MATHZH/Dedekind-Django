@@ -1,0 +1,43 @@
+{% extends 'sua/_layout/base.html' %}
+
+{% block title %}公益时平台{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+{% load rest_framework %}
+
+<div class="container my-space-line">
+        <div class="row">
+            <div class="col-xs-3">
+                <p> 活动名称：{{ serializer.data.title }}</p>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-xs-4">
+        <p>活动详情：{{ serializer.data.detail }}</p>
+            </div>
+         </div>
+        <div class="row">
+            <div class="col-xs-4">
+        <p>活动团队:{{ serializer.data.group }}</p>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+        <p>活动日期:{{ serializer.data.date }}</p>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+        <p>公益时长:{{ serializer.data.suas }}</p>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+        <p>公示:{{ serializer.data.publicities }}</p>
+        </div>
+        </div>
+    </div>
+{% endblock %}
