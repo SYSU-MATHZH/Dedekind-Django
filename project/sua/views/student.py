@@ -184,32 +184,38 @@ def Download(request):
     response['Content-Disposition'] = 'attachment; filename="公益时记录"'
 
     buffer = BytesIO()
-    bianju = 40
+    zuo = 50
+    kuan = 210
+    you = 545
     p = canvas.Canvas(buffer)
-    p.setFont("Helvetica", 22) 
-    p.drawString(bianju,780,"The suas'record",)
-    p.drawImage('project/sua/static/sua/images/logo-icon.png',460,705,width=90,height=90)
-    p.setFont("Helvetica", 15) 
-    p.drawString(bianju,750,'Number:'+str(user))
-    p.drawString(bianju,720,'Total suahours:'+str(student.suahours)+'h')
     
-    location = 650
-    p.drawString(bianju,670,"Title")
-    for sua in sua_data.data:
-        p.drawString(bianju,location,str(sua['activity']['title']))
-        location -= 50
+    p.setFont("Helvetica", 22)#字号
+    p.drawString(zuo-5,780,"The suas'record",)#标题
+    p.drawImage('project/sua/static/sua/images/logo-icon.png',460,705,width=90,height=90)#学院标志
+    p.setFont("Helvetica", 15) #字号
+    p.drawString(zuo-5,750,'Number:'+str(user))#学号
+    p.drawString(zuo+150,750,'Name:'+str(student.name))#名字
+    p.drawString(zuo-5,720,'Total suahours:'+str(student.suahours)+'h')#总公益时
     
-    location = 650
-    p.drawString(bianju+200,670,"Group")
+    location = 640
+    p.drawString(zuo,680,"Title")
+    p.drawString(zuo+kuan,680,"Group")
+    p.drawString(zuo+kuan*2,680,"Suahours")
     for sua in sua_data.data:
-        p.drawString(bianju+200,location,str(sua['activity']['group']))
+        p.drawString(zuo,location,str(sua['activity']['title']))#活动主题
+        p.drawString(zuo+kuan,location,str(sua['activity']['group']))#活动团体
+        p.drawString(zuo+kuan*2,location,str(sua['suahours'])+'h')#公益时数
         location -= 50
-    
-    location = 650
-    p.drawString(bianju+400,670,"Suahours")
-    for sua in sua_data.data:
-        p.drawString(bianju+400,location,str(sua['suahours'])+'h')
-        location -= 50
+        p.line(zuo-5,location+15,you,location+15)#第N横
+
+        
+    p.line(zuo-5,700,you,700)#第一横
+    p.line(zuo-5,655,you,655)#第二横
+    p.line(zuo-5,700,zuo-5,location+15)#第一丨
+    p.line(you,700,you,location+15)#第四丨
+    p.line(zuo+kuan-5,700,zuo+kuan-5,location+15)#第二丨
+    p.line(zuo+2*kuan-5,700,zuo+2*kuan-5,location+15)#第三丨
+
 
     p.showPage()
     p.save()
