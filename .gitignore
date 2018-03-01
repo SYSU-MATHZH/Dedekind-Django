@@ -125,3 +125,7 @@ project/media/proofs/
 
 # local_settings
 project/migrations
+
+# local
+*~
+.DS_Store

@@ -1,4 +1,6 @@
-﻿from django.utils import timezone
+import os
+
+from django.utils import timezone
 from django.http import HttpResponse
 
 
@@ -171,8 +173,8 @@ class SuasExportView(BaseView,NavMixin):
 
 
 def Download(request):
-
-    pdfmetrics.registerFont(TTFont('song', 'STSONG.ttf'))
+	
+    pdfmetrics.registerFont(TTFont('song', os.getcwd() + '/project/sua/views/STSONG.ttf'))
     user = request.user
     
     student = user.student
