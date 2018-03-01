@@ -1,7 +1,6 @@
-from django.utils import timezone
-from reportlab.pdfgen import canvas
+﻿from django.utils import timezone
 from django.http import HttpResponse
-from io import BytesIO
+
 
 from project.sua.models import Publicity
 from project.sua.models import Sua
@@ -19,6 +18,11 @@ from .utils.mixins import NavMixin
 
 from .forms.serializers import AddStudentSerializer,AddPublicitySerializer
 
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+
+from reportlab.pdfbase.ttfonts import TTFont
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/index.html'
@@ -167,11 +171,12 @@ class SuasExportView(BaseView,NavMixin):
 
 
 def Download(request):
-    
+
+    pdfmetrics.registerFont(TTFont('song', 'STSONG.ttf'))
     user = request.user
     
     student = user.student
-    Filename = str(student.name)
+    Filename = 'str(student.name)'
    
     sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
         student.suas.filter(is_valid=True),
@@ -181,26 +186,28 @@ def Download(request):
         
         
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="公益时记录"'
-
+    response['Content-Disposition'] = 'attachment; filename=公益时'
+    
     buffer = BytesIO()
     zuo = 50
     kuan = 210
     you = 545
     p = canvas.Canvas(buffer)
     
-    p.setFont("Helvetica", 22)#字号
-    p.drawString(zuo-5,780,"The suas'record",)#标题
+    p.filename = student.name
+    
+    p.setFont("song", 22)#字号
+    p.drawString(zuo-5,780,"公益时记录",)#标题
     p.drawImage('project/sua/static/sua/images/logo-icon.png',460,705,width=90,height=90)#学院标志
-    p.setFont("Helvetica", 15) #字号
-    p.drawString(zuo-5,750,'Number:'+str(user))#学号
-    p.drawString(zuo+150,750,'Name:'+str(student.name))#名字
-    p.drawString(zuo-5,720,'Total suahours:'+str(student.suahours)+'h')#总公益时
+    p.setFont("song", 15) #字号
+    p.drawString(zuo-5,750,'学号:'+str(user))#学号
+    p.drawString(zuo+150,750,'名字:'+str(student.name))#名字
+    p.drawString(zuo-5,720,'总公益时数:'+str(student.suahours)+'h')#总公益时
     
     location = 640
-    p.drawString(zuo,680,"Title")
-    p.drawString(zuo+kuan,680,"Group")
-    p.drawString(zuo+kuan*2,680,"Suahours")
+    p.drawString(zuo,680,"活动名称")
+    p.drawString(zuo+kuan,680,"活动团体")
+    p.drawString(zuo+kuan*2,680,"公益时数")
     for sua in sua_data.data:
         p.drawString(zuo,location,str(sua['activity']['title']))#活动主题
         p.drawString(zuo+kuan,location,str(sua['activity']['group']))#活动团体
