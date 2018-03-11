@@ -169,7 +169,6 @@ class SuasExportView(BaseView,NavMixin):
             
 
         return serialized
-#        filename = 'project/media/suasexport/file.pdf'
 
 
 def Download(request):

@@ -42,7 +42,7 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'detail', 'group', 'date', 'suas')
+        fields = ('url', 'title', 'detail', 'group', 'date','suas')
 
     def create(self, validated_data):
         sua_datas = validated_data.pop('suas')
@@ -60,9 +60,6 @@ class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
         model = Appeal
         fields = ('url','owner','student','publicity', 'content', 'status', 'is_checked', 'feedback')
 
-    def create(self,validated_data):
-        appeal = Appeal.objects.create(**validated_data)
-        return appeal
 
 class AddPublicitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

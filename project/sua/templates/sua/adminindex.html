@@ -1,0 +1,28 @@
+{% extends 'sua/_layout/base.html' %}
+
+{% block title %}公益时平台{% endblock %}
+
+{% block content %}
+<!-- 导航栏部分开始 -->
+{% include 'sua/_partial/nav.html' %}
+<!-- 导航栏部分结束 -->
+<div>申诉</div>
+{% for appeal in appeals %}
+    <p>{{ appeal }}</p>
+{% endfor %}
+
+    <div>学生</div>
+{% for student in students %}
+    <p>{{ student.name }}</p>
+{% endfor %}
+
+<div>申请</div>
+{% for application in applications %}
+    <p>{{ application.created }}</p>
+{% endfor %}
+
+<div>活动</div>
+{% for activity in activities %}
+    <p>{{ activity.title }}</p>
+{% endfor %}
+{% endblock %}
