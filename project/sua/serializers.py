@@ -28,7 +28,17 @@ class SuaGroupSerializer(serializers.HyperlinkedModelSerializer):
         model = SuaGroup
         fields = ('url', 'group', 'name', 'is_staff', 'contact', 'rank')
 
+        
+class PublicityWithPublishedSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Publicity
+        fields = ('is_published', 'begin', 'end')
+
+
 class ActivitySerializer(serializers.HyperlinkedModelSerializer):
+    publicities = PublicityWithPublishedSerializer(many=True)
+    
     class Meta:
         model = Activity
         fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities')
@@ -36,6 +46,7 @@ class ActivitySerializer(serializers.HyperlinkedModelSerializer):
 
 class SuaSerializer(serializers.HyperlinkedModelSerializer):
     activity = ActivitySerializer()
+    student = StudentSerializer()
 
     class Meta:
         model = Sua
@@ -81,6 +92,7 @@ class PublicitySerializer(serializers.HyperlinkedModelSerializer):
 
 class AppealSerializer(serializers.HyperlinkedModelSerializer):
     publicity = PublicitySerializer()
+    student = StudentSerializer()
 
     class Meta:
         model = Appeal

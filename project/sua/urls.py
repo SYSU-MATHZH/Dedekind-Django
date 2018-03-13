@@ -30,7 +30,7 @@ urlpatterns = [
     path('test/', login_required(student.TestBaseView.as_view())),
     path('publicities/<int:pk>/appeal/', login_required(student.AppealView.as_view())),
     path('suas/export/download/',login_required(student.Download)),
-    path('adminindex/',login_required(admin.IndexView.as_view())),
+    path('admin/',login_required(admin.IndexView.as_view())),
 #     path('playMFS/', views.playMFS, name='playMFS'),
 #     path('admin/', views.adminIndex, name='admin-index'),
 #     path('apply_sua/', views.apply_sua, name='apply_sua'),
