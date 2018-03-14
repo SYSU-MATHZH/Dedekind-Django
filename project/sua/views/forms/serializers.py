@@ -84,8 +84,8 @@ class AddProofSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
-    sua = AddSuaSerializer(read_only=True)
-    proof = AddProofSerializer(read_only=True)
+    sua = AddSuaSerializer()
+    proof = AddProofSerializer()
     class Meta:
         model = Application
         fields = ('url', 'sua', 'created','contact', 'proof')
