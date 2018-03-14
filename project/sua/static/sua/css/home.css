@@ -13,10 +13,12 @@ header {
     height: 60px;
     background-color: #FFFFFF;
     box-shadow: 0px 1px 5px #888888;
+    padding-bottom: 0;
+    padding-top: 0;
 }
 
 #logo {
-    margin: 15px 0px;
+    margin: 15px 20px;
     padding: 4px 0px 5px 0px;
     text-align: right;
     color: #000000;
@@ -30,10 +32,32 @@ header {
     font-size: 120%;
 }
 /*--- 导航 --*/
-nav {
-    float: right;
-    padding: 15px 0px 0 0;
+#my-status {
+  margin-top:10px;
 }
+.my-tab > li > a {
+  padding-top: 19px;
+  padding-bottom: 17px;
+}
+
+.my-tab > li a:link,
+.my-tab > li a:visited {
+  background-color: #fff;
+  color: #000;
+}
+
+.my-tab > li > a:active,
+.my-tab > li > a:focus,
+.my-tab > li > a:hover,
+.my-tab > li.active > a,
+.my-tab > li.active > a:focus {
+  background-color: #fff;
+  color: #2d8cf0;
+  border-bottom: 5px solid #2d8cf0
+}
+
+
+
 #suahours {
     display: none;
     color: #000000;
@@ -81,4 +105,38 @@ nav {
 	margin-right: 6px;
 	padding-bottom: 0px;
 	margin-top: -5px;
+}
+
+/* 页头 */
+.tab-header {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+  margin-left: 1em;
+  padding-left: 1em;
+  padding-top: 0.5em;
+}
+
+/* 公示列表 */
+.pub-table {
+  font-size: 1.2em;
+  margin-left: 1em;
+}
+
+.pub-table tr {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: .5em;
+}
+
+.pub-table tr:first-of-type {
+  border-top:none;
+}
+
+.pub-table a {
+  color: #000;
+}
+
+.pub-table a:hover {
+  color: #337ab7;
 }
