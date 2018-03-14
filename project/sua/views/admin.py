@@ -57,10 +57,13 @@ class IndexView(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
-        
-        activity_set = Activity.objects.filter()  # 获取所有活动
-        activity_data = ActivitySerializer(  # 序列化所有活动
-            activity_set,
+
+        publicity_set = Publicity.objects.filter(  # 获取在公示期内的所有公示
+            begin__lte=timezone.now(),
+            end__gte=timezone.now()
+        )
+        publicity_data = PublicitySerializer(  # 序列化公示
+            publicity_set,
             many=True,
             context={'request': request}
         )
@@ -69,7 +72,7 @@ class IndexView(BaseView, NavMixin):
             'appeals': appeal_data.data,
             'applications': application_data.data,
             'students':student_data.data,
-            'activities':activity_data.data,
+            'publicities':publicity_data.data,
         })
 
 

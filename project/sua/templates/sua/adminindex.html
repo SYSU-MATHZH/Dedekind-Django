@@ -17,11 +17,13 @@
 {% endfor %}
 
 <div>活动</div>
-{% for activity in activities %}
-    <p>活动日期：{{ activity.date }}</p>
-    <p>活动名称{{ activity.title }}</p>
-    <p>组织方：{{ activity.group }}</p>
-    <p>是否已公示：{{ activity.publicities }}</p>
+{% for publicity in publicities %}
+    <p>活动日期：{{ publicity.activity.date }}</p>
+    <p>活动名称：{{ publicity.activity.title }}</p>
+    <p>组织方：{{ publicity.activity.group }}</p>
+    <p>是否已公示：{{ publicity.is_published }}</p>
+    <p>开始日：{{ publicity.begin }}</p>
+    <p>结束日：{{ publicity.end }}</p>
 {% endfor %}
 
 <div>申请</div>
