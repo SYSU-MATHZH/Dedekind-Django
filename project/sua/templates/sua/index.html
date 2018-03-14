@@ -3,175 +3,203 @@
 {% block title %}公益时平台{% endblock %}
 
 {% block content %}
+
+{% comment %}
 <!-- 导航栏部分开始 -->
 {% include 'sua/_partial/nav.html' %}
 <!-- 导航栏部分结束 -->
 
-<div class="container my-space-line">
-	<div role="tabpanel">
-		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="active">
-				<a href="#home1" data-toggle="tab" role="tab" aria-controls="tab1">公告</a>
-			</li>
-			<li role="presentation">
-				<a href="#paneTwo1" data-toggle="tab" role="tab" aria-controls="tab2">公益时详情</a>
-			</li>
-			<li role="presentation" class="dropdown pull-right">
-				<a href="#" id="tabDropOne1" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-controls="tab3" aria-haspopup="true"
-					aria-expanded="false">更多
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu" aria-labelledby="tabDropOne1">
-					<li>
-						<a href="#tabDropDownOne1" tabindex="-1" data-toggle="tab">申请记录</a>
-					</li>
-					<li>
-						<a href="#tabDropDownTwo1" tabindex="-1" data-toggle="tab">申诉记录</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
-		<div id="tabContent1" class="tab-content my-tab-content">
-			<div role="tabpanel" class="tab-pane fade in active" id="home1">
-				<div class="row">
-					<div class="col-lg-12">
-						{% for publicity in publicities %}
-						<div class="col-lg-6">
-							<div class="panel panel-primary my-panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">{{ publicity.title }}</h3>
-								</div>
-								<div class="panel-body">
-									<p id="user_notice_detail">{{ publicity.content }}</p>
-									<div class="table-responsive">
-										<table class="table  table-hover ">
-											<thead>
-												<tr style=" white-space:nowrap">
-													<th>所属组别</th>
-													<th>公益时</th>
-													<th>姓名</th>
-												</tr>
-											</thead>
-											{% if publicity.activity.suas %}
-											<tbody>
-												{% for sua in publicity.activity.suas %}
-												<tr>
-													<td>{{ sua.team }}</td>
-													<td>{{ sua.suahours }}</td>
-													<td>{{ sua.student.name }}</td>
-												</tr>
-												{% endfor %}
-											</tbody>
-											{% endif %}
-										</table>
-										<div class="container-fluid">
-											<div class="row">
-												<div class="col-xs-9">
-													<p>公告截止日期:{{ publicity.end }}</p>
-												</div>
-												<div class="col-xs-3">
-													<a href="publicities/{{ publicity.id }}/appeal/" class="btn btn-default btn-sm active" role="button">提出申诉</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						{% endfor %}
-					</div>
-				</div>
-			</div>
-			<div role="tabpanel" class="tab-pane fade" id="paneTwo1">
-				<div class="table-responsive">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>序号</th>
-								<th>活动名称</th>
-								<th>举办单位</th>
-								<th>公益时</th>
-							</tr>
-						</thead>
-						{% if suas %}
-						<tbody>
-							{% for sua in suas %}
-							<tr>
-								<td>{{ forloop.counter }}</td>
-								<td>{{ sua.activity.title }}</td>
-								<td>{{ sua.activity.group }}</td>
-								<td>{{ sua.suahours }} h</td>
-							</tr>
-							{% endfor %}
-						</tbody>
-						{% endif %}
-					</table>
-				</div>
+default nav-bar has been replaced by the version below.
+TODO(HareInWeed):nav-bar needs abstracting
+{% endcomment %}
 
-			</div>
-			<div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1">
-				<div class="table-responsive">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>序号</th>
-								<th>申请日期</th>
-								<th>活动名称</th>
-								<th>举办单位</th>
-								<th>公益时</th>
-								<th>是否通过</th>
-							</tr>
-						</thead>
-						{% if applications %}
-						<tbody>
-							{% for application in applications %}
-							<tr>
-								<td>{{ forloop.counter }}</td>
-								<td>{{ application.created }}</td>
-								<td>
-									<a href="{{ application.url }}">{{ application.sua.activity.title }}</a>
-								</td>
-								<td>{{ application.sua.activity.group }}</td>
-								<td>{{ application.sua.suahours }}</td>
-								<td>
-									{% if application.is_checked %} {% if application.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
-								</td>
-							</tr>
-							{% endfor %}
-						</tbody>
-						{% endif %}
-					</table>
-				</div>
-			</div>
-			<div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1">
-				<div class="table-responsive">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>序号</th>
-								<th>申请日期</th>
-								<th>申请项目</th>
-								<th>审批状态</th>
-							</tr>
-						</thead>
-						{% if appeals %}
-						<tbody>
-							{% for appeal in appeals %}
-							<tr>
-								<td>{{ forloop.counter }}</td>
-								<td>{{ appeal.created }}</td>
-								<td><a href="{{ appeal.url }}">“{{ appeal.publicity.title }}”的申诉</a></td>
-								<td>
-									{% if appeal.is_checked %} {{ appeal.feedback }} {% else %} 待处理 {% endif %}
-								</td>
-							</tr>
-							{% endfor %}
-						</tbody>
-						{% endif %}
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+<nav id="nav-bar" class="navbar">
+  <div id="header-inner" class="container">
+    <!-- 兼容移动设备 -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/" id="logo">数院公益时</a>
+    </div>
+    
+    <!-- 导航栏主体 -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav my-tab" role="tablist">
+        <li role="presentation" class="active">
+          <a href="#home1" data-toggle="tab" role="tab" aria-controls="tab1">公告</a>
+        </li>
+        <li role="presentation">
+          <a href="#paneTwo1" data-toggle="tab" role="tab" aria-controls="tab2">公益时详情</a>
+        </li>
+        <li role="presentation" class="dropdown">
+          <a href="#" id="tabDropOne1" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-controls="tab3" aria-haspopup="true" aria-expanded="false">更多
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="tabDropOne1">
+            <li>
+              <a href="#tabDropDownOne1" tabindex="-1" data-toggle="tab">申请记录</a>
+            </li>
+            <li>
+              <a href="#tabDropDownTwo1" tabindex="-1" data-toggle="tab">申诉记录</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ul id="my-status" class="nav navbar-nav navbar-right">
+        <li role="presentation" class="dropdown">
+          <button class="btn btn-default btn-block dropdown-toggle li-info" type="button" id="navdropdownMenu" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            我的公益时: {{ nav.student.suahours }}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="navdropdownMenu">
+            <li>
+              <a href="/applications/add/">申请公益时</a>
+            </li>
+            <li>
+              <a href="#">查看帮助</a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="{{ nav.student.url }}">{{ nav.student.name }}</a>
+            </li>
+            <li>
+              <a href="logout">登出</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container -->
+</nav>
+
+<div class="container my-space-line" role="tabpanel">
+  <div id="tabContent1" class="tab-content my-tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="home1">
+      <div class="tab-header hidden-xs">
+        公告
+      </div>
+      <div class="container row">
+        <div class="col-lg-11">
+          <table class="table pub-table col-lg-12">
+            {% if publicities %}
+              {% for publicity in publicities %}
+                <tr>
+                  <td><a href="#">{{ publicity.title }}</a></td>
+                  <td>公告至 {{ publicity.end }} 截止</td>
+                  <td>{{ publicity.team }}</td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td>暂无公告</td>
+              </tr>
+            {% endif %}
+          </table>
+        </div>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="paneTwo1">
+      <div class="tab-header hidden-xs">
+        公益时详情
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>活动名称</th>
+              <th>举办单位</th>
+              <th>公益时</th>
+            </tr>
+          </thead>
+          {% if suas %}
+            <tbody>
+              {% for sua in suas %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ sua.activity.title }}</td>
+                  <td>{{ sua.activity.group }}</td>
+                  <td>{{ sua.suahours }} h</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          {% endif %}
+        </table>
+      </div>
+
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1">
+      <div class="tab-header hidden-xs">
+        申请记录
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>申请日期</th>
+            <th>活动名称</th>
+            <th>举办单位</th>
+            <th>公益时</th>
+            <th>是否通过</th>
+          </tr>
+        </thead>
+        {% if applications %}
+          <tbody>
+            {% for application in applications %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ application.created }}</td>
+                <td>
+                <a href="{{ application.url }}">{{ application.sua.activity.title }}</a>
+              </td>
+                <td>{{ application.sua.activity.group }}</td>
+                <td>{{ application.sua.suahours }}</td>
+                <td>
+                {% if application.is_checked %} {% if application.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        {% endif %}
+        </table>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1">
+      <div class="tab-header hidden-xs">
+        申诉记录
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>申请日期</th>
+              <th>申请项目</th>
+              <th>审批状态</th>
+            </tr>
+          </thead>
+          {% if appeals %}
+            <tbody>
+            {% for appeal in appeals %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ appeal.created }}</td>
+                <td><a href="{{ appeal.url }}">“{{ appeal.publicity.title }}”的申诉</a></td>
+                <td>
+                {% if appeal.is_checked %} {{ appeal.feedback }} {% else %} 待处理 {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          {% endif %}
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
-{%endblock %}
+{% endblock %}
