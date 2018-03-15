@@ -57,7 +57,9 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id')
 
     def create(self, validated_data):
-        sua_datas = validated_data.pop('suas')
+        sua_datas = []
+        if 'suas' in validated_data:
+            sua_datas = validated_data.pop('suas')
         activity = Activity.objects.create(**validated_data)
         owner = validated_data['owner']
         for sua_data in sua_datas:
