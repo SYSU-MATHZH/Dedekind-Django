@@ -3,10 +3,12 @@
 {% block title %}公益时平台{% endblock %}
 
 {% block content %}
+
 <!-- 导航栏部分开始 -->
 {% include 'sua/_partial/nav.html' %}
 <!-- 导航栏部分结束 -->
 
+<<<<<<< HEAD
 <div class="container my-space-line">
 	<div role="tabpanel">
 		<ul class="nav nav-tabs" role="tablist">
@@ -228,5 +230,185 @@
 			</div>
 		</div>
 	</div>
+=======
+<div class="container" role="tabpanel">
+  <div id="tabContent1" class="tab-content my-tab-content">
+    {% for publicity in publicities %}
+    <div role="tabpanel" class="tab-pane fade" id="publicity{{ publicity.id }}">
+      <div class="container row my-pub-header">
+        <div class="col-lg-11 col-xs-9">
+          <span class="my-pub-title">{{ publicity.title }}</span><a href="publicities/{{ publicity.id }}/appeal/" class="btn btn-default">提出申诉</a>
+        </div>
+        <div class="col-lg-1 col-xs-3">
+          <a href="#home" class="btn btn-default" data-toggle="tab">
+            返回
+          </a>
+        </div>
+      </div>
+      <div class="container row">
+        <div class="col-lg-12">
+          <dl class="my-pub-detail">
+            <dt>公示截止日期：</dt>
+            <dd>{{ publicity.end }}</dd>
+            <dt>参与人组别：</dt>
+            <dd>{{ publicity.team }}</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="container row">
+        <div class="my-pub-content col-lg-12">
+          {{ publicity.content }}
+        </div>
+      </div>
+      <div class="table-responsive my-pub-student">
+        <table class="table">
+          <caption>参与人列表</caption>
+          <thead>
+            <tr>
+              <td>姓名</td>
+              <td>学号</td>
+              <td>公益时数</td>
+            </tr>
+          </thead>
+          {% for sua in publicity.activity.suas %}
+            <tbody>
+              <tr>
+                <td>{{ sua.student.name }}</td>
+                <td>{{ sua.student.number }}</td>
+                <td>{{ sua.suahours }}</td>
+              </tr>
+            </tbody>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+    {% endfor %}
+    <div role="tabpanel" class="tab-pane fade{% if request.path == '/#suahoursdetail' %} in active{% endif %}" id="suahoursdetail">
+      <div class="tab-header">
+        <span class="lg-tab-header hidden-xs">公益时详情</span>
+        <span class="visible-xs-block">公益时详情</span>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>活动名称</th>
+              <th>举办单位</th>
+              <th>公益时</th>
+            </tr>
+          </thead>
+          {% if suas %}
+            <tbody>
+              {% for sua in suas %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ sua.activity.title }}</td>
+                  <td>{{ sua.activity.group }}</td>
+                  <td>{{ sua.suahours }} h</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          {% endif %}
+        </table>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade{% if request.path == '/#applications' %} in active{% endif %}" id="applications">
+      <div class="tab-header">
+        <span class="lg-tab-header hidden-xs">申请记录</span>
+        <span class="visible-xs-block">申请记录</span>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>申请日期</th>
+            <th>活动名称</th>
+            <th>举办单位</th>
+            <th>公益时</th>
+            <th>是否通过</th>
+          </tr>
+        </thead>
+        {% if applications %}
+          <tbody>
+            {% for application in applications %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ application.created }}</td>
+                <td>
+                <a href="{{ application.url }}">{{ application.sua.activity.title }}</a>
+              </td>
+                <td>{{ application.sua.activity.group }}</td>
+                <td>{{ application.sua.suahours }}</td>
+                <td>
+                {% if application.is_checked %} {% if application.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        {% endif %}
+        </table>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade{% if request.path == '/#appeal' %} in active{% endif %}" id="appeal">
+      <div class="tab-header">
+        <span class="lg-tab-header hidden-xs">申诉记录</span>
+        <span class="visible-xs-block">申诉记录</span>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>申请日期</th>
+              <th>申请项目</th>
+              <th>审批状态</th>
+            </tr>
+          </thead>
+          {% if appeals %}
+            <tbody>
+            {% for appeal in appeals %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ appeal.created }}</td>
+                <td><a href="{{ appeal.url }}">“{{ appeal.publicity.title }}”的申诉</a></td>
+                <td>
+                {% if appeal.is_checked %} {{ appeal.feedback }} {% else %} 待处理 {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          {% endif %}
+        </table>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade{% if request.path == '/#home' or request.path == '/' %} in active{% endif %}" id="home">
+      <div class="tab-header">
+        <span class="lg-tab-header hidden-xs">公告</span>
+        <span class="visible-xs-block">公告</span>
+      </div>
+      <div class="container row">
+        <div class="col-lg-11">
+          <table class="table my-pub-table col-lg-12">
+            <tbody>
+              {% for publicity in publicities %}
+                <tr>
+                  <td><a href="#publicity{{ publicity.id }}" data-toggle="tab">{{ publicity.title }}</a></td>
+                  <td>公告至 {{ publicity.end }} 截止</td>
+                  <td>{{ publicity.team }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td>暂无公告</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+>>>>>>> 319e4b88c0cf4370bcdbbc3d52f78f39b433677e
 </div>
-{%endblock %}
+{% endblock %}
