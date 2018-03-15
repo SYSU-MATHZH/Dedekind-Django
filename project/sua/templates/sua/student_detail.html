@@ -1,4 +1,4 @@
-{% extends 'sua/_layout/base.html' %}
+﻿{% extends 'sua/_layout/base.html' %}
 
 {% block title %}公益时平台{% endblock %}
 
@@ -7,6 +7,8 @@
 {% load static %}
 
 {% load rest_framework %}
+
+<h1 style="text-align:center;">个人信息</h1>
 
 <div class="container my-space-line">
         <div class="row">
@@ -24,5 +26,17 @@
         <p>公益时总数:{{ serializer.data.suahours }}</p><!-- 用户信息(Student) -->
         </div>
         </div>
+		<div class="row">
+            <div class="col-xs-4">
+        <p>年级：{{ serializer.data.grade }}</p>
+            </div>
+		<div class="row">
+            <div class="col-xs-4">
+        <p>班别：{{ serializer.data.classtype }}</p>
+            </div>
+		<div class="row">
+            <div class="col-xs-4">
+        <p>手机：{{ serializer.data.phone }}</p>
+            </div>
     </div>
 {% endblock %}
