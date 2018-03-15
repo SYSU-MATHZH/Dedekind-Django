@@ -20,7 +20,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class StudentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Student
-        fields = ('url', 'user', 'name', 'number', 'suahours', 'grade', 'classtype', 'phone', 'suas', 'appeals')
+        fields = ('url', 'user', 'name', 'number', 'suahours', 'grade', 'classtype', 'phone', 'suas', 'appeals', 'id')
 
 
 class SuaGroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -28,7 +28,7 @@ class SuaGroupSerializer(serializers.HyperlinkedModelSerializer):
         model = SuaGroup
         fields = ('url', 'group', 'name', 'is_staff', 'contact', 'rank')
 
-        
+
 class PublicityWithPublishedSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -38,10 +38,10 @@ class PublicityWithPublishedSerializer(serializers.ModelSerializer):
 
 class ActivitySerializer(serializers.HyperlinkedModelSerializer):
     publicities = PublicityWithPublishedSerializer(many=True)
-    
+
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities')
+        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
 
 
 class SuaSerializer(serializers.HyperlinkedModelSerializer):
@@ -71,7 +71,7 @@ class ActivityWithSuaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('title', 'date', 'detail', 'group', 'suas')
+        fields = ('title', 'date', 'detail', 'group', 'suas', 'id')
 
 
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
@@ -79,7 +79,7 @@ class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Application
-        fields = ('url', 'created', 'contact', 'sua', 'proof', 'is_checked', 'status', 'feedback')
+        fields = ('url', 'created', 'contact', 'sua', 'proof', 'is_checked', 'status', 'feedback', 'id')
 
 
 class PublicitySerializer(serializers.HyperlinkedModelSerializer):
@@ -96,14 +96,14 @@ class AppealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Appeal
-        fields = ('url', 'created', 'student', 'publicity', 'content', 'is_checked', 'status', 'feedback')
+        fields = ('url', 'created', 'student', 'publicity', 'content', 'is_checked', 'status', 'feedback', 'id')
 
 
 class ProofSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Proof
         fields = ('url', 'is_offline', 'proof_file', 'applications')
-        
+
 class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:

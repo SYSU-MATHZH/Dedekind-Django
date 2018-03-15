@@ -39,5 +39,9 @@
         <p>公示:{{ serializer.data.publicities }}</p>
         </div>
         </div>
+        <a href="/activities/{{ serializer.data.id }} /delete">删除该活动</a>
+        <a href="/activities/{{ serializer.data.id }}/change">编辑该活动信息</a>
+        <a href="/admin">返回主页</a>
+
     </div>
 {% endblock %}
