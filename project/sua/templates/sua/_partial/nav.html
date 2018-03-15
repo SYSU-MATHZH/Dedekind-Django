@@ -1,31 +1,56 @@
-<div id="nav-bar" class="navbar-fixed-top">
-    <div id="header-inner" class="container">
-        <a href="/" id="logo">数院公益时</a>
-
-        <nav>
-            <div class="dropdown">
-                <button class="btn btn-default btn-block dropdown-toggle li-info" type="button" id="navdropdownMenu" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <span class="caret"></span>
-                    我的公益时: {{ nav.student.suahours }}
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="navdropdownMenu">
-                    <li>
-                        <a href="/applications/add/">申请公益时</a>
-                    </li>
-                    <li>
-                        <a href="#">查看帮助</a>
-                    </li>
-                    <li role="separator" class="divider"></li>
-                    <li>
-                        <a href="{{ nav.student.url }}">{{ nav.student.name }}</a>
-                    </li>
-                    <li>
-                        <a href="logout">登出</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+<nav id="my-navbar" class="navbar">
+  <div id="header-inner" class="container">
+    <!-- 兼容移动设备 -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/" id="logo">数院公益时</a>
     </div>
-</div>
-<div class="container my-space-line"></div>
+    
+    <!-- 导航栏主体 -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav my-tab" role="tablist">
+        <li role="presentation" {% if request.path == '/' %}class="active"{% endif %}>
+          <a href="/#home" class="my-nav-tab" {% if request.path == '/' %}data-toggle="tab" {% endif %}role="tab" aria-controls="tab1">公告</a>
+        </li>
+        <li role="presentation">
+          <a href="/#suahoursdetail" class="my-nav-tab" {% if request.path == '/' %}data-toggle="tab" {% endif %}role="tab" aria-controls="tab2">公益时详情</a>
+        </li>
+        <li role="presentation">
+          <a href="/#applications" class="my-nav-tab" {% if request.path == '/' %}data-toggle="tab" {% endif %}role="tab" aria-controls="tab3">申请记录</a>
+        </li>
+        <li role="presentation">
+          <a href="/#appeal" class="my-nav-tab" {% if request.path == '/' %}data-toggle="tab" {% endif %}role="tab" aria-controls="tab4">申诉记录</a>
+        </li>
+      </ul>
+      <ul id="my-status" class="nav navbar-nav navbar-right">
+        <li role="presentation" class="dropdown">
+          <button class="btn btn-default btn-block dropdown-toggle li-info" type="button" id="navdropdownMenu" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            我的公益时: {{ nav.student.suahours }}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="navdropdownMenu">
+            <li>
+              <a href="/applications/add/">申请公益时</a>
+            </li>
+            <li>
+              <a href="#">查看帮助</a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="{{ nav.student.url }}">{{ nav.student.name }}</a>
+            </li>
+            <li>
+              <a href="logout">登出</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container -->
+</nav>
+<div class="my-space-line"></div>

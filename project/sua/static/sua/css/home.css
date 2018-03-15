@@ -138,7 +138,7 @@ header {
 
 /* 公示 */
 .my-pub-header {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .my-pub-title {
@@ -148,7 +148,6 @@ header {
 }
 .my-pub-content {
   font-size: 1.2em;
-  text-indent: 1em;
   margin-top: 20px;
   margin-bottom: 20px;
   padding-left: 1.2em;
