@@ -13,7 +13,7 @@ default nav-bar has been replaced by the version below.
 TODO(HareInWeed):nav-bar needs abstracting
 {% endcomment %}
 
-<nav id="nav-bar" class="navbar">
+<nav id="my-navbar" class="navbar">
   <div id="header-inner" class="container">
     <!-- 兼容移动设备 -->
     <div class="navbar-header">
@@ -30,13 +30,13 @@ TODO(HareInWeed):nav-bar needs abstracting
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav my-tab" role="tablist">
         <li role="presentation" class="active">
-          <a href="#home1" data-toggle="tab" role="tab" aria-controls="tab1">公告</a>
+          <a href="#home1" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab1">公告</a>
         </li>
         <li role="presentation">
-          <a href="#paneTwo1" data-toggle="tab" role="tab" aria-controls="tab2">公益时详情</a>
+          <a href="#paneTwo1" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab2">公益时详情</a>
         </li>
         <li role="presentation" class="dropdown">
-          <a href="#" id="tabDropOne1" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-controls="tab3" aria-haspopup="true" aria-expanded="false">更多
+          <a href="#" id="tabDropOne1" class="dropdown-toggle my-nav-tab" data-toggle="dropdown" role="tab" aria-controls="tab3" aria-haspopup="true" aria-expanded="false">更多
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" aria-labelledby="tabDropOne1">
@@ -79,32 +79,84 @@ TODO(HareInWeed):nav-bar needs abstracting
 <div class="container my-space-line" role="tabpanel">
   <div id="tabContent1" class="tab-content my-tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="home1">
-      <div class="tab-header hidden-xs">
-        公告
+      <div class="tab-header">
+        <span class="lg-tab-header hidden-xs">公告</span>
+        <span class="visible-xs-block">公告</span>
       </div>
       <div class="container row">
         <div class="col-lg-11">
-          <table class="table pub-table col-lg-12">
-            {% if publicities %}
+          <table class="table my-pub-table col-lg-12">
+            <tbody>
               {% for publicity in publicities %}
                 <tr>
-                  <td><a href="#">{{ publicity.title }}</a></td>
+                  <td><a href="#publicity{{ publicity.id }}" data-toggle="tab">{{ publicity.title }}</a></td>
                   <td>公告至 {{ publicity.end }} 截止</td>
                   <td>{{ publicity.team }}</td>
                 </tr>
+              {% empty %}
+                <tr>
+                  <td>暂无公告</td>
+                </tr>
               {% endfor %}
-            {% else %}
-              <tr>
-                <td>暂无公告</td>
-              </tr>
-            {% endif %}
+            </tbody>
           </table>
         </div>
       </div>
     </div>
+    {% for publicity in publicities %}
+    <div role="tabpanel" class="tab-pane fade" id="publicity{{ publicity.id }}">
+      <div class="container row my-pub-header">
+        <div class="col-lg-11 col-xs-9">
+          <span class="my-pub-title">{{ publicity.title }}</span><a href="publicities/{{ publicity.id }}/appeal/" class="btn btn-default">提出申诉</a>
+        </div>
+        <div class="col-lg-1 col-xs-3">
+          <a href="#home1" class="btn btn-default" data-toggle="tab">
+            返回
+          </a>
+        </div>
+      </div>
+      <div class="container row">
+        <div class="col-lg-12">
+          <dl class="my-pub-detail">
+            <dt>公示截止日期：</dt>
+            <dd>{{ publicity.end }}</dd>
+            <dt>参与人组别：</dt>
+            <dd>{{ publicity.team }}</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="container row">
+        <div class="my-pub-content col-lg-12">
+          {{ publicity.content }}
+        </div>
+      </div>
+      <div class="table-responsive my-pub-student">
+        <table class="table">
+          <caption>参与人列表</caption>
+          <thead>
+            <tr>
+              <td>姓名</td>
+              <td>学号</td>
+              <td>公益时数</td>
+            </tr>
+          </thead>
+          {% for sua in publicity.activity.suas %}
+            <tbody>
+              <tr>
+                <td>{{ sua.student.name }}</td>
+                <td>{{ sua.student.number }}</td>
+                <td>{{ sua.suahours }}</td>
+              </tr>
+            </tbody>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+    {% endfor %}
     <div role="tabpanel" class="tab-pane fade" id="paneTwo1">
-      <div class="tab-header hidden-xs">
-        公益时详情
+      <div class="tab-header">
+        <span class="lg-tab-header hidden-xs">公益时详情</span>
+        <span class="visible-xs-block">公益时详情</span>
       </div>
       <div class="table-responsive">
         <table class="table table-hover">
@@ -130,11 +182,11 @@ TODO(HareInWeed):nav-bar needs abstracting
           {% endif %}
         </table>
       </div>
-
     </div>
     <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1">
-      <div class="tab-header hidden-xs">
-        申请记录
+      <div class="tab-header">
+        <span class="lg-tab-header hidden-xs">申请记录</span>
+        <span class="visible-xs-block">申请记录</span>
       </div>
       <div class="table-responsive">
         <table class="table table-hover">
@@ -170,8 +222,9 @@ TODO(HareInWeed):nav-bar needs abstracting
       </div>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1">
-      <div class="tab-header hidden-xs">
-        申诉记录
+      <div class="tab-header">
+        <span class="lg-tab-header hidden-xs">申诉记录</span>
+        <span class="visible-xs-block">申诉记录</span>
       </div>
       <div class="table-responsive">
         <table class="table table-hover">
