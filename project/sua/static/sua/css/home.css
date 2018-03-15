@@ -8,7 +8,7 @@ header {
     background-color: #FFFFFF;
     box-shadow: 0px 1px 5px #888888;
 }
-#nav-bar {
+#my-navbar {
     width: 100%;
     height: 60px;
     background-color: #FFFFFF;
@@ -35,22 +35,20 @@ header {
 #my-status {
   margin-top:10px;
 }
-.my-tab > li > a {
+#my-status .btn {
+  border: none;
+}
+.my-tab > li  a.my-nav-tab {
   padding-top: 19px;
   padding-bottom: 17px;
-}
-
-.my-tab > li a:link,
-.my-tab > li a:visited {
   background-color: #fff;
   color: #000;
 }
 
-.my-tab > li > a:active,
-.my-tab > li > a:focus,
-.my-tab > li > a:hover,
-.my-tab > li.active > a,
-.my-tab > li.active > a:focus {
+.my-tab > li  a.my-nav-tab:active,
+.my-tab > li  a.my-nav-tab:focus,
+.my-tab > li  a.my-nav-tab:hover,
+.my-tab > li.active  a.my-nav-tab {
   background-color: #fff;
   color: #2d8cf0;
   border-bottom: 5px solid #2d8cf0
@@ -62,9 +60,6 @@ header {
     display: none;
     color: #000000;
 }
-.btn{
-    border: none;
-}
 .li-info {
     font-weight: 700;
 }
@@ -73,11 +68,8 @@ header {
 }
 .my-tab-content{
     background-color: #FFFFFF;
-    border-left: 1px solid #dbdbdb;
-    border-right: 1px solid #dbdbdb;
-    border-bottom: 1px solid #dbdbdb;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
 }
 .my-panel{
     margin: 10px 10px 10px 10px;
@@ -112,31 +104,78 @@ header {
   font-size: 2em;
   margin-bottom: 0.5em;
   margin-left: 1em;
+  margin-top: 0.5em;
+}
+
+.lg-tab-header {
   padding-left: 1em;
-  padding-top: 0.5em;
 }
 
 /* 公示列表 */
-.pub-table {
+.my-pub-table {
   font-size: 1.2em;
   margin-left: 1em;
 }
 
-.pub-table tr {
+.my-pub-table tr {
   border-top: 1px solid #ddd;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: .5em;
 }
 
-.pub-table tr:first-of-type {
+.my-pub-table tr:first-of-type {
   border-top:none;
 }
 
-.pub-table a {
+.my-pub-table a {
   color: #000;
 }
 
-.pub-table a:hover {
+.my-pub-table a:hover {
   color: #337ab7;
+}
+
+/* 公示 */
+.my-pub-header {
+  margin-top: 20px;
+}
+
+.my-pub-title {
+  font-size: 1.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+.my-pub-content {
+  font-size: 1.2em;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 1.2em;
+  padding-right: 1em;
+  line-height: 200%;
+}
+
+.my-pub-detail {
+  color: #999;
+  font-size: 0.9em;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 20px;
+}
+.my-pub-detail dt,
+.my-pub-detail dd {
+  display: inline-block;
+  clear: both;
+}
+.my-pub-detail dt {
+  float: left;
+}
+
+.my-pub-student {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+.my-pub-student caption {
+  padding-bottom: 0;
+  padding-left: 1em;
 }

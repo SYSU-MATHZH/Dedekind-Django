@@ -8,10 +8,12 @@
  <!-- 导航栏部分开始 -->
  {% include 'sua/_partial/nav.html' %}
  <!-- 导航栏部分结束 -->
-
+<div class="container my-space-line">
    <form enctype="multipart/form-data" action="" method="POST">
        {% csrf_token %}
        {% render_form serializer %}
        <input type="submit" name="save" value="提交">
    </form>
-  {% endblock %}
+</div>
+
+{% endblock %}
