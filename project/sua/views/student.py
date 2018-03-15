@@ -10,6 +10,7 @@ from project.sua.serializers import ApplicationSerializer
 from project.sua.serializers import ApplicationSerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import AddAppealSerializer
+from project.sua.serializers import AddApplicationsSerializer, ActivityForAddApplicationsSerializer, SuaForAddApplicationsSerializer, ProofForAddApplicationsSerializer,DEAddApplicationsSerializer, DEActivityForAddApplicationsSerializer, DESuaForAddApplicationsSerializer, DEProofForAddApplicationsSerializer
 
 from .utils.base import BaseView
 from .utils.mixins import NavMixin
@@ -159,3 +160,34 @@ class SuasExportView(BaseView,NavMixin):
                 
         return serialized
         
+
+class ApplyView(BaseView, NavMixin):
+    template_name = 'sua/apply_sua.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        serialized = super(ApplyView, self).serialize(request)
+        serializer = AddApplicationsSerializer()
+        serialized.update({
+            'serializer': serializer,
+        })
+        return serialized
+                
+    def deserialize(self, request, *args, **kwargs): 
+        activityserializer = DEActivityForAddApplicationsSerializer(data=request.data, context={'request': request})
+        suaserializer = DESuaForAddApplicationsSerializer(data=request.data, context={'request': request})
+        proofserializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
+        applicationserializer = DEAddApplicationsSerializer(data=request.data, context={'request': request})
+        if activityserializer.is_valid() and suaserializer.is_valid() and proofserializer.is_valid() and applicationserializer.is_valid():
+            owner = validated_data['owner']
+            activityserializer.save(owner=owner)
+            suaserializer.save(owner=owner, activity=activity)
+            proofserializer.save(owner=owner)
+            applicationserializer.save(owner=owner, sua=sua, proof=proof)
+            self.url = serializer.data['url']
+            return True
+        else:
+            return False
+            
