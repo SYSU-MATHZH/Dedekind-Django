@@ -58,35 +58,26 @@ class IndexView(BaseView, NavMixin):
             context={'request': request}
         )
 
-<<<<<<< HEAD
         activity_set = Activity.objects.filter()  # 获取所有活动
         activity_data = ActivitySerializer(  # 序列化所有活动
             activity_set,
-=======
-        publicity_set = Publicity.objects.filter(  # 获取在公示期内的所有公示
-            begin__lte=timezone.now(),
-            end__gte=timezone.now()
-        )
-        publicity_data = PublicitySerializer(  # 序列化公示
-            publicity_set,
->>>>>>> 78adfdf82fc1103c2d488ac6d96682242bc062d2
             many=True,
             context={'request': request}
         )
-        publicity_set = Publicity.objects.filter().order_by('begin')
+        publicity_set = Publicity.objects.filter(
+            begin__lte=timezone.now(),
+            end__gte=timezone.now()
+        ).order_by('begin')
         publicity_data = PublicitySerializer(
             publicity_set,
             many=True,
-            context={'request':request}
+            context={'request': request}
         )
         serialized.update({
             'appeals': appeal_data.data,
             'applications': application_data.data,
             'students':student_data.data,
-<<<<<<< HEAD
             'activities':activity_data.data,
-=======
->>>>>>> 78adfdf82fc1103c2d488ac6d96682242bc062d2
             'publicities':publicity_data.data,
         })
 
