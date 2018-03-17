@@ -5,12 +5,9 @@ from django.http import HttpResponse
 
 
 from project.sua.models import Publicity
-from project.sua.models import Sua
-from project.sua.models import Application
 
 from project.sua.serializers import PublicitySerializer
-from project.sua.serializers import SuaSerializer,StudentSerializer
-from project.sua.serializers import ApplicationSerializer
+from project.sua.serializers import SuaSerializer
 from project.sua.serializers import ApplicationSerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import AddAppealSerializer
@@ -104,8 +101,8 @@ class TestBaseView(BaseView, NavMixin):  # 例子：这是一个创建学生的V
             return True
         else:
             return False
-            
-            
+
+
 class AppealView(BaseView,NavMixin):
     template_name = 'sua/appeal.html'
     components = {
@@ -127,7 +124,7 @@ class AppealView(BaseView,NavMixin):
         user = request.user
         assert hasattr(user,'student') # 判断当前用户是否为学生
         student = user.student
-        
+
         publicity_id = kwargs['pk']
         serializer = AddAppealSerializer(data=request.data, context={'request': request,})
         if serializer.is_valid():
@@ -136,67 +133,67 @@ class AppealView(BaseView,NavMixin):
             self.url = serializer.data['url']
             return True
         else:
-            return False 
-            
-       
+            return False
+
+
 class SuasExportView(BaseView,NavMixin):
     template_name = 'sua/suas_export.html'
     components = {
         'nav': 'nav',
     }
-        
-        
+
+
     def serialize(self, request, *args, **kwargs):
         serialized = super(SuasExportView, self).serialize(request)
 
         user = request.user
-    
+
         if hasattr(user, 'student'):  # 判断当前用户是否为学生
             student = user.student
-            
+
             sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
                 student.suas.filter(is_valid=True),
                 many=True,
                 context={'request': request}
             )
-        
+
         serialized.update({
             'suas': sua_data.data,
             'name':student.name,
             'number':student.number,
             'hour':student.suahours,
             })
-            
+
 
         return serialized
 
 
 def Download(request):
-	
+
     pdfmetrics.registerFont(TTFont('song', os.getcwd() + '/project/sua/views/STSONG.ttf'))
     user = request.user
-    
+
     student = user.student
     Filename = 'str(student.name)'
-   
+
     sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
         student.suas.filter(is_valid=True),
         many=True,
         context={'request': request}
     )
-        
-        
+
+
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=公益时'
-    
+
     buffer = BytesIO()
     zuo = 50
     kuan = 210
     you = 545
     p = canvas.Canvas(buffer)
-    
+
     p.filename = student.name
-    
+
     p.setFont("song", 22)#字号
     p.drawString(zuo-5,780,"公益时记录",)#标题
     p.drawImage('project/sua/static/sua/images/logo-icon.png',460,705,width=90,height=90)#学院标志
@@ -204,7 +201,7 @@ def Download(request):
     p.drawString(zuo-5,750,'学号:'+str(user))#学号
     p.drawString(zuo+150,750,'名字:'+str(student.name))#名字
     p.drawString(zuo-5,720,'总公益时数:'+str(student.suahours)+'h')#总公益时
-    
+
     location = 640
     p.drawString(zuo,680,"活动名称")
     p.drawString(zuo+kuan,680,"活动团体")
@@ -216,7 +213,7 @@ def Download(request):
         location -= 50
         p.line(zuo-5,location+15,you,location+15)#第N横
 
-        
+
     p.line(zuo-5,700,you,700)#第一横
     p.line(zuo-5,655,you,655)#第二横
     p.line(zuo-5,700,zuo-5,location+15)#第一丨
@@ -232,8 +229,3 @@ def Download(request):
     buffer.close()
     response.write(pdf)
     return response
-        
-
-        
-
-        
