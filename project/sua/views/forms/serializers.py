@@ -42,10 +42,12 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'detail', 'group', 'date', 'suas')
+        fields = ('url', 'title', 'detail', 'group', 'date','suas')
 
     def create(self, validated_data):
-        sua_datas = validated_data.pop('suas')
+        sua_datas = []
+        if 'suas' in validated_data:
+            sua_datas = validated_data.pop('suas')
         activity = Activity.objects.create(**validated_data)
         owner = validated_data['owner']
         for sua_data in sua_datas:
@@ -60,9 +62,6 @@ class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
         model = Appeal
         fields = ('url','owner','student','publicity', 'content', 'status', 'is_checked', 'feedback')
 
-    def create(self,validated_data):
-        appeal = Appeal.objects.create(**validated_data)
-        return appeal
 
 class AddPublicitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -85,8 +84,8 @@ class AddProofSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
-    sua = AddSuaSerializer(read_only=True)
-    proof = AddProofSerializer(read_only=True)
+    sua = AddSuaSerializer()
+    proof = AddProofSerializer()
     class Meta:
         model = Application
         fields = ('url', 'sua', 'created','contact', 'proof')

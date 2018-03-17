@@ -28,7 +28,9 @@ class SuaGroupSerializer(serializers.HyperlinkedModelSerializer):
         model = SuaGroup
         fields = ('url', 'group', 'name', 'is_staff', 'contact', 'rank')
 
+
 class ActivitySerializer(serializers.HyperlinkedModelSerializer):
+    
     class Meta:
         model = Activity
         fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities')
@@ -36,6 +38,7 @@ class ActivitySerializer(serializers.HyperlinkedModelSerializer):
 
 class SuaSerializer(serializers.HyperlinkedModelSerializer):
     activity = ActivitySerializer()
+    student = StudentSerializer()
 
     class Meta:
         model = Sua
@@ -60,7 +63,7 @@ class ActivityWithSuaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('title', 'date', 'detail', 'group', 'suas')
+        fields = ('url','title', 'date', 'detail', 'group', 'suas')
 
 
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
@@ -81,6 +84,7 @@ class PublicitySerializer(serializers.HyperlinkedModelSerializer):
 
 class AppealSerializer(serializers.HyperlinkedModelSerializer):
     publicity = PublicitySerializer()
+    student = StudentSerializer()
 
     class Meta:
         model = Appeal
@@ -110,16 +114,10 @@ class ActivityForAddApplicationsSerializer(serializers.HyperlinkedModelSerialize
 class SuaForAddApplicationsSerializer(serializers.HyperlinkedModelSerializer):
     activity = ActivityForAddApplicationsSerializer()
 
+
     class Meta:
         model = Sua
         fields = ('url', 'activity', 'team', 'suahours')
-
-    def create(self, validated_data):
-        owner = validated_data['owner']
-        activity_data = validated_data.pop('activity')
-        activity = Activity.objects.create(owner=owner, **activity_data)
-        sua = Sua.objects.create(activity=activity, **validated_data)
-        return sua
 
 
 class ProofForAddApplicationsSerializer(serializers.HyperlinkedModelSerializer):
@@ -133,19 +131,21 @@ class AddApplicationsSerializer(serializers.HyperlinkedModelSerializer):
     sua = SuaForAddApplicationsSerializer()
     proof = ProofForAddApplicationsSerializer()
 
+
     class Meta:
         model = Application
         fields = ('url', 'contact', 'sua', 'proof')
 
+
     def create(self, validated_data):
         owner = validated_data['owner']
-        #activity_data = validated_data.pop('activity')
-        #activity = Activity.objects.create(owner=owner, **activity_data)
+
         sua_data = validated_data.pop('sua')
-        sua = Sua.objects.create(owner=owner, **sua_data)
+        activity_data = sua_data.pop('activity')
+        activity = Activity.objects.create(owner=owner, **activity_data)
+        sua = Sua.objects.create(owner=owner, activity=activity, **sua_data)
         proof_data = validated_data.pop('proof')
         proof = Proof.objects.create(owner=owner, **proof_data)
-
         application = Application.objects.create(sua=sua, proof=proof, **validated_data)
         return application
 
@@ -154,29 +154,21 @@ class DEActivityForAddApplicationsSerializer(serializers.HyperlinkedModelSeriali
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'detail', 'group', 'date')
-
+        fields = ('title', 'detail', 'group', 'date')
 
 
 class DESuaForAddApplicationsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Sua
-        fields = ('url', 'team', 'suahours')
-
-    # def create(self, validated_data):
-    #     owner = validated_data['owner']
-    #     activity_data = validated_data.pop('activity')
-    #     activity = Activity.objects.create(owner=owner, **activity_data)
-    #     sua = Sua.objects.create(activity=activity, **validated_data)
-    #     return sua
+        fields = ('team', 'suahours')
 
 
 class DEProofForAddApplicationsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Proof
-        fields = ('url', 'is_offline', 'proof_file')
+        fields = ('is_offline', 'proof_file')
 
 
 class DEAddApplicationsSerializer(serializers.HyperlinkedModelSerializer):

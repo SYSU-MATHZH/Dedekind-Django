@@ -1,4 +1,8 @@
+import os
+
 from django.utils import timezone
+from django.http import HttpResponse
+
 
 from project.sua.models import Publicity
 from project.sua.models import Sua
@@ -17,6 +21,11 @@ from .utils.mixins import NavMixin
 
 from .forms.serializers import AddStudentSerializer,AddPublicitySerializer
 
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+
+from reportlab.pdfbase.ttfonts import TTFont
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/index.html'
@@ -136,7 +145,8 @@ class SuasExportView(BaseView,NavMixin):
     components = {
         'nav': 'nav',
     }
-    
+        
+        
     def serialize(self, request, *args, **kwargs):
         serialized = super(SuasExportView, self).serialize(request)
 
@@ -146,19 +156,83 @@ class SuasExportView(BaseView,NavMixin):
             student = user.student
             
             sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
-                student.suas,
+                student.suas.filter(is_valid=True),
                 many=True,
                 context={'request': request}
             )
+        
+        serialized.update({
+            'suas': sua_data.data,
+            'name':student.name,
+            'number':student.number,
+            'hour':student.suahours,
+            })
+            
 
-            serialized.update({
-                'suas': sua_data.data,
-                'name':student.name,
-                'number':student.number,
-                'hour':student.suahours,
-                })
-                
         return serialized
+
+
+def Download(request):
+	
+    pdfmetrics.registerFont(TTFont('song', os.getcwd() + '/project/sua/views/STSONG.ttf'))
+    user = request.user
+    
+    student = user.student
+    Filename = 'str(student.name)'
+   
+    sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
+        student.suas.filter(is_valid=True),
+        many=True,
+        context={'request': request}
+    )
+        
+        
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=公益时'
+    
+    buffer = BytesIO()
+    zuo = 50
+    kuan = 210
+    you = 545
+    p = canvas.Canvas(buffer)
+    
+    p.filename = student.name
+    
+    p.setFont("song", 22)#字号
+    p.drawString(zuo-5,780,"公益时记录",)#标题
+    p.drawImage('project/sua/static/sua/images/logo-icon.png',460,705,width=90,height=90)#学院标志
+    p.setFont("song", 15) #字号
+    p.drawString(zuo-5,750,'学号:'+str(user))#学号
+    p.drawString(zuo+150,750,'名字:'+str(student.name))#名字
+    p.drawString(zuo-5,720,'总公益时数:'+str(student.suahours)+'h')#总公益时
+    
+    location = 640
+    p.drawString(zuo,680,"活动名称")
+    p.drawString(zuo+kuan,680,"活动团体")
+    p.drawString(zuo+kuan*2,680,"公益时数")
+    for sua in sua_data.data:
+        p.drawString(zuo,location,str(sua['activity']['title']))#活动主题
+        p.drawString(zuo+kuan,location,str(sua['activity']['group']))#活动团体
+        p.drawString(zuo+kuan*2,location,str(sua['suahours'])+'h')#公益时数
+        location -= 50
+        p.line(zuo-5,location+15,you,location+15)#第N横
+
+        
+    p.line(zuo-5,700,you,700)#第一横
+    p.line(zuo-5,655,you,655)#第二横
+    p.line(zuo-5,700,zuo-5,location+15)#第一丨
+    p.line(you,700,you,location+15)#第四丨
+    p.line(zuo+kuan-5,700,zuo+kuan-5,location+15)#第二丨
+    p.line(zuo+2*kuan-5,700,zuo+2*kuan-5,location+15)#第三丨
+
+
+    p.showPage()
+    p.save()
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response
         
 
 class ApplyView(BaseView, NavMixin):
@@ -175,19 +249,52 @@ class ApplyView(BaseView, NavMixin):
         })
         return serialized
                 
-    def deserialize(self, request, *args, **kwargs): 
-        activityserializer = DEActivityForAddApplicationsSerializer(data=request.data, context={'request': request})
-        suaserializer = DESuaForAddApplicationsSerializer(data=request.data, context={'request': request})
-        proofserializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
-        applicationserializer = DEAddApplicationsSerializer(data=request.data, context={'request': request})
-        if activityserializer.is_valid() and suaserializer.is_valid() and proofserializer.is_valid() and applicationserializer.is_valid():
-            owner = validated_data['owner']
-            activityserializer.save(owner=owner)
-            suaserializer.save(owner=owner, activity=activity)
-            proofserializer.save(owner=owner)
-            applicationserializer.save(owner=owner, sua=sua, proof=proof)
-            self.url = serializer.data['url']
+    def deserialize(self, request, *args, **kwargs):
+        user = request.user
+        if hasattr(user, 'student'):  # 判断当前用户是否为学生
+            student = user.student
+        else:
+            return False
+        activity_serializer = DEActivityForAddApplicationsSerializer(data=request.data, context={'request': request})
+        sua_serializer = DESuaForAddApplicationsSerializer(data=request.data, context={'request': request})
+        proof_serializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
+        application_serializer = DEAddApplicationsSerializer(data=request.data, context={'request': request})
+        if activity_serializer.is_valid() and sua_serializer.is_valid() and proof_serializer.is_valid() and application_serializer.is_valid():
+            activity_serializer.save(owner=user)
+            sua_serializer.save(activity=activity, owner=user, student=student)
+            proof_serializer.save(owner=user)
+            application_serializer.save(sua=sua, proof=proof, owner=user)
+            self.url = application_serializer.data['url']
             return True
         else:
             return False
+        # activity_serializer = DEActivityForAddApplicationsSerializer(data=request.data, context={'request': request})
+        # if activity_serializer.is_valid():
+        #     activity_serializer.save(owner=user)
+        #     sua_serializer = DESuaForAddApplicationsSerializer(data=request.data, context={'request': request})
+        # else:
+        #     return False
+        # if sua_serializer.is_valid():
+        #     sua_serializer.save(owner=user, student=student, activity=activityserializer)
+        #     proof_serializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
+        # else:
+        #     return False            
+        # if proof_serializer.is_valid():
+        #     proof_serializer.save(owner=user)
+        #     serializer = DEAddApplicationsSerializer(data=request.data, context={'request': request})
+        # else:
+        #     return False            
+        # if serializer.is_valid():
+        #     serializer.save(owner=user, sua=sua_serializer, proof=proof_serializer)
+        #     self.url = serializer.data['url']
+        #     return True
+        # else:
+        #     return False
+
+
+ 
+
+
+
+
             
