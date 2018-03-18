@@ -36,14 +36,14 @@ class IndexView(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         serialized = super(IndexView, self).serialize(request)
 
-        student_set = Student.objects.filter()  #获取所有学生信息
+        student_set = Student.objects.filter().order_by('number')  #获取所有学生信息
         student_data = StudentSerializer(  # 序列化所有学生信息
             student_set,
             many=True,
             context={'request':request}
         )
 
-        appeal_set = Appeal.objects.filter()  # 获取在公示期内的所有公示
+        appeal_set = Appeal.objects.filter().order_by('created')  # 获取在公示期内的所有公示
         appeal_data = AppealSerializer(  # 序列化公示
             appeal_set,
             many=True,
@@ -58,20 +58,26 @@ class IndexView(BaseView, NavMixin):
             context={'request': request}
         )
 
-        publicity_set = Publicity.objects.filter(  # 获取在公示期内的所有公示
+        activity_set = Activity.objects.filter()  # 获取所有活动
+        activity_data = ActivitySerializer(  # 序列化所有活动
+            activity_set,
+            many=True,
+            context={'request': request}
+        )
+        publicity_set = Publicity.objects.filter(
             begin__lte=timezone.now(),
             end__gte=timezone.now()
-        )
-        publicity_data = PublicitySerializer(  # 序列化公示
+        ).order_by('begin')
+        publicity_data = PublicitySerializer(
             publicity_set,
             many=True,
             context={'request': request}
         )
-
         serialized.update({
             'appeals': appeal_data.data,
             'applications': application_data.data,
             'students':student_data.data,
+            'activities':activity_data.data,
             'publicities':publicity_data.data,
         })
 

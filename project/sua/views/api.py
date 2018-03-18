@@ -51,7 +51,7 @@ class StudentViewSet(
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
-    delete_success_url = '/'
+    delete_success_url = '/admin'
 
     @list_route(
         methods=['get', 'post'],  # HTTP METHODS
@@ -130,7 +130,7 @@ class SuaViewSet(
     serializer_class = sirs.SuaSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     delete_success_url='/'
-    
+
     template_name = None  # 请务必要添加这一行，否则会报错
 
     @list_route(
@@ -203,7 +203,7 @@ class ActivityViewSet(
     queryset = Activity.objects.all()
     serializer_class = sirs.ActivitySerializer
     permission_classes = (IsAdminUserOrReadOnly,)
-    delete_success_url='/'
+    delete_success_url='/admin'
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
@@ -276,7 +276,7 @@ class ApplicationViewSet(
     queryset = Application.objects.all()
     serializer_class = sirs.ApplicationSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
-    delete_success_url='/'
+    delete_success_url='/admin'
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
@@ -421,7 +421,7 @@ class AppealViewSet(
     queryset = Appeal.objects.all()
     serializer_class = sirs.AppealSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
-    delete_success_url = '/'
+    delete_success_url = '/admin'
 
     template_name = None  # 请务必要添加这一行，否则会报错
 
@@ -515,6 +515,7 @@ class ProofViewSet(
         return super(ProofViewSet, self).add(request)
     def perform_add(self,serializer):
         serializer.save(owner=self.request.user)
+
     @detail_route(
         methods=['get', 'post'],  # HTTP METHODS
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
@@ -533,7 +534,10 @@ class ProofViewSet(
         '''
         return super(ProofViewSet, self).change(request, *args, **kwargs)
     def perform_change(self, serializer):
-        serializer.save(proof_file=None)
+        if 'proof_file' not in serializer.validated_data.keys():
+            serializer.save(proof_file=None)
+        else:
+            serializer.save()
 
     @detail_route(
         methods=['get'],  # HTTP METHODS

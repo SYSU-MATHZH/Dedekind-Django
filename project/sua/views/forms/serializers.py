@@ -19,7 +19,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user')
+        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id')
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -29,7 +29,19 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
         )
         student = Student.objects.create(user=user, **validated_data)
         return student
-
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')
+        user = instance.user
+        user.save()
+        instance.number = validated_data.get('number',instance.number)
+        instance.name = validated_data.get('name',instance.name)
+        instance.suahours = validated_data.get('suahours',instance.suahours)
+        instance.grade = validated_data.get('grade',instance.grade)
+        instance.classtype = validated_data.get('classtype',instance.classtype)
+        instance.phone = validated_data.get('phone',instance.phone)
+        instance.id = validated_data.get('id',instance.id)
+        instance.save()
+        return instance
 
 class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -38,11 +50,11 @@ class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
-    suas = AddSuaSerializer(many=True, read_only=True)
+    suas = AddSuaSerializer(many=True, )
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'detail', 'group', 'date','suas')
+        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id')
 
     def create(self, validated_data):
         sua_datas = []
@@ -53,7 +65,25 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
         for sua_data in sua_datas:
             sua = Sua.objects.create(owner=owner, activity=activity, **sua_data)
         return activity
+    def update(self, instance, validated_data):
+        sua_datas = validated_data.pop('suas')
+        suas = (instance.suas).all()
+        suas = list(suas)
+        instance.title = validated_data.get('title',instance.title)
+        instance.detail = validated_data.get('detail',instance.detail)
+        instance.group = validated_data.get('group',instance.group)
+        instance.date = validated_data.get('date',instance.date)
+        instance.id = validated_data.get('id',instance.id)
+        instance.save()
 
+        for sua_data in sua_datas:
+            sua = suas.pop(0)
+            sua.activity = sua_data.get('activity', sua.activity)
+            sua.student = sua_data.get('student', sua.student)
+            sua.team = sua_data.get('team', sua.team)
+            sua.suahours = sua_data.get('suahours', sua.suahours)
+            sua.save()
+        return instance
 
 
 class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
@@ -66,7 +96,7 @@ class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
 class AddPublicitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Publicity
-        fields = ('url','owner','activity', 'title', 'content', 'contact', 'is_published', 'begin', 'end')
+        fields = ('url','owner','activity', 'title', 'content', 'contact', 'is_published', 'begin', 'end', 'id')
 
 
 class AddProofSerializer(serializers.HyperlinkedModelSerializer):
@@ -98,3 +128,24 @@ class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
         proof = Proof.objects.create(owner=owner, **proof_data)
         application = Application.objects.create(sua=sua, proof=proof,**validated_data)
         return application
+
+    def update(self, instance, validated_data):
+        proof_data = validated_data.pop('proof')
+        proof = instance.proof
+        proof.save()
+        sua_datas = validated_data.pop('suas')
+        suas = (instance.suas).all()
+        suas = list(suas)
+        instance.create = validated_data.get('create',instance.create)
+        instance.contact = validated_data.get('contact',instance.contact)
+        instance.id = validated_data.get('id',instance.id)
+        instance.save()
+
+        for sua_data in sua_datas:
+            sua = suas.pop(0)
+            sua.activity = sua_data.get('activity', sua.activity)
+            sua.student = sua_data.get('student', sua.student)
+            sua.team = sua_data.get('team', sua.team)
+            sua.suahours = sua_data.get('suahours', sua.suahours)
+            sua.save()
+        return instance

@@ -10,5 +10,7 @@
 <!-- 导航栏部分结束 -->
 
 {{ serializer.data }}
-
+<a href="/publicities/{{ serializer.data.id }}/delete">删除该公示</a>
+<a href="/publicities/{{ serializer.data.id }}/change" >编辑该公示</a>
+<a href="/admin">返回主页</a>
 {% endblock %}
