@@ -11,7 +11,7 @@ from project.sua.serializers import SuaSerializer
 from project.sua.serializers import ApplicationSerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import AddAppealSerializer
-from project.sua.serializers import AddApplicationsSerializer, ActivityForAddApplicationsSerializer, SuaForAddApplicationsSerializer, ProofForAddApplicationsSerializer,DEAddApplicationsSerializer, DEActivityForAddApplicationsSerializer, DESuaForAddApplicationsSerializer, DEProofForAddApplicationsSerializer
+from project.sua.serializers import DEAddApplicationsSerializer, DEActivityForAddApplicationsSerializer, DESuaForAddApplicationsSerializer, DEProofForAddApplicationsSerializer
 
 from .utils.base import BaseView
 from .utils.mixins import NavMixin
@@ -238,23 +238,6 @@ class ApplyView(BaseView, NavMixin):
         'nav': 'nav',
     }
 
-
-    # def serialize(self, request, *args, **kwargs):
-    #     serialized = super(ApplyView, self).serialize(request)
-    #     serializer = AddApplicationsSerializer()
-    #     serialized.update({
-    #         'serializer': serializer,
-    #     })
-    #     return serialized
-
-    # def deserialize(self, request, *args, **kwargs):
-    #     serializer = AddApplicationsSerializer(data=request.data, context={'request': request})
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         self.url = serializer.data['url']
-    #         return True
-    #     else:
-    #         return False
 
     def serialize(self, request, *args, **kwargs):
         serialized = super(ApplyView, self).serialize(request)
