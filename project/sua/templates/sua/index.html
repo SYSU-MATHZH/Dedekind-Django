@@ -103,8 +103,9 @@
             <th>申请日期</th>
             <th>活动名称</th>
             <th>举办单位</th>
-            <th>公益时</th>
-            <th>是否通过</th>
+            <th>公益时数</th>
+            <th>审核结果</th>
+            <th>是否已审核</th>
           </tr>
         </thead>
         {% if applications %}
@@ -118,6 +119,7 @@
               </td>
                 <td>{{ application.sua.activity.group }}</td>
                 <td>{{ application.sua.suahours }}</td>
+                <td>{% if application.status == 0 %} 通过 {% else %}{% if application.status == 1 %}未通过{% else %}{% endif %}需要线下声明{% endif %}</td>
                 <td>
                 {% if application.is_checked %} {% if application.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
                 </td>
@@ -130,8 +132,8 @@
     </div>
     <div role="tabpanel" class="tab-pane fade{% if request.path == '/#appeal' %} in active{% endif %}" id="appeal">
       <div class="tab-header">
-        <span class="lg-tab-header hidden-xs">申诉记录</span>
-        <span class="visible-xs-block">申诉记录</span>
+        <span class="lg-tab-header hidden-xs">申诉列表</span>
+        <span class="visible-xs-block">申诉列表</span>
       </div>
       <div class="table-responsive">
         <table class="table table-hover">
@@ -139,8 +141,10 @@
             <tr>
               <th>序号</th>
               <th>申请日期</th>
-              <th>申请项目</th>
-              <th>审批状态</th>
+              <th>申诉的公示</th>
+              <th>是否已处理</th>
+              <th>处理结果</th>
+              <th>处理反馈</th>
             </tr>
           </thead>
           {% if appeals %}
@@ -151,8 +155,10 @@
                 <td>{{ appeal.created }}</td>
                 <td><a href="{{ appeal.url }}">“{{ appeal.publicity.title }}”的申诉</a></td>
                 <td>
-                {% if appeal.is_checked %} {{ appeal.feedback }} {% else %} 待处理 {% endif %}
+                  {% if appeal.is_checked %} {% if appeal.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
                 </td>
+                <td>{{ appeal.status }}</td>
+                <td>{{ appeal.feedback }}</td>
               </tr>
             {% endfor %}
             </tbody>
