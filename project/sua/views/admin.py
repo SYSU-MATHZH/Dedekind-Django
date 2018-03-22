@@ -134,14 +134,16 @@ class AppealView(BaseView, NavMixin):
     def deserialize(self, request, *args, **kwargs):
         appeal_id = kwargs['pk']
         appeal = Appeal.objects.get(id = appeal_id)
-        serializer = AdminAppealSerializer(data=request.data, context={'request': request})
+        serializer = AdminAppealSerializer(
+            data=request.data,
+            context={'request': request},
+            )
         if serializer.is_valid():
-            serializer.update(
-                is_checked = True,
-                publicity=appeal.publicity,
-                student = appeal.student,
-                owner=Appeal.objects.get(id=appeal_id).owner
-                )
+            serializer.update()
+#            is_checked = True,
+#            publicity=appeal.publicity,
+#            student = appeal.student,
+#            owner=Appeal.objects.get(id=appeal_id).owner
             self.url = serializer.data['url']
             return True
         else:

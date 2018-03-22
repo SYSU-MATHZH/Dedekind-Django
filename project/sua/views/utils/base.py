@@ -28,7 +28,7 @@ class BaseView(APIView):
             else:
                 return HttpResponseGone()
         else:
-            self.get(request, *args, **kwargs)
+            return self.get(request, *args, **kwargs)
 
     def get_components(self):
         return self.components

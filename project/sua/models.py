@@ -140,7 +140,7 @@ class Application(models.Model):
         'auth.User',
         related_name='applications',
         on_delete=models.CASCADE,
-    )
+    ) 
     created = models.DateTimeField('创建日期', auto_now_add=True)
     contact = models.CharField(max_length=100, blank=True)
     proof = models.ForeignKey(
