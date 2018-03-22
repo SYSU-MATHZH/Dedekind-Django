@@ -1,32 +1,36 @@
-<nav id="my-navbar" class="navbar">
-  <div id="header-inner" class="container">
+<nav id="my-navbar" class="navbar navbar-fixed-top">
+  <div id="header-inner">
     <!-- 兼容移动设备 -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      {% if request.path == '/' %}
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#my-navbar-content" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      {% endif %}
       <a class="navbar-brand" href="/" id="logo">数院公益时</a>
     </div>
     
     <!-- 导航栏主体 -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav my-tab" role="tablist">
-        <li role="presentation" {% if request.path == '/' %}class="active"{% endif %}>
-          <a href="/#home" class="my-nav-tab" {% if request.path == '/' %}data-toggle="tab" {% endif %}role="tab" aria-controls="tab1">公告</a>
+    <div class="main-navbar">
+      {% if request.path == '/' %}
+      <ul id="my-navbar-content" class="nav navbar-nav my-tab collapse navbar-collapse" role="tablist">
+        <li role="presentation" class="active">
+          <a href="#home" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab1">公告</a>
         </li>
         <li role="presentation">
-          <a href="/#suahoursdetail" class="my-nav-tab" {% if request.path == '/' %}data-toggle="tab" {% endif %}role="tab" aria-controls="tab2">公益时详情</a>
+          <a href="#suahoursdetail" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab2">公益时详情</a>
         </li>
         <li role="presentation">
-          <a href="/#applications" class="my-nav-tab" {% if request.path == '/' %}data-toggle="tab" {% endif %}role="tab" aria-controls="tab3">申请记录</a>
+          <a href="#applications" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab3">申请记录</a>
         </li>
         <li role="presentation">
-          <a href="/#appeal" class="my-nav-tab" {% if request.path == '/' %}data-toggle="tab" {% endif %}role="tab" aria-controls="tab4">申诉记录</a>
+          <a href="#appeal" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab4">申诉列表</a>
         </li>
       </ul>
+      {% endif %}
       <ul id="my-status" class="nav navbar-nav navbar-right">
         <li role="presentation" class="dropdown">
           <button class="btn btn-default btn-block dropdown-toggle li-info" type="button" id="navdropdownMenu" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
@@ -50,7 +54,7 @@
           </ul>
         </li>
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container -->
+    </div>
+  </div>
 </nav>
-<div class="my-space-line"></div>
+<div class="my-page-top-space"></div>

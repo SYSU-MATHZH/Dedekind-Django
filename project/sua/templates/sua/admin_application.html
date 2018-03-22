@@ -1,0 +1,28 @@
+{% extends 'sua/_layout/base.html' %}
+
+{% block title %}申请个人公益时{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load rest_framework %}
+
+<!-- 导航栏部分开始 -->
+{% include 'sua/_partial/nav.html' %}
+<!-- 导航栏部分结束 -->
+<div class="container my-space-line">
+  	    <div class="row">
+ 		<div class="col-lg-3">
+  		</div>
+  		<div class="col-lg-6">
+  	  	    <h3>{{ application.sua.student.name }}对"{{ application.sua.activity.title }}"的申请的审核</h3>
+  <p>申请人：{{ application.sua.student.name }}</p>
+  <p>申请内容：{{ application.sua.activity.title }}</p>
+  <p>公益时：{{ application.sua.suahours }}</p>
+            
+  <form enctype="multipart/form-data" action="" method="POST">
+      {% csrf_token %}
+      {% render_form serializer %}
+      <input type="submit" name="save" value="提交">
+  </form>
+
+{% endblock %}

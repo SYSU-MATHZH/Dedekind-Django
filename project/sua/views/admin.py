@@ -8,6 +8,7 @@ from project.sua.models import Application
 from project.sua.models import Student
 from project.sua.models import Activity
 from project.sua.models import Appeal
+from project.sua.models import Proof
 
 
 from project.sua.serializers import PublicitySerializer
@@ -22,6 +23,9 @@ from project.sua.serializers import ActivitySerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import AdminAppealSerializer
 from project.sua.serializers import AdminPublicitySerializer
+from project.sua.serializers import AdminApplicationSerializer
+from project.sua.serializers import ActivityWithSuaSerializer
+from project.sua.serializers import ProofSerializer
 
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
@@ -105,7 +109,7 @@ class AppealView(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         appeal_id = kwargs['pk']
         serialized = super(AppealView, self).serialize(request)
-        
+
         appeal_data = AdminPublicitySerializer(
             Appeal.objects.get(id=appeal_id),
             context = {'request':request}
@@ -119,7 +123,7 @@ class AppealView(BaseView, NavMixin):
             sua_set,
             context = {'request':request}
         )
-        
+
         serializer = AdminAppealSerializer(
             Appeal.objects.get(id=appeal_id),
             context={'request':request}
@@ -140,6 +144,61 @@ class AppealView(BaseView, NavMixin):
             )
         if serializer.is_valid():
             serializer.save(is_checked=True)
+            self.url = serializer.data['url']
+            return True
+        else:
+            return False
+
+class ApplicationView(BaseView, NavMixin):
+    template_name = 'sua/admin_application.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        applicaiton_id = kwargs['pk']
+        serialized = super(ApplicationView, self).serialize(request)
+
+        application_data = AdminApplicationSerializer(
+            Application.objects.get(id=applicaiton_id),
+            context = {'request':request}
+        )
+
+#        activity_set = Activity.objects.get(id=applicaiton_id)
+#        Activity_data = ActivityWithSuaSerializer(
+#            activity_set,
+#            context = {'request':request}
+#        )
+#        proof_set = Proof.objects.get(id=applicaiton_id)
+#        proof_data = ProofSerializer(
+#            proof_set,
+#            context = {'request':request}
+#        )
+
+        serializer = AdminApplicationSerializer(
+            Application.objects.get(id=applicaiton_id),
+            context={'request':request}
+        )
+        serialized.update({
+            'serializer': serializer,
+            'application':application_data.data,
+            #'sua':sua_data.data,
+        })
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        application_id = kwargs['pk']
+        applicatoin = Application.objects.get(id = application_id)
+        serializer = AdminApplicationSerializer(
+            data=request.data,
+            context={'request': request},
+            )
+        if serializer.is_valid():
+            serializer.update()
+#            is_checked = True,
+#            publicity=appeal.publicity,
+#            student = appeal.student,
+#            owner=Appeal.objects.get(id=appeal_id).owner
             self.url = serializer.data['url']
             return True
         else:

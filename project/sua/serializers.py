@@ -101,7 +101,32 @@ class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Appeal
         fields = ('url', 'content',)
-        
+
+class ActivityforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Activity
+        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid','id')
+
+class SuaforApplicationsSerializer(serializers.ModelSerializer):
+    student = StudentNameNumberSerializer()
+    activity = ActivityforApplicationsSerializer()
+    class Meta:
+        model = Sua
+        fields = ('student', 'activity', 'suahours', 'id')
+
+class ProofforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Proof
+        fields = ('url', 'is_offline', 'proof_file')
+
+class AdminApplicationSerializer(serializers.HyperlinkedModelSerializer):
+    proof = ProofforApplicationsSerializer()
+    sua = SuaforApplicationsSerializer()
+    class Meta:
+        model = Application
+        fields = ('url', 'status','feedback', 'proof','sua' )
+
 class AdminAppealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -200,4 +225,3 @@ class DEAddApplicationsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Application
         fields = ('url', 'contact')
-
