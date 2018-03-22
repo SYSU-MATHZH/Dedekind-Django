@@ -111,6 +111,17 @@ header {
   padding-left: 1em;
 }
 
+.table-responsive{
+  font-size: 1em;
+  margin-bottom: 2em;
+  margin-left: 1em;
+  margin-top: 0.5em;
+}
+
+.tab-pane fade{
+
+}
+
 /* 公示列表 */
 .my-pub-table {
   font-size: 1.2em;
