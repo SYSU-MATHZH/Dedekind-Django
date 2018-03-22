@@ -124,8 +124,9 @@ project/media/proofs/
 .vscode/
 
 # local_settings
-project/migrations
+project/sua/migrations
 
 # local
 *~
 .DS_Store
+

@@ -243,18 +243,18 @@ class ApplyView(BaseView, NavMixin):
         serialized = super(ApplyView, self).serialize(request)
 
         user = request.user
-        if hasattr(user, 'student'): # 判断当前用户是否为学生
-            activity_serializer = DEActivityForAddApplicationsSerializer()
-            sua_serializer = DESuaForAddApplicationsSerializer()
-            proof_serializer = DEProofForAddApplicationsSerializer()
-            application_serializer = DEAddApplicationsSerializer()
+        # if hasattr(user, 'student'): # 判断当前用户是否为学生
+        activity_serializer = DEActivityForAddApplicationsSerializer()
+        sua_serializer = DESuaForAddApplicationsSerializer()
+        proof_serializer = DEProofForAddApplicationsSerializer()
+        application_serializer = DEAddApplicationsSerializer()
 
-            serialized.update({
-                'activities':activity_serializer,
-                'suas':sua_serializer,
-                'proofs':proof_serializer,
-                'applications':application_serializer
-            })
+        serialized.update({
+            'activities':activity_serializer,
+            'suas':sua_serializer,
+            'proofs':proof_serializer,
+            'applications':application_serializer
+        })
 
         return serialized
 
