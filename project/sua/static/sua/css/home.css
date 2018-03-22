@@ -16,7 +16,6 @@ header {
     padding-bottom: 0;
     padding-top: 0;
 }
-
 #logo {
     margin: 15px 20px;
     padding: 4px 0px 5px 0px;
@@ -30,6 +29,25 @@ header {
     background: url(/static/sua/images/logo-icon3.png) no-repeat left;
     background-size:30px;
     font-size: 120%;
+}
+.my-page-top-space {
+  margin-top: 120px;
+}
+.my-empty-block {
+  margin-top: 50px;
+}
+@media screen and (max-width: 768px) {
+    .main-content {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+@media screen and (min-width: 768px) {
+    .main-content {
+        margin-left: auto;
+        margin-right: auto;
+        width: 60%;
+    }
 }
 /*--- 导航 --*/
 #my-status {
@@ -63,13 +81,16 @@ header {
 .li-info {
     font-weight: 700;
 }
-.my-space-line{
+.my-space-line
+/* 主页已不再使用，建议替换 */ {
     margin-top: 60px;
 }
 .my-tab-content{
     background-color: #FFFFFF;
     border: 1px solid #dbdbdb;
     border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .my-panel{
     margin: 10px 10px 10px 10px;
@@ -112,9 +133,13 @@ header {
 }
 
 /* 公示列表 */
+.my-pub-list {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
 .my-pub-table {
   font-size: 1.2em;
-  margin-left: 1em;
 }
 
 .my-pub-table tr {
@@ -126,10 +151,6 @@ header {
 
 .my-pub-table tr:first-of-type {
   border-top:none;
-}
-
-.my-pub-table a {
-  color: #000;
 }
 
 .my-pub-table a:hover {

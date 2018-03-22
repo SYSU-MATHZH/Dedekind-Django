@@ -1,4 +1,4 @@
-{% extends 'sua/_layout/base.html' %}
+﻿{% extends 'sua/_layout/base.html' %}
 
 {% block title %}公益时平台{% endblock %}
 
@@ -8,21 +8,44 @@
 {% include 'sua/_partial/nav.html' %}
 <!-- 导航栏部分结束 -->
 
-<div class="container" role="tabpanel">
+<div class="main-content" role="tabpanel">
   <div id="tabContent1" class="tab-content my-tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="home">
+      <div class="tab-header">公告</div>
+      <div class="table-responsive">
+        <table class="table my-pub-table col-lg-12">
+          <tbody>
+            {% for publicity in publicities %}
+              <tr>
+                <td><a href="#publicity{{ publicity.id }}" data-toggle="tab">{{ publicity.title }}</a></td>
+                <td>公告至 {{ publicity.end }} 截止</td>
+                <td>{{ publicity.team }}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td>暂无公告</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
     {% for publicity in publicities %}
     <div role="tabpanel" class="tab-pane fade" id="publicity{{ publicity.id }}">
-      <div class="container row my-pub-header">
-        <div class="col-lg-11 col-xs-9">
-          <span class="my-pub-title">{{ publicity.title }}</span><a href="publicities/{{ publicity.id }}/appeal/" class="btn btn-default">提出申诉</a>
+      <div class="row my-pub-header">
+        <div class="col-lg-9 col-xs-6">
+          <span class="my-pub-title">{{ publicity.title }}</span>
         </div>
-        <div class="col-lg-1 col-xs-3">
+        <div class="col-lg-3 col-xs-6 pull-right">
+          <a href="publicities/{{ publicity.id }}/appeal/" class="btn btn-default" role="button">
+            提出申诉
+          </a>
           <a href="#home" class="btn btn-default" data-toggle="tab">
             返回
           </a>
         </div>
       </div>
-      <div class="container row">
+      <div class="row">
         <div class="col-lg-12">
           <dl class="my-pub-detail">
             <dt>公示截止日期：</dt>
@@ -32,11 +55,12 @@
           </dl>
         </div>
       </div>
-      <div class="container row">
+      <div class="row">
         <div class="my-pub-content col-lg-12">
           {{ publicity.content }}
         </div>
       </div>
+      {% if publicity.activity.suas %}
       <div class="table-responsive my-pub-student">
         <table class="table">
           <caption>参与人列表</caption>
@@ -58,13 +82,13 @@
           {% endfor %}
         </table>
       </div>
+      {% else %}
+      <div class="my-empty-block"></div>
+      {% endif %}
     </div>
     {% endfor %}
-    <div role="tabpanel" class="tab-pane fade{% if request.path == '/#suahoursdetail' %} in active{% endif %}" id="suahoursdetail">
-      <div class="tab-header">
-        <span class="lg-tab-header hidden-xs">公益时详情</span>
-        <span class="visible-xs-block">公益时详情</span>
-      </div>
+    <div role="tabpanel" class="tab-pane fade" id="suahoursdetail">
+      <div class="tab-header">公益时详情</div>
       <div class="table-responsive">
         <table class="table table-hover">
           <thead>
@@ -90,11 +114,8 @@
         </table>
       </div>
     </div>
-    <div role="tabpanel" class="tab-pane fade{% if request.path == '/#applications' %} in active{% endif %}" id="applications">
-      <div class="tab-header">
-        <span class="lg-tab-header hidden-xs">申请记录</span>
-        <span class="visible-xs-block">申请记录</span>
-      </div>
+    <div role="tabpanel" class="tab-pane fade" id="applications">
+      <div class="tab-header">申请记录</div>
       <div class="table-responsive">
         <table class="table table-hover">
         <thead>
@@ -128,11 +149,8 @@
         </table>
       </div>
     </div>
-    <div role="tabpanel" class="tab-pane fade{% if request.path == '/#appeal' %} in active{% endif %}" id="appeal">
-      <div class="tab-header">
-        <span class="lg-tab-header hidden-xs">申诉记录</span>
-        <span class="visible-xs-block">申诉记录</span>
-      </div>
+    <div role="tabpanel" class="tab-pane fade" id="appeal">
+      <div class="tab-header">申诉记录</div>
       <div class="table-responsive">
         <table class="table table-hover">
           <thead>
@@ -158,31 +176,6 @@
             </tbody>
           {% endif %}
         </table>
-      </div>
-    </div>
-    <div role="tabpanel" class="tab-pane fade{% if request.path == '/#home' or request.path == '/' %} in active{% endif %}" id="home">
-      <div class="tab-header">
-        <span class="lg-tab-header hidden-xs">公告</span>
-        <span class="visible-xs-block">公告</span>
-      </div>
-      <div class="container row">
-        <div class="col-lg-11">
-          <table class="table my-pub-table col-lg-12">
-            <tbody>
-              {% for publicity in publicities %}
-                <tr>
-                  <td><a href="#publicity{{ publicity.id }}" data-toggle="tab">{{ publicity.title }}</a></td>
-                  <td>公告至 {{ publicity.end }} 截止</td>
-                  <td>{{ publicity.team }}</td>
-                </tr>
-              {% empty %}
-                <tr>
-                  <td>暂无公告</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
       </div>
     </div>
   </div>
