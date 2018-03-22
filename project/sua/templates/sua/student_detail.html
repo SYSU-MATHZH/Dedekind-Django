@@ -41,9 +41,15 @@
         </div>
         <div class="row">
             <div class="col-xs-4">
+        <p>suas:{{ serializer.data.suas }}</p>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
         <p>id:{{ serializer.data.id }}</p><!-- 用户信息(Student) -->
         </div>
         </div>
+        <p>{{ serializer.data }}</p>
         <a href="/students/{{ serializer.data.id }}/delete">删除该学生</a>
         <a href="/students/{{ serializer.data.id }}/change" >编辑该学生信息</a>
         <a href="/admin">返回主页</a>
