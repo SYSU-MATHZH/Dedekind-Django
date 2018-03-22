@@ -29,7 +29,7 @@
   	  					<label for="actor-name">
   	  					姓名
   	  					</label>
-						<p id="actor-name" class="form-control-static">{{ stu_name }}</p>
+						<p> <input id="actor-name" class="form-control-static" type="text">{{ stu_name }}</p>
   	  				</div>
   	  				</div>
   	  				<div class="col-xs-6">
@@ -37,7 +37,7 @@
   	  					<label for="actor-code">
   	  					学号
   	  					</label>
-  	  					<p id="actor-code" class="form-control-static">{{ stu_number }}</p>
+  	  					<p> <input id="actor-code" class="form-control-static" type="text">{{ stu_number }}</p>
   	  				</div>
   	  				</div>
 						</div>
@@ -50,7 +50,7 @@
   	  					<label for="actor-date">
   	  					申请日期
   	  					</label>
-  	  					<p id="actor-date" class="form-control-static">{{ apply_date }}</p>
+  	  					<p> <input id="actor-date" class="form-control-static" type="text">{{ apply_date }}</p>
   	  				</div>
   	  				</div>
   	  				<div class="col-xs-6">
@@ -58,7 +58,17 @@
   	  					<label for="actor-date">
   	  					学年度
   	  					</label>
-  	  					<p id="actor-date" class="form-control-static">{{ apply_year_before }}~{{ apply_year_after }}</p>
+  	  					<p><form  type="text" >
+    <select name="select">
+    <option value="1">2017~2018</option>
+	<option value="2">2018~2019</option>
+	<option value="3">2019~2020</option>
+	<option value="4">2020~2021</option>
+	<option value="5">2021~2022</option>
+	<option value="6">2022~2023</option>
+	<option value="7">2023~2024</option>
+  </select>
+</form><p>
   	  				</div>
   	  				</div>
 						</div>
@@ -70,6 +80,7 @@
   	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.title.name }}">
   	  					活动名称*
   	  					</label>
+						<input id="actor-date" class="form-control-static" type="text">
                 {{ suaForm.title }}
   	  				</div>
   	  				</div>
@@ -78,6 +89,7 @@
   	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.date.name }}">
   	  					活动日期*
   	  					</label>
+						<input id="actor-date" class="form-control-static" type="text">
                 {{ suaForm.date }}
   	  				</div>
   	  				</div>
@@ -89,6 +101,7 @@
     	  					<label for="id_{{ sua_ApplicationForm.prefix }}-{{ sua_ApplicationForm.detail.name }}">
     	  					活动详情
     	  					</label>
+							<input id="actor-date" class="form-control-static" type="text">
                   {{ sua_ApplicationForm.detail }}
     	  				</div>
   	  				</div>
@@ -99,6 +112,7 @@
   	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.group.name }}">
   	  					活动组织方*
   	  					</label>
+						<input id="actor-date" class="form-control-static" type="text">
   	  					{{ suaForm.group }}
   	  				</div>
   	  				</div>
@@ -107,6 +121,7 @@
   	  					<label for="id_{{ sua_ApplicationForm.prefix }}-{{ sua_ApplicationForm.contact.name }}">
   	  					负责人手机/电话*
   	  					</label>
+						<input id="actor-date" class="form-control-static" type="text">
   	  					{{ sua_ApplicationForm.contact }}
   	  				</div>
   	  				</div>
@@ -117,17 +132,19 @@
   	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.team.name }}">
   	  					参与组别
   	  					</label>
+						<input id="actor-date" class="form-control-static" type="text">
   	  					{{ suaForm.team }}
   	  				</div>
   	  				</div>
   	  				<div class="col-lg-6">
   	  				<div class="form-group">
   	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.suahours.name }}">
-  	  					公益时数
+  	  					申请公益时数
   	  					</label>
-                <div class="input-group">
+                <input class="input-group-addon">小时</div>
+				<div class="input-group">
                   {{ suaForm.suahours }}
-                  <div class="input-group-addon">小时</div>
+                  
                 </div>
   	  				</div>
   	  				</div>
@@ -141,10 +158,33 @@
                 <label for="id_{{ proofForm.prefix }}-{{ proofForm.is_offline.name }}">
                   线下证明
                 </label>）
+                <button type="button">浏览...</button>
   	  					</label>
+						</div>
+						</div>
+						</div>
+						</div>
+						<br><br>
+				
   	  					{{ proofForm.proof_file }}
-  	  				</div>
-  	  				</div>
+		<div class="row">
+    </div>
+  	  </div>
+
+    </div>
+  </div>
+  <div class="row">
+  	<div class="col-lg-12">
+  		<hr>
+  	</div>
+
+  <div class="row">
+ 	  <div class="col-lg-3">
+  	  </div>
+  	    <div class="col-lg-6">
+  	  	<h3>公益时申诉</h3>
+  	  	<p class="subtitle-descript">你可以在这里向学院提出你对公益时情况的疑问。</p>
+  	  	<div>
   	  				<div class="col-lg-6">
 
   	  				</div>
@@ -155,7 +195,7 @@
       {% render_form activities %}
       {% render_form suas %}
       {% render_form proofs %}
-
+{% render_form applications %}
 					<div class="col-lg-12">
 						<button type="submit" class="btn btn-block">提交</button>
 					</div>
