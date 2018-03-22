@@ -230,7 +230,7 @@ def Download(request):
     buffer.close()
     response.write(pdf)
     return response
-        
+
 
 class ApplyView(BaseView, NavMixin):
     template_name = 'sua/apply_sua.html'
@@ -257,7 +257,7 @@ class ApplyView(BaseView, NavMixin):
             })
 
         return serialized
-                
+
     def deserialize(self, request, *args, **kwargs):
         user = request.user
         if hasattr(user, 'student'):  # 判断当前用户是否为学生
@@ -271,7 +271,7 @@ class ApplyView(BaseView, NavMixin):
         proof_serializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
         application_serializer = DEAddApplicationsSerializer(data=request.data, context={'request': request})
         if activity_serializer.is_valid() and sua_serializer.is_valid() and application_serializer.is_valid() and proof_serializer.is_valid():
-                
+
             activity = activity_serializer.save(owner=user)
             sua = sua_serializer.save(activity=activity, owner=user, student=student)
             proof = proof_serializer.save(owner=user)
