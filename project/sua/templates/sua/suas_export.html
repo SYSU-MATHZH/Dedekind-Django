@@ -11,7 +11,7 @@
 <div class="container my-space-line">
 	<div role="tabpanel">
 	<ul>
-    {{ name }}的公益时记录    学号：{{ number }}  总公益时：{{ hour }}h
+    {{ name }}的公益时记录    学号：{{ number }}  总公益时：{{ hours }}h
 	</ul>
 		<div id="tabContent1" class="tab-content my-tab-content">
 				<div class="table-responsive">
@@ -22,8 +22,6 @@
 								<th>活动名称</th>
 								<th>举办单位</th>
 								<th>公益时</th>
-                                <th>姓名</th>
-                                <th>学号</th>
 							</tr>
 						</thead>
 						{% if suas %}
@@ -34,8 +32,6 @@
 								<td>{{ sua.activity.title }}</td>
 								<td>{{ sua.activity.group }}</td>
 								<td>{{ sua.suahours }} h</td>
-                                <td>{{ name }}</td>
-                                <td>{{ number }}</td>
 							</tr>
 							{% endfor %}
 						</tbody>

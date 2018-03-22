@@ -164,7 +164,7 @@ class SuasExportView(BaseView,NavMixin):
             'suas': sua_data.data,
             'name':student.name,
             'number':student.number,
-            'hour':student.suahours,
+            'hours':student.suahours,
             })
             
 

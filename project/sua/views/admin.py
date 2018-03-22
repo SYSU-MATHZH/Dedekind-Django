@@ -20,6 +20,20 @@ from project.sua.serializers import AppealSerializer
 from project.sua.serializers import StudentSerializer
 from project.sua.serializers import ActivitySerializer
 from project.sua.serializers import AppealSerializer
+from project.sua.serializers import AdminAppealSerializer
+from project.sua.serializers import AdminPublicitySerializer
+
+from rest_framework import viewsets
+from rest_framework.decorators import list_route, detail_route
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.mixins import ListModelMixin
+
+from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly
+import project.sua.serializers as sirs
+import project.sua.views.forms.serializers as firs
+import project.sua.views.forms.mixins as mymixins
 
 
 from .utils.base import BaseView
@@ -80,6 +94,55 @@ class IndexView(BaseView, NavMixin):
             'activities':activity_data.data,
             'publicities':publicity_data.data,
         })
-
-
         return serialized
+
+class AppealView(BaseView, NavMixin):
+    template_name = 'sua/admin_appeal.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        appeal_id = kwargs['pk']
+        serialized = super(AppealView, self).serialize(request)
+        
+        appeal_data = AdminPublicitySerializer(
+            Appeal.objects.get(id=appeal_id),
+            context = {'request':request}
+        )
+
+        sua_set = Sua.objects.filter(
+            student__number = appeal_data.data['student']['number'],
+            activity__title = appeal_data.data['publicity']['activity']['title']
+            ).get()
+        sua_data = SuaSerializer(
+            sua_set,
+            context = {'request':request}
+        )
+        
+        serializer = AdminAppealSerializer(
+            Appeal.objects.get(id=appeal_id),
+            context={'request':request}
+        )
+        serialized.update({
+            'serializer': serializer,
+            'appeal':appeal_data.data,
+            'sua':sua_data.data,
+        })
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        appeal_id = kwargs['pk']
+        appeal = Appeal.objects.get(id = appeal_id)
+        serializer = AdminAppealSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.update(
+                is_checked = True,
+                publicity=appeal.publicity,
+                student = appeal.student,
+                owner=Appeal.objects.get(id=appeal_id).owner
+                )
+            self.url = serializer.data['url']
+            return True
+        else:
+            return False

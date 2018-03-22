@@ -31,6 +31,7 @@ urlpatterns = [
     path('publicities/<int:pk>/appeal/', login_required(student.AppealView.as_view())),
     path('suas/export/download/',login_required(student.Download)),
     path('admin/',login_required(admin.IndexView.as_view())),
+    path('admin/appeals/<int:pk>/change/',login_required(admin.AppealView.as_view())),
 #     path('playMFS/', views.playMFS, name='playMFS'),
 #     path('admin/', views.adminIndex, name='admin-index'),
 #     path('apply_sua/', views.apply_sua, name='apply_sua'),

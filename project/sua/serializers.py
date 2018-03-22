@@ -42,7 +42,7 @@ class SuaSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Sua
-        fields = ('url', 'student', 'activity', 'team', 'suahours', 'application', 'is_valid')
+        fields = ('url', 'student', 'activity', 'team', 'suahours', 'application', 'is_valid',)
 
 
 class StudentNameNumberSerializer(serializers.ModelSerializer):
@@ -55,7 +55,7 @@ class SuaOnlySerializer(serializers.ModelSerializer):
     student = StudentNameNumberSerializer()
     class Meta:
         model = Sua
-        fields = ('student', 'team', 'suahours')
+        fields = ('student', 'team', 'suahours','id')
 
 
 class ActivityWithSuaSerializer(serializers.ModelSerializer):
@@ -63,7 +63,7 @@ class ActivityWithSuaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('title', 'date', 'detail', 'group', 'suas', 'id')
+        fields = ('url','title', 'date', 'detail', 'group', 'suas', 'id')
 
 
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
@@ -101,3 +101,17 @@ class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Appeal
         fields = ('url', 'content',)
+        
+class AdminAppealSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Appeal
+        fields = ('url', 'status','feedback',)
+
+class AdminPublicitySerializer(serializers.HyperlinkedModelSerializer):
+    publicity = PublicitySerializer()
+    student = StudentSerializer()
+
+    class Meta:
+        model = Appeal
+        fields = ('url','content','student','publicity','id')

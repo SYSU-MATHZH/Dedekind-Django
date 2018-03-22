@@ -43,6 +43,7 @@
     <p>申诉的公示：<a href="{{ appeal.publicity.url }}">{{ appeal.publicity.title }}</a></p>
     <p>申诉人：<a href="{{ appeal.student.url }}">{{ appeal.student.name }}</a></p>
     <p>是否已处理：{{ appeal.is_checked }}</p>
+    <a href="/admin/appeals/{{ appeal.id }}/change/">编辑申诉</a>
     <a href="/appeals/{{ appeal.id}} /delete">删除该申诉</a>
 {% endfor %}
 
