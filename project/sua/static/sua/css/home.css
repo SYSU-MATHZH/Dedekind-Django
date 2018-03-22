@@ -16,7 +16,6 @@ header {
     padding-bottom: 0;
     padding-top: 0;
 }
-
 #logo {
     margin: 15px 20px;
     padding: 4px 0px 5px 0px;
@@ -31,9 +30,36 @@ header {
     background-size:30px;
     font-size: 120%;
 }
+.my-page-top-space {
+  margin-top: 120px;
+}
+.my-empty-block {
+  margin-top: 50px;
+}
+@media screen and (max-width: 768px) {
+  .main-content {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .main-content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+  }
+}
 /*--- 导航 --*/
+@media screen and (min-width: 768px) {
+  .main-navbar {
+    margin-right: 20px;
+  }
+}
+
 #my-status {
   margin-top:10px;
+  background-color: #fff;
+  border-radius: 5px; 
 }
 #my-status .btn {
   border: none;
@@ -55,7 +81,6 @@ header {
 }
 
 
-
 #suahours {
     display: none;
     color: #000000;
@@ -63,18 +88,32 @@ header {
 .li-info {
     font-weight: 700;
 }
-.my-space-line{
+.my-space-line
+/* 主页已不再使用，建议删除 */ {
     margin-top: 60px;
 }
 .my-tab-content{
     background-color: #FFFFFF;
     border: 1px solid #dbdbdb;
     border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .my-panel{
     margin: 10px 10px 10px 10px;
 }
 
+.navbar-header button {
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+.icon-bar {
+  background-color: #000;
+  height: 2px;
+  width: 10px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
 
 /*原来的apply.css*/
 
@@ -111,10 +150,24 @@ header {
   padding-left: 1em;
 }
 
+.table-responsive{
+  font-size: 1em;
+  margin-bottom: 1em;
+  margin-top: 0.5em;
+}
+
+.tab-pane fade{
+
+}
+
 /* 公示列表 */
+.my-pub-list {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
 .my-pub-table {
   font-size: 1.2em;
-  margin-left: 1em;
 }
 
 .my-pub-table tr {
@@ -126,10 +179,6 @@ header {
 
 .my-pub-table tr:first-of-type {
   border-top:none;
-}
-
-.my-pub-table a {
-  color: #000;
 }
 
 .my-pub-table a:hover {

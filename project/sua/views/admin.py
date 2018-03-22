@@ -117,7 +117,7 @@ class AppealView(BaseView, NavMixin):
 
         sua_set = Sua.objects.filter(
             student__number = appeal_data.data['student']['number'],
-            activity__title = appeal_data.data['publicity']['activity']['title']
+            activity__title = appeal_data.data['publicity']['activity']['title'],
             ).get()
         sua_data = SuaSerializer(
             sua_set,
@@ -137,17 +137,13 @@ class AppealView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
         appeal_id = kwargs['pk']
-        appeal = Appeal.objects.get(id = appeal_id)
         serializer = AdminAppealSerializer(
+            Appeal.objects.get(id = appeal_id),
             data=request.data,
-            context={'request': request},
+            context={'request': request}
             )
         if serializer.is_valid():
-            serializer.update()
-#            is_checked = True,
-#            publicity=appeal.publicity,
-#            student = appeal.student,
-#            owner=Appeal.objects.get(id=appeal_id).owner
+            serializer.save(is_checked=True)
             self.url = serializer.data['url']
             return True
         else:
