@@ -16,12 +16,23 @@
   		<div class="col-lg-6">
   	  	    <h3>{{ application.sua.student.name }}对"{{ application.sua.activity.title }}"的申请的审核</h3>
   <p>申请人：{{ application.sua.student.name }}</p>
-  <p>申请内容：{{ application.sua.activity.title }}</p>
+  <p>活动标题：{{ application.sua.activity.title }}</p>
+  <p>活动详情：{{ application.sua.activity.detail }}</p>
+  <p>活动小组：{{ application.sua.activity.group }}</p>
+  <p>活动日期:{{ application.sua.activity.date }}</p>
   <p>公益时：{{ application.sua.suahours }}</p>
-            
+  <p>是否线下证明：{{ application.proof.is_offline }}
+  <p>证明文件:<a href="{{ application.proof.proof_file }}">{{ application.proof.proof_file }}</a></p>
+
   <form enctype="multipart/form-data" action="" method="POST">
-      {% csrf_token %}
-      {% render_form serializer %}
+      <div class="form-group ">
+        <label >Feedback</label>
+        <input name="feedback" class="form-control" type="text"  value="{{ application.feedback }}">
+      </div>
+      <div class="form-group ">
+        <label >Status</label>
+        <input name="feedback" class="form-control" type="number"  value="{{ application.status }}">
+      </div>
       <input type="submit" name="save" value="提交">
   </form>
 

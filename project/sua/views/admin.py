@@ -164,16 +164,16 @@ class ApplicationView(BaseView, NavMixin):
             context = {'request':request}
         )
 
-#        activity_set = Activity.objects.get(id=applicaiton_id)
-#        Activity_data = ActivityWithSuaSerializer(
-#            activity_set,
-#            context = {'request':request}
-#        )
-#        proof_set = Proof.objects.get(id=applicaiton_id)
-#        proof_data = ProofSerializer(
-#            proof_set,
-#            context = {'request':request}
-#        )
+        activity_set = Activity.objects.get(id=applicaiton_id)
+        Activity_data = ActivityWithSuaSerializer(
+            activity_set,
+            context = {'request':request}
+        )
+        proof_set = Proof.objects.get(id=applicaiton_id)
+        proof_data = ProofforApplicationsSerializer(
+            proof_set,
+            context = {'request':request}
+        )
 
         serializer = AdminApplicationSerializer(
             Application.objects.get(id=applicaiton_id),
@@ -182,24 +182,20 @@ class ApplicationView(BaseView, NavMixin):
         serialized.update({
             'serializer': serializer,
             'application':application_data.data,
-            #'sua':sua_data.data,
         })
         return serialized
 
     def deserialize(self, request, *args, **kwargs):
         application_id = kwargs['pk']
-        applicatoin = Application.objects.get(id = application_id)
         serializer = AdminApplicationSerializer(
+            Application.objects.get(id = application_id),
             data=request.data,
             context={'request': request},
             )
         if serializer.is_valid():
-            serializer.update()
-#            is_checked = True,
-#            publicity=appeal.publicity,
-#            student = appeal.student,
-#            owner=Appeal.objects.get(id=appeal_id).owner
+            serializer.save(is_checked=True)
             self.url = serializer.data['url']
             return True
         else:
+            print(serializer.errors)
             return False
