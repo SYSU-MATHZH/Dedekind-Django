@@ -188,13 +188,14 @@ class ApplicationView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
         application_id = kwargs['pk']
-        applicatoin = Application.objects.get(id = application_id)
+        application_set = Application.objects.get(id = application_id)
         serializer = AdminApplicationSerializer(
+            application_set,
             data=request.data,
             context={'request': request},
             )
         if serializer.is_valid():
-            serializer.update()
+            serializer.save(is_checked=True)
 #            is_checked = True,
 #            publicity=appeal.publicity,
 #            student = appeal.student,
