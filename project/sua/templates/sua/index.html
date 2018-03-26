@@ -140,7 +140,7 @@
               </td>
                 <td>{{ application.sua.activity.group }}</td>
                 <td>{{ application.sua.suahours }}</td>
-                <td>{% if application.status == 0 %} 通过 {% else %}{% if application.status == 1 %}未通过{% else %}{% endif %}需要线下声明{% endif %}</td>
+                <td>{% if application.is_checked %}{% if application.status == 0 %} 通过 {% else %}{% if application.status == 1 %}未通过{% else %}{% endif %}需要线下声明{% endif %}{% endif %}</td>
                 <td>
                 {% if application.is_checked %} {% if application.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
                 </td>
@@ -173,10 +173,10 @@
                 <td>{{ appeal.created }}</td>
                 <td><a href="{{ appeal.url }}">“{{ appeal.publicity.title }}”的申诉</a></td>
                 <td>
-                  {% if appeal.is_checked %} {% if appeal.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
+                  {% if appeal.is_checked %}是 {% else %} 否 {% endif %}
                 </td>
-                <td>{{ appeal.status }}</td>
-                <td>{{ appeal.feedback }}</td>
+                <td>{% if appeal.is_checked %}{% if appeal.status == 0 %} 通过 {% endif %}{% if appeal.status == 1 %} 未通过 {% endif %}{% if appeal.status == 2%} 需要线下处理 {% endif %} {% endif %}</td>
+                <td>{% if appeal.is_checked %}{{ appeal.feedback }} {% endif %}</td>
               </tr>
             {% endfor %}
             </tbody>
