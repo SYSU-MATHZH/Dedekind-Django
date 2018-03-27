@@ -115,9 +115,9 @@ class AppealView(BaseView, NavMixin):
             context = {'request':request}
         )
 
-        sua_set = Sua.objects.filter(
+        sua_set = Activity.suas.filter(
             student__number = appeal_data.data['student']['number'],
-            activity__title = appeal_data.data['publicity']['activity']['title'],
+            activity__title = appeal_data.data['publicity']['activity']['suas'],
             ).get()
         sua_data = SuaSerializer(
             sua_set,
