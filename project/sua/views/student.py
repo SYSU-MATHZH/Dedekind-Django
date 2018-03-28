@@ -175,7 +175,7 @@ def Download(request):
     user = request.user
 
     student = user.student
-    Filename = 'str(student.name)'
+    # Filename = 'str(student.name)'
 
     sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
         student.suas.filter(is_valid=True),
@@ -242,7 +242,7 @@ class ApplyView(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         serialized = super(ApplyView, self).serialize(request)
 
-        user = request.user
+        # user = request.user
         # if hasattr(user, 'student'): # 判断当前用户是否为学生
         activity_serializer = DEActivityForAddApplicationsSerializer()
         sua_serializer = DESuaForAddApplicationsSerializer()
@@ -271,7 +271,6 @@ class ApplyView(BaseView, NavMixin):
         proof_serializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
         application_serializer = DEAddApplicationsSerializer(data=request.data, context={'request': request})
         if activity_serializer.is_valid() and sua_serializer.is_valid() and application_serializer.is_valid() and proof_serializer.is_valid():
-
             activity = activity_serializer.save(owner=user)
             sua = sua_serializer.save(activity=activity, owner=user, student=student)
             proof = proof_serializer.save(owner=user)
