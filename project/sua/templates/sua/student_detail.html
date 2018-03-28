@@ -4,10 +4,9 @@
 
 {% block content %}
 
-{% load static %}
-
-{% load rest_framework %}
-
+<!-- 导航栏部分开始 -->
+{% include 'sua/_partial/nav.html' %}
+<!-- 导航栏部分结束 -->
 <div class="container my-space-line">
         <div class="row">
             <div class="col-xs-3">
@@ -49,9 +48,7 @@
         <p>id:{{ serializer.data.id }}</p><!-- 用户信息(Student) -->
         </div>
         </div>
-        <p>{{ serializer.data }}</p>
-        <a href="/students/{{ serializer.data.id }}/delete">删除该学生</a>
-        <a href="/students/{{ serializer.data.id }}/change" >编辑该学生信息</a>
-        <a href="/admin">返回主页</a>
-    </div>
+        <a href="/students/{{ serializer.data.id }}/delete"><button type="submit">删除该学生</button></a>
+        <a href="/students/{{ serializer.data.id }}/change" ><button type="submit">编辑该学生信息</button></a>
+        <a href="/admin"><button type="submit">返回主页</button></a>
 {% endblock %}

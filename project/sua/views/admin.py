@@ -159,18 +159,31 @@ class ApplicationView(BaseView, NavMixin):
         applicaiton_id = kwargs['pk']
         serialized = super(ApplicationView, self).serialize(request)
 
-        application_data = AdminApplicationSerializer(
+        application_data = AdminPublicitySerializer(
             Application.objects.get(id=applicaiton_id),
             context = {'request':request}
         )
+        sua_set = Sua.objects.filter(
+            student__number = application_data.data['student']['number'],
+            activity__title = application_data.data['publicity']['activity']['title'],
+            ).get()
+        sua_data = SuaSerializer(
+            sua_set,
+            context = {'request':request}
+        )
 
+        student_set = Student.objects.get(id=application)
+        student_data = StudentSerializer(
+            students_set,
+            context = {'request':request}
+        )
         activity_set = Activity.objects.get(id=applicaiton_id)
-        Activity_data = ActivityWithSuaSerializer(
+        activity_data = ActivityforApplicationsSuaSerializer(
             activity_set,
             context = {'request':request}
         )
         proof_set = Proof.objects.get(id=applicaiton_id)
-        proof_data = ProofforApplicationsSerializer(
+        proof_data = ProofSerializer(
             proof_set,
             context = {'request':request}
         )
@@ -182,6 +195,10 @@ class ApplicationView(BaseView, NavMixin):
         serialized.update({
             'serializer': serializer,
             'application':application_data.data,
+            'activity':activity_data.data,
+            'proof':proof_data.data,
+            'student':student_data.data,
+            'sua':sua_data.data,
         })
         return serialized
 
@@ -197,5 +214,4 @@ class ApplicationView(BaseView, NavMixin):
             self.url = serializer.data['url']
             return True
         else:
-            print(serializer.errors)
             return False
