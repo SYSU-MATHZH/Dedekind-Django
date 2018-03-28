@@ -15,8 +15,13 @@ class IsTheStudentOrIsAdminUser(permissions.BasePermission):
             return True
         elif isinstance(obj, Student):
             return obj.user == request.user
-        else:
+        elif hasattr(obj, 'student'):
             return obj.student.user == request.user
+        elif hasattr(obj, 'owner'):
+            return obj.owner == request.user
+        else:
+            assert hasattr(obj, 'owner')
+            return False
 
 
 class IsAdminUserOrReadOnly(permissions.BasePermission):

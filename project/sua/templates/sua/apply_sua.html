@@ -2,7 +2,7 @@
 
 {% block title %}申请个人公益时{% endblock %}
 
-{% block content %} 
+{% block content %}
 {% load static %}
 {% load rest_framework %}
 
@@ -20,7 +20,6 @@
  	  	<div class="row">
  	  	<div class="col-xs-12">
   	  		<form enctype="multipart/form-data" role="form" action="" method="POST">
-            {% csrf_token %}
   	  			<div class="row">
 					<div class="col-md-6">
 						<div class="row">
@@ -42,7 +41,7 @@
   	  				</div>
 						</div>
 					</div>
-					 
+
 					<div class="col-md-6">
 						<div class="row">
 						  	  				<div class="col-xs-6">
@@ -144,7 +143,7 @@
                 <input class="input-group-addon">小时</div>
 				<div class="input-group">
                   {{ suaForm.suahours }}
-                  
+
                 </div>
   	  				</div>
   	  				</div>
@@ -165,7 +164,7 @@
 						</div>
 						</div>
 						<br><br>
-				
+
   	  					{{ proofForm.proof_file }}
 		<div class="row">
     </div>
@@ -190,16 +189,17 @@
   	  				</div>
   	  			</div>
   	  			<hr>
+                <form enctype="multipart/form-data" role="form" action="" method="POST">
 				<div class="row">
-      {% render_form applications %} 
-      {% render_form activities %}
-      {% render_form suas %}
-      {% render_form proofs %}
-<!-- {% render_form applications %} -->
+                    {% csrf_token %}
+                    {% render_form applications %}
+                    {% render_form activities %}
+                    {% render_form suas %}
+                    {% render_form proofs %}
 					<div class="col-lg-12">
 						<button type="submit" class="btn btn-block">提交</button>
 					</div>
-					</div>
+				</div>
   	  			</form>
 	    </div>
   	  </div>

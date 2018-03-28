@@ -34,6 +34,7 @@
     <p>申请人：<a href="{{ application.sua.student.url }}">{{ application.sua.student.name }}</a></p>
     <p>公益时：{{ application.sua.suahours }}h</p>
     <p>是否已审核：{{ application.is_checked }}</p>
+    <a href="/admin/applications/{{ application.id }}/change/">审核申请</a>
     <a href="/applications/{{ application.id}} /delete">删除该申请</a>
 {% endfor %}
 

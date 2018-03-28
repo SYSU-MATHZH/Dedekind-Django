@@ -71,7 +71,7 @@ class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Application
-        fields = ('url', 'created', 'contact', 'sua', 'proof', 'is_checked', 'status', 'feedback', 'id')
+        fields = ('url', 'created', 'contact', 'sua', 'proof', 'is_checked', 'status', 'feedback', 'id',)
 
 
 class PublicitySerializer(serializers.HyperlinkedModelSerializer):
@@ -108,24 +108,24 @@ class ActivityforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
         model = Activity
         fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid','id')
 
-class SuaforApplicationsSerializer(serializers.ModelSerializer):
-    student = StudentNameNumberSerializer()
-    activity = ActivityforApplicationsSerializer()
-    class Meta:
-        model = Sua
-        fields = ('student', 'activity', 'suahours', 'id')
+#class SuaforApplicationsSerializer(serializers.ModelSerializer):
+#    student = StudentNameNumberSerializer()
+#    activity = ActivityforApplicationsSerializer()
+#    class Meta:
+#        model = Sua
+#        fields = ('student', 'activity', 'suahours', 'id')
 
-class ProofforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Proof
-        fields = ('url', 'is_offline', 'proof_file')
+#class ProofforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
+#    class Meta:
+#        model = Proof
+#        fields = ('url', 'is_offline', 'proof_file')
 
 class AdminApplicationSerializer(serializers.HyperlinkedModelSerializer):
-    proof = ProofforApplicationsSerializer()
-    sua = SuaforApplicationsSerializer()
+#    proof = ProofforApplicationsSerializer()
+#    sua = SuaforApplicationsSerializer()
     class Meta:
         model = Application
-        fields = ('url', 'status','feedback', 'proof','sua' )
+        fields = ('url', 'status','feedback', )
 
 class AdminAppealSerializer(serializers.HyperlinkedModelSerializer):
 
