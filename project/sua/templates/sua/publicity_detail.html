@@ -10,6 +10,34 @@
 <!-- 导航栏部分结束 -->
 
 {{ serializer.data }}
+					<div class="col-md-6">
+						<div class="row">
+							<div class="col-xs-6">
+  	  				<div class="form-group">
+  	  					<label for="actor-name">
+  	  					公示标题
+  	  					</label>
+						<p id="actor-name" class="form-control-static">{{ publicity.title }}</p>
+  	  				</div>
+  	  				</div>
+  	  				<div class="col-xs-6">
+  	  				<div class="form-group">
+  	  					<label for="actor-code">
+  	  					申诉内容
+  	  					</label>
+  	  					<p id="actor-code" class="form-control-static" name="content" type="text">{{serializer}}</p>
+  	  				</div>
+  	  				</div>
+						</div>
+					</div>
+          <div class="row">
+  					<div class="col-lg-12">
+  						<a class="btn btn-block btn-default" >发起申诉</a>
+  					</div>
+  					</div>
+
+
+
 <a href="/publicities/{{ serializer.data.id }}/delete">删除该公示</a>
 <a href="/publicities/{{ serializer.data.id }}/change" >编辑该公示</a>
 <a href="/admin">返回主页</a>
