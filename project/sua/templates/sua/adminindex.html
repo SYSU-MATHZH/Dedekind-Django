@@ -6,48 +6,128 @@
 <!-- 导航栏部分开始 -->
 {% include 'sua/_partial/nav.html' %}
 <!-- 导航栏部分结束 -->
-<div class="main-content my-tab-content">
-  <a href="/students/add" target="_blank">创建学生</a>
-  <a href="/activities/add" target="_blank">创建活动</a>
-  <div>学生</div>
-    {% for student in students %}
-      <p>学号：{{ student.number }}</p>
-      <p>年级：{{ student.grade }}</p>
-      <p>班别：{{ student.classtype }}</p>
-      <p>名字：<a href="{{ student.url }}">{{ student.name }}</a></p>
-      <p>公益时数：{{ student.suahours }}</p>
-    {% endfor %}
+<div class="main-content" role="tabpanel">
+  <div id="tabContent1" class="tab-content my-tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="students">
+    <div class="tab-header">学生</div>
+      <a class="btn btn-default" href="/students/add" target="_blank">创建学生</a>
+      <a class="btn btn-default" href="/activities/add" target="_blank">创建活动</a>
+      <div class="table-responsive">
+        <table class="table">
+        <thead>
+          <tr>
+            <td>学号</td>
+            <td>年级</td>
+            <td>班别</td>
+            <td>名字</td>
+            <td>公益时数</td>
+          </tr>
+        </thead>
+        {% for student in students %}
+          <tr>
+          <td>{{ student.number }}</td>
+          <td>{{ student.grade }}</td>
+          <td>{{ student.classtype }}</td>
+          <td><a href="{{ student.url }}">{{ student.name }}</a></td>
+          <td>{{ student.suahours }}</td>
+          </tr>
+        {% endfor %}
+        </table>
+      </div>
+    </div>
+    
+    <div role="tabpanel" class="tab-pane" id="activities">
+      <div class="tab-header">活动</div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <td>活动日期</td>
+              <td>活动名称</td>
+              <td>组织方</td>
+              <td>是否已公示</td>
+              <td>开始日</td>
+              <td>结束日</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for publicity in publicities %}
+              <tr>
+                <td>{{ publicity.activity.date }}</td>
+                <td><a href="{{ publicity.activity.url }}">{{ publicity.activity.title }}</a></td>
+                <td>{{ publicity.activity.group }}</td>
+                <td>{{ publicity.is_published }}</td>
+                <td>{{ publicity.begin }}</td>
+                <td>{{ publicity.end }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-  <div>活动</div>
-  {% for publicity in publicities %}
-      <p>活动日期：{{ publicity.activity.date }}</p>
-      <p>活动名称：<a href="{{ publicity.activity.url }}">{{ publicity.activity.title }}</a></p>
-      <p>组织方：{{ publicity.activity.group }}</p>
-      <p>是否已公示：{{ publicity.is_published }}</p>
-      <p>开始日：{{ publicity.begin }}</p>
-      <p>结束日：{{ publicity.end }}</p>
-    {% endfor %}
+    <div role="tabpanel" class="tab-pane" id="applications">
+      <div class="tab-header">申请</div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <td>申请日期</td>
+              <td>标题</td>
+              <td>申请人</td>
+              <td>公益时</td>
+              <td>是否已审核</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for application in applications %}
+              <tr>
+                <td>{{ application.created }}</td>
+                <td><a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a></td>
+                <td><a href="{{ application.sua.student.url }}">{{ application.sua.student.name }}</a></td>
+                <td>{{ application.sua.suahours }}h</td>
+                <td>{{ application.is_checked }}</td>
+                <td>
+                  <a class="btn btn-default" href="/admin/applications/{{ application.id }}/change/">审核申请</a>
+                  <a class="btn btn-default" href="/applications/{{ application.id}} /delete">删除该申请</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div role="tabpanel" class="tab-pane" id="appeals">
+      <div class="tab-header">申诉</div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <td>申诉日期</td>
+              <td>申诉的公示</td>
+              <td>申诉人</td>
+              <td>是否已处理</td>
+              <td></td>
+            </tr>
+          </thead>
+          {% for appeal in appeals %}
+            <tr>
+              <td>{{ appeal.created }}</td>
+              <td><a href="{{ appeal.publicity.url }}">{{ appeal.publicity.title }}</a></td>
+              <td><a href="{{ appeal.student.url }}">{{ appeal.student.name }}</a></td>
+              <td>{{ appeal.is_checked }}</td>
+              <td>
+                <a class="btn btn-default" href="/admin/appeals/{{ appeal.id }}/change/">审核申诉</a>
+                <a class="btn btn-default" href="/appeals/{{ appeal.id}} /delete">删除该申诉</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
 
-  <div>申请</div>
-    {% for application in applications %}
-      <p>申请日期：{{ application.created }}</p>
-      <p>标题：<a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a></p>
-      <p>申请人：<a href="{{ application.sua.student.url }}">{{ application.sua.student.name }}</a></p>
-      <p>公益时：{{ application.sua.suahours }}h</p>
-      <p>是否已审核：{{ application.is_checked }}</p>
-      <a href="/admin/applications/{{ application.id }}/change/">审核申请</a>
-      <a href="/applications/{{ application.id}} /delete">删除该申请</a>
-    {% endfor %}
-
-  <div>申诉</div>
-    {% for appeal in appeals %}
-      <p>申诉日期：{{ appeal.created }}</p>
-      <p>申诉的公示：<a href="{{ appeal.publicity.url }}">{{ appeal.publicity.title }}</a></p>
-      <p>申诉人：<a href="{{ appeal.student.url }}">{{ appeal.student.name }}</a></p>
-      <p>是否已处理：{{ appeal.is_checked }}</p>
-      <a href="/admin/appeals/{{ appeal.id }}/change/">编辑申诉</a>
-      <a href="/appeals/{{ appeal.id}} /delete">删除该申诉</a>
-    {% endfor %}
-
-  {% endblock %}
+  </div>
 </div>
+{% endblock %}

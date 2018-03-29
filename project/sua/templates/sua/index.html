@@ -36,7 +36,7 @@
         <div class="col-lg-9 col-xs-6">
           <span class="my-pub-title">{{ publicity.title }}</span>
         </div>
-        <div class="col-lg-3 col-xs-6 pull-right">
+        <div class="col-lg-3 pull-right">
           <a href="publicities/{{ publicity.id }}/appeal/" class="btn btn-default" role="button">
             提出申诉
           </a>
@@ -71,15 +71,15 @@
               <td>公益时数</td>
             </tr>
           </thead>
+          <tbody>
           {% for sua in publicity.activity.suas %}
-            <tbody>
               <tr>
                 <td>{{ sua.student.name }}</td>
                 <td>{{ sua.student.number }}</td>
                 <td>{{ sua.suahours }}</td>
               </tr>
-            </tbody>
           {% endfor %}
+          </tbody>
         </table>
       </div>
       {% else %}
@@ -136,7 +136,7 @@
                 <td>{{ forloop.counter }}</td>
                 <td>{{ application.created }}</td>
                 <td>
-                <a href="{{ application.url }}">{{ application.sua.activity.title }}</a>
+                <a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a>
               </td>
                 <td>{{ application.sua.activity.group }}</td>
                 <td>{{ application.sua.suahours }}</td>
@@ -151,7 +151,7 @@
         </table>
       </div>
     </div>
-    <div role="tabpanel" class="tab-pane fade" id="appeal">
+    <div role="tabpanel" class="tab-pane fade" id="appeals">
       <div class="tab-header">申诉列表</div>
       <div class="table-responsive">
         <table class="table table-hover">
