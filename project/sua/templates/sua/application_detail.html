@@ -15,7 +15,7 @@
   	  </div>
   	  <div class="col-lg-6">
   	  	<h3>{{ serializer.data }}</h3>
-  	  	<p class="subtitle-descript">{{ serializer.detail }}</p>
+<!--  	  	<p class="subtitle-descript">{{ serializer.data.detail }}</p> -->
   	  	<hr>
  	  	<div class="row">
  	  	<div class="col-xs-12">
@@ -128,10 +128,10 @@
   	  					<label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
   	  					公益时证明
   	  					</label>
-                {% if sa.proof.is_offline %}
+                {% if serializer.data.proof.is_offline %}
                   <p id="" class="form-control-static">线下证明</p>
                 {% else %}
-                  <p id="" class="form-control-static"><a href="{{ MEDIA_URL }}{{serializer.data.proof.proof_file}}">线上证明</a></p>
+                  <p id="" class="form-control-static"><a href="{{ serializer.data.proof.proof_file }}">线上证明</a></p>
                 {% endif %}
   	  				</div>
   	  				</div>
@@ -146,8 +146,8 @@
   	  					<label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
   	  					审核结果
   	  					</label>
-                {% if sa.is_checked %}
-                  {% if serializer.data.is_valid %}
+                {% if serializer.data.is_checked %}
+                  {% if serializer.data.sua.is_valid %}
                     <p id="" class="form-control-static">审核通过</p>
                   {% else %}
                     <textarea name="sua_ApplicationForm-detail" placeholder="{{ serializer.data.feedback }}" maxlength="400" rows="10" id="" cols="20" class="form-control" readonly></textarea>
