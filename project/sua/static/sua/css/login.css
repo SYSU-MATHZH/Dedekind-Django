@@ -5,25 +5,37 @@ body {
     background: #f9f9f9
 }
 .box_one_noborder{
-    width: 340px;margin:0 auto;
+    width: 340px;
+    margin:0 auto;
     border:none;
     border-radius:3px;
     padding: 20px;
-    font-family: "微软雅黑";font-size: 14px;
+    font-family: "微软雅黑";
+    font-size: 14px;
     background: #f9f9f9
 }
-.box_one{
-    width: 340px;margin:0 auto;
+.login-box{
+    width: 340px;
+    margin:0 auto;
     border:1px solid #d8dee2;
     border-radius:3px;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     font-family: "微软雅黑";font-size: 14px;
     background: #ffffff
 }
-div.logo_title{
+.login-title {
   text-align: center;
+  white-space: nowrap;
   margin-top: -10px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+}
+.login-title h1 {
+  font-size: 33px;
+}
+.login-form {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 img.logo{
   max-width: 100%;
