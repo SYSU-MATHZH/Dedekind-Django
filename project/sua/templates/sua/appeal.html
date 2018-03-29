@@ -12,6 +12,6 @@
       <p>对{{ publicity.title }}的申诉</p>
       {% csrf_token %}
       {% render_form serializer %}
-      <input type="submit" name="save" value="提交">
+      <input type="submit" name="save" value="发起申诉">
   </form>
 {% endblock %}
