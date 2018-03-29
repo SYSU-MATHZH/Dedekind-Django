@@ -9,8 +9,10 @@
 <div class="main-content" role="tabpanel">
   <div id="tabContent1" class="tab-content my-tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="students">
-    <div class="tab-header">学生</div>
-      <a class="btn btn-default" href="/students/add" target="_blank">创建学生</a>
+      <div class="row tab-header">
+        <div class="col-lg-9 col-xs-6">学生</div>
+        <div class="col-lg-3 pull-right"><a class="btn btn-default" href="/students/add" target="_blank">创建学生</a></div>
+      </div>
       <div class="table-responsive">
         <table class="table">
         <thead>
@@ -36,8 +38,10 @@
     </div>
 
     <div role="tabpanel" class="tab-pane" id="activities">
-      <div class="tab-header">活动</div>
-      <a class="btn btn-default" href="/activities/add" target="_blank">创建活动</a>
+      <div class="row tab-header">
+        <div class="col-lg-9 col-xs-6">活动</div>
+        <div class="col-lg-3 pull-right"><a class="btn btn-default" href="/activities/add" target="_blank">创建活动</a></div>
+      </div>
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -56,7 +60,7 @@
                 <td>{{ publicity.activity.date }}</td>
                 <td><a href="{{ publicity.activity.url }}">{{ publicity.activity.title }}</a></td>
                 <td>{{ publicity.activity.group }}</td>
-                <td>{{ publicity.is_published }}</td>
+                <td>{% if publicity.is_published %}已公示{% else %}未公示{% endif %}</td>
                 <td>{{ publicity.begin }}</td>
                 <td>{{ publicity.end }}</td>
               </tr>
@@ -87,7 +91,7 @@
                 <td><a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a></td>
                 <td><a href="{{ application.sua.student.url }}">{{ application.sua.student.name }}</a></td>
                 <td>{{ application.sua.suahours }}h</td>
-                <td>{{ application.is_checked }}</td>
+                <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
                 <td>
                   <a class="btn btn-default" href="/admin/applications/{{ application.id }}/change/">审核申请</a>
                   <a class="btn btn-default" href="/applications/{{ application.id}} /delete">删除该申请</a>
@@ -117,7 +121,7 @@
               <td>{{ appeal.created }}</td>
               <td><a href="{{ appeal.publicity.url }}">{{ appeal.publicity.title }}</a></td>
               <td><a href="{{ appeal.student.url }}">{{ appeal.student.name }}</a></td>
-              <td>{{ appeal.is_checked }}</td>
+              <td>{% if appeal.is_checked %}已处理{% else %}未处理{% endif %}</td>
               <td>
                 <a class="btn btn-default" href="/admin/appeals/{{ appeal.id }}/change/">审核申诉</a>
                 <a class="btn btn-default" href="/appeals/{{ appeal.id}} /delete">删除该申诉</a>
