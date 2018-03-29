@@ -117,7 +117,7 @@ class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
     proof = AddProofSerializer()
     class Meta:
         model = Application
-        fields = ('url', 'sua', 'created','contact', 'proof', 'status', 'feedback')
+        fields = ('url', 'sua', 'created','contact', 'proof',) #'status', 'feedback')
 
     def create(self, validated_data):
         owner = validated_data['owner']
@@ -138,16 +138,6 @@ class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
         sua.save()
         instance.create = validated_data.get('created',instance.created)
         instance.contact = validated_data.get('contact',instance.contact)
-        instance.status = validated_data.get('status',instance.status)
-        instance.feedback = validated_data.get('feedback',instance.feedback)
         instance.id = validated_data.get('id',instance.id)
         instance.save()
-
-#        for sua_data in sua_datas:
-#            sua = suas.pop(0)
-#            sua.activity = sua_data.get('activity', sua.activity)
-#            sua.student = sua_data.get('student', sua.student)
-#            sua.team = sua_data.get('team', sua.team)
-#            sua.suahours = sua_data.get('suahours', sua.suahours)
-#            sua.save()
         return instance
