@@ -132,6 +132,7 @@ class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
         model = Application
         fields = ('url', 'sua', 'created','contact', 'proof','feedback')
 
+
     def create(self, validated_data):
         owner = validated_data['owner']
         sua_data = validated_data.pop('sua')
@@ -145,19 +146,12 @@ class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
         proof_data = validated_data.pop('proof')
         proof = instance.proof
         proof.save()
-        sua_datas = validated_data.pop('suas')
-        suas = (instance.suas).all()
-        suas = list(suas)
-        instance.create = validated_data.get('create',instance.create)
+        sua_datas = validated_data.pop('sua')
+#        sua = (instance.sua).all()
+        sua = instance.sua
+        sua.save()
+        instance.create = validated_data.get('created',instance.created)
         instance.contact = validated_data.get('contact',instance.contact)
         instance.id = validated_data.get('id',instance.id)
         instance.save()
-
-        for sua_data in sua_datas:
-            sua = suas.pop(0)
-            sua.activity = sua_data.get('activity', sua.activity)
-            sua.student = sua_data.get('student', sua.student)
-            sua.team = sua_data.get('team', sua.team)
-            sua.suahours = sua_data.get('suahours', sua.suahours)
-            sua.save()
         return instance
