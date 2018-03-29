@@ -197,6 +197,7 @@ class ApplicationView(BaseView, NavMixin):
             data=request.data,
             context={'request': request},
         )
+
         serializer = AdminApplicationSerializer(
             Application.objects.get(id=application_id),
             data=request.data,

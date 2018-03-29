@@ -7,7 +7,7 @@
 <!-- 导航栏部分开始 -->
 {% include 'sua/_partial/nav.html' %}
 <!-- 导航栏部分结束 -->
-<div class="container my-space-line">
+<!--<div class="container my-space-line">
         <div class="row">
             <div class="col-xs-3">
                 <p> 姓名：{{ serializer.data.name }}</p>
@@ -43,8 +43,112 @@
         <p>suas:{{ serializer.data.suas }}</p>
         </div>
         </div>
+<<<<<<< HEAD
+        <div class="row">
+            <div class="col-xs-4">
+        <p>id:{{ serializer.data.id }}</p> 用户信息(Student)
+        </div>
+        </div>
+=======
 -->
+>>>>>>> d0935abea3ef022319f44dee16a9655557ac64e7
         <a href="/students/{{ serializer.data.id }}/delete"><button type="submit">删除该学生</button></a>
         <a href="/students/{{ serializer.data.id }}/change" ><button type="submit">编辑该学生信息</button></a>
         <a href="/admin"><button type="submit">返回主页</button></a>
+-->
+
+        <div class="container my-space-line">
+          	<div class="row">
+         	  	<div class="row">
+         	  	<div class="col-xs-12">
+          	  		<form enctype="multipart/form-data" role="form" action="{% url 'index' %}" method="GET">
+                    {% csrf_token %}
+          	  			<div class="row">
+        					<div class="col-md-6">
+        						<div class="row">
+        							<div class="col-xs-6">
+          	  				<div class="form-group">
+          	  					<label for="actor-name">
+          	  					姓名
+          	  					</label>
+        						<p id="actor-name" class="form-control-static">{{ serializer.data.name }}</p>
+          	  				</div>
+          	  				</div>
+          	  				<div class="col-xs-6">
+          	  				<div class="form-group">
+          	  					<label for="actor-code">
+          	  					学号
+          	  					</label>
+          	  					<p id="actor-code" class="form-control-static">{{ serializer.data.number }}</p>
+          	  				</div>
+          	  				</div>
+        						</div>
+        					</div>
+
+
+        					<div class="col-md-6">
+        						<div class="row">
+        						  	  				<div class="col-xs-6">
+          	  				<div class="form-group">
+          	  					<label for="actor-date">
+          	  					公益时数
+          	  					</label>
+          	  					<p id="actor-date" class="form-control-static">{{ serializer.data.suahours }}</p>
+          	  				</div>
+          	  				</div>
+          	  				<div class="col-xs-6">
+          	  				<div class="form-group">
+          	  					<label for="actor-date">
+          	  					年级
+          	  					</label>
+          	  					<p id="actor-date" class="form-control-static">{{ serializer.data.grade }}</p>
+          	  				</div>
+          	  				</div>
+        						</div>
+        					</div>
+        				</div>
+          	  			<div class="row">
+          	  				<div class="col-lg-6">
+          	  				<div class="form-group">
+          	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.title.name }}">
+          	  					班别
+          	  					</label>
+                        <p id="" class="form-control-static">{{ serializer.data.classtype }}</p>
+          	  				</div>
+          	  				</div>
+                      <div class="col-lg-6">
+          	  				<div class="form-group">
+          	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.date.name }}">
+          	  					手机
+          	  					</label>
+                        <p id="" class="form-control-static">{{ serializer.data.phone }}</p>
+          	  				</div>
+          	  				</div>
+          	  			</div>
+          	  			<hr>
+          	  			<hr>
+        				<div class="row">
+        					<div class="col-lg-12">
+                    <a href="/students/{{ serializer.data.id }}/delete" class="btn btn-block btn-default" href='/'>删除该学生</a>
+                    <a href="/students/{{ serializer.data.id }}/delete" class="btn btn-block btn-default" href='/'>编辑该学生信息</a>
+          					<a href="/admin" class="btn btn-block btn-default" href='/'>返回主页</a>
+        					</div>
+        					</div>
+          	  			</form>
+        	    </div>
+          	  </div>
+
+            </div>
+          </div>
+          <div class="row">
+          	<div class="col-lg-12">
+          		<hr>
+          	</div>
+          </div>
+          </div>
+
+
+
+
+
 {% endblock %}
