@@ -128,10 +128,10 @@
   	  					<label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
   	  					公益时证明
   	  					</label>
-                {% if sa.proof.is_offline %}
+                {% if serializer.data.proof.is_offline %}
                   <p id="" class="form-control-static">线下证明</p>
                 {% else %}
-                  <p id="" class="form-control-static"><a href="{{ MEDIA_URL }}{{serializer.data.proof.proof_file}}">线上证明</a></p>
+                  <p id="" class="form-control-static"><a href="{{ serializer.data.proof.proof_file }}">线上证明</a></p>
                 {% endif %}
   	  				</div>
   	  				</div>
