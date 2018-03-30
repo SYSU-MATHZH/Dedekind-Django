@@ -12,7 +12,7 @@
 
 <div class="main-content" role="tabpanel">
   <div id="tabContent1" class="tab-content my-tab-content">
-    
+
 	<div class="row">
       <div class="col-xs-12">
 	  <p></p>
@@ -28,7 +28,7 @@
 	  <p></p>
 	  </div>
 	</div>
-	
+
     <div class="row">
  	  <div class="col-lg-3">
   	  </div>
@@ -41,10 +41,10 @@
   	</div>
 
     <div class="row">
-      <div class="col-xs-12">	
+      <div class="col-xs-12">
   	  <hr>
       <form enctype="multipart/form-data" role="form" action="" method="POST">
-     
+
 	  <div class="row">
 	    <div class="col-xs-1"></div>
 		<div class="col-xs-10">
@@ -53,10 +53,10 @@
 	      </div>
 		</div>
 	  </div>
-		
+
 	  <div class="row">
-	  <div class="col-xs-1"></div> 
-      <input type='hidden' name='csrfmiddlewaretoken' value='YiLwzWAmgPxZ8i9QQTFyAPMLSY62DJCzQ849msXlJYsWqgcq4yRyVrNezlFunGMJ' />		
+	  <div class="col-xs-1"></div>
+      	{% csrf_token %}
 
 		<div class="col-xs-4">
           <div class="form-group ">
@@ -64,19 +64,18 @@
             <input name="title" class="form-control" type="text"   >
 	      </div>
 	    </div>
-		<div class="col-xs-1"></div> 
+		<div class="col-xs-1"></div>
 	    <div class="col-xs-4">
           <div class="form-group ">
             <label >活动详情</label>
             <input name="detail" class="form-control" type="text"   >
           </div>
 	    </div>
-		<div class="col-xs-1"></div> 
+		<div class="col-xs-1"></div>
       </div>
-	
+
 	  <div class="row">
         <div class="col-xs-1"></div>
-		<input type='hidden' name='csrfmiddlewaretoken' value='YiLwzWAmgPxZ8i9QQTFyAPMLSY62DJCzQ849msXlJYsWqgcq4yRyVrNezlFunGMJ' />	
 
         <div class="col-xs-4">
           <div class="form-group ">
@@ -93,10 +92,9 @@
 	    </div>
 		<div class="col-xs-1"></div>
 	  </div>
-	
+
 	  <div class="row">
 	    <div class="col-xs-1"></div>
-        <input type='hidden' name='csrfmiddlewaretoken' value='YiLwzWAmgPxZ8i9QQTFyAPMLSY62DJCzQ849msXlJYsWqgcq4yRyVrNezlFunGMJ' />	
 
         <div class="col-xs-4">
           <div class="form-group ">
@@ -118,16 +116,15 @@
 	    <p></p>
 	    </div>
 	  </div>
-	  
+
 	  <hr>
-	  
+
 	  <div class="row">
-        <input type='hidden' name='csrfmiddlewaretoken' value='YiLwzWAmgPxZ8i9QQTFyAPMLSY62DJCzQ849msXlJYsWqgcq4yRyVrNezlFunGMJ' />	
 
 	    <div class="col-xs-9">
 	    </div>
 	  </div>
-	  
+
 	  <div class="row">
 	    <div class="col-xs-1"></div>
 		<div class="col-xs-11">
@@ -136,10 +133,9 @@
 	      </div>
 		</div>
 	  </div>
-	  
+
 	  <div class="row">
 	    <div class="col-xs-1"></div>
-        <input type='hidden' name='csrfmiddlewaretoken' value='YiLwzWAmgPxZ8i9QQTFyAPMLSY62DJCzQ849msXlJYsWqgcq4yRyVrNezlFunGMJ' />	  
         <div class="col-xs-4">
           <div class="form-group ">
             <div class="checkbox">
@@ -151,26 +147,25 @@
 		  </div>
         </div>
 	  </div>
-	
+
 	  <div class="row">
 	    <div class="col-xs-1"></div>
-        <input type='hidden' name='csrfmiddlewaretoken' value='YiLwzWAmgPxZ8i9QQTFyAPMLSY62DJCzQ849msXlJYsWqgcq4yRyVrNezlFunGMJ' />	
 	    <div class="col-xs-4">
-          <div class="form-group ">  
+          <div class="form-group ">
             <label >证明文件</label>
             <input name="proof_file"  type="file"   >
           </div>
         </div>
 	  </div>
-	
+
 	  <div class="row">
         <div class="col-xs-12">
 	    <p></p>
 	    </div>
 	  </div>
-	  
+
 	  <hr>
-	
+
 	  <div class="row">
 	    <div class="col-xs-1"></div>
 		<div class="col-xs-11">
@@ -179,10 +174,9 @@
 	      </div>
 		</div>
 	  </div>
-	  
+
 	  <div class="row">
 	    <div class="col-xs-1"></div>
-        <input type='hidden' name='csrfmiddlewaretoken' value='YiLwzWAmgPxZ8i9QQTFyAPMLSY62DJCzQ849msXlJYsWqgcq4yRyVrNezlFunGMJ' />		
 		<div class="col-xs-4">
           <div class="form-group ">
             <label>申请人手机号</label>
@@ -190,13 +184,13 @@
           </div>
         </div>
       </div>
-      
+
 	  <div class="row">
         <div class="col-lg-12">
           <hr>
         </div>
-      </div>  
-	  
+      </div>
+
       <div class="row">
 	    <div class="col-lg-5">
 	    </div>
@@ -206,10 +200,10 @@
 		<div class="col-lg-5">
 	    </div>
       </div>
-	
-	
+
+
       </form>
-	    
+
     </div>
   </div>
 
@@ -217,7 +211,7 @@
     <div class="col-lg-12">
 	  <p></p>
     </div>
-  </div>  
+  </div>
   <div class="row">
     <div class="col-xs-12">
 	  <p></p>
@@ -228,6 +222,6 @@
   <div class="col-lg-12">
   <p></p>
   </div>
-</div>  
+</div>
 
 {% endblock %}
