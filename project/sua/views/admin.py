@@ -24,8 +24,9 @@ from project.sua.serializers import AppealSerializer
 from project.sua.serializers import AdminAppealSerializer
 from project.sua.serializers import AdminPublicitySerializer
 from project.sua.serializers import AdminApplicationSerializer
-from project.sua.serializers import ActivityWithSuaSerializer
 from project.sua.serializers import ProofSerializer
+from project.sua.serializers import AdminApplicationMassageSerializer
+from project.sua.serializers import SuaforApplicationsSerializer
 
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
@@ -121,7 +122,7 @@ class AppealView(BaseView, NavMixin):
         sua_set = activity.suas.filter(
             student__number = appeal_data.data['student']['number'],
             activity__title = appeal_data.data['publicity']['activity']['title'],
-            ).get() 
+            ).get()
         sua_data = SuaSerializer(
             sua_set,
             context = {'request':request}
@@ -159,50 +160,52 @@ class ApplicationView(BaseView, NavMixin):
     }
 
     def serialize(self, request, *args, **kwargs):
-        applicaiton_id = kwargs['pk']
+        application_id = kwargs['pk']
         serialized = super(ApplicationView, self).serialize(request)
 
-        application_data = AdminApplicationSerializer(
-            Application.objects.get(id=applicaiton_id),
+        application_data = AdminApplicationMassageSerializer(
+            Application.objects.get(id=application_id),
             context = {'request':request}
         )
-
-#        activity_set = Activity.objects.get(id=applicaiton_id)
-#        Activity_data = ActivityWithSuaSerializer(
-#            activity_set,
-#            context = {'request':request}
-#        )
-#        proof_set = Proof.objects.get(id=applicaiton_id)
-#        proof_data = ProofSerializer(
-#            proof_set,
-#            context = {'request':request}
-#        )
-
+        sua_set = Sua.objects.filter(
+            application__id = application_id,
+        ).get()
+        sua_data = SuaSerializer(
+            sua_set,
+            context = {'request':request}
+        )
         serializer = AdminApplicationSerializer(
-            Application.objects.get(id=applicaiton_id),
+            Application.objects.get(id=application_id),
             context={'request':request}
         )
         serialized.update({
             'serializer': serializer,
             'application':application_data.data,
-            #'sua':sua_data.data,
+            'sua':sua_data.data,
         })
         return serialized
-
     def deserialize(self, request, *args, **kwargs):
         application_id = kwargs['pk']
-        application_set = Application.objects.get(id = application_id)
+        application_data = AdminApplicationMassageSerializer(
+            Application.objects.get(id=application_id),
+            context = {'request':request}
+        )
+        sua_data = SuaforApplicationsSerializer(
+            Sua.objects.filter(
+                application__id = application_id,
+            ).get(),
+            data=request.data,
+            context={'request': request},
+        )
+
         serializer = AdminApplicationSerializer(
-            application_set,
+            Application.objects.get(id=application_id),
             data=request.data,
             context={'request': request},
             )
-        if serializer.is_valid():
+        if serializer.is_valid() and sua_data.is_valid():
             serializer.save(is_checked=True)
-#            is_checked = True,
-#            publicity=appeal.publicity,
-#            student = appeal.student,
-#            owner=Appeal.objects.get(id=appeal_id).owner
+            sua_data.save(is_valid=True)
             self.url = serializer.data['url']
             return True
         else:

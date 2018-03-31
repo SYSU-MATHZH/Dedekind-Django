@@ -35,6 +35,10 @@ class ActivitySerializer(serializers.HyperlinkedModelSerializer):
         model = Activity
         fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
 
+class ProofSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Proof
+        fields = ('url', 'is_offline', 'proof_file', 'applications')
 
 class SuaSerializer(serializers.HyperlinkedModelSerializer):
     activity = ActivitySerializer()
@@ -68,7 +72,6 @@ class ActivityWithSuaSerializer(serializers.ModelSerializer):
 
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
     sua = SuaSerializer()
-
     class Meta:
         model = Application
         fields = ('url', 'created', 'contact', 'sua', 'proof', 'is_checked', 'status', 'feedback', 'id',)
@@ -91,11 +94,6 @@ class AppealSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'created', 'student', 'publicity', 'content', 'is_checked', 'status', 'feedback', 'id')
 
 
-class ProofSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Proof
-        fields = ('url', 'is_offline', 'proof_file', 'applications')
-
 class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -108,21 +106,24 @@ class ActivityforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
         model = Activity
         fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid','id')
 
-#class SuaforApplicationsSerializer(serializers.ModelSerializer):
-#    student = StudentNameNumberSerializer()
-#    activity = ActivityforApplicationsSerializer()
-#    class Meta:
-#        model = Sua
-#        fields = ('student', 'activity', 'suahours', 'id')
+class SuaforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Sua
+        fields = ('url','is_valid')
 
-#class ProofforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
-#    class Meta:
-#        model = Proof
-#        fields = ('url', 'is_offline', 'proof_file')
+class ProofforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Proof
+        fields = ('url', 'is_offline', 'proof_file')
+
+class AdminApplicationMassageSerializer(serializers.HyperlinkedModelSerializer):
+    proof = ProofforApplicationsSerializer()
+    sua = SuaSerializer()
+    class Meta:
+        model = Application
+        fields = ('url', 'proof', 'sua',)
 
 class AdminApplicationSerializer(serializers.HyperlinkedModelSerializer):
-#    proof = ProofforApplicationsSerializer()
-#    sua = SuaforApplicationsSerializer()
     class Meta:
         model = Application
         fields = ('url', 'status','feedback', )
@@ -190,14 +191,37 @@ class AddApplicationsSerializer(serializers.HyperlinkedModelSerializer):
         # proof = ProofForAddApplicationsSerializer()
 
         sua_data = validated_data.pop('sua')
-        activity_data = sua_data.pop('activity')
-        activity = Activity.objects.create(owner=owner, **activity_data)
+#        activity_data = sua_data.pop('activity')
+#        activity = Activity.objects.create(owner=owner, **activity_data)
         sua = Sua.objects.create(owner=owner, activity=activity, **sua_data)
         proof_data = validated_data.pop('proof')
         proof = Proof.objects.create(owner=owner, **proof_data)
         application = Application.objects.create(owner=owner, sua=sua, proof=proof, **validated_data)
         return application
 
+    def update(self, instance, validated_data):
+        proof_data = validated_data.pop('proof')
+        proof = instance.proof
+        proof.save()
+        sua_datas = validated_data.pop('sua')
+#        sua = (instance.sua).all()
+        sua = instance.sua
+        sua.save()
+        instance.create = validated_data.get('created',instance.created)
+        instance.contact = validated_data.get('contact',instance.contact)
+        instance.status = validated_data.get('status',instance.status)
+        instance.feedback = validated_data.get('feedback',instance.feedback)
+        instance.id = validated_data.get('id',instance.id)
+        instance.save()
+
+#        for sua_data in sua_datas:
+#            sua = suas.pop(0)
+#            sua.activity = sua_data.get('activity', sua.activity)
+#            sua.student = sua_data.get('student', sua.student)
+#            sua.team = sua_data.get('team', sua.team)
+#            sua.suahours = sua_data.get('suahours', sua.suahours)
+#            sua.save()
+        return instance
 
 class DEActivityForAddApplicationsSerializer(serializers.HyperlinkedModelSerializer):
 
