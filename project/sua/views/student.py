@@ -250,10 +250,10 @@ class ApplyView(BaseView, NavMixin):
         application_serializer = DEAddApplicationsSerializer()
 
         serialized.update({
-            'activities':activity_serializer,
-            'suas':sua_serializer,
-            'proofs':proof_serializer,
-            'applications':application_serializer
+            'activity':activity_serializer,
+            'sua':sua_serializer,
+            'proof':proof_serializer,
+            'application':application_serializer
         })
 
         return serialized
