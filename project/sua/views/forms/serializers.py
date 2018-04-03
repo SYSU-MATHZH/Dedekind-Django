@@ -29,6 +29,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
         )
         student = Student.objects.create(user=user, **validated_data)
         return student
+
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user')
         user = instance.user
@@ -43,13 +44,17 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
         instance.save()
         return instance
 
+
 class ActivityWithSuaSerialiezer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Activity
         fields = ('url','title','date','group',)
+
+
 class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
     student = AddStudentSerializer()
     activity = ActivityWithSuaSerialiezer()
+
     class Meta:
         model = Sua
         fields = ('url', 'activity', 'student', 'team', 'suahours')
@@ -97,6 +102,7 @@ class PublicityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Activity
         fields = ('url','activity','title')
+
 class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
     student = AddStudentSerializer()
     publicity = PublicityWithAppealSerializer()
@@ -113,7 +119,6 @@ class AddPublicitySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AddProofSerializer(serializers.HyperlinkedModelSerializer):
-
     class Meta:
         model = Proof
         fields = ('url', 'is_offline', 'proof_file')
@@ -128,6 +133,7 @@ class AddProofSerializer(serializers.HyperlinkedModelSerializer):
 class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
     sua = AddSuaSerializer()
     proof = AddProofSerializer()
+    
     class Meta:
         model = Application
         fields = ('url', 'sua', 'created','contact', 'proof','feedback')

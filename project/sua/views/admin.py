@@ -188,10 +188,6 @@ class ApplicationView(BaseView, NavMixin):
         return serialized
     def deserialize(self, request, *args, **kwargs):
         application_id = kwargs['pk']
-
-        application_set = Application.objects.get(id = application_id)
-        sua_data = application_set.sua.objects.get()
-
         application_data = AdminApplicationMassageSerializer(
             Application.objects.get(id=application_id),
             context = {'request':request}
@@ -211,15 +207,7 @@ class ApplicationView(BaseView, NavMixin):
             )
         if serializer.is_valid() and sua_data.is_valid():
             serializer.save(is_checked=True)
-
-#            sua_data.save(is_valid=True)
-#            is_checked = True,
-#            publicity=appeal.publicity,
-#            student = appeal.student,
-#            owner=Appeal.objects.get(id=appeal_id).owner
-
             sua_data.save(is_valid=True)
-
             self.url = serializer.data['url']
             return True
         else:

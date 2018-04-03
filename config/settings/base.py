@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = (
     'rest_framework',
     'django_crontab',
     'django_filters',
+    'drf_yasg',  # 自动生成docs
 )
 
 LOCAL_APPS = (
