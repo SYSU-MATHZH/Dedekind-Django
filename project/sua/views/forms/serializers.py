@@ -20,7 +20,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Student
         fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id')
-
+        
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         user = User.objects.create(
@@ -98,7 +98,7 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
 
 class PublicityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
     activity = AddActivitySerializer()
-    
+
     class Meta:
         model = Activity
         fields = ('url','activity','title')
@@ -133,7 +133,7 @@ class AddProofSerializer(serializers.HyperlinkedModelSerializer):
 class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
     sua = AddSuaSerializer()
     proof = AddProofSerializer()
-    
+
     class Meta:
         model = Application
         fields = ('url', 'sua', 'created','contact', 'proof','feedback')

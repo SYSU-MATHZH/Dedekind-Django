@@ -19,13 +19,13 @@ router.register(r'appeals', api.AppealViewSet)
 router.register(r'proofs', api.ProofViewSet)
 
 rou = routers.DefaultRouter()
-rou.register(r'students', apis.StudentViewSet)
-rou.register(r'activities', apis.ActivityViewSet)
-rou.register(r'publicities', apis.PublicityViewSet)
-rou.register(r'proofs', apis.ProofViewSet)
-rou.register(r'applications', apis.ApplicationViewSet)
-rou.register(r'suas', apis.SuaViewSet)
-rou.register(r'appeals', apis.SuaViewSet)
+rou.register(r'students', apis.StudentViewSet, base_name="api-student")
+rou.register(r'activities', apis.ActivityViewSet, base_name="api-activity")
+rou.register(r'publicities', apis.PublicityViewSet, base_name="api-publicity")
+rou.register(r'proofs', apis.ProofViewSet, base_name="api-proof")
+rou.register(r'applications', apis.ApplicationViewSet, base_name="api-application")
+rou.register(r'suas', apis.SuaViewSet, base_name="api-sua")
+rou.register(r'appeals', apis.SuaViewSet, base_name="api-appeal")
 
 #
 #
