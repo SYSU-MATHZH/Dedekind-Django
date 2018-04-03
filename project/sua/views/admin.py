@@ -110,21 +110,23 @@ class AppealView(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         appeal_id = kwargs['pk']
         serialized = super(AppealView, self).serialize(request)
-
+        appeal = Appeal.objects.get(id=appeal_id)
         appeal_data = AdminPublicitySerializer(
-            Appeal.objects.get(id=appeal_id),
+            appeal,
             context = {'request':request}
         )
 
-        activity = Activity.objects.filter(
-            title = appeal_data.data['publicity']['activity']['title']
-            ).get()
+        activity = appeal.publicity.activity
         sua_set = activity.suas.filter(
-            student__number = appeal_data.data['student']['number'],
-            activity__title = appeal_data.data['publicity']['activity']['title'],
-            ).get()
+            student=appeal.student,
+            application=None,
+            )
+        if len(sua_set) == 0:
+            sua = None
+        else:
+            sua = sua_set[0]
         sua_data = SuaSerializer(
-            sua_set,
+            sua,
             context = {'request':request}
         )
 

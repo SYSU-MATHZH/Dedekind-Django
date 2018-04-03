@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.contrib.auth.decorators import login_required
-from project.sua.views import api, auth, student ,admin
+from project.sua.views import api, auth, student ,admin,apis
 
 from rest_framework import routers
 from django.conf.urls import url
@@ -18,12 +18,22 @@ router.register(r'publicities', api.PublicityViewSet)
 router.register(r'appeals', api.AppealViewSet)
 router.register(r'proofs', api.ProofViewSet)
 
+rou = routers.DefaultRouter()
+rou.register(r'students', apis.StudentViewSet)
+rou.register(r'activities', apis.ActivityViewSet)
+rou.register(r'publicities', apis.PublicityViewSet)
+rou.register(r'proofs', apis.ProofViewSet)
+rou.register(r'applications', apis.ApplicationViewSet)
+rou.register(r'suas', apis.SuaViewSet)
+rou.register(r'appeals', apis.SuaViewSet)
+
 #
 #
 #app_name = 'sua'
 urlpatterns = [
     path('suas/export/',login_required(student.SuasExportView.as_view())),
     path('', login_required(student.IndexView.as_view()), name='index'),
+    path('apis/',include(rou.urls)),
     path('', include(router.urls)),
     path('login/', auth.login_view, name='login'),
     path('logout/', auth.logout_view, name='logout'),
