@@ -56,7 +56,7 @@ class ProofSerializer(serializers.HyperlinkedModelSerializer):
         model = Proof
         fields = ('url', 'is_offline', 'proof_file', 'applications')
         extra_kwargs = {
-            'url':{'view_name': 'api-appeal-detail'},
+            'url':{'view_name': 'api-proof-detail'},
             'applications':{'view_name':'api-application-detail'},
         }
 
@@ -69,6 +69,7 @@ class SuaSerializer(serializers.HyperlinkedModelSerializer):
             'url':{'view_name': 'api-sua-detail'},
             'activity':{'view_name': 'api-activity-detail'},
             'student':{'view_name': 'api-student-detail'},
+            'application':{'view_name': 'api-application-detail'},
         }
         
 class PublicitySerializer(serializers.HyperlinkedModelSerializer):
