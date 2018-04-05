@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.contrib.auth.decorators import login_required
-from project.sua.views import api, auth, student ,admin
+from project.sua.views import api, auth, student ,admin,apis
 
 from rest_framework import routers
 from django.conf.urls import url
@@ -18,12 +18,23 @@ router.register(r'publicities', api.PublicityViewSet)
 router.register(r'appeals', api.AppealViewSet)
 router.register(r'proofs', api.ProofViewSet)
 
+rou = routers.DefaultRouter()
+rou.register(r'users', apis.UserViewSet)
+rou.register(r'students', apis.StudentViewSet, base_name="api-student")
+rou.register(r'activities', apis.ActivityViewSet, base_name="api-activity")
+rou.register(r'publicities', apis.PublicityViewSet, base_name="api-publicity")
+rou.register(r'proofs', apis.ProofViewSet, base_name="api-proof")
+rou.register(r'applications', apis.ApplicationViewSet, base_name="api-application")
+rou.register(r'suas', apis.SuaViewSet, base_name="api-sua")
+rou.register(r'appeals', apis.AppealViewSet, base_name="api-appeal")
+
 #
 #
 #app_name = 'sua'
 urlpatterns = [
     path('suas/export/',login_required(student.SuasExportView.as_view())),
     path('', login_required(student.IndexView.as_view()), name='index'),
+    path('apis/',include(rou.urls)),
     path('', include(router.urls)),
     path('login/', auth.login_view, name='login'),
     path('logout/', auth.logout_view, name='logout'),
