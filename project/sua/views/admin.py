@@ -44,7 +44,7 @@ import project.sua.views.forms.mixins as mymixins
 from .utils.base import BaseView
 from .utils.mixins import NavMixin
 
-from .forms.serializers import AddStudentSerializer,AddPublicitySerializer
+from .forms.serializers import AddStudentSerializer, AddPublicitySerializer, PublicityWithActivitySerializer
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/adminindex.html'
@@ -78,7 +78,7 @@ class IndexView(BaseView, NavMixin):
         )
 
         activity_set = Activity.objects.filter(owner=request.user)  # 获取所有当前管理员创建的活动
-        activity_data = ActivitySerializer(  # 序列化所有活动
+        activity_data = ActivitySerializer(  # 序列化所有所有当前管理员创建的活动
             activity_set,
             many=True,
             context={'request': request}
@@ -184,6 +184,7 @@ class ApplicationView(BaseView, NavMixin):
             'sua':sua_data.data,
         })
         return serialized
+
     def deserialize(self, request, *args, **kwargs):
         application_id = kwargs['pk']
         application_data = AdminApplicationMassageSerializer(
@@ -211,7 +212,7 @@ class ApplicationView(BaseView, NavMixin):
         else:
             return False
 
-class PublicityView(BaseView, NavMixin):
+class PublicityView(BaseView,NavMixin):
     template_name = 'sua/admin_publicity.html'
     components = {
         'nav': 'nav',
@@ -219,41 +220,23 @@ class PublicityView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         activity_id = kwargs['pk']
+        activity = Activity.objects.get(id=activity_id)
         serialized = super(PublicityView, self).serialize(request)
-
-        activity = Activity.objects.filter(
-            id = activity_id
-            ).get()
-        sua_set = activity.suas.filter(
-            student__number = appeal_data.data['student']['number'],
-            activity__title = appeal_data.data['publicity']['activity']['title'],
-            ).get()
-        sua_data = SuaSerializer(
-            sua_set,
-            context = {'request':request}
-        )
-
-        serializer = AdminAppealSerializer(
-            Appeal.objects.get(id=appeal_id),
-            context={'request':request}
-        )
+        serializer = PublicityWithActivitySerializer(context={'request':request})
         serialized.update({
+            'activity': activity,
             'serializer': serializer,
-            'appeal':appeal_data.data,
-            'sua':sua_data.data,
         })
         return serialized
 
     def deserialize(self, request, *args, **kwargs):
-        appeal_id = kwargs['pk']
-        serializer = AdminAppealSerializer(
-            Appeal.objects.get(id = appeal_id),
-            data=request.data,
-            context={'request': request}
-            )
+        user = request.user
+        activity_id = kwargs['pk']
+        serializer = PublicityWithActivitySerializer(data=request.data, context={'request': request,})
         if serializer.is_valid():
-            serializer.save(is_checked=True)
+
+            serializer.save(activity=Activity.objects.get(id=activity_id), owner=user)
             self.url = serializer.data['url']
             return True
         else:
-            return False
+            return False            

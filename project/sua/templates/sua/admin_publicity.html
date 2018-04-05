@@ -19,9 +19,6 @@
   <p>活动详情：{{ activity.detail }}</p>
   <p>活动小组：{{ activity.group }}</p>
   <p>活动日期:{{ activity.date }}</p>
-  <p>公益时：{{ suahours }}</p>
-  <p>是否线下证明：{{ application.proof.is_offline }}
-  <p>证明文件:<a href="{{ application.proof.proof_file }}">{{ application.proof.proof_file }}</a></p>
 
   <form enctype="multipart/form-data" action="" method="POST">
       {% csrf_token %}

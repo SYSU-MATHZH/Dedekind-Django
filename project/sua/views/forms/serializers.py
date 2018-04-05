@@ -96,6 +96,14 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
             sua.save()
         return instance
 
+
+class PublicityWithActivitySerializer(serializers.HyperlinkedModelSerializer):
+    
+    class Meta:
+        model = Publicity
+        fields = ('url', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end' )
+ 
+
 class PublicityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
     activity = AddActivitySerializer()
     
