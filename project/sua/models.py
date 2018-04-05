@@ -6,7 +6,6 @@ from django.utils import timezone
 from project.sua.storage import FileStorage
 import datetime
 import hashlib
-from .token import TOKEN
 
 
 YEAR_CHOICES = []
@@ -212,6 +211,7 @@ class Nonce(models.Model):
     timestamp = models.IntegerField()
 
     def getSignature(self):
+        TOKEN = "test"
         s = bytes(str(self.nonce) + str(self.timestamp) + TOKEN, encoding='utf8')
         signature = hashlib.sha1(s).hexdigest()
         return signature
