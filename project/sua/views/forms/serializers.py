@@ -20,7 +20,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Student
         fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id')
-
+        
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         user = User.objects.create(
@@ -29,6 +29,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
         )
         student = Student.objects.create(user=user, **validated_data)
         return student
+
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user')
         user = instance.user
@@ -43,13 +44,17 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
         instance.save()
         return instance
 
+
 class ActivityWithSuaSerialiezer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Activity
         fields = ('url','title','date','group',)
+
+
 class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
     student = AddStudentSerializer()
     activity = ActivityWithSuaSerialiezer()
+
     class Meta:
         model = Sua
         fields = ('url', 'activity', 'student', 'team', 'suahours')
@@ -91,12 +96,21 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
             sua.save()
         return instance
 
-class PublicityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
-    activity = AddActivitySerializer()
+
+class PublicityWithActivitySerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
+        model = Publicity
+        fields = ('url', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end' )
+ 
+
+class PublicityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
+    activity = AddActivitySerializer()
+
+    class Meta:
         model = Activity
-        fields = ('url','activity',)
+        fields = ('url','activity','title')
+
 class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
     student = AddStudentSerializer()
     publicity = PublicityWithAppealSerializer()
@@ -113,7 +127,6 @@ class AddPublicitySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AddProofSerializer(serializers.HyperlinkedModelSerializer):
-
     class Meta:
         model = Proof
         fields = ('url', 'is_offline', 'proof_file')
@@ -128,6 +141,7 @@ class AddProofSerializer(serializers.HyperlinkedModelSerializer):
 class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
     sua = AddSuaSerializer()
     proof = AddProofSerializer()
+
     class Meta:
         model = Application
         fields = ('url', 'sua', 'created','contact', 'proof','feedback')

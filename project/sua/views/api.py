@@ -17,7 +17,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 class UserViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    - API endpoint that allows users to be viewed or edited.
     """
     queryset = User.objects.all()
     serializer_class = sirs.UserSerializer
@@ -26,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    - API endpoint that allows groups to be viewed or edited.
     """
     queryset = Group.objects.all()
     serializer_class = sirs.GroupSerializer
@@ -42,7 +42,7 @@ class StudentViewSet(
         mymixins.DeleteFormMixin
     ):
     """
-    API endpoint that allows students to be viewed or edited.
+    - API endpoint that allows students to be viewed or edited.
     """
     queryset = Student.objects.all()
     serializer_class = sirs.StudentSerializer
@@ -63,11 +63,11 @@ class StudentViewSet(
     )
     def add(self, request):
         '''
-        url: api/students/add/
-        template: sua/student_form.html
-        GET: 向模板代码提供空Student序列化器(serializer)，渲染并返回Student创建表单
-        POST: 接受Student创建表单数据，创建Student实例，并重定向至Student实例详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/students/add/
+        - template: sua/student_form.html
+        - GET: 向模板代码提供空Student序列化器(serializer)，渲染并返回Student创建表单
+        - POST: 接受Student创建表单数据，创建Student实例，并重定向至Student实例详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(StudentViewSet, self).add(request)
 
@@ -81,11 +81,11 @@ class StudentViewSet(
     )
     def change(self, request, *args, **kwargs):
         '''
-        url: api/students/<int:pk>/change/
-        template: sua/student_form.html
-        GET: 向模板代码提供pk对应的student的序列化器(serializer)，渲染并返回Student更新表单
-        POST: 接受Student更新表单数据，更新Student实例及对应的User实例，并重定向至Student实例详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/students/<int:pk>/change/
+        - template: sua/student_form.html
+        - GET: 向模板代码提供pk对应的student的序列化器(serializer)，渲染并返回Student更新表单
+        - POST: 接受Student更新表单数据，更新Student实例及对应的User实例，并重定向至Student实例详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(StudentViewSet, self).change(request, *args, **kwargs)
 
@@ -98,17 +98,17 @@ class StudentViewSet(
     )
     def detail(self, request, *args, **kwargs):
         '''
-        url: api/students/<int:pk>/detail/
-        template: sua/student_detail.html
-        GET: 向模板代码提供pk对应的student的序列化器(serializer)，渲染并返回Student详情页面
-        表单字段：表单字段与serializer.data一致
+        - url: api/students/<int:pk>/detail/
+        - template: sua/student_detail.html
+        - GET: 向模板代码提供pk对应的student的序列化器(serializer)，渲染并返回Student详情页面
+        - 表单字段：表单字段与serializer.data一致
         '''
         return super(StudentViewSet, self).detail(request, *args, **kwargs)
 
 
 class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows suagroups to be viewed or edited.
+    - API endpoint that allows suagroups to be viewed or edited.
     """
     queryset = SuaGroup.objects.all()
     serializer_class = sirs.SuaGroupSerializer
@@ -124,7 +124,7 @@ class SuaViewSet(
     mymixins.DeleteFormMixin
 ):
     """
-    API endpoint that allows suas to be viewed or edited.
+    - API endpoint that allows suas to be viewed or edited.
     """
     queryset = Sua.objects.all()
     serializer_class = sirs.SuaSerializer
@@ -142,11 +142,11 @@ class SuaViewSet(
     )
     def add(self, request):
         '''
-        url: api/suas/add/
-        template: sua/sua_form.html
-        GET: 返回空Sua序列化器，渲染Sua创建表单
-        POST: 接受Sua创建表单数据，创建Sua实例，并重定向至对应的Activity详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/suas/add/
+        - template: sua/sua_form.html
+        - GET: 返回空Sua序列化器，渲染Sua创建表单
+        - POST: 接受Sua创建表单数据，创建Sua实例，并重定向至对应的Activity详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(SuaViewSet, self).add(request)
 
@@ -163,11 +163,11 @@ class SuaViewSet(
     )
     def change(self, request, *args, **kwargs):
         '''
-        url: api/suas/<int:pk>/change/
-        template: sua/sua_form.html
-        GET: 向模板代码提供pk对应的sua的序列化器(serializer)，渲染并返回Sua更新表单
-        POST: 接受Sua更新表单数据，更新Sua实例及对应的User实例，并重定向至Sua实例详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/suas/<int:pk>/change/
+        - template: sua/sua_form.html
+        - GET: 向模板代码提供pk对应的sua的序列化器(serializer)，渲染并返回Sua更新表单
+        - POST: 接受Sua更新表单数据，更新Sua实例及对应的User实例，并重定向至Sua实例详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(SuaViewSet, self).change(request, *args, **kwargs)
 
@@ -180,10 +180,10 @@ class SuaViewSet(
     )
     def detail(self, request, *args, **kwargs):
         '''
-        url: api/suas/<int:pk>/detail/
-        template: sua/sua_detail.html
-        GET: 向模板代码提供pk对应的sua的序列化器(serializer)，渲染并返回Sua详情页面
-        表单字段：表单字段与serializer.data一致
+        - url: api/suas/<int:pk>/detail/
+        - template: sua/sua_detail.html
+        - GET: 向模板代码提供pk对应的sua的序列化器(serializer)，渲染并返回Sua详情页面
+        - 表单字段：表单字段与serializer.data一致
         '''
         return super(SuaViewSet, self).detail(request, *args, **kwargs)
 
@@ -198,7 +198,7 @@ class ActivityViewSet(
     mymixins.DeleteFormMixin
 ):
     """
-    API endpoint that allows activities to be viewed or edited.
+    - API endpoint that allows activities to be viewed or edited.
     """
     queryset = Activity.objects.all()
     serializer_class = sirs.ActivitySerializer
@@ -216,11 +216,11 @@ class ActivityViewSet(
     )
     def add(self, request):
         '''
-        url: api/activities/add/
-        template: sua/activity_form.html
-        GET: 返回空Activity序列化器，渲染Activity创建表单
-        POST: 接受Activity创建表单数据，创建Activity实例，并重定向至对应的Activity详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/activities/add/
+        - template: sua/activity_form.html
+        - GET: 返回空Activity序列化器，渲染Activity创建表单
+        - POST: 接受Activity创建表单数据，创建Activity实例，并重定向至对应的Activity详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(ActivityViewSet, self).add(request)
 
@@ -237,11 +237,11 @@ class ActivityViewSet(
     )
     def change(self, request, *args, **kwargs):
         '''
-        url: api/activities/<int:pk>/change/
-        template: sua/activity_form.html
-        GET: 向模板代码提供pk对应的Activity的序列化器(serializer)，渲染并返回Activity更新表单
-        POST: 接受Activity更新表单数据，更新Activity实例及对应的User实例，并重定向至Activity实例详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/activities/<int:pk>/change/
+        - template: sua/activity_form.html
+        - GET: 向模板代码提供pk对应的Activity的序列化器(serializer)，渲染并返回Activity更新表单
+        - POST: 接受Activity更新表单数据，更新Activity实例及对应的User实例，并重定向至Activity实例详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(ActivityViewSet, self).change(request, *args, **kwargs)
 
@@ -254,10 +254,10 @@ class ActivityViewSet(
     )
     def detail(self, request, *args, **kwargs):
         '''
-        url: api/activities/<int:pk>/detail/
-        template: sua/activity_detail.html
-        GET: 向模板代码提供pk对应的Activity的序列化器(serializer)，渲染并返回Activity详情页面
-        表单字段：表单字段与serializer.data一致
+        - url: api/activities/<int:pk>/detail/
+        - template: sua/activity_detail.html
+        - GET: 向模板代码提供pk对应的Activity的序列化器(serializer)，渲染并返回Activity详情页面
+        - 表单字段：表单字段与serializer.data一致
         '''
         return super(ActivityViewSet, self).detail(request, *args, **kwargs)
 
@@ -271,7 +271,7 @@ class ApplicationViewSet(
     mymixins.DeleteFormMixin
 ):
     """
-    API endpoint that allows applications to be viewed or edited.
+    - API endpoint that allows applications to be viewed or edited.
     """
     queryset = Application.objects.all()
     serializer_class = sirs.ApplicationSerializer
@@ -289,11 +289,11 @@ class ApplicationViewSet(
     )
     def add(self, request):
         '''
-        url: api/applications/add/
-        template: sua/application_form.html
-        GET: 返回空Application序列化器，渲染Application创建表单
-        POST: 接受Application创建表单数据，创建Application实例，并重定向至对应的Application详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/applications/add/
+        - template: sua/application_form.html
+        - GET: 返回空Application序列化器，渲染Application创建表单
+        - POST: 接受Application创建表单数据，创建Application实例，并重定向至对应的Application详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(ApplicationViewSet, self).add(request)
 
@@ -310,11 +310,11 @@ class ApplicationViewSet(
     )
     def change(self, request, *args, **kwargs):
         '''
-        url: api/applications/<int:pk>/change/
-        template: sua/application_form.html
-        GET: 向模板代码提供pk对应的Application的序列化器(serializer)，渲染并返回Application更新表单
-        POST: 接受Student更新表单数据，更新Application实例及对应的User实例，并重定向至Application实例详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/applications/<int:pk>/change/
+        - template: sua/application_form.html
+        - GET: 向模板代码提供pk对应的Application的序列化器(serializer)，渲染并返回Application更新表单
+        - POST: 接受Student更新表单数据，更新Application实例及对应的User实例，并重定向至Application实例详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(ApplicationViewSet, self).change(request, *args, **kwargs)
 
@@ -327,10 +327,10 @@ class ApplicationViewSet(
     )
     def detail(self, request, *args, **kwargs):
         '''
-        url: api/applications/<int:pk>/detail/
-        template: sua/application_detail.html
-        GET: 向模板代码提供pk对应的Application的序列化器(serializer)，渲染并返回Application详情页面
-        表单字段：表单字段与serializer.data一致
+        - url: api/applications/<int:pk>/detail/
+        - template: sua/application_detail.html
+        - GET: 向模板代码提供pk对应的Application的序列化器(serializer)，渲染并返回Application详情页面
+        - 表单字段：表单字段与serializer.data一致
         '''
         return super(ApplicationViewSet, self).detail(request, *args, **kwargs)
 
@@ -343,7 +343,7 @@ class PublicityViewSet(
         mymixins.DeleteFormMixin
         ):
     """
-    API endpoint that allows publicities to be viewed or edited.
+    - API endpoint that allows publicities to be viewed or edited.
     """
     queryset = Publicity.objects.all()
     serializer_class = sirs.PublicitySerializer
@@ -361,11 +361,11 @@ class PublicityViewSet(
     )
     def add(self, request):
         '''
-        url: api/publicities/add/
-        template: sua/gsua_publicity_form.html
-        GET: 返回空Publicity序列化器，渲染Publicity创建表单
-        POST: 接受Publicity创建表单数据，创建Publicity实例，并重定向至对应的Publicity详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/publicities/add/
+        - template: sua/gsua_publicity_form.html
+        - GET: 返回空Publicity序列化器，渲染Publicity创建表单
+        - POST: 接受Publicity创建表单数据，创建Publicity实例，并重定向至对应的Publicity详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(PublicityViewSet, self).add(request)
 
@@ -379,11 +379,11 @@ class PublicityViewSet(
     )
     def change(self, request, *args, **kwargs):
         '''
-        url: api/publicities/<int:pk>/change/
-        template: sua/gsua_publicity_form.html
-        GET: 向模板代码提供pk对应的publicity的序列化器(serializer)，渲染并返回Publicity更新表单
-        POST: 接受Publicity更新表单数据，更新Student实例及对应的User实例，并重定向至Publicity实例详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/publicities/<int:pk>/change/
+        - template: sua/gsua_publicity_form.html
+        - GET: 向模板代码提供pk对应的publicity的序列化器(serializer)，渲染并返回Publicity更新表单
+        - POST: 接受Publicity更新表单数据，更新Student实例及对应的User实例，并重定向至Publicity实例详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(PublicityViewSet, self).change(request, *args, **kwargs)
 
@@ -396,10 +396,10 @@ class PublicityViewSet(
     )
     def detail(self, request, *args, **kwargs):
         '''
-        url: api/appeals/<int:pk>/detail/
-        template: sua/appeals_detail.html
-        GET: 向模板代码提供pk对应的appeals的序列化器(serializer)，渲染并返回Appeals详情页面
-        表单字段：表单字段与serializer.data一致
+        - url: api/appeals/<int:pk>/detail/
+        - template: sua/appeals_detail.html
+        - GET: 向模板代码提供pk对应的appeals的序列化器(serializer)，渲染并返回Appeals详情页面
+        - 表单字段：表单字段与serializer.data一致
         '''
         return super(PublicityViewSet, self).detail(request, *args, **kwargs)
 
@@ -416,7 +416,7 @@ class AppealViewSet(
         mymixins.DeleteFormMixin
         ):
     """
-    API endpoint that allows appeals to be viewed or edited.
+    - API endpoint that allows appeals to be viewed or edited.
     """
     queryset = Appeal.objects.all()
     serializer_class = sirs.AppealSerializer
@@ -434,11 +434,11 @@ class AppealViewSet(
     )
     def add(self, request):
         '''
-        url: api/appeals/add/
-        template: sua/appeals_form.html
-        GET: 返回空Appeal序列化器，渲染Appeal创建表单
-        POST: 接受Appeal创建表单数据，创建Appeal实例，并重定向至对应的Appeal详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/appeals/add/
+        - template: sua/appeals_form.html
+        - GET: 返回空Appeal序列化器，渲染Appeal创建表单
+        - POST: 接受Appeal创建表单数据，创建Appeal实例，并重定向至对应的Appeal详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(AppealViewSet, self).add(request)
 
@@ -452,11 +452,11 @@ class AppealViewSet(
     )
     def change(self, request, *args, **kwargs):
         '''
-        url: api/appeals/<int:pk>/change/
-        template: sua/appeal_form.html
-        GET: 向模板代码提供pk对应的appeal的序列化器(serializer)，渲染并返回Appeal更新表单
-        POST: 接受Appeal更新表单数据，更新Student实例及对应的User实例，并重定向至Appeal实例详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/appeals/<int:pk>/change/
+        - template: sua/appeal_form.html
+        - GET: 向模板代码提供pk对应的appeal的序列化器(serializer)，渲染并返回Appeal更新表单
+        - POST: 接受Appeal更新表单数据，更新Student实例及对应的User实例，并重定向至Appeal实例详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(AppealViewSet, self).change(request, *args, **kwargs)
 
@@ -469,10 +469,10 @@ class AppealViewSet(
     )
     def detail(self, request, *args, **kwargs):
         '''
-        url: api/appeals/<int:pk>/detail/
-        template: sua/appeals_detail.html
-        GET: 向模板代码提供pk对应的appeals的序列化器(serializer)，渲染并返回Appeals详情页面
-        表单字段：表单字段与serializer.data一致
+        - url: api/appeals/<int:pk>/detail/
+        - template: sua/appeals_detail.html
+        - GET: 向模板代码提供pk对应的appeals的序列化器(serializer)，渲染并返回Appeals详情页面
+        - 表单字段：表单字段与serializer.data一致
         '''
         return super(AppealViewSet, self).detail(request, *args, **kwargs)
 
@@ -488,7 +488,7 @@ class ProofViewSet(
     mymixins.DeleteFormMixin
     ):
     """
-    API endpoint that allows proofs to be viewed or edited.
+    - API endpoint that allows proofs to be viewed or edited.
     """
     queryset = Proof.objects.all()
     serializer_class = sirs.ProofSerializer
@@ -506,11 +506,11 @@ class ProofViewSet(
     )
     def add(self, request):
         '''
-        url: api/proofs/add/
-        template: sua/sua_form.html
-        GET: 返回空Proof序列化器，渲染Proof创建表单
-        POST: 接受Proof创建表单数据，创建Proof实例，并重定向至对应的Proof详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/proofs/add/
+        - template: sua/sua_form.html
+        - GET: 返回空Proof序列化器，渲染Proof创建表单
+        - POST: 接受Proof创建表单数据，创建Proof实例，并重定向至对应的Proof详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(ProofViewSet, self).add(request)
     def perform_add(self,serializer):
@@ -526,11 +526,11 @@ class ProofViewSet(
     )
     def change(self, request, *args, **kwargs):
         '''
-        url: api/proofs/<int:pk>/change/
-        template: sua/sua_form.html
-        GET: 向模板代码提供pk对应的Proof的序列化器(serializer)，渲染并返回Proof更新表单
-        POST: 接受Proof更新表单数据，更新Proof实例及对应的User实例，并重定向至Proof实例详情页面
-        表单字段：表单字段请参考REST framework自动生成的表单
+        - url: api/proofs/<int:pk>/change/
+        - template: sua/sua_form.html
+        - GET: 向模板代码提供pk对应的Proof的序列化器(serializer)，渲染并返回Proof更新表单
+        - POST: 接受Proof更新表单数据，更新Proof实例及对应的User实例，并重定向至Proof实例详情页面
+        - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(ProofViewSet, self).change(request, *args, **kwargs)
     def perform_change(self, serializer):
@@ -548,9 +548,9 @@ class ProofViewSet(
     )
     def detail(self, request, *args, **kwargs):
         '''
-        url: api/proofs/<int:pk>/detail/
-        template: sua/proof_detail.html
-        GET: 向模板代码提供pk对应的proof的序列化器(serializer)，渲染并返回proof详情页面
-        表单字段：表单字段与serializer.data一致
+        - url: api/proofs/<int:pk>/detail/
+        - template: sua/proof_detail.html
+        - GET: 向模板代码提供pk对应的proof的序列化器(serializer)，渲染并返回proof详情页面
+        - 表单字段：表单字段与serializer.data一致
         '''
         return super(ProofViewSet, self).detail(request, *args, **kwargs)
