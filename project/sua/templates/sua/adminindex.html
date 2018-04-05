@@ -52,17 +52,21 @@
               <td>是否已公示</td>
               <td>开始日</td>
               <td>结束日</td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
-            {% for publicity in publicities %}
+            {% for activity in activities %}
               <tr>
-                <td>{{ publicity.activity.date }}</td>
-                <td><a href="{{ publicity.activity.url }}">{{ publicity.activity.title }}</a></td>
-                <td>{{ publicity.activity.group }}</td>
-                <td>{% if publicity.is_published %}已公示{% else %}未公示{% endif %}</td>
-                <td>{{ publicity.begin }}</td>
-                <td>{{ publicity.end }}</td>
+                <td>{{ activity.date }}</td>
+                <td><a href="{{ activity.url }}">{{ activity.title }}</a></td>
+                <td>{{ activity.group }}</td>
+                <td>{% if activity.publicities.is_published %}已公示{% else %}未公示{% endif %}</td>
+                <td>{{ publicities.begin }}</td>
+                <td>{{ publicities.end }}</td>
+                <td>
+                  <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/create/">创建公示</a>
+                </td>
               </tr>
             {% endfor %}
           </tbody>

@@ -44,7 +44,7 @@ import project.sua.views.forms.mixins as mymixins
 from .utils.base import BaseView
 from .utils.mixins import NavMixin
 
-from .forms.serializers import AddStudentSerializer,AddPublicitySerializer
+from .forms.serializers import AddStudentSerializer, AddPublicitySerializer, PublicityWithActivitySerializer
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/adminindex.html'
@@ -62,8 +62,8 @@ class IndexView(BaseView, NavMixin):
             context={'request':request}
         )
 
-        appeal_set = Appeal.objects.filter().order_by('created')  # 获取在公示期内的所有公示
-        appeal_data = AppealSerializer(  # 序列化公示
+        appeal_set = Appeal.objects.filter().order_by('created')  # 获取在公示期内的所有申诉
+        appeal_data = AppealSerializer(  # 序列化申诉
             appeal_set,
             many=True,
             context={'request': request}
@@ -77,17 +77,17 @@ class IndexView(BaseView, NavMixin):
             context={'request': request}
         )
 
-        activity_set = Activity.objects.filter()  # 获取所有活动
-        activity_data = ActivitySerializer(  # 序列化所有活动
+        activity_set = Activity.objects.filter(owner=request.user)  # 获取所有当前管理员创建的活动
+        activity_data = ActivitySerializer(  # 序列化所有所有当前管理员创建的活动
             activity_set,
             many=True,
             context={'request': request}
         )
-        publicity_set = Publicity.objects.filter(
+        publicity_set = Publicity.objects.filter(   # 获取在公示期内的所有公示
             begin__lte=timezone.now(),
             end__gte=timezone.now()
         ).order_by('begin')
-        publicity_data = PublicitySerializer(
+        publicity_data = PublicitySerializer(    # 序列化公示
             publicity_set,
             many=True,
             context={'request': request}
@@ -186,6 +186,7 @@ class ApplicationView(BaseView, NavMixin):
             'sua':sua_data.data,
         })
         return serialized
+
     def deserialize(self, request, *args, **kwargs):
         application_id = kwargs['pk']
         application_data = AdminApplicationMassageSerializer(
@@ -212,3 +213,32 @@ class ApplicationView(BaseView, NavMixin):
             return True
         else:
             return False
+
+class PublicityView(BaseView,NavMixin):
+    template_name = 'sua/admin_publicity.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        activity_id = kwargs['pk']
+        activity = Activity.objects.get(id=activity_id)
+        serialized = super(PublicityView, self).serialize(request)
+        serializer = PublicityWithActivitySerializer(context={'request':request})
+        serialized.update({
+            'activity': activity,
+            'serializer': serializer,
+        })
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        user = request.user
+        activity_id = kwargs['pk']
+        serializer = PublicityWithActivitySerializer(data=request.data, context={'request': request,})
+        if serializer.is_valid():
+
+            serializer.save(activity=Activity.objects.get(id=activity_id), owner=user)
+            self.url = serializer.data['url']
+            return True
+        else:
+            return False            
