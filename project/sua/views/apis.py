@@ -9,13 +9,26 @@ from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
 from project.sua.models import Student,Proof,Sua,Activity,Publicity,Application,Appeal
+from django.contrib.auth.models import User
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import permissions
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     password = serializers.CharField(write_only=True)
+    student = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name='api-student-detail',
+    )
     class Meta:
         model = User
         fields = ('url', 'student', 'username', 'is_staff', 'password', 'groups', 'applications', )
-
+        extra_kwargs = {
+            'url':{'view_name': 'api-user-detail'},
+        }
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -31,7 +44,7 @@ class ApplicationWithStudentSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 class StudentSerializer(serializers.HyperlinkedModelSerializer):
-#    application = ApplicationWithStudentSerializer()
+
     class Meta:
         model = Student
         fields = ('url', 'user', 'name', 'number', 'suahours', 'grade', 'classtype', 'phone', 'suas', 'appeals',)
@@ -102,6 +115,10 @@ class AppealSerializer(serializers.HyperlinkedModelSerializer):
             'student':{'view_name': 'api-student-detail'},
             'publicity':{'view_name': 'api-publicity-detail'},
         }
+        
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -135,3 +152,32 @@ class AppealViewSet(viewsets.ModelViewSet):
 class ProofViewSet(viewsets.ModelViewSet):
     queryset = Proof.objects.all()
     serializer_class = ProofSerializer
+    
+class LoginView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, format=None):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                username = User.objects.get(username=serializer.validated_data['username']).username
+            except:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+            user = authenticate(request, username=username, password=serializer.validated_data['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    userSerializer = UserSerializer(user, context={'request': request})
+                    return Response(userSerializer.data, status=status.HTTP_200_OK)
+                else:
+                    return Response(status=status.HTTP_401_UNAUTHORIZED)
+            else:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogoutView(APIView):
+    def get(self, request, format=None):
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
