@@ -13,10 +13,6 @@ from django.contrib.auth.models import User
 
 from project.sua.views.apis.serializer import *
 
-class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(required=True)
-    password = serializers.CharField(required=True)
-
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer

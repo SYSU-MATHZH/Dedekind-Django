@@ -12,7 +12,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     )
     class Meta:
         model = User
-        fields = ('url', 'student', 'username', 'is_staff', 'password', 'groups', 'applications', )
+        fields = ('url', 'student', 'username', 'is_staff', 'password', 'groups', 'applications','password')
         extra_kwargs = {
             'url':{'view_name': 'api-user-detail'},
         }
@@ -103,3 +103,7 @@ class AppealSerializer(serializers.HyperlinkedModelSerializer):
             'student':{'view_name': 'api-student-detail'},
             'publicity':{'view_name': 'api-publicity-detail'},
         }
+        
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
