@@ -4,6 +4,10 @@ from rest_framework import status
 from rest_framework import permissions
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
+from project.sua.views.apis.serializer import LoginSerializer,UserSerializer
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
