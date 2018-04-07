@@ -1,6 +1,7 @@
 from django.urls import path, include
 from django.contrib.auth.decorators import login_required
-from project.sua.views import api, auth, student ,admin,apis
+from project.sua.views import api, auth, student ,admin
+from project.sua.views.apis import apis,auths
 
 from rest_framework import routers
 from django.conf.urls import url
@@ -19,7 +20,7 @@ router.register(r'appeals', api.AppealViewSet)
 router.register(r'proofs', api.ProofViewSet)
 
 rou = routers.DefaultRouter()
-rou.register(r'users', apis.UserViewSet)
+rou.register(r'users', apis.UserViewSet,base_name = "api-user")
 rou.register(r'students', apis.StudentViewSet, base_name="api-student")
 rou.register(r'activities', apis.ActivityViewSet, base_name="api-activity")
 rou.register(r'publicities', apis.PublicityViewSet, base_name="api-publicity")
@@ -36,6 +37,7 @@ urlpatterns = [
     path('', login_required(student.IndexView.as_view()), name='index'),
     path('apis/',include(rou.urls)),
     path('', include(router.urls)),
+    path('apis/login/', auths.LoginView.as_view()),
     path('login/', auth.login_view, name='login'),
     path('logout/', auth.logout_view, name='logout'),
     path('test/', login_required(student.TestBaseView.as_view())),
