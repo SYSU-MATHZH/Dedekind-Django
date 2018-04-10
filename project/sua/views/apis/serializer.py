@@ -15,6 +15,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'student', 'username', 'is_staff', 'password', 'groups', 'applications','password')
         extra_kwargs = {
             'url':{'view_name': 'api-user-detail'},
+            'applications':{'view_name':'api-application-detail'},
         }
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -65,7 +66,7 @@ class SuaSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Sua
-        fields = ('url', 'student', 'activity', 'team', 'suahours', 'application', 'is_valid',)
+        fields = ('url', 'student', 'activity', 'team', 'suahours', 'application', 'is_valid','id')
         extra_kwargs = {
             'url':{'view_name': 'api-sua-detail'},
             'activity':{'view_name': 'api-activity-detail'},
