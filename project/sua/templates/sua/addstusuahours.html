@@ -13,6 +13,14 @@
 <body>
   <form action="" method="POST">
       {% csrf_token %}
+      <label>请选择一个活动:</label>
+      <from>
+        <select name="title" multiple="multiple">
+      {% for activity in activities %}
+          <option value="{{ activity.title }}">{{ activity.title }}</option>
+      {% endfor %}
+    </select>
+    </from>
       {% for na in students %}
           {{ na.name }}
           <input type="checkbox" name="is_add{{ na.id }}" value="True">

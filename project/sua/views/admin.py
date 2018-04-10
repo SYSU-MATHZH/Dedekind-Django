@@ -252,15 +252,18 @@ class Addstusuahoursview(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         serialized = super(Addstusuahoursview, self).serialize(request)
         students_data = Student.objects.all()
+        activity_data = Activity.objects.all()
         serialized.update({
              'students':students_data,
+             'activities':activity_data,
         })
         return serialized
     def deserialize(self, request, *args, **kwargs):
         students_data = Student.objects.all()
         activities_data = Activity.objects.all()
+        activity_data = Activity.objects.filter(title=request.POST.get("title")).get()
         for na in students_data:
             if(request.POST.get('is_add'+str(na.id))):
-                Sua.objects.create(owner=request.user,student=na, activity=list(activities_data)[-1], team='hahah', suahours=int(request.POST.get('addsuahours'+str(na.id))), is_valid=True)
+                Sua.objects.create(owner=request.user, student=na, activity=activity_data, team=activity_data.group, suahours=int(request.POST.get('addsuahours'+str(na.id))), is_valid=True)
         self.url = '/admin'
         return True
