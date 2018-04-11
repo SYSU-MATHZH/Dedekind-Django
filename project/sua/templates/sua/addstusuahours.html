@@ -1,0 +1,33 @@
+{% load static %}
+{% load rest_framework %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'sua/css/login.css' %}">
+</head>
+
+<body>
+  <form action="" method="POST">
+      {% csrf_token %}
+      <label>请选择一个活动:</label>
+      <from>
+        <select name="id" multiple="multiple">
+      {% for activity in activities %}
+          <option value="{{ activity.id }}">{{ activity.title }}</option>
+      {% endfor %}
+    </select>
+    </from>
+      {% for na in students %}
+          {{ na.name }}
+          <input type="checkbox" name="is_add{{ na.id }}" value="True">
+          <input type="number" name="addsuahours{{ na.id }}" value="">
+      {% endfor %}
+      <input type="submit" value="提交">
+  </form>
+</body>
+
+</html>

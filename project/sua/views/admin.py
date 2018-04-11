@@ -1,7 +1,6 @@
 from django.utils import timezone
 from django.http import HttpResponse
 
-
 from project.sua.models import Publicity
 from project.sua.models import Sua
 from project.sua.models import Application
@@ -27,6 +26,7 @@ from project.sua.serializers import AdminApplicationSerializer
 from project.sua.serializers import ProofSerializer
 from project.sua.serializers import AdminApplicationMassageSerializer
 from project.sua.serializers import SuaforApplicationsSerializer
+from project.sua.serializers import StudentNameNumberSerializer
 
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
@@ -241,4 +241,36 @@ class PublicityView(BaseView,NavMixin):
             self.url = serializer.data['url']
             return True
         else:
-            return False            
+            return False
+
+class Addstusuahoursview(BaseView, NavMixin):
+    template_name = 'sua/addstusuahours.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        serialized = super(Addstusuahoursview, self).serialize(request)
+        students_data = Student.objects.all()
+        activity_data = Activity.objects.all()
+        serialized.update({
+             'students':students_data,
+             'activities':activity_data,
+        })
+        return serialized
+    def deserialize(self, request, *args, **kwargs):
+        students_data = Student.objects.all()
+        activities_data = Activity.objects.all()
+        if request.POST.get("id")==None:
+            return False
+        else:
+            activity_data = Activity.objects.filter(id=request.POST.get("id")).get()
+        for na in students_data:
+            if request.POST.get(('addsuahours'+str(na.id)))!="":
+                suahours_data = int(request.POST.get(('addsuahours'+str(na.id))))
+            else:
+                return False
+            if(request.POST.get('is_add'+str(na.id))):
+                Sua.objects.create(owner=request.user, student=na, activity=activity_data, team=activity_data.group, suahours=suahours_data, is_valid=True)
+        self.url = '/admin'
+        return True

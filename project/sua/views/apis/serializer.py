@@ -1,21 +1,22 @@
-from rest_framework import viewsets
-from rest_framework import permissions
-from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly
-
-import project.sua.views.forms.serializers as firs
-import project.sua.serializers as sirs
-
-from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-
+from django.contrib.auth.models import User, Group
 from project.sua.models import Student,Proof,Sua,Activity,Publicity,Application,Appeal
+
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     password = serializers.CharField(write_only=True)
+    student = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name='api-student-detail',
+    )
     class Meta:
         model = User
-        fields = ('url', 'student', 'username', 'is_staff', 'password', 'groups', 'applications', )
-
+        fields = ('url', 'student', 'username', 'is_staff', 'password', 'groups', 'applications','password')
+        extra_kwargs = {
+            'url':{'view_name': 'api-user-detail'},
+            'applications':{'view_name':'api-application-detail'},
+        }
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -31,7 +32,7 @@ class ApplicationWithStudentSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 class StudentSerializer(serializers.HyperlinkedModelSerializer):
-#    application = ApplicationWithStudentSerializer()
+
     class Meta:
         model = Student
         fields = ('url', 'user', 'name', 'number', 'suahours', 'grade', 'classtype', 'phone', 'suas', 'appeals',)
@@ -39,6 +40,7 @@ class StudentSerializer(serializers.HyperlinkedModelSerializer):
             'url':{'view_name': 'api-student-detail'},
             'appeals':{'view_name':'api-appeal-detail'},
             'suas':{'view_name':'api-sua-detail'},
+            'user':{'view_name':'api-user-detail'},
         }
 class ActivitySerializer(serializers.HyperlinkedModelSerializer):
 
@@ -64,7 +66,7 @@ class SuaSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Sua
-        fields = ('url', 'student', 'activity', 'team', 'suahours', 'application', 'is_valid',)
+        fields = ('url', 'student', 'activity', 'team', 'suahours', 'application', 'is_valid','id')
         extra_kwargs = {
             'url':{'view_name': 'api-sua-detail'},
             'activity':{'view_name': 'api-activity-detail'},
@@ -102,36 +104,7 @@ class AppealSerializer(serializers.HyperlinkedModelSerializer):
             'student':{'view_name': 'api-student-detail'},
             'publicity':{'view_name': 'api-publicity-detail'},
         }
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (IsAdminUserOrReadOnly,)
-
-class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-    
-class ActivityViewSet(viewsets.ModelViewSet):
-    queryset = Activity.objects.all()
-    serializer_class = ActivitySerializer
-    
-class PublicityViewSet(viewsets.ModelViewSet):
-    queryset = Publicity.objects.all()
-    serializer_class = PublicitySerializer
-    
-class SuaViewSet(viewsets.ModelViewSet):
-    queryset = Sua.objects.all()
-    serializer_class = SuaSerializer
-    
-class ApplicationViewSet(viewsets.ModelViewSet):
-    queryset = Application.objects.all()
-    serializer_class = ApplicationSerializer
-    
-class AppealViewSet(viewsets.ModelViewSet):
-    queryset = Appeal.objects.all()
-    serializer_class = AppealSerializer
-    
-class ProofViewSet(viewsets.ModelViewSet):
-    queryset = Proof.objects.all()
-    serializer_class = ProofSerializer
+        
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
