@@ -61,9 +61,9 @@
                 <td>{{ activity.date }}</td>
                 <td><a href="{{ activity.url }}">{{ activity.title }}</a></td>
                 <td>{{ activity.group }}</td>
-                <td>{% if activity.publicities.is_published %}已公示{% else %}未公示{% endif %}</td>
-                <td>{{ publicities.begin }}</td>
-                <td>{{ publicities.end }}</td>
+                <td>{% if publicity.is_published %}已公示{% else %}未公示{% endif %}</td>
+                <td>{{ publicity.begin }}</td>
+                <td>{{ publicity.end }}</td>
                 <td>
                   <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/create/">创建公示</a>
                 </td>

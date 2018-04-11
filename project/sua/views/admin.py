@@ -234,7 +234,7 @@ class PublicityView(BaseView,NavMixin):
     def deserialize(self, request, *args, **kwargs):
         user = request.user
         activity_id = kwargs['pk']
-        serializer = PublicityWithActivitySerializer(data=request.data, context={'request': request,})
+        serializer = PublicityWithActivitySerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
 
             serializer.save(activity=Activity.objects.get(id=activity_id), owner=user)
