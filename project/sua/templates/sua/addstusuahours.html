@@ -15,9 +15,9 @@
       {% csrf_token %}
       <label>请选择一个活动:</label>
       <from>
-        <select name="title" multiple="multiple">
+        <select name="id" multiple="multiple">
       {% for activity in activities %}
-          <option value="{{ activity.title }}">{{ activity.title }}</option>
+          <option value="{{ activity.id }}">{{ activity.title }}</option>
       {% endfor %}
     </select>
     </from>

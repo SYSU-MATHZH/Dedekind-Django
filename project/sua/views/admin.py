@@ -261,9 +261,16 @@ class Addstusuahoursview(BaseView, NavMixin):
     def deserialize(self, request, *args, **kwargs):
         students_data = Student.objects.all()
         activities_data = Activity.objects.all()
-        activity_data = Activity.objects.filter(title=request.POST.get("title")).get()
+        if request.POST.get("id")==None:
+            return False
+        else:
+            activity_data = Activity.objects.filter(id=request.POST.get("id")).get()
         for na in students_data:
+            if request.POST.get(('addsuahours'+str(na.id)))!="":
+                suahours_data = int(request.POST.get(('addsuahours'+str(na.id))))
+            else:
+                return False
             if(request.POST.get('is_add'+str(na.id))):
-                Sua.objects.create(owner=request.user, student=na, activity=activity_data, team=activity_data.group, suahours=int(request.POST.get('addsuahours'+str(na.id))), is_valid=True)
+                Sua.objects.create(owner=request.user, student=na, activity=activity_data, team=activity_data.group, suahours=suahours_data, is_valid=True)
         self.url = '/admin'
         return True
