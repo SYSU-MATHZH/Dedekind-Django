@@ -48,6 +48,7 @@ urlpatterns = [
     path('admin/',login_required(admin.IndexView.as_view())),
     path('admin/appeals/<int:pk>/change/',login_required(admin.AppealView.as_view())),
     path('admin/applications/<int:pk>/change/',login_required(admin.ApplicationView.as_view())),
+    path('admin/addsuahours',login_required(admin.Addstusuahoursview.as_view())),
     path('admin/publicities/<int:pk>/create/',login_required(admin.PublicityView.as_view())),
 #     path('playMFS/', views.playMFS, name='playMFS'),
 #     path('admin/', views.adminIndex, name='admin-index'),
