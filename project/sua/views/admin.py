@@ -244,6 +244,45 @@ class PublicityView(BaseView,NavMixin):
             return False
 
 
+class ManagePublicityView(BaseView,NavMixin):
+    template_name = 'sua/admin_publicity_manage.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        activity_id = kwargs['pk']
+        activity = Activity.objects.get(id=activity_id)
+        serialized = super(ManagePublicityView, self).serialize(request)
+        publicity_set = Publicity.objects.filter(  # 获取该活动的所有公示
+            # is_published=True,
+            # begin__lte=timezone.now(),
+            # end__gte=timezone.now(),
+            activity=activity
+        )
+        publicity_data = PublicitySerializer(  # 序列化公示
+            publicity_set,
+            many=True,
+            context={'request': request}
+        )
+        serialized.update({
+            'activity': activity,
+            'publicities': publicity_data.data,
+        })
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        user = request.user
+        activity_id = kwargs['pk']
+        publicities = PublicitySerializer(data=request.data, context={'request': request})
+        if publicities.is_valid():
+
+            publicities.save(activity=Activity.objects.get(id=activity_id), owner=user)
+            self.url = publicities.data['url']
+            return True
+        else:
+            return False
+
 
 class Addstusuahoursview(BaseView, NavMixin):
     template_name = 'sua/addstusuahours.html'
