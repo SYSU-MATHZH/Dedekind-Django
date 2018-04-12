@@ -243,6 +243,8 @@ class PublicityView(BaseView,NavMixin):
         else:
             return False
 
+
+
 class Addstusuahoursview(BaseView, NavMixin):
     template_name = 'sua/addstusuahours.html'
     components = {
@@ -252,10 +254,15 @@ class Addstusuahoursview(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         serialized = super(Addstusuahoursview, self).serialize(request)
         students_data = Student.objects.all()
-        activity_data = Activity.objects.all()
+        activity_set = Activity.objects.filter(owner=request.user)  # 获取所有当前管理员创建的活动
+        activity_data = ActivitySerializer(  # 序列化所有所有当前管理员创建的活动
+            activity_set,
+            many=True,
+            context={'request': request}
+        )     
         serialized.update({
              'students':students_data,
-             'activities':activity_data,
+             'activities':activity_data.data,
         })
         return serialized
     def deserialize(self, request, *args, **kwargs):
