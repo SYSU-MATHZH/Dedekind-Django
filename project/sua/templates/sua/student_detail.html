@@ -1,68 +1,45 @@
-{% extends 'sua/_layout/base.html' %}
+{% extends 'sua/_layout/info_template.html' %}
 
-{% block title %}公益时平台{% endblock %}
+{% block content_title %}
+<div class="col-xs-offset-4">个人信息</div>
+{% endblock %}
 
-{% block content %}
-
-<!-- 导航栏部分开始 -->
-{% include 'sua/_partial/nav.html' %}
-<!-- 导航栏部分结束 -->
-<div class="main-content" role="tabpanel">
-  <div class="tab-content my-tab-content" id="tabContent1">
-      <div class="tab-header">
-	  <div class="col-xs-4">
-		</div>
-		个人信息</div>
-        <div class="row">
-		<div class="col-xs-4">
-		</div>
-        <div class="col-xs-4">
-            <p> 姓名：{{ serializer.data.name }}</p>
-         </div>
-        </div>
-         <div class="row">
-		 <div class="col-xs-4">
-		</div>
-            <div class="col-xs-4">
-        <p>学号：{{ serializer.data.number }}</p>
-            </div>
-         </div>
-        <div class="row">
-		<div class="col-xs-4">
-		</div>
-            <div class="col-xs-4">
-        <p>公益时总数:{{ serializer.data.suahours }}</p>
-        </div>
-        </div>
-        <div class="row">
-		<div class="col-xs-4">
-		</div>
-            <div class="col-xs-4">
-        <p>年级:{{ serializer.data.grade }}</p>
-        </div>
-        </div>
-        <div class="row">
-		<div class="col-xs-4">
-		</div>
-            <div class="col-xs-4">
-        <p>班级:{{ serializer.data.classtype }}</p>
-        </div>
-        </div>
-        <div class="row">
-		<div class="col-xs-4">
-		</div>
-            <div class="col-xs-4">
-        <p>电话号码:{{ serializer.data.phone }}</p>
-        </div>
-        </div>
-        <div class="row">
-		<div class="col-xs-5">
-		</div>
-        <a href="/students/{{ serializer.data.id }}/delete"><button class="btn btn-primary">删除该学生</button></a>
-        <a href="/students/{{ serializer.data.id }}/change" ><button class="btn btn-primary">编辑该学生信息</button></a>
-        <a href="/admin"><button class="btn btn-primary">返回主页</button></a>
-	 </div>
-        </div>
-        </div>
-
+{% block content_detail %}
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p> 姓名：{{ serializer.data.name }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>学号：{{ serializer.data.number }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>公益时总数:{{ serializer.data.suahours }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>年级:{{ serializer.data.grade }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>班级:{{ serializer.data.classtype }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>电话号码:{{ serializer.data.phone }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-offset-3">
+    <a href="/students/{{ serializer.data.id }}/delete" class="btn btn-primary">删除该学生</a>
+    <a href="/students/{{ serializer.data.id }}/change" class="btn btn-primary">编辑该学生信息</a>
+    <a href="/admin" class="btn btn-primary">返回主页</a>
+  </div>
+</div>
 {% endblock %}
