@@ -7,41 +7,58 @@
 {% load static %}
 
 {% load rest_framework %}
-
-<div class="container my-space-line">
+<!-- 导航栏部分开始 -->
+{% include 'sua/_partial/nav.html' %}
+<!-- 导航栏部分结束 -->
+<div class="main-content" role="tabpanel">
+  <div class="tab-content my-tab-content" id="tabContent1">
         <div class="row">
+				<div class="col-xs-4">
+		</div>
             <div class="col-xs-3">
                 <p> 活动名称：{{ serializer.data.title }}</p>
             </div>
         </div>
          <div class="row">
+		 		<div class="col-xs-4">
+		</div>
             <div class="col-xs-4">
         <p>活动详情：{{ serializer.data.detail }}</p>
             </div>
          </div>
         <div class="row">
+				<div class="col-xs-4">
+		</div>
             <div class="col-xs-4">
         <p>活动团队:{{ serializer.data.group }}</p>
         </div>
         </div>
         <div class="row">
+				<div class="col-xs-4">
+		</div>
             <div class="col-xs-4">
         <p>活动日期:{{ serializer.data.date }}</p>
         </div>
         </div>
         <div class="row">
+				<div class="col-xs-4">
+		</div>
             <div class="col-xs-4">
         <p>公益时长:{{ serializer.data.suas }}</p>
         </div>
         </div>
         <div class="row">
+				<div class="col-xs-4">
+		</div>
             <div class="col-xs-4">
         <p>公示:{{ serializer.data.publicities }}</p>
         </div>
         </div>
-        <a href="/activities/{{ serializer.data.id }} /delete">删除该活动</a>
-        <a href="/activities/{{ serializer.data.id }}/change">编辑该活动信息</a>
-        <a href="/admin">返回主页</a>
+				<div class="col-xs-4">
+		</div>
+        <a href="/activities/{{ serializer.data.id }} /delete"><button class="btn btn-primary">删除该活动</button><</a>
+        <a href="/activities/{{ serializer.data.id }}/change"><button class="btn btn-primary">编辑该活动信息</button><</a>
+        <a href="/admin"><button class="btn btn-primary">返回主页</button><</a>
 
     </div>
 {% endblock %}
