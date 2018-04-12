@@ -28,8 +28,15 @@ class SuaGroupSerializer(serializers.HyperlinkedModelSerializer):
         model = SuaGroup
         fields = ('url', 'group', 'name', 'is_staff', 'contact', 'rank')
 
+class PublicityWithActivitySerializer(serializers.HyperlinkedModelSerializer):
+    
+    class Meta:
+        model = Publicity
+        fields = ('url', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end' )
+
 
 class ActivitySerializer(serializers.HyperlinkedModelSerializer):
+    # publicities = PublicityWithActivitySerializer()
 
     class Meta:
         model = Activity

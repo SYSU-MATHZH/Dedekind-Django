@@ -234,7 +234,7 @@ class PublicityView(BaseView,NavMixin):
     def deserialize(self, request, *args, **kwargs):
         user = request.user
         activity_id = kwargs['pk']
-        serializer = PublicityWithActivitySerializer(data=request.data, context={'request': request,})
+        serializer = PublicityWithActivitySerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
 
             serializer.save(activity=Activity.objects.get(id=activity_id), owner=user)
@@ -242,6 +242,8 @@ class PublicityView(BaseView,NavMixin):
             return True
         else:
             return False
+
+
 
 class Addstusuahoursview(BaseView, NavMixin):
     template_name = 'sua/addstusuahours.html'
@@ -252,10 +254,15 @@ class Addstusuahoursview(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         serialized = super(Addstusuahoursview, self).serialize(request)
         students_data = Student.objects.all()
-        activity_data = Activity.objects.all()
+        activity_set = Activity.objects.filter(owner=request.user)  # 获取所有当前管理员创建的活动
+        activity_data = ActivitySerializer(  # 序列化所有所有当前管理员创建的活动
+            activity_set,
+            many=True,
+            context={'request': request}
+        )     
         serialized.update({
              'students':students_data,
-             'activities':activity_data,
+             'activities':activity_data.data,
         })
         return serialized
     def deserialize(self, request, *args, **kwargs):
