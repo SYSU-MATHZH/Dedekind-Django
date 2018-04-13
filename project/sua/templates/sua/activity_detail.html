@@ -1,43 +1,41 @@
-{% extends 'sua/_layout/base.html' %}
-
-{% block title %}公益时平台{% endblock %}
-
-{% block content %}
-
-{% load static %}
+{% extends 'sua/_layout/info_template.html' %}
 
 {% load rest_framework %}
 
-<div class="container my-space-line">
-        <div class="row">
-            <div class="col-xs-3">
-                <p> 活动名称：{{ serializer.data.title }}</p>
-            </div>
-        </div>
-         <div class="row">
-            <div class="col-xs-4">
-        <p>活动详情：{{ serializer.data.detail }}</p>
-            </div>
-         </div>
-        <div class="row">
-            <div class="col-xs-4">
-        <p>活动团队:{{ serializer.data.group }}</p>
-        </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-        <p>活动日期:{{ serializer.data.date }}</p>
-        </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-        <p>公益时长:{{ serializer.data.suas }}</p>
-        </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-        <p>公示:{{ serializer.data.publicities }}</p>
-        </div>
-        </div>
-    </div>
+{% block content_title %}
+{{ serializer.data.title }} 的活动详情
+{% endblock %}
+
+{% block content_detail %}
+<div class="row">
+  <div class="col-xs-12">
+    <p>活动详情：{{ serializer.data.detail }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <p>活动团队:{{ serializer.data.group }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <p>活动日期:{{ serializer.data.date }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <p>公益时长:{{ serializer.data.suas }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <p>公示:{{ serializer.data.publicities }}</p>
+  </div>
+</div>
+<a href="/activities/{{ serializer.data.id }} /delete" class="btn btn-primary">删除该活动</a>
+<a href="/activities/{{ serializer.data.id }}/change" class="btn btn-primary">编辑该活动信息</a>
+<a href="/admin/#activities" class="btn btn-primary">返回主页</a>
+<a href="/activities/{{ serializer.data.id }} /delete" class="btn btn-default">删除该活动</a>
+<a href="/activities/{{ serializer.data.id }}/change" class="btn btn-default">编辑该活动信息</a>
+<a href="/admin/#activities" class="btn btn-default">返回主页</a>
 {% endblock %}

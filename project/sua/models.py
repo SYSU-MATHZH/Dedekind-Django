@@ -6,7 +6,6 @@ from django.utils import timezone
 from project.sua.storage import FileStorage
 import datetime
 import hashlib
-from .token import TOKEN
 
 
 YEAR_CHOICES = []
@@ -31,6 +30,7 @@ class Student(models.Model):
         default=datetime.datetime.now().year
     )
     phone = models.CharField(max_length=100)
+    id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return self.name
@@ -62,6 +62,7 @@ class Activity(models.Model):
     group = models.CharField(max_length=100)
     date = models.DateTimeField('活动日期')
     is_valid = models.BooleanField(default=False)
+    id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return self.title
@@ -149,6 +150,7 @@ class Application(models.Model):
     is_checked = models.BooleanField(default=False)
     status = models.IntegerField(default=0)  # 0: 通过; 1: 未通过; 2: 需要线下证明
     feedback = models.CharField(max_length=400, blank=True)
+    id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return self.sua.student.name + '的 ' + self.sua.activity.title + '的 ' + '申请'
@@ -172,7 +174,7 @@ class Publicity(models.Model):
     is_published = models.BooleanField(default=False)
     begin = models.DateTimeField('开始公示时间', default=timezone.now)
     end = models.DateTimeField('结束公示时间')
-
+    id = models.AutoField(primary_key=True)
     def __str__(self):
         return self.title
 
@@ -198,6 +200,7 @@ class Appeal(models.Model):
     status = models.IntegerField(default=0)  # 0: 通过; 1: 未通过; 2: 需要线下处理
     is_checked = models.BooleanField(default=False)
     feedback = models.CharField(max_length=400, blank=True)
+    id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return '对' + str(self.publicity) + '的申诉'
@@ -208,6 +211,7 @@ class Nonce(models.Model):
     timestamp = models.IntegerField()
 
     def getSignature(self):
+        TOKEN = "test"
         s = bytes(str(self.nonce) + str(self.timestamp) + TOKEN, encoding='utf8')
         signature = hashlib.sha1(s).hexdigest()
         return signature

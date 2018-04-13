@@ -1,21 +1,93 @@
-{% load static %}
-{% load rest_framework %}
-<!DOCTYPE html>
-<html>
+{% extends 'sua/_layout/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'sua/css/login.css' %}">
-</head>
+{% block title %}公益时平台{% endblock %}
 
-<body>
-  <form action="" method="POST">
-      {% csrf_token %}
-      {% render_form serializer %}
-      <input type="submit" name="save" value="提交">
-  </form>
-</body>
+{% block content %}
+<!-- 导航栏部分开始 -->
+{% include 'sua/_partial/nav.html' %}
+<!-- 导航栏部分结束 -->
+<div class="main-content" role="tabpanel">
+  <div id="tabContent1" class="tab-content my-tab-content">
 
-</html>
+	<div class="row">
+      <div class="col-xs-12">
+	  <p></p>
+	  </div>
+	</div>
+	<div class="row">
+      <div class="col-xs-12">
+	  <p></p>
+	  </div>
+	</div>
+	<div class="row">
+      <div class="col-xs-12">
+	  <p></p>
+	  </div>
+	</div>
+
+    <div class="row">
+ 	  <div class="col-lg-3">
+  	  </div>
+  	  <div class="col-lg-6">
+  	  	<h2 style="text-align:center">创建活动</h2>
+		</div>
+  	  <div class="col-lg-6">
+	  </div>
+  	</div>
+
+    <div class="row">
+      <div class="col-xs-12">
+  	  <hr>
+      <form enctype="multipart/form-data" role="form" action="" method="POST">
+
+
+	  <div class="row">
+	  <div class="col-xs-1"></div>
+      	{% csrf_token %}
+
+		<div class="col-xs-4">
+          <div class="form-group ">
+            <label >活动标题</label>
+            <input name="title" class="form-control" type="text"   >
+	      </div>
+	    </div>
+		<div class="col-xs-1"></div>
+	    <div class="col-xs-4">
+          <div class="form-group ">
+            <label >活动详情</label>
+            <input name="detail" class="form-control" type="text"   >
+          </div>
+	    </div>
+		<div class="col-xs-1"></div>
+      </div>
+
+	  <div class="row">
+        <div class="col-xs-1"></div>
+
+        <div class="col-xs-4">
+          <div class="form-group ">
+            <label >活动组织单位</label>
+            <input name="group" class="form-control" type="text"   >
+          </div>
+	    </div>
+		<div class="col-xs-1"></div>
+	    <div class="col-xs-4">
+          <div class="form-group ">
+            <label >活动时间</label>
+            <input name="date" class="form-control" type="datetime-local"   >
+          </div>
+	    </div>
+		<div class="col-xs-1"></div>
+	  </div>
+
+	       <div class="row">
+	    <div class="col-lg-4">
+	    </div>
+	    <div class="col-lg-3">
+	      <button type="submit" class="btn btn-block">提交</button>
+	    </div>
+		<div class="col-lg-5">
+	    </div>
+      </div>
+
+{% endblock %}

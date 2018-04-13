@@ -1,17 +1,22 @@
-{% extends 'sua/_layout/base.html' %}
+{% extends 'sua/_layout/info_template.html' %}
 
 {% block title %}提出申诉{% endblock %}
 
-{% block content %}
+{% block content_title %}
+对<a href="{{ publicity.url }}">{{ publicity.title }}</a>的申诉
+{% endblock %}
+
+{% block content_detail %}
 {% load static %}
 {% load rest_framework %}
-<!-- 导航栏部分开始 -->
-{% include 'sua/_partial/nav.html' %}
-<!-- 导航栏部分结束 -->
-  <form enctype="multipart/form-data" action="" method="POST">
-      <p>对{{ publicity.title }}的申诉</p>
-      {% csrf_token %}
-      {% render_form serializer %}
-      <input type="submit" name="save" value="提交">
-  </form>
+<p>公示标题: {{ publicity.title }}</p>
+<p>公示内容: {{ publicity.content }}</p>
+<p>联系方式: {{ publicity.contact }}</p>
+<p>开始日期: {{ publicity.begin }}</p>
+<p>截止日期: {{ publicity.end }}</p>
+<form enctype="multipart/form-data" action="" method="POST">
+  {% csrf_token %}
+  {% render_form serializer %}
+  <input type="submit" name="save" value="发起申诉">
+</form>
 {% endblock %}

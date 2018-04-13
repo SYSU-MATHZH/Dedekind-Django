@@ -2,167 +2,228 @@
 
 {% block title %}申请个人公益时{% endblock %}
 
-{% block content %} 
+{% block content %}
 {% load static %}
+{% load rest_framework %}
 
 <!-- 导航栏部分开始 -->
 {% include 'sua/_partial/nav.html' %}
 <!-- 导航栏部分结束 -->
 
-<div class="row">
+<div class="main-content" role="tabpanel">
+  <div id="tabContent1" class="tab-content my-tab-content">
+
+	<div class="row">
+      <div class="col-xs-12">
+	  <p></p>
+	  </div>
+	</div>
+	<div class="row">
+      <div class="col-xs-12">
+	  <p></p>
+	  </div>
+	</div>
+	<div class="row">
+      <div class="col-xs-12">
+	  <p></p>
+	  </div>
+	</div>
+
+    <div class="row">
  	  <div class="col-lg-3">
   	  </div>
   	  <div class="col-lg-6">
-  	  	<h3>申请个人公益时</h3>
-  	  	<p class="subtitle-descript">你可以在这里向学院提交院内外的公益时申请。</p>
-  	  	<hr>
- 	  	<div class="row">
- 	  	<div class="col-xs-12">
-  	  		<form enctype="multipart/form-data" role="form" action="" method="POST">
-            {% csrf_token %}
-  	  			<div class="row">
-					<div class="col-md-6">
-						<div class="row">
-							<div class="col-xs-6">
-  	  				<div class="form-group">
-  	  					<label for="actor-name">
-  	  					姓名
-  	  					</label>
-						<p id="actor-name" class="form-control-static">{{ stu_name }}</p>
-  	  				</div>
-  	  				</div>
-  	  				<div class="col-xs-6">
-  	  				<div class="form-group">
-  	  					<label for="actor-code">
-  	  					学号
-  	  					</label>
-  	  					<p id="actor-code" class="form-control-static">{{ stu_number }}</p>
-  	  				</div>
-  	  				</div>
-						</div>
-					</div>
-					 
-					<div class="col-md-6">
-						<div class="row">
-						  	  				<div class="col-xs-6">
-  	  				<div class="form-group">
-  	  					<label for="actor-date">
-  	  					申请日期
-  	  					</label>
-  	  					<p id="actor-date" class="form-control-static">{{ apply_date }}</p>
-  	  				</div>
-  	  				</div>
-  	  				<div class="col-xs-6">
-  	  				<div class="form-group">
-  	  					<label for="actor-date">
-  	  					学年度
-  	  					</label>
-  	  					<p id="actor-date" class="form-control-static">{{ apply_year_before }}~{{ apply_year_after }}</p>
-  	  				</div>
-  	  				</div>
-						</div>
-					</div>
-				</div>
-  	  			<div class="row">
-  	  				<div class="col-lg-6">
-  	  				<div class="form-group">
-  	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.title.name }}">
-  	  					活动名称*
-  	  					</label>
-                {{ suaForm.title }}
-  	  				</div>
-  	  				</div>
-              <div class="col-lg-6">
-  	  				<div class="form-group">
-  	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.date.name }}">
-  	  					活动日期*
-  	  					</label>
-                {{ suaForm.date }}
-  	  				</div>
-  	  				</div>
-  	  			</div>
-
-  	  			<div class="row">
-  	  				<div class="col-lg-12">
-                <div class="form-group">
-    	  					<label for="id_{{ sua_ApplicationForm.prefix }}-{{ sua_ApplicationForm.detail.name }}">
-    	  					活动详情
-    	  					</label>
-                  {{ sua_ApplicationForm.detail }}
-    	  				</div>
-  	  				</div>
-  	  			</div>
-  	  			<div class="row">
-  	  				<div class="col-lg-6">
-  	  				<div class="form-group">
-  	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.group.name }}">
-  	  					活动组织方*
-  	  					</label>
-  	  					{{ suaForm.group }}
-  	  				</div>
-  	  				</div>
-  	  				<div class="col-lg-6">
-  	  				<div class="form-group">
-  	  					<label for="id_{{ sua_ApplicationForm.prefix }}-{{ sua_ApplicationForm.contact.name }}">
-  	  					负责人手机/电话*
-  	  					</label>
-  	  					{{ sua_ApplicationForm.contact }}
-  	  				</div>
-  	  				</div>
-  	  			</div>
-  	  			<div class="row">
-  	  				<div class="col-lg-6">
-  	  				<div class="form-group">
-  	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.team.name }}">
-  	  					参与组别
-  	  					</label>
-  	  					{{ suaForm.team }}
-  	  				</div>
-  	  				</div>
-  	  				<div class="col-lg-6">
-  	  				<div class="form-group">
-  	  					<label for="id_{{ suaForm.prefix }}-{{ suaForm.suahours.name }}">
-  	  					公益时数
-  	  					</label>
-                <div class="input-group">
-                  {{ suaForm.suahours }}
-                  <div class="input-group-addon">小时</div>
-                </div>
-  	  				</div>
-  	  				</div>
-  	  			</div>
-  	  			<div class="row">
-  	  				<div class="col-lg-6">
-  	  				<div class="form-group">
-  	  					<label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
-  	  					上传公益时证明
-                （{{ proofForm.is_offline }}
-                <label for="id_{{ proofForm.prefix }}-{{ proofForm.is_offline.name }}">
-                  线下证明
-                </label>）
-  	  					</label>
-  	  					{{ proofForm.proof_file }}
-  	  				</div>
-  	  				</div>
-  	  				<div class="col-lg-6">
-
-  	  				</div>
-  	  			</div>
-  	  			<hr>
-				<div class="row">
-					<div class="col-lg-12">
-						<button type="submit" class="btn btn-block">提交</button>
-					</div>
-					</div>
-  	  			</form>
-	    </div>
+  	  	<h2 style="text-align:center">申请个人公益时</h2>
+  	    <p class="subtitle-descript" style="text-align:center">你可以在这里向学院提交院内外的公益时申请</p>
   	  </div>
+  	  <div class="col-lg-6">
+	  </div>
+  	</div>
+
+    <div class="row">
+      <div class="col-xs-12">
+  	  <hr>
+      <form enctype="multipart/form-data" role="form" action="" method="POST">
+
+	  <div class="row">
+	    <div class="col-xs-1"></div>
+		<div class="col-xs-10">
+          <div class="form-group ">
+            <h3>活动信息：</h3>
+	      </div>
+		</div>
+	  </div>
+
+	  <div class="row">
+	  <div class="col-xs-1"></div>
+      	{% csrf_token %}
+
+		<div class="col-xs-4">
+          <div class="form-group ">
+            <label >活动标题</label>
+            <input name="title" class="form-control" type="text"   >
+	      </div>
+	    </div>
+		<div class="col-xs-1"></div>
+	    <div class="col-xs-4">
+          <div class="form-group ">
+            <label >活动详情</label>
+            <input name="detail" class="form-control" type="text"   >
+          </div>
+	    </div>
+		<div class="col-xs-1"></div>
+      </div>
+
+	  <div class="row">
+        <div class="col-xs-1"></div>
+
+        <div class="col-xs-4">
+          <div class="form-group ">
+            <label >活动组织单位</label>
+            <input name="group" class="form-control" type="text"   >
+          </div>
+	    </div>
+		<div class="col-xs-1"></div>
+	    <div class="col-xs-4">
+          <div class="form-group ">
+            <label >活动时间</label>
+            <input name="date" class="form-control" type="datetime-local"   >
+          </div>
+	    </div>
+		<div class="col-xs-1"></div>
+	  </div>
+
+	  <div class="row">
+	    <div class="col-xs-1"></div>
+
+        <div class="col-xs-4">
+          <div class="form-group ">
+            <label >参与组别</label>
+            <input name="team" class="form-control" type="text"   >
+          </div>
+	    </div>
+		<div class="col-xs-1"></div>
+	    <div class="col-xs-4">
+          <div class="form-group ">
+            <label >公益时数</label>
+            <input name="suahours" class="form-control" type="number"   >
+          </div>
+	    </div>
+		<div class="col-xs-1"></div>
+	  </div>
+      <div class="row">
+        <div class="col-xs-12">
+	    <p></p>
+	    </div>
+	  </div>
+
+	  	  <div class="row">
+	    <div class="col-xs-1"></div>
+		<div class="col-xs-11">
+          <div class="form-group ">
+            <h3>联系方式：</h3>
+	      </div>
+		</div>
+	  </div>
+
+	  <div class="row">
+	    <div class="col-xs-1"></div>
+		<div class="col-xs-4">
+          <div class="form-group ">
+            <label>活动组织单位负责人手机号</label>
+            <input name="contact" class="form-control" type="text"   >
+          </div>
+        </div>
+      </div>
+      
+	  <hr>
+
+	  <div class="row">
+
+	    <div class="col-xs-9">
+	    </div>
+	  </div>
+
+	  <div class="row">
+	    <div class="col-xs-1"></div>
+		<div class="col-xs-11">
+          <div class="form-group ">
+            <h3>提交相关证明：</h3>
+	      </div>
+		</div>
+	  </div>
+
+	  <div class="row">
+	    <div class="col-xs-1"></div>
+        <div class="col-xs-4">
+          <div class="form-group ">
+            <div class="checkbox">
+              <label>
+              <input type="checkbox" name="is_offline" value="true" >
+              是否为线下证明
+              </label>
+            </div>
+		  </div>
+        </div>
+	  </div>
+
+	  <div class="row">
+	    <div class="col-xs-1"></div>
+	    <div class="col-xs-4">
+          <div class="form-group ">
+            <label >证明文件</label>
+            <input name="proof_file"  type="file"   >
+          </div>
+        </div>
+	  </div>
+
+	  <div class="row">
+        <div class="col-xs-12">
+	    <p></p>
+	    </div>
+	  </div>
+
+	  <hr>
+
+
+
+	  <div class="row">
+        <div class="col-lg-12">
+          <hr>
+        </div>
+      </div>
+
+      <div class="row">
+	    <div class="col-lg-5">
+	    </div>
+	    <div class="col-lg-2">
+	      <button type="submit" class="btn btn-block">提交申请</button>
+	    </div>
+		<div class="col-lg-5">
+	    </div>
+      </div>
+
+
+      </form>
 
     </div>
   </div>
+
   <div class="row">
-  	<div class="col-lg-12">
-  		<hr>
-  	</div>
+    <div class="col-lg-12">
+	  <p></p>
+    </div>
   </div>
+  <div class="row">
+    <div class="col-xs-12">
+	  <p></p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+  <p></p>
+  </div>
+</div>
+
 {% endblock %}

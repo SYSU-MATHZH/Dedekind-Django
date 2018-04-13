@@ -1,0 +1,61 @@
+{% extends 'sua/_layout/info_template.html' %}
+
+{% block title %}管理公示{% endblock %}
+
+{% block content_title %}
+<div class="col-lg-offset-3">对"{{ activity.title }}"活动管理公示</div>
+{% endblock %}
+
+{% block content_detail %}
+{% load static %}
+{% load rest_framework %}
+<div class="row">
+  <div class="col-lg-8 col-lg-offset-2">
+    <p>注：一个活动只能有不能超过一个的公示状态下的公示</p>
+    <p>活动标题：{{ activity.title }}</p>
+    <p>活动详情：{{ activity.detail }}</p>
+    <p>活动小组：{{ activity.group }}</p>
+    <p>活动日期:{{ activity.date }}</p>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>公示名称</th>
+          <th>公示时间</th>
+          <th>开始日</th>
+          <th>结束日</th>
+          <th>是否公示</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      {% if publicities %}
+      <tbody>
+        {% for publicity in publicities %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td><a href="{{ publicity.url }}">{{ publicity.title }}</a></td>
+          <td>{{ publicity.created }}</td>
+          <td>{{ publicity.begin }}</td>
+          <td>{{ publicity.end }} </td>
+          <td>{{ publicity.is_published }} </td>
+          <td>
+            <a class="btn btn-default btn-xs" href="/publicities/{{ publicity.id }}/change/">编辑公示</a>
+          </td>
+          <td>
+            <a class="btn btn-default btn-xs" href="/publicities/{{ publicity.id }}/delete/">删除公示</a>
+          </td>                              
+        </tr>
+        {% endfor %}
+      </tbody>
+      {% endif %}
+    </table>
+    <div class="row">
+      <div class="col-xs-offset-5">
+        <a href="/admin"><button class="btn btn-primary">返回主页</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

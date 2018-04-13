@@ -1,28 +1,54 @@
-{% extends 'sua/_layout/base.html' %}
+{% extends 'sua/_layout/info_template.html' %}
 
-{% block title %}公益时平台{% endblock %}
+{% block content_title %}
+<div class="col-xs-offset-4">个人信息</div>
+{% endblock %}
 
-{% block content %}
-
-{% load static %}
-
-{% load rest_framework %}
-
-<div class="container my-space-line">
-        <div class="row">
-            <div class="col-xs-3">
-                <p> 姓名：{{ serializer.data.name }}</p>
-            </div>
-        </div>
-         <div class="row">
-            <div class="col-xs-4">
-        <p>学号：{{ serializer.data.number }}</p>
-            </div>
-         </div>
-        <div class="row">
-            <div class="col-xs-4">
-        <p>公益时总数:{{ serializer.data.suahours }}</p><!-- 用户信息(Student) -->
-        </div>
-        </div>
-    </div>
+{% block content_detail %}
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+<<<<<<< HEAD
+    <p> 姓名：{{ serializer.data.name }}</p>
+    <p>姓名：{{ serializer.data.name }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>学号：{{ serializer.data.number }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>公益时总数:{{ serializer.data.suahours }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>年级:{{ serializer.data.grade }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>班级:{{ serializer.data.classtype }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>电话号码:{{ serializer.data.phone }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-offset-3">
+<<<<<<< HEAD
+    <a href="/students/{{ serializer.data.id }}/delete" class="btn btn-primary">删除该学生</a>
+    <a href="/students/{{ serializer.data.id }}/change" class="btn btn-primary">编辑该学生信息</a>
+    <a href="/admin" class="btn btn-primary">返回主页</a>
+    {% for data in serializer.data.user %}
+    <p>{{ data }}</p>
+    {% endfor %}
+    <a href="/students/{{ serializer.data.id }}/delete" class="btn btn-default">删除该学生</a>
+    <a href="/students/{{ serializer.data.id }}/change" class="btn btn-default">编辑该学生信息</a>
+    <a href="/admin" class="btn btn-default">返回主页</a>
+  </div>
+</div>
 {% endblock %}
