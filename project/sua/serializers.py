@@ -89,7 +89,7 @@ class PublicitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Publicity
-        fields = ('url','id', 'activity', 'title', 'content', 'is_published', 'begin', 'end', 'appeals')
+        fields = ('url','id', 'activity','created', 'title', 'content', 'is_published', 'begin', 'end', 'appeals')
 
 
 class AppealSerializer(serializers.HyperlinkedModelSerializer):
