@@ -125,6 +125,7 @@
               <th>序号</th>
               <th>活动名称</th>
               <th>举办单位</th>
+              <th>活动时间</th>
               <th>公益时</th>
             </tr>
           </thead>
@@ -135,6 +136,7 @@
                   <td>{{ forloop.counter }}</td>
                   <td>{{ sua.activity.title }}</td>
                   <td>{{ sua.activity.group }}</td>
+                  <td>{{ sua.activity.date }}</td>
                   <td>{{ sua.suahours }} h</td>
                 </tr>
               {% endfor %}
@@ -149,13 +151,14 @@
         <table class="table table-hover">
         <thead>
           <tr>
-            <th>序号</th>
+            <th colspan="2">序号</th>
             <th>申请日期</th>
             <th>活动名称</th>
             <th>举办单位</th>
             <th>公益时数</th>
             <th>审核结果</th>
             <th>是否已审核</th>
+            <th></th>
           </tr>
         </thead>
         {% if applications %}
@@ -163,6 +166,7 @@
             {% for application in applications %}
               <tr>
                 <td>{{ forloop.counter }}</td>
+                <td><a href="{{ application.url }}">查看详情</a></td>
                 <td>{{ application.created }}</td>
                 <td>
                 <a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a>
