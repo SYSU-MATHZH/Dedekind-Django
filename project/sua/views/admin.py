@@ -83,21 +83,29 @@ class IndexView(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
-        publicity_set = Publicity.objects.filter(   # 获取在公示期内的所有公示
-            begin__lte=timezone.now(),
-            end__gte=timezone.now()
-        ).order_by('begin')
-        publicity_data = PublicitySerializer(    # 序列化公示
-            publicity_set,
-            many=True,
-            context={'request': request}
-        )
+        # print(activity_data.data)
+        # for activity in activity_data.data:
+        #     print(activity)
+        #     for publicity in activity.publicities:
+        #         if publicity.is_published:
+        #             activity.publicities = publicity
+        #             break
+        # publicity_set = Publicity.objects.filter(   # 获取在公示期内的所有公示
+        #     is_published=True,
+        #     begin__lte=timezone.now(),
+        #     end__gte=timezone.now()
+        # ).order_by('begin')
+        # publicity_data = PublicitySerializer(    # 序列化公示
+        #     publicity_set,
+        #     many=False,
+        #     context={'request': request}
+        # )
         serialized.update({
             'appeals': appeal_data.data,
             'applications': application_data.data,
             'students':student_data.data,
             'activities':activity_data.data,
-            'publicities':publicity_data.data,
+            # 'publicities':publicity_data.data,
         })
         return serialized
 

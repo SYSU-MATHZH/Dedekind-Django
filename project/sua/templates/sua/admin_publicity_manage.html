@@ -30,7 +30,7 @@
               <th>公示时间</th>
               <th>开始日</th>
               <th>结束日</th>
-              <th>是否公示</th>
+              <th>是否已公示</th>
               <th></th>
               <th></th>
             </tr>
@@ -44,7 +44,7 @@
                   <td>{{ publicity.created }}</td>
                   <td>{{ publicity.begin }}</td>
                   <td>{{ publicity.end }} </td>
-                  <td>{{ publicity.is_published }} </td>
+                  <td>{% if publicity.is_published %}已公示{% else %}未公示{% endif %}</td>
                 <td>
                   <a class="btn btn-default btn-xs" href="/publicities/{{ publicity.id }}/change/">编辑公示</a>
                 </td>
