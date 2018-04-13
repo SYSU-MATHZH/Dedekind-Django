@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = (
     'rest_framework',
     'django_crontab',
     'django_filters',
+    'drf_yasg',  # 自动生成docs
 )
 
 LOCAL_APPS = (
@@ -141,6 +142,7 @@ REST_FRAMEWORK = {
     ),
     'EXCEPTION_HANDLER': 'project.sua.utils.redirect_exception_handler',  # 401 or 403 会被重定向至主页
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'DATETIME_FORMAT': r"%Y-%m-%d %H:%M:%S",
 }
 
 
