@@ -244,8 +244,6 @@ class PublicityView(BaseView,NavMixin):
             return False
 
 
-<<<<<<< HEAD
-=======
 class ManagePublicityView(BaseView,NavMixin):
     template_name = 'sua/admin_publicity_manage.html'
     components = {
@@ -284,8 +282,6 @@ class ManagePublicityView(BaseView,NavMixin):
             return True
         else:
             return False
-
->>>>>>> 7188aafb4a8a5ad1b2318cee4606935e8431ddc4
 
 class Addstusuahoursview(BaseView, NavMixin):
     template_name = 'sua/addstusuahours.html'
