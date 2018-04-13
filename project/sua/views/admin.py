@@ -282,8 +282,7 @@ class ManagePublicityView(BaseView,NavMixin):
             return True
         else:
             return False
-
-
+            
 class Addstusuahoursview(BaseView, NavMixin):
     template_name = 'sua/addstusuahours.html'
     components = {
