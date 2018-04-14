@@ -49,6 +49,17 @@ header {
     width: 60%;
   }
 }
+
+.my-horizontal-dl dt {
+  float: left;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  clear: left;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /*--- 导航 --*/
 @media screen and (min-width: 768px) {
   .main-navbar {
@@ -142,8 +153,17 @@ header {
 .tab-header {
   font-size: 2em;
   margin-bottom: 0.5em;
-  margin-left: 1em;
   margin-top: 0.5em;
+}
+@media screen and (min-width: 768px) {
+  .tab-header {
+    margin-left: 1em;
+  }
+}
+@media screen and (max-width: 768px) {
+  .tab-header {
+    margin-left: 0.5em;
+  }
 }
 
 .lg-tab-header {
@@ -210,14 +230,6 @@ header {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 20px;
-}
-.my-pub-detail dt,
-.my-pub-detail dd {
-  display: inline-block;
-  clear: both;
-}
-.my-pub-detail dt {
-  float: left;
 }
 
 .my-pub-student {

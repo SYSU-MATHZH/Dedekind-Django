@@ -6,7 +6,7 @@
   {% if user.is_staff %}
     {{ serializer.data.student.name }}对“{{ serializer.data.publicity.title }}”发起的申诉
   {% else %}
-    发起对“{{ serializer.data.publicity.title }}”的申诉
+    对“{{ serializer.data.publicity.title }}”的申诉
   {% endif %}
 {% endblock %}
 
@@ -14,9 +14,6 @@
 {% load static %}
 <div class="row">
   <div class="col-lg-10 col-lg-offset-1">
-  {% if not user.is_staff %}
-    <p class="subtitle-descript">你可以在这里向学院发起申诉。</p>
-  {% endif %}
     <hr>
     <div class="row">
       <div class="col-xs-12">
