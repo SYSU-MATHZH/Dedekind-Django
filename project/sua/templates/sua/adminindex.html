@@ -45,11 +45,11 @@
         <table class="table">
         <thead>
           <tr>
-            <td>学号</td>
-            <td>年级</td>
-            <td>班别</td>
-            <td>名字</td>
-            <td>公益时数</td>
+            <th>学号</th>
+            <th>年级</th>
+            <th>班别</th>
+            <th>名字</th>
+            <th>公益时数</th>
           </tr>
         </thead>
         {% for student in students %}
@@ -67,10 +67,6 @@
 
     <div role="tabpanel" class="tab-pane fade" id="activities">
       <div class="row tab-header">
-        <div class="col-lg-9 col-xs-6">活动</div>
-        <div class="col-lg-3 pull-right"><a class="btn btn-default" href="/activities/add" target="_blank">创建活动</a></div>
-        <div class="col-lg-3 pull-right"><a class="btn btn-default" href="/admin/addsuahours" target="_blank">为学生添加活动公益时</a></div>        
-
         <div class="col-lg-7 col-xs-6">活动</div>
         <div class="col-lg-5 pull-right">
           <a class="btn btn-default" href="/activities/add" target="_blank">创建活动</a>
@@ -81,14 +77,14 @@
         <table class="table">
           <thead>
             <tr>
-              <td>活动日期</td>
-              <td>活动名称</td>
-              <td>组织方</td>
-              <td>是否已公示</td>
-              <td>开始日</td>
-              <td>结束日</td>
-              <td></td>
-              <td></td>
+              <th>活动日期</th>
+              <th>活动名称</th>
+              <th>组织方</th>
+              <th>是否已公示</th>
+              <th>开始日</th>
+              <th>结束日</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -104,9 +100,6 @@
                   <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/create/">创建公示</a>
                   <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/">管理公示</a>
                 </td>
-                <td>
-                  <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/">管理公示</a>
-                </td>
               </tr>
             {% endfor %}
           </tbody>
@@ -120,12 +113,12 @@
         <table class="table">
           <thead>
             <tr>
-              <td>申请日期</td>
-              <td>标题</td>
-              <td>申请人</td>
-              <td>公益时</td>
-              <td>是否已审核</td>
-              <td></td>
+              <th>申请日期</th>
+              <th>活动名称</th>
+              <th>申请人</th>
+              <th>公益时</th>
+              <th>是否已审核</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -137,6 +130,7 @@
                 <td>{{ application.sua.suahours }}h</td>
                 <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
                 <td>
+                  <a class="btn btn-default btn-xs" href="{{ application.url }}">申请详情</a>
                   <a class="btn btn-default btn-xs" href="/admin/applications/{{ application.id }}/change/">审核申请</a>
                   <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_delete_application">删除该申请</a>
                 </td>
@@ -170,11 +164,11 @@
         <table class="table">
           <thead>
             <tr>
-              <td>申诉日期</td>
-              <td>申诉的公示</td>
-              <td>申诉人</td>
-              <td>是否已处理</td>
-              <td></td>
+              <th>申诉日期</th>
+              <th>申诉的公示</th>
+              <th>申诉人</th>
+              <th>是否已处理</th>
+              <th></th>
             </tr>
           </thead>
           {% for appeal in appeals %}
