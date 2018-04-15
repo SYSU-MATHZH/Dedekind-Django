@@ -33,13 +33,10 @@ rou.register(r'appeals', apis.AppealViewSet, base_name="api-appeal")
 #
 #app_name = 'sua'
 urlpatterns = [
-    path('suas/export/',login_required(student.SuasExportView.as_view())),
+#    path('suas/export/',login_required(student.SuasExportView.as_view())),
     path('', login_required(student.IndexView.as_view()), name='index'),
-    path('apis/',include(rou.urls)),
-    path('', include(router.urls)),
-    path('apis/login/', auths.LoginView.as_view()),
-    path('login/', auth.login_view, name='login'),
-    path('logout/', auth.logout_view, name='logout'),
+    path('',include(rou.urls)),
+    path('login/', auths.LoginView.as_view()),
     path('test/', login_required(student.TestBaseView.as_view())),
 
     path('publicities/<int:pk>/appeal/', login_required(student.AppealView.as_view())),
