@@ -83,6 +83,29 @@ class IndexView(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
+        for activity in activity_data.data:
+            print(activity)
+            publicities = activity.publicities
+            publicity = publicities.objects.filter(is_published=True)
+            if publicity.count()>0:
+                activity.publicities = publicity[0]
+                break
+            else:
+                activity.publicities = None        
+        # for activity in activity_data.data:
+        #     print(activity)
+        #     publicities = activity.publicities
+        #     publicity = publicities.objects.filter(is_published=True)
+        #     if publicity.count()>0:
+        #         publicity_set = publicity[0]        
+        #         publicity_data = PublicitySerializer(    # 序列化公示
+        #         publicity_set,
+        #         context={'request': request}
+        #         )
+        #         break
+        #     else:
+        #         publicity_data = None
+
         # print(activity_data.data)
         # for activity in activity_data.data:
         #     print(activity)
@@ -105,7 +128,7 @@ class IndexView(BaseView, NavMixin):
             'applications': application_data.data,
             'students':student_data.data,
             'activities':activity_data.data,
-            # 'publicities':publicity_data.data,
+            'publicitiy':publicity_data.data,
         })
         return serialized
 
@@ -290,7 +313,6 @@ class ManagePublicityView(BaseView,NavMixin):
             return True
         else:
             return False
-
 
 class Addstusuahoursview(BaseView, NavMixin):
     template_name = 'sua/addstusuahours.html'

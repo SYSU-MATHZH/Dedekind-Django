@@ -14,16 +14,28 @@
  		<div class="col-lg-3">
   		</div>
   		<div class="col-lg-6">
+<<<<<<< HEAD
+  	  	    <h3>对  “{{ appeal.publicity.title }}”  的申诉的审核</h3>
+=======
   	  	    <h3>对“{{ appeal.publicity.title }}”的申诉的审核</h3>
+>>>>>>> 4667a3d4cacb71aa7463cbfaf24ce3540a2735b5
   <p>申诉人：{{ appeal.student.name }}</p>
   <p>申诉内容：{{ appeal.content }}</p>
   <p>活动：{{ appeal.publicity.activity.title }}</p>
   <p>公益时：{{ sua.suahours }}</p>
+<<<<<<< HEAD
+
+=======
             
+>>>>>>> 4667a3d4cacb71aa7463cbfaf24ce3540a2735b5
   <form enctype="multipart/form-data" action="" method="POST">
       {% csrf_token %}
       {% render_form serializer %}
       <input type="submit" name="save" value="提交">
   </form>
 
+<<<<<<< HEAD
 {% endblock %}
+=======
+{% endblock %}
+>>>>>>> 4667a3d4cacb71aa7463cbfaf24ce3540a2735b5

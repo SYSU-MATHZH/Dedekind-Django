@@ -32,11 +32,11 @@ class PublicityWithActivitySerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = Publicity
-        fields = ('url', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end' )
+        fields = ('url', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end' ,'id')
 
 
 class ActivitySerializer(serializers.HyperlinkedModelSerializer):
-    # publicities = PublicityWithActivitySerializer()
+    publicities = PublicityWithActivitySerializer(many=True)
 
     class Meta:
         model = Activity
