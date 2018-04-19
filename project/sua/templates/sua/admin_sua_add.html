@@ -1,0 +1,17 @@
+{% extends 'sua/_layout/info_template.html' %}
+
+{% block title %}添加参与人{% endblock %}
+
+{% block content_title %}
+为“{{activity.title}}”添加参与人
+{% endblock %}
+
+{% block content_detail %}
+{% load static %}
+{% load rest_framework %}
+<form enctype="multipart/form-data" action="" method="POST">
+  {% csrf_token %}
+  {% render_form serializer %}
+  <input class="btn btn-default" type="submit" name="save" value="提交">
+</form>
+{% endblock %}

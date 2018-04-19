@@ -19,6 +19,9 @@ from project.sua.serializers import AddAppealSerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import StudentSerializer
 from project.sua.serializers import ActivitySerializer
+from project.sua.serializers import ActivityForAdminSerializer
+from project.sua.serializers import ActivityWithSuaSerializer
+from project.sua.serializers import AdminAddSuaForActivitySerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import AdminAppealSerializer
 from project.sua.serializers import AdminPublicitySerializer
@@ -78,57 +81,16 @@ class IndexView(BaseView, NavMixin):
         )
 
         activity_set = Activity.objects.filter(owner=request.user)  # 获取所有当前管理员创建的活动
-        activity_data = ActivitySerializer(  # 序列化所有所有当前管理员创建的活动
+        activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
             activity_set,
             many=True,
             context={'request': request}
         )
-        for activity in activity_data.data:
-            print(activity)
-            publicities = activity.publicities
-            publicity = publicities.objects.filter(is_published=True)
-            if publicity.count()>0:
-                activity.publicities = publicity[0]
-                break
-            else:
-                activity.publicities = None        
-        # for activity in activity_data.data:
-        #     print(activity)
-        #     publicities = activity.publicities
-        #     publicity = publicities.objects.filter(is_published=True)
-        #     if publicity.count()>0:
-        #         publicity_set = publicity[0]        
-        #         publicity_data = PublicitySerializer(    # 序列化公示
-        #         publicity_set,
-        #         context={'request': request}
-        #         )
-        #         break
-        #     else:
-        #         publicity_data = None
-
-        # print(activity_data.data)
-        # for activity in activity_data.data:
-        #     print(activity)
-        #     for publicity in activity.publicities:
-        #         if publicity.is_published:
-        #             activity.publicities = publicity
-        #             break
-        # publicity_set = Publicity.objects.filter(   # 获取在公示期内的所有公示
-        #     is_published=True,
-        #     begin__lte=timezone.now(),
-        #     end__gte=timezone.now()
-        # ).order_by('begin')
-        # publicity_data = PublicitySerializer(    # 序列化公示
-        #     publicity_set,
-        #     many=False,
-        #     context={'request': request}
-        # )
         serialized.update({
             'appeals': appeal_data.data,
             'applications': application_data.data,
             'students':student_data.data,
             'activities':activity_data.data,
-            'publicitiy':publicity_data.data,
         })
         return serialized
 
@@ -314,6 +276,52 @@ class ManagePublicityView(BaseView,NavMixin):
         else:
             return False
 
+
+class AddSuaForActivityView(BaseView, NavMixin):
+    template_name = 'sua/admin_sua_add.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        activity_id = kwargs['pk']
+        activity = Activity.objects.get(id=activity_id)
+        serialized = super(AddSuaForActivityView, self).serialize(request)
+        activitySerializer = ActivityWithSuaSerializer(
+            activity,
+            context={'request': request}
+        )
+        suaSerializer = AdminAddSuaForActivitySerializer(context={'request': request})
+        serialized.update({
+            'activity': activitySerializer.data,
+            'serializer': suaSerializer,
+        })
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        user = request.user
+        activity_id = kwargs['pk']
+        activity = Activity.objects.get(id=activity_id)
+        activitySerializer = ActivitySerializer(
+            activity,
+            context={'request': request}
+        )
+        suaSerializer = AdminAddSuaForActivitySerializer(
+            data=request.data,
+            context={'request': request},
+        )
+        if suaSerializer.is_valid():
+            suaSerializer.save(
+                owner=user,
+                activity=activity,
+                is_valid=True
+            )
+            self.url = activitySerializer.data['url']
+            return True
+        else:
+            return False
+
+
 class Addstusuahoursview(BaseView, NavMixin):
     template_name = 'sua/addstusuahours.html'
     components = {
@@ -328,7 +336,7 @@ class Addstusuahoursview(BaseView, NavMixin):
             activity_set,
             many=True,
             context={'request': request}
-        )     
+        )
         serialized.update({
              'students':students_data,
              'activities':activity_data.data,
