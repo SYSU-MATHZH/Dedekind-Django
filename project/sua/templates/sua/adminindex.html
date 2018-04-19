@@ -71,7 +71,7 @@
         <div class="col-lg-5 pull-right">
           <a class="btn btn-default" href="/activities/add" target="_blank">创建活动</a>
           <a class="btn btn-default" href="/admin/addsuahours" target="_blank">为学生添加活动公益时</a>
-        </div>       
+        </div>
       </div>
       <div class="table-responsive">
         <table class="table">
@@ -93,9 +93,9 @@
                 <td>{{ activity.date }}</td>
                 <td><a href="{{ activity.url }}">{{ activity.title }}</a></td>
                 <td>{{ activity.group }}</td>
-                <td>{% if publicity.is_published %}已公示{% else %}未公示{% endif %}</td>
-                <td>{{ publicity.begin }}</td>
-                <td>{{ publicity.end }}</td>
+                <td>{% if activity.publicities.0.is_published %}已公示{% else %}未公示{% endif %}</td>
+                <td>{{ activity.publicities.0.begin }}</td>
+                <td>{{ activity.publicities.0.end }}</td>
                 <td>
                   <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/create/">创建公示</a>
                   <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/">管理公示</a>
@@ -147,7 +147,7 @@
                     </div>
                     <div class="modal-footer my-empty-block">
                       <a type="button" class="btn btn-default" data-dismiss="modal">取消</a>
-                      <a type="button" class="btn btn-primary" href="/applications/{{ application.id}} /delete">确认删除</a> 
+                      <a type="button" class="btn btn-primary" href="/applications/{{ application.id}} /delete">确认删除</a>
                     </div>
                   </div>
                 </div>
@@ -195,7 +195,7 @@
                   </div>
                   <div class="modal-footer my-empty-block">
                     <a type="button" class="btn btn-default" data-dismiss="modal">取消</a>
-                    <a type="button" class="btn btn-primary" href="/appeals/{{ appeal.id}} /delete">确认删除</a> 
+                    <a type="button" class="btn btn-primary" href="/appeals/{{ appeal.id}} /delete">确认删除</a>
                   </div>
                 </div>
               </div>

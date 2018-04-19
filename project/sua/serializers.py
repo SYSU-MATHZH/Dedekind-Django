@@ -28,15 +28,31 @@ class SuaGroupSerializer(serializers.HyperlinkedModelSerializer):
         model = SuaGroup
         fields = ('url', 'group', 'name', 'is_staff', 'contact', 'rank')
 
+
+class FilterIsPublishedListSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        data = data.filter(is_published=True)
+        return super(FilterIsPublishedListSerializer, self).to_representation(data)
+
+
 class PublicityWithActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Publicity
+        list_serializer_class = FilterIsPublishedListSerializer
         fields = ('url', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end' )
 
 
+class ActivityForAdminSerializer(serializers.HyperlinkedModelSerializer):
+    publicities = PublicityWithActivitySerializer(many=True)
+
+    class Meta:
+        model = Activity
+        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
+
+
 class ActivitySerializer(serializers.HyperlinkedModelSerializer):
-    # publicities = PublicityWithActivitySerializer()
+    #publicities = PublicityWithActivitySerializer()
 
     class Meta:
         model = Activity
