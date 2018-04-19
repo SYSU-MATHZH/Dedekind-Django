@@ -51,6 +51,7 @@ urlpatterns = [
     path('admin/addsuahours',login_required(admin.Addstusuahoursview.as_view())),
     path('admin/publicities/<int:pk>/create/',login_required(admin.PublicityView.as_view())),
     path('admin/publicities/<int:pk>/manage/',login_required(admin.ManagePublicityView.as_view())),
+    path('admin/activities/<int:pk>/suas/add/',login_required(admin.AddSuaForActivityView.as_view())),
 #     path('playMFS/', views.playMFS, name='playMFS'),
 #     path('admin/', views.adminIndex, name='admin-index'),
 #     path('apply_sua/', views.apply_sua, name='apply_sua'),

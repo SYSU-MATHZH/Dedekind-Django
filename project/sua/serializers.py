@@ -29,7 +29,7 @@ class SuaGroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'group', 'name', 'is_staff', 'contact', 'rank')
 
 class PublicityWithActivitySerializer(serializers.HyperlinkedModelSerializer):
-    
+
     class Meta:
         model = Publicity
         fields = ('url', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end' )
@@ -129,6 +129,13 @@ class AdminApplicationMassageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Application
         fields = ('url', 'proof', 'sua',)
+
+
+class AdminAddSuaForActivitySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Sua
+        fields = ('url', 'student', 'team', 'suahours')
+
 
 class AdminApplicationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

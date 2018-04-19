@@ -19,6 +19,8 @@ from project.sua.serializers import AddAppealSerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import StudentSerializer
 from project.sua.serializers import ActivitySerializer
+from project.sua.serializers import ActivityWithSuaSerializer
+from project.sua.serializers import AdminAddSuaForActivitySerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import AdminAppealSerializer
 from project.sua.serializers import AdminPublicitySerializer
@@ -282,7 +284,53 @@ class ManagePublicityView(BaseView,NavMixin):
             return True
         else:
             return False
-            
+
+
+class AddSuaForActivityView(BaseView, NavMixin):
+    template_name = 'sua/admin_sua_add.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        activity_id = kwargs['pk']
+        activity = Activity.objects.get(id=activity_id)
+        serialized = super(AddSuaForActivityView, self).serialize(request)
+        activitySerializer = ActivityWithSuaSerializer(
+            activity,
+            context={'request': request}
+        )
+        suaSerializer = AdminAddSuaForActivitySerializer(context={'request': request})
+        serialized.update({
+            'activity': activitySerializer.data,
+            'serializer': suaSerializer,
+        })
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        user = request.user
+        activity_id = kwargs['pk']
+        activity = Activity.objects.get(id=activity_id)
+        activitySerializer = ActivitySerializer(
+            activity,
+            context={'request': request}
+        )
+        suaSerializer = AdminAddSuaForActivitySerializer(
+            data=request.data,
+            context={'request': request},
+        )
+        if suaSerializer.is_valid():
+            suaSerializer.save(
+                owner=user,
+                activity=activity,
+                is_valid=True
+            )
+            self.url = activitySerializer.data['url']
+            return True
+        else:
+            return False
+
+
 class Addstusuahoursview(BaseView, NavMixin):
     template_name = 'sua/addstusuahours.html'
     components = {
