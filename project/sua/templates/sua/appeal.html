@@ -3,7 +3,7 @@
 {% block title %}提出申诉{% endblock %}
 
 {% block content_title %}
-对<a href="{{ publicity.url }}">{{ publicity.title }}</a>的申诉
+对{{ publicity.title }}的申诉
 {% endblock %}
 
 {% block content_detail %}
@@ -17,6 +17,6 @@
 <form enctype="multipart/form-data" action="" method="POST">
   {% csrf_token %}
   {% render_form serializer %}
-  <input type="submit" name="save" value="发起申诉">
+  <input class="btn btn-default" type="submit" name="save" value="发起申诉">
 </form>
 {% endblock %}

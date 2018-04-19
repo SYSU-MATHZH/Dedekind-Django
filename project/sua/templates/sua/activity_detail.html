@@ -22,19 +22,13 @@
     <p>活动日期:{{ serializer.data.date }}</p>
   </div>
 </div>
+{% for sua in serializer.data.suas %}
 <div class="row">
   <div class="col-xs-12">
-    <p>公益时长:{{ serializer.data.suas }}</p>
+    <p>公益时长:{{ sua.student.suahours }}</p>
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-12">
-    <p>公示:{{ serializer.data.publicities }}</p>
-  </div>
-</div>
-<a href="/activities/{{ serializer.data.id }} /delete" class="btn btn-primary">删除该活动</a>
-<a href="/activities/{{ serializer.data.id }}/change" class="btn btn-primary">编辑该活动信息</a>
-<a href="/admin/#activities" class="btn btn-primary">返回主页</a>
+{% endfor %}
 <a href="/activities/{{ serializer.data.id }} /delete" class="btn btn-default">删除该活动</a>
 <a href="/activities/{{ serializer.data.id }}/change" class="btn btn-default">编辑该活动信息</a>
 <a href="/admin/#activities" class="btn btn-default">返回主页</a>

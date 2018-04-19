@@ -1,6 +1,10 @@
 {% extends 'sua/_layout/base.html' %}
 
-{% block title %}申请个人公益时{% endblock %}
+<<<<<<< HEAD
+{% block title %}发起申诉{% endblock %}
+=======
+{% block title %}申诉{% endblock %}
+>>>>>>> 512e2dba4902aa12b493bbaabb757b395159c127
 
 {% block content %}
 {% load static %}
@@ -10,22 +14,50 @@
 {% include 'sua/_partial/nav.html' %}
 <!-- 导航栏部分结束 -->
 
-<div class="container my-space-line">
+<div class="main-content" role="tabpanel">
+  <div id="tabContent1" class="tab-content my-tab-content">
+    <div class="container my-space-line">
   	    <div class="row">
- 		<div class="col-lg-3">
-  		</div>
-  		<div class="col-lg-6">
+ 		  <div class="col-lg-3">
+  		  </div>
+  		  <div class="col-lg-6">
   	  	    <h3>发起对“{{ appeal.title }}”的申诉</h3>
-  	  	    <p class="subtitle-descript">你可以在这里向学院发起申诉。</p>
-  	  	    <hr>
-
-  <form action="" method="POST">
-      {% csrf_token %}
-      {% render_form serializer %}
-      <input type="submit" name="save" value="提交">
-  </form>
+  	  	    <p class="subtitle-descript">&nbsp &nbsp &nbsp 你可以在这里向学院发起申诉。</p>
+  	  	  </div>   
+        </div>		  
+			<hr>
+		
+		<form action="" method="POST">
+          {% csrf_token %}
+		  
+        <div class="row">
+		  <div class="col-lg-1">
+  		  </div>
+		  <div class="col-lg-7">
+            <div class="form-group ">
+              <label >申诉内容</label>
+              <input name="content" class="form-control" type="text" >
+            </div>  
+		  </div>
+        </div>
+		
+		<hr>
+		
+		<div class="row">
+          <div class="col-lg-4">	
+          </div>		  
+          <input type="submit" name="save" value="提交">
+		</div>
+        </form>
+		
+		<div class="row">
+        <div class="col-lg-12">
+		  <p>
+		  </p>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 </div>
 
 {% endblock %}
