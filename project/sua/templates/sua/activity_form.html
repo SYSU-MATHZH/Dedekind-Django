@@ -48,14 +48,14 @@
 		<div class="col-xs-4">
           <div class="form-group ">
             <label >活动标题</label>
-            <input name="title" class="form-control" type="text"   >
+            <input name="title" class="form-control" type="text" value="{{ serializer.data.title }}">
 	      </div>
 	    </div>
 		<div class="col-xs-1"></div>
 	    <div class="col-xs-4">
           <div class="form-group ">
             <label >活动详情</label>
-            <input name="detail" class="form-control" type="text"   >
+            <input name="detail" class="form-control" type="text" value="{{ serializer.data.detail }}">
           </div>
 	    </div>
 		<div class="col-xs-1"></div>
@@ -67,14 +67,14 @@
         <div class="col-xs-4">
           <div class="form-group ">
             <label >活动组织单位</label>
-            <input name="group" class="form-control" type="text"   >
+            <input name="group" class="form-control" type="text" value="{{ serializer.data.group }}">
           </div>
 	    </div>
 		<div class="col-xs-1"></div>
 	    <div class="col-xs-4">
           <div class="form-group ">
             <label >活动时间</label>
-            <input name="date" class="form-control" type="datetime-local"   >
+            <input name="date" class="form-control" type="text" value="{{ serializer.data.date }}">
           </div>
 	    </div>
 		<div class="col-xs-1"></div>
