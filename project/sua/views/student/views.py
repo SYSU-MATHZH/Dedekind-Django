@@ -11,12 +11,16 @@ from project.sua.serializers import SuaSerializer
 from project.sua.serializers import ApplicationSerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import AddAppealSerializer
-from project.sua.serializers import DEAddApplicationsSerializer, DEActivityForAddApplicationsSerializer, DESuaForAddApplicationsSerializer, DEProofForAddApplicationsSerializer
 
-from .utils.base import BaseView
-from .utils.mixins import NavMixin
+from .serializers import DEAddApplicationsSerializer
+from .serializers import DEActivityForAddApplicationsSerializer
+from .serializers import DESuaForAddApplicationsSerializer
+from .serializers import DEProofForAddApplicationsSerializer
 
-from .forms.serializers import AddStudentSerializer,AddPublicitySerializer
+from project.sua.views.utils.base import BaseView
+from project.sua.views.utils.mixins import NavMixin
+
+from project.sua.views.form.serializers import AddStudentSerializer, AddPublicitySerializer
 
 from io import BytesIO
 from reportlab.pdfgen import canvas

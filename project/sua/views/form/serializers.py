@@ -1,5 +1,5 @@
-from django.contrib.auth.models import User, Group
-from project.sua.models import Student, SuaGroup, Sua, Application, Activity, Publicity, Appeal, Proof
+from django.contrib.auth.models import User
+from project.sua.models import Student, Sua, Application, Activity, Publicity, Appeal, Proof
 
 from rest_framework import serializers
 
@@ -20,7 +20,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Student
         fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id')
-        
+
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         user = User.objects.create(
@@ -96,13 +96,6 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
             sua.save()
         return instance
 
-
-class PublicityWithActivitySerializer(serializers.HyperlinkedModelSerializer):
-    
-    class Meta:
-        model = Publicity
-        fields = ('url', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end' )
- 
 
 class PublicityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
     activity = AddActivitySerializer()

@@ -1,53 +1,30 @@
-from django.utils import timezone
-from django.http import HttpResponse
-
 from project.sua.models import Publicity
 from project.sua.models import Sua
 from project.sua.models import Application
 from project.sua.models import Student
 from project.sua.models import Activity
 from project.sua.models import Appeal
-from project.sua.models import Proof
-
 
 from project.sua.serializers import PublicitySerializer
 from project.sua.serializers import SuaSerializer
 from project.sua.serializers import ApplicationSerializer
-from project.sua.serializers import ApplicationSerializer
-from project.sua.serializers import AppealSerializer
-from project.sua.serializers import AddAppealSerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import StudentSerializer
 from project.sua.serializers import ActivitySerializer
-from project.sua.serializers import ActivityForAdminSerializer
 from project.sua.serializers import ActivityWithSuaSerializer
-from project.sua.serializers import AdminAddSuaForActivitySerializer
-from project.sua.serializers import AppealSerializer
-from project.sua.serializers import AdminAppealSerializer
-from project.sua.serializers import AdminPublicitySerializer
-from project.sua.serializers import AdminApplicationSerializer
-from project.sua.serializers import ProofSerializer
-from project.sua.serializers import AdminApplicationMassageSerializer
-from project.sua.serializers import SuaforApplicationsSerializer
-from project.sua.serializers import StudentNameNumberSerializer
 
-from rest_framework import viewsets
-from rest_framework.decorators import list_route, detail_route
-from rest_framework.renderers import TemplateHTMLRenderer
-from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework.mixins import ListModelMixin
+from .serializers import AdminAddSuaForActivitySerializer
+from .serializers import AdminApplicationSerializer
+from .serializers import AdminApplicationMassageSerializer
+from .serializers import SuaforApplicationsSerializer
+from .serializers import ActivityForAdminSerializer
+from .serializers import AdminPublicitySerializer
+from .serializers import AdminAppealSerializer
 
-from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly
-import project.sua.serializers as sirs
-import project.sua.views.forms.serializers as firs
-import project.sua.views.forms.mixins as mymixins
+from project.sua.views.utils.base import BaseView
+from project.sua.views.utils.mixins import NavMixin
 
-
-from .utils.base import BaseView
-from .utils.mixins import NavMixin
-
-from .forms.serializers import AddStudentSerializer, AddPublicitySerializer, PublicityWithActivitySerializer
+from .serializers import PublicityWithActivitySerializer
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/adminindex.html'
@@ -93,6 +70,7 @@ class IndexView(BaseView, NavMixin):
             'activities':activity_data.data,
         })
         return serialized
+
 
 class AppealView(BaseView, NavMixin):
     template_name = 'sua/admin_appeal.html'
@@ -182,10 +160,6 @@ class ApplicationView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
         application_id = kwargs['pk']
-        application_data = AdminApplicationMassageSerializer(
-            Application.objects.get(id=application_id),
-            context = {'request':request}
-        )
         sua_data = SuaforApplicationsSerializer(
             Sua.objects.filter(
                 application__id = application_id,
@@ -320,41 +294,3 @@ class AddSuaForActivityView(BaseView, NavMixin):
             return True
         else:
             return False
-
-
-class Addstusuahoursview(BaseView, NavMixin):
-    template_name = 'sua/addstusuahours.html'
-    components = {
-        'nav': 'nav',
-    }
-
-    def serialize(self, request, *args, **kwargs):
-        serialized = super(Addstusuahoursview, self).serialize(request)
-        students_data = Student.objects.all()
-        activity_set = Activity.objects.filter(owner=request.user)  # 获取所有当前管理员创建的活动
-        activity_data = ActivitySerializer(  # 序列化所有所有当前管理员创建的活动
-            activity_set,
-            many=True,
-            context={'request': request}
-        )
-        serialized.update({
-             'students':students_data,
-             'activities':activity_data.data,
-        })
-        return serialized
-    def deserialize(self, request, *args, **kwargs):
-        students_data = Student.objects.all()
-        activities_data = Activity.objects.all()
-        if request.POST.get("id")==None:
-            return False
-        else:
-            activity_data = Activity.objects.filter(id=request.POST.get("id")).get()
-        for na in students_data:
-            if request.POST.get(('addsuahours'+str(na.id)))!="":
-                suahours_data = int(request.POST.get(('addsuahours'+str(na.id))))
-            else:
-                return False
-            if(request.POST.get('is_add'+str(na.id))):
-                Sua.objects.create(owner=request.user, student=na, activity=activity_data, team=activity_data.group, suahours=suahours_data, is_valid=True)
-        self.url = '/admin'
-        return True

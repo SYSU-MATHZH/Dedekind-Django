@@ -1,8 +1,8 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 
-from .forms.auth import LoginForm
+from .forms import LoginForm
 
 def login_view(request):
     if request.method == 'POST':

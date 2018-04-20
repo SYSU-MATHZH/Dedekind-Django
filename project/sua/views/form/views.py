@@ -1,18 +1,16 @@
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.renderers import TemplateHTMLRenderer
-from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 from rest_framework.mixins import ListModelMixin
 
 from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly
 import project.sua.serializers as sirs
-import project.sua.views.forms.serializers as firs
-import project.sua.views.forms.mixins as mymixins
+import project.sua.views.form.serializers as firs
+import project.sua.views.form.mixins as mymixins
 from project.sua.models import Sua, Proof, Application, Publicity, Activity, Student, Appeal, SuaGroup
 
 from django.contrib.auth.models import User, Group
-from django.http import HttpResponse, HttpResponseRedirect
 
 
 class UserViewSet(viewsets.ModelViewSet):
