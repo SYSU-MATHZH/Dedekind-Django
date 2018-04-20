@@ -203,7 +203,6 @@ class PublicityView(BaseView,NavMixin):
         activity_id = kwargs['pk']
         serializer = PublicityWithActivitySerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-
             serializer.save(activity=Activity.objects.get(id=activity_id), owner=user)
             self.url = serializer.data['url']
             return True
@@ -265,10 +264,25 @@ class AddSuaForActivityView(BaseView, NavMixin):
             activity,
             context={'request': request}
         )
+        students = []
+        filter_students = []
+        for sua in activity.suas.all():
+            filter_students.append(sua.student)
+        for student in Student.objects.all():
+            if student not in filter_students:
+                studentSerializer = StudentSerializer(
+                    instance=student,
+                    context={'request': request}
+                )
+                students.append(studentSerializer.data)
+
+        # print(students)
+
         suaSerializer = AdminAddSuaForActivitySerializer(context={'request': request})
         serialized.update({
             'activity': activitySerializer.data,
             'serializer': suaSerializer,
+            'students': student,
         })
         return serialized
 
