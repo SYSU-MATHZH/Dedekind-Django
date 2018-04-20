@@ -37,14 +37,14 @@
       </div>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="col-lg-1">
     </div>
     <div class="col-lg-6">
       <div class="form-group ">
         <label >参与组别</label>
-        <input name="team" class="form-control" type="text"   >   
+        <input name="team" class="form-control" type="text" value="{{ serializer.data.team }}">
       </div>
       <div class="col-lg-5">
       </div>
@@ -54,10 +54,10 @@
   <div class="row">
     <div class="col-lg-1">
     </div>
-    <div class="col-lg-6">    
+    <div class="col-lg-6">
       <div class="form-group ">
         <label >公益时</label>
-        <input name="suahours" class="form-control" type="number"   >   
+        <input name="suahours" class="form-control" type="number" value="{{ serializer.data.suahours }}">
       </div>
       <div class="col-lg-5">
       </div>
@@ -78,4 +78,3 @@
   </div>
 </form>
 {% endblock %}
-
