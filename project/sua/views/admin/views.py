@@ -282,7 +282,7 @@ class AddSuaForActivityView(BaseView, NavMixin):
         serialized.update({
             'activity': activitySerializer.data,
             'serializer': suaSerializer,
-            'students': student,
+            'students': students,
         })
         return serialized
 
