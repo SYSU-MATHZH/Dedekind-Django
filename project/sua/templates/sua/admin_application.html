@@ -20,6 +20,7 @@
     <p>证明文件:<a href="{{ application.proof.proof_file }}">{{ application.proof.proof_file }}</a></p>
 
     <form enctype="multipart/form-data" action="" method="POST">
+      {% csrf_token %}
 		<div class="form-group">
 		<label>是否通过</label>
 		<select name="status" class="form-control">
