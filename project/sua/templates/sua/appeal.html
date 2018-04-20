@@ -3,20 +3,55 @@
 {% block title %}提出申诉{% endblock %}
 
 {% block content_title %}
-对{{ publicity.title }}的申诉
+<div class="row">
+  <div class="col-xs-6 col-xs-offset-3">
+<h1>对{{ publicity.title }}的申诉</h1>
+  </div>
+</div>
 {% endblock %}
 
 {% block content_detail %}
 {% load static %}
 {% load rest_framework %}
-<p>公示标题: {{ publicity.title }}</p>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+	<p>公示标题: {{ publicity.title }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
 <p>公示内容: {{ publicity.content }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
 <p>联系方式: {{ publicity.contact }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
 <p>开始日期: {{ publicity.begin }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
 <p>截止日期: {{ publicity.end }}</p>
+  </div>
+</div>
 <form enctype="multipart/form-data" action="" method="POST">
-  {% csrf_token %}
-  {% render_form serializer %}
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+	<div class="form-group">
+		<label>申诉原因</label>
+		<input name="content" class="form-control" text="text" />
+	</div>
+</div>
+</div>
+<hr>
+  <div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
   <input class="btn btn-default" type="submit" name="save" value="发起申诉">
+  	</div>
+</div>
 </form>
 {% endblock %}
