@@ -170,7 +170,7 @@ class SuasExportView(BaseView,NavMixin):
 
 def Download(request):
 
-    pdfmetrics.registerFont(TTFont('song', os.getcwd() + '/project/sua/views/STSONG.ttf'))
+    pdfmetrics.registerFont(TTFont('song', os.getcwd() + '/project/sua/views/student/STSONG.ttf'))
     user = request.user
 
     student = user.student

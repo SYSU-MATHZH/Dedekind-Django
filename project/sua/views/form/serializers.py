@@ -110,7 +110,7 @@ class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Appeal
-        fields = ('url','owner','student','publicity', 'content', 'status', 'is_checked', 'feedback','created')
+        fields = ('url','owner','student','publicity', 'content', 'status', 'is_checked', 'feedback','created', 'id')
 
 
 class AddPublicitySerializer(serializers.HyperlinkedModelSerializer):
@@ -137,7 +137,7 @@ class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Application
-        fields = ('url', 'sua', 'created','contact', 'proof','feedback')
+        fields = ('url', 'sua', 'created','contact', 'proof','feedback', 'id')
 
 
     def create(self, validated_data):

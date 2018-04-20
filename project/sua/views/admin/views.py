@@ -43,7 +43,7 @@ class IndexView(BaseView, NavMixin):
             context={'request':request}
         )
 
-        appeal_set = Appeal.objects.filter().order_by('created')  # 获取在公示期内的所有申诉
+        appeal_set = Appeal.objects.filter().order_by('is_checked', '-created')  # 获取在公示期内的所有申诉
         appeal_data = AppealSerializer(  # 序列化申诉
             appeal_set,
             many=True,
@@ -55,7 +55,7 @@ class IndexView(BaseView, NavMixin):
 
 
         application_set = Application.objects.filter(  #获取所有申请,
-        ).order_by('-created')                      # 按时间的倒序排序
+        ).order_by('is_checked', '-created')                      # 按时间的倒序排序
         application_data = ApplicationSerializer(  # 序列化所有申请
             application_set,
             many=True,
@@ -66,7 +66,7 @@ class IndexView(BaseView, NavMixin):
             application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
 
 
-        activity_set = Activity.objects.filter(owner=request.user)  # 获取所有当前管理员创建的活动
+        activity_set = Activity.objects.filter(owner=request.user).order_by('-created')  # 获取所有当前管理员创建的活动
         activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
             activity_set,
             many=True,
@@ -206,10 +206,14 @@ class PublicityView(BaseView,NavMixin):
     def serialize(self, request, *args, **kwargs):
         activity_id = kwargs['pk']
         activity = Activity.objects.get(id=activity_id)
+        activity_data = ActivitySerializer(
+            instance=activity,
+            context={'request': request}
+        )
         serialized = super(PublicityView, self).serialize(request)
         serializer = PublicityWithActivitySerializer(context={'request':request})
         serialized.update({
-            'activity': activity,
+            'activity': activity_data.data,
             'serializer': serializer,
         })
         return serialized
@@ -242,15 +246,17 @@ class ChangePublicityView(BaseView,NavMixin):
             instance=publicity,
             context={'request':request}
         )
-        serializer.data['begin'] = tools.DateTime2String_VALUE(
+        extra_data = {}
+        extra_data['begin'] = tools.DateTime2String_VALUE(
             tools.TZString2DateTime(serializer.data['begin'])
         )
-        serializer.data['end'] = tools.DateTime2String_VALUE(
+        extra_data['end'] = tools.DateTime2String_VALUE(
             tools.TZString2DateTime(serializer.data['end'])
         )
         serialized.update({
             'activity': activity,
             'serializer': serializer,
+            'extra_data': extra_data
         })
         return serialized
 
@@ -282,11 +288,8 @@ class ManagePublicityView(BaseView,NavMixin):
         activity = Activity.objects.get(id=activity_id)
         serialized = super(ManagePublicityView, self).serialize(request)
         publicity_set = Publicity.objects.filter(  # 获取该活动的所有公示
-            # is_published=True,
-            # begin__lte=timezone.now(),
-            # end__gte=timezone.now(),
             activity=activity
-        )
+        ).order_by('-is_published', '-created')
         publicity_data = PublicitySerializer(  # 序列化公示
             publicity_set,
             many=True,
