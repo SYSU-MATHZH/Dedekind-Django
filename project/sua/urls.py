@@ -41,7 +41,6 @@ urlpatterns = [
     path('apis/login/', auths.LoginView.as_view()),
     path('login/', auth.login_view, name='login'),
     path('logout/', auth.logout_view, name='logout'),
-    path('test/', login_required(student.TestBaseView.as_view())),
 
     path('publicities/<int:pk>/appeal/', login_required(student.AppealView.as_view())),
     path('applications/apply/', login_required(student.ApplyView.as_view())),

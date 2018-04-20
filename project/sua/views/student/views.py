@@ -20,7 +20,7 @@ from .serializers import DEProofForAddApplicationsSerializer
 from project.sua.views.utils.base import BaseView
 from project.sua.views.utils.mixins import NavMixin
 
-from project.sua.views.form.serializers import AddStudentSerializer, AddPublicitySerializer
+from project.sua.views.form.serializers import AddPublicitySerializer
 
 from io import BytesIO
 from reportlab.pdfgen import canvas
@@ -49,6 +49,8 @@ class IndexView(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
+
+        # print(publicity_data.data)
 
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
             user.applications,
@@ -82,30 +84,6 @@ class IndexView(BaseView, NavMixin):
             })
 
         return serialized
-
-
-class TestBaseView(BaseView, NavMixin):  # 例子：这是一个创建学生的View（怕你们踩坑了）
-    template_name = 'sua/tmp/test.html'
-    components = {
-        'nav': 'nav',
-    }
-
-    def serialize(self, request, *args, **kwargs):
-        serialized = super(TestBaseView, self).serialize(request)
-        serializer = AddStudentSerializer()
-        serialized.update({
-            'serializer': serializer,
-        })
-        return serialized
-
-    def deserialize(self, request, *args, **kwargs):
-        serializer = AddStudentSerializer(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            self.url = serializer.data['url']
-            return True
-        else:
-            return False
 
 
 class AppealView(BaseView,NavMixin):
