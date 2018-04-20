@@ -284,11 +284,8 @@ class ManagePublicityView(BaseView,NavMixin):
         activity = Activity.objects.get(id=activity_id)
         serialized = super(ManagePublicityView, self).serialize(request)
         publicity_set = Publicity.objects.filter(  # 获取该活动的所有公示
-            # is_published=True,
-            # begin__lte=timezone.now(),
-            # end__gte=timezone.now(),
             activity=activity
-        )
+        ).order_by('-is_published', '-created')
         publicity_data = PublicitySerializer(  # 序列化公示
             publicity_set,
             many=True,
