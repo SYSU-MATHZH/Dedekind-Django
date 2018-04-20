@@ -33,25 +33,25 @@
           </tr>
         </thead>
 {% for sua in serializer.data.suas %}
-      
+
           <tr>
           <td>{{ sua.student.name }}</td>
           <td>{{ sua.team }}</td>
           <td>{{ sua.suahours }}</td>
 		  <td>
-		  <a class="btn btn-default btn-xs">编辑</a>
-		  <a class="btn btn-default btn-xs">删除</a>
+		  <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/change/">编辑</a>
+		  <a class="btn btn-default btn-xs" href="/suas/{{ sua.id }}/delete/">删除</a>
 
 		  </td>
           </tr>
 		  {% endfor %}
 </table>
       </div>
-<a href="/admin/activities/{{ serializer.data.id }}/suas/add" class="btn btn-default">添加参与人</a>
+<a href="/admin/activities/{{ serializer.data.id }}/suas/add/" class="btn btn-default">添加参与人</a>
 <hr>
 <div class="row">
 		<div class="col-xs-offset-4">
-		<a href="/activities/{{ serializer.data.id }}/delete" class="btn btn-default">删除该活动</a>
+		<a href="/activities/{{ serializer.data.id }}/delete/" class="btn btn-default">删除该活动</a>
 		<a href="/admin/#activities" class="btn btn-default">返回主页</a>
 	</div>
 </div>

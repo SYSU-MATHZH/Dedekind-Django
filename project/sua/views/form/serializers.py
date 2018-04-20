@@ -57,7 +57,7 @@ class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Sua
-        fields = ('url', 'activity', 'student', 'team', 'suahours')
+        fields = ('url', 'activity', 'student', 'team', 'suahours', 'id')
 
 
 class AddActivitySerializer(serializers.HyperlinkedModelSerializer):

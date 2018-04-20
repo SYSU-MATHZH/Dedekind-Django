@@ -102,16 +102,17 @@ class DeleteFormMixin(object):
         permission_classes = (IsAdminUser, ),
     )
     def delete(self, request, *args, **kwargs):
+        self.set_delete_success_url()
         instance = self.get_object()
         pk = instance.pk
         self.perform_delete(instance)
         return self.get_delete_response()
 
-    def get_delete_success_url(self, *args, **kwargs):
-        return self.delete_success_url
+    def set_delete_success_url(self, *args, **kwargs):
+        pass
 
     def perform_delete(self, instance):
         instance.delete()
 
     def get_delete_response(self):
-        return HttpResponseRedirect(self.get_delete_success_url())
+        return HttpResponseRedirect(self.delete_success_url)

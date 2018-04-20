@@ -185,6 +185,10 @@ class SuaViewSet(
         '''
         return super(SuaViewSet, self).detail(request, *args, **kwargs)
 
+    def set_delete_success_url(self, *args, **kwargs):
+        sua = self.get_object()
+        self.delete_success_url = "/activities/%s/detail/" % sua.activity.id
+
 
 
 class ActivityViewSet(
