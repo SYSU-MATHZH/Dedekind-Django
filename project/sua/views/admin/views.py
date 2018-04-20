@@ -242,15 +242,17 @@ class ChangePublicityView(BaseView,NavMixin):
             instance=publicity,
             context={'request':request}
         )
-        serializer.data['begin'] = tools.DateTime2String_VALUE(
+        extra_data = {}
+        extra_data['begin'] = tools.DateTime2String_VALUE(
             tools.TZString2DateTime(serializer.data['begin'])
         )
-        serializer.data['end'] = tools.DateTime2String_VALUE(
+        extra_data['end'] = tools.DateTime2String_VALUE(
             tools.TZString2DateTime(serializer.data['end'])
         )
         serialized.update({
             'activity': activity,
             'serializer': serializer,
+            'extra_data': extra_data
         })
         return serialized
 
