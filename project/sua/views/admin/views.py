@@ -294,3 +294,48 @@ class AddSuaForActivityView(BaseView, NavMixin):
             return True
         else:
             return False
+
+
+class ChangeSuaForActivityView(BaseView, NavMixin):
+    template_name = 'sua/admin_sua_add.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        sua_id = kwargs['pk']
+        sua = Sua.objects.get(id=sua_id)
+        serialized = super(ChangeSuaForActivityView, self).serialize(request)
+        activitySerializer = ActivityWithSuaSerializer(
+            sua.activity,
+            context={'request': request}
+        )
+        suaSerializer = AdminAddSuaForActivitySerializer(
+            instance=sua,
+            context={'request': request}
+        )
+        serialized.update({
+            'activity': activitySerializer.data,
+            'serializer': suaSerializer,
+        })
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        user = request.user
+        sua_id = kwargs['pk']
+        sua = Sua.objects.get(id=sua_id)
+        activitySerializer = ActivitySerializer(
+            sua.activity,
+            context={'request': request}
+        )
+        suaSerializer = AdminAddSuaForActivitySerializer(
+            instance=sua,
+            data=request.data,
+            context={'request': request},
+        )
+        if suaSerializer.is_valid():
+            suaSerializer.save()
+            self.url = activitySerializer.data['url']
+            return True
+        else:
+            return False
