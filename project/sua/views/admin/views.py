@@ -23,6 +23,7 @@ from .serializers import AdminAppealSerializer
 
 from project.sua.views.utils.base import BaseView
 from project.sua.views.utils.mixins import NavMixin
+import project.sua.views.utils.tools as tools
 
 from .serializers import PublicityWithActivitySerializer
 
@@ -48,6 +49,10 @@ class IndexView(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
+        appeals = appeal_data.data
+        for appeal in appeals:
+            appeal['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(appeal['created']))
+
 
         application_set = Application.objects.filter(  #获取所有申请,
         ).order_by('-created')                      # 按时间的倒序排序
@@ -56,6 +61,10 @@ class IndexView(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
+        applications = application_data.data
+        for application in applications:
+            application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
+
 
         activity_set = Activity.objects.filter(owner=request.user)  # 获取所有当前管理员创建的活动
         activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
@@ -63,11 +72,18 @@ class IndexView(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
+        activities = activity_data.data
+        for activity in activities:
+            activity['date'] = tools.Date2String_SHOW(tools.TZString2DateTime(activity['date']))
+            for publicity in activity['publicities']:
+                publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
+                publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
+
         serialized.update({
-            'appeals': appeal_data.data,
-            'applications': application_data.data,
+            'appeals': appeals,
+            'applications': applications,
             'students':student_data.data,
-            'activities':activity_data.data,
+            'activities':activities,
         })
         return serialized
 
@@ -225,6 +241,12 @@ class ChangePublicityView(BaseView,NavMixin):
             instance=publicity,
             context={'request':request}
         )
+        serializer.data['begin'] = tools.DateTime2String_VALUE(
+            tools.TZString2DateTime(serializer.data['begin'])
+        )
+        serializer.data['end'] = tools.DateTime2String_VALUE(
+            tools.TZString2DateTime(serializer.data['end'])
+        )
         serialized.update({
             'activity': activity,
             'serializer': serializer,
@@ -269,6 +291,12 @@ class ManagePublicityView(BaseView,NavMixin):
             many=True,
             context={'request': request}
         )
+        publicities = publicity_data.data
+        for publicity in publicity_data.data:
+            publicity['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['created']))
+            publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
+            publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
+
         serialized.update({
             'activity': activity,
             'publicities': publicity_data.data,

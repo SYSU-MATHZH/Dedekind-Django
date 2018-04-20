@@ -51,7 +51,11 @@ class ChangeFormMixin(object):
         instance = self.get_object()
         if request.method == 'GET':
             serializer = self.get_change_serializer(instance, context={'request': request})
-            return Response({'serializer': serializer})
+            extra_data = self.get_extra_data(serializer)
+            return Response({
+                'serializer': serializer,
+                'extra_data': extra_data,
+            })
         elif request.method == 'POST':
             serializer = self.get_change_serializer(instance=instance, data=request.data, context={'request': request})
             if not serializer.is_valid():
@@ -68,6 +72,9 @@ class ChangeFormMixin(object):
 
     def perform_change(self, serializer):
         serializer.save()
+
+    def get_extra_data(self, serilaizer):
+        return None
 
     def get_change_response(self, serializer):
         return HttpResponseRedirect(serializer.data['url'])

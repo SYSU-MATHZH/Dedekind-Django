@@ -18,6 +18,7 @@ from .serializers import DEProofForAddApplicationsSerializer
 
 from project.sua.views.utils.base import BaseView
 from project.sua.views.utils.mixins import NavMixin
+import project.sua.views.utils.tools as tools
 
 from project.sua.views.form.serializers import AddPublicitySerializer
 
@@ -50,6 +51,11 @@ class IndexView(BaseView, NavMixin):
         )
 
         publicities = publicity_data.data
+        for publicity in publicities:
+            publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
+            publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
+
+        # print(publicities)
 
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
             user.applications,
@@ -57,9 +63,13 @@ class IndexView(BaseView, NavMixin):
             context={'request': request}
         )
 
+        applications = application_data.data
+        for application in applications:
+            application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
+
         serialized.update({
-            'publicities': publicity_data.data,
-            'applications': application_data.data
+            'publicities': publicities,
+            'applications': applications
         })
 
         if hasattr(user, 'student'):  # 判断当前用户是否为学生
@@ -71,11 +81,19 @@ class IndexView(BaseView, NavMixin):
                 context={'request': request}
             )
 
+            suas = sua_data.data
+            for sua in suas:
+                sua['activity']['date'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['date']))
+
             appeal_data = AppealSerializer(  # 序列化当前学生的所有申诉
                 student.appeals,
                 many=True,
                 context={'request': request}
             )
+
+            appeals = appeal_data.data
+            for appeal in appeals:
+                appeal['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(appeal['created']))
 
             serialized.update({
                 'suas': sua_data.data,

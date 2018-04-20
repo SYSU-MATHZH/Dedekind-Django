@@ -9,6 +9,7 @@ import project.sua.serializers as sirs
 import project.sua.views.form.serializers as firs
 import project.sua.views.form.mixins as mymixins
 from project.sua.models import Sua, Proof, Application, Publicity, Activity, Student, Appeal, SuaGroup
+import project.sua.views.utils.tools as tools
 
 from django.contrib.auth.models import User, Group
 
@@ -246,6 +247,13 @@ class ActivityViewSet(
         - 表单字段：表单字段请参考REST framework自动生成的表单
         '''
         return super(ActivityViewSet, self).change(request, *args, **kwargs)
+
+    def get_extra_data(self, serializer):
+        extra_data = {}
+        extra_data['date'] = tools.DateTime2String_VALUE(
+            tools.TZString2DateTime(serializer.data['date'])
+        )
+        return extra_data
 
     @detail_route(
         methods=['get'],  # HTTP METHODS
