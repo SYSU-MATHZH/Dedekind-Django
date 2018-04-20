@@ -3,7 +3,6 @@ import os
 from django.utils import timezone
 from django.http import HttpResponse
 
-
 from project.sua.models import Publicity
 
 from project.sua.serializers import PublicitySerializer
@@ -50,7 +49,7 @@ class IndexView(BaseView, NavMixin):
             context={'request': request}
         )
 
-        # print(publicity_data.data)
+        publicities = publicity_data.data
 
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
             user.applications,
