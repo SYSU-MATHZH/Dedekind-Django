@@ -9,18 +9,39 @@
 {% block content_detail %}
 {% load static %}
 {% load rest_framework %}
-<div class="row">
+<div class="row" >
   <div class="col-lg-6 col-lg-offset-3">
     <p>申诉人：{{ appeal.student.name }}</p>
     <p>申诉内容：{{ appeal.content }}</p>
     <p>活动：{{ appeal.publicity.activity.title }}</p>
     <p>公益时：{{ sua.suahours }}</p>
-    <form enctype="multipart/form-data" action="" method="POST">
-      {% csrf_token %}
-      {% render_form serializer %}
-      <input class="btn btn-default btn-block" type="submit" name="save" value="提交"></input>
   </div>
 </div>
-
-
+<hr>
+<div class="row" >
+  <div class="col-lg-6 col-lg-offset-3">
+    <form enctype="multipart/form-data" action="" method="POST">
+      {% csrf_token %}
+    <div class="form-group "> 
+      <label >申诉状态</label>
+      <select class="form-control" name="student">
+          <option value=0>通过</option>
+          <option value=1>未通过</option>
+          <option value=2>需要线下解决</option>
+      </select>
+    </div>
+    <div class="form-group ">
+      <label >说明</label>
+      <input name="feedback" class="form-control" type="text"   >  
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row" >
+  <div class="col-lg-6 col-lg-offset-3">
+    <input class="btn btn-default btn-block" type="submit" name="save" value="提交"></input>
+  </div>
+  <div class="my-empty-block"></div>
+  </div>
+</div>
 {% endblock %}
