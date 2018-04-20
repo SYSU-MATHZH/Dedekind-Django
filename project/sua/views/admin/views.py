@@ -207,6 +207,7 @@ class PublicityView(BaseView,NavMixin):
             self.url = '/admin/publicities/%s/manage/' % activity_id
             return True
         else:
+            print(serializer.errors)
             return False
 
 
