@@ -206,10 +206,14 @@ class PublicityView(BaseView,NavMixin):
     def serialize(self, request, *args, **kwargs):
         activity_id = kwargs['pk']
         activity = Activity.objects.get(id=activity_id)
+        activity_data = ActivitySerializer(
+            instance=activity,
+            context={'request': request}
+        )
         serialized = super(PublicityView, self).serialize(request)
         serializer = PublicityWithActivitySerializer(context={'request':request})
         serialized.update({
-            'activity': activity,
+            'activity': activity_data.data,
             'serializer': serializer,
         })
         return serialized

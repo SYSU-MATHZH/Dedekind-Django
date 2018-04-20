@@ -59,6 +59,7 @@
         <input name="end" class="form-control" type="datetime-local" value="{% if serializer.data.url %}{{ extra_data.end }}{% endif %}">
       </div>
       <input class="btn btn-primary btn-block" type="submit" name="save" value="提交">
+      <a class="btn btn-default btn-block" href="/admin/publicities/{{ activity.id }}/manage/" >返回</a>
     </form>
   </div>
 </div>
