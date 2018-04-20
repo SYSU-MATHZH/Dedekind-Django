@@ -43,7 +43,7 @@ class IndexView(BaseView, NavMixin):
             context={'request':request}
         )
 
-        appeal_set = Appeal.objects.filter().order_by('created')  # 获取在公示期内的所有申诉
+        appeal_set = Appeal.objects.filter().order_by('is_checked', '-created')  # 获取在公示期内的所有申诉
         appeal_data = AppealSerializer(  # 序列化申诉
             appeal_set,
             many=True,
@@ -55,7 +55,7 @@ class IndexView(BaseView, NavMixin):
 
 
         application_set = Application.objects.filter(  #获取所有申请,
-        ).order_by('-created')                      # 按时间的倒序排序
+        ).order_by('is_checked', '-created')                      # 按时间的倒序排序
         application_data = ApplicationSerializer(  # 序列化所有申请
             application_set,
             many=True,
@@ -66,7 +66,7 @@ class IndexView(BaseView, NavMixin):
             application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
 
 
-        activity_set = Activity.objects.filter(owner=request.user)  # 获取所有当前管理员创建的活动
+        activity_set = Activity.objects.filter(owner=request.user).order_by('-created')  # 获取所有当前管理员创建的活动
         activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
             activity_set,
             many=True,
