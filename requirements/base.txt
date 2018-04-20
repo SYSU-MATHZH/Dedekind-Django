@@ -7,4 +7,5 @@ bootstrap-admin
 reportlab
 drf-yasg
 swagger_spec_validator 
-flex python-dateutil
+flex
+python-dateutil
