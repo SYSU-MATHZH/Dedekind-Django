@@ -57,7 +57,7 @@ class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Sua
-        fields = ('url', 'activity', 'student', 'team', 'suahours', 'id')
+        fields = ('url', 'activity', 'student', 'team', 'suahours', 'id','is_valid')
 
 
 class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
@@ -137,7 +137,7 @@ class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Application
-        fields = ('url', 'sua', 'created','contact', 'proof','feedback', 'id')
+        fields = ('url', 'sua', 'created','contact', 'proof','feedback', 'id','is_checked')
 
 
     def create(self, validated_data):
