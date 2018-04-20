@@ -18,6 +18,8 @@ def login_view(request):
                     request.session.set_expiry(15 * 24 * 3600)
                 else:
                     request.session.set_expiry(0)
+                if user.is_staff:
+                    return HttpResponseRedirect('/admin/')
                 return HttpResponseRedirect('/')
             else:
                 return HttpResponseRedirect('/login')
