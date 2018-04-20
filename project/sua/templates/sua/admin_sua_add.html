@@ -9,9 +9,73 @@
 {% block content_detail %}
 {% load static %}
 {% load rest_framework %}
+<div class="row">
+  <div class="col-lg-10">
+    <hr>
+  </div>
+  <div class="col-lg-2">
+  </div>
+</div>
+
 <form enctype="multipart/form-data" action="" method="POST">
   {% csrf_token %}
-  {% render_form serializer %}
-  <input class="btn btn-default" type="submit" name="save" value="提交">
+  <div class="row">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-6">
+      <div class="form-group ">
+        <label>
+          学生
+        </label>
+        <select class="form-control" name="student">
+          {% for student in students %}
+            <option value="{{ student.url }}">{{ student.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-lg-5">
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-6">
+      <div class="form-group ">
+        <label >参与组别</label>
+        <input name="team" class="form-control" type="text"   >   
+      </div>
+      <div class="col-lg-5">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-6">    
+      <div class="form-group ">
+        <label >公益时</label>
+        <input name="suahours" class="form-control" type="number"   >   
+      </div>
+      <div class="col-lg-5">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-1">
+      <input class="btn btn-default" type="submit" name="save" value="提交">
+    </div>
+    <div class="col-lg-1">
+      <a class="btn btn-default" href="{{ activity.url }}" >返回活动详情页</a>
+    </div>
+  </div>
+  <div class="my-empty-block">
+  </div>
 </form>
 {% endblock %}
+
