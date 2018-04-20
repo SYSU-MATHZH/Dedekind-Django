@@ -357,6 +357,10 @@ class ChangeSuaForActivityView(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         sua_id = kwargs['pk']
         sua = Sua.objects.get(id=sua_id)
+        students = [StudentSerializer(
+            instance=sua.student,
+            context={'request': request}
+        ).data]
         serialized = super(ChangeSuaForActivityView, self).serialize(request)
         activitySerializer = ActivityWithSuaSerializer(
             sua.activity,
@@ -369,6 +373,7 @@ class ChangeSuaForActivityView(BaseView, NavMixin):
         serialized.update({
             'activity': activitySerializer.data,
             'serializer': suaSerializer,
+            'students': students,
         })
         return serialized
 
