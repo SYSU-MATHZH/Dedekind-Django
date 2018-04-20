@@ -14,11 +14,16 @@
   <div class="tab-content my-tab-content" id="tabContent1">
       <div class="tab-header">
 	  <div class="row">
-				<div class="col-xs-4"></div>
-				<div class="col-xs-4">
+				<div class="col-xs-12">
 				<p></p>
 				<p></p>
-  	  			<div>创建新的学生帐号</div>
+  	  			<div align="center">
+				{% if serializer.data.url %}
+					正在编辑“{{ serializer.data.name }}”的账号信息
+				{% else %}
+					创建新的学生帐号
+				{% endif %}
+				</div>
   	  			<hr>
 	  			</div>
 	  </div>
@@ -29,24 +34,24 @@
 			</div>
 			<div class="row">
 			<div class="col-xs-4">
-			<label>Student Number</label>
-			<input name="number" class="form-control" type="number"   >
+			<label>学号</label>
+			<input name="number" class="form-control" type="number" value="{{serializer.data.number}}">
 			</div>
 			</div>
 			<div class="col-xs-4">
 			</div>
 			<div class="row">
 			<div class="col-xs-4">
-			<label >Name</label>
-			<input name="name" class="form-control" type="text"   >
+			<label >姓名</label>
+			<input name="name" class="form-control" type="text" value="{{serializer.data.name}}">
 			</div>
 			</div>
 			<div class="col-xs-4">
 			</div>
 			<div class="row">
 			<div class="col-xs-4">
-			<label >Suahours</label>
-			<input name="suahours" class="form-control" type="number"   >
+			<label >公益时</label>
+			<input name="suahours" class="form-control" type="number" value="{{serializer.data.suahours}}">
 			</div>
 			</div>
 			<div class="col-xs-4">
@@ -54,9 +59,9 @@
 			<div class="row">
 			<div class="col-xs-4">
 			<label >
-			Student Grade
+			学生年级
 			</label>
-			<select class="form-control" name="grade">
+			<select class="form-control" name="grade" value="{{serializer.data.grade}}">
 			<option value="2016"  >2016</option>
 			<option value="2017"  >2017</option>
 			</select>
@@ -66,30 +71,30 @@
 			</div>
 			<div class="row">
 			<div class="col-xs-4">
-			<label >Classtype</label>
-			<input name="classtype" class="form-control" type="text"   >
+			<label >班别</label>
+			<input name="classtype" class="form-control" type="text" value="{{serializer.data.classtype}}">
 			</div>
 			</div>
 			<div class="col-xs-4">
 			</div>
 			<div class="row">
 			<div class="col-xs-4">
-			<label>Phone</label>
-			<input name="phone" class="form-control" type="text"   >
+			<label>手机号</label>
+			<input name="phone" class="form-control" type="text" value="{{serializer.data.phone}}">
 			</div>
 			</div>
 			<fieldset>
 			<legend >
 			<div class="col-xs-4">
 			</div>
-			User
+			用户
 			</legend>
 			<div class="col-xs-4">
 			</div>
 			<div class="row">
 			<div class="col-xs-4">
-			<label >Password</label>
-			<input name="user.password" class="form-control" type="password"   >
+			<label >密码</label>
+			<input name="user.password" class="form-control" type="password">
 			</div>  
 			</div>
 			</fieldset>
