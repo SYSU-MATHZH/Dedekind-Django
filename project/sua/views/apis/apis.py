@@ -1,15 +1,9 @@
 from rest_framework import viewsets
-from rest_framework import permissions
-from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly
+from project.sua.permissions import IsAdminUserOrReadOnly
 
-import project.sua.views.form.serializers as firs
-import project.sua.serializers as sirs
-
-from django.contrib.auth.models import User, Group
-from rest_framework import serializers
+from django.contrib.auth.models import User
 
 from project.sua.models import Student,Proof,Sua,Activity,Publicity,Application,Appeal
-from django.contrib.auth.models import User
 
 from project.sua.views.apis.serializer import *
 
