@@ -49,6 +49,7 @@ urlpatterns = [
     path('admin/appeals/<int:pk>/change/',login_required(admin.AppealView.as_view())),
     path('admin/applications/<int:pk>/change/',login_required(admin.ApplicationView.as_view())),
     path('admin/publicities/<int:pk>/create/',login_required(admin.PublicityView.as_view())),
+    path('admin/publicities/<int:pk>/change/',login_required(admin.ChangePublicityView.as_view())),
     path('admin/publicities/<int:pk>/manage/',login_required(admin.ManagePublicityView.as_view())),
     path('admin/activities/<int:pk>/suas/add/',login_required(admin.AddSuaForActivityView.as_view())),
     path('admin/suas/<int:pk>/change/',login_required(admin.ChangeSuaForActivityView.as_view())),

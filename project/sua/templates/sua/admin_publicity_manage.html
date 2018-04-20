@@ -40,11 +40,11 @@
           <td>{{ publicity.end }} </td>
           <td>{{ publicity.is_published }} </td>
           <td>
-            <a class="btn btn-default btn-xs" href="/publicities/{{ publicity.id }}/change/">编辑公示</a>
+            <a class="btn btn-default btn-xs" href="/admin/publicities/{{ publicity.id }}/change/">编辑公示</a>
           </td>
           <td>
             <a class="btn btn-default btn-xs" href="/publicities/{{ publicity.id }}/delete/">删除公示</a>
-          </td>                              
+          </td>
         </tr>
         {% endfor %}
       </tbody>

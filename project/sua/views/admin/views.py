@@ -204,7 +204,45 @@ class PublicityView(BaseView,NavMixin):
         serializer = PublicityWithActivitySerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save(activity=Activity.objects.get(id=activity_id), owner=user)
-            self.url = serializer.data['url']
+            self.url = '/admin/publicities/%s/manage/' % activity_id
+            return True
+        else:
+            return False
+
+
+class ChangePublicityView(BaseView,NavMixin):
+    template_name = 'sua/admin_publicity.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        publicity_id = kwargs['pk']
+        publicity = Publicity.objects.get(id=publicity_id)
+        activity = publicity.activity
+        serialized = super(ChangePublicityView, self).serialize(request)
+        serializer = PublicityWithActivitySerializer(
+            instance=publicity,
+            context={'request':request}
+        )
+        serialized.update({
+            'activity': activity,
+            'serializer': serializer,
+        })
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        user = request.user
+        publicity_id = kwargs['pk']
+        publicity = Publicity.objects.get(id=publicity_id)
+        serializer = PublicityWithActivitySerializer(
+            instance=publicity,
+            data=request.data,
+            context={'request': request}
+        )
+        if serializer.is_valid():
+            serializer.save()
+            self.url = '/admin/publicities/%s/manage/' % publicity.activity.id
             return True
         else:
             return False
