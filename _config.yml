@@ -6,7 +6,7 @@ title:               Poole
 tagline:             The Jekyll Butler
 url:                 http://getpoole.com
 paginate:            1
-baseurl:             ""
+baseurl:             "https://sysu-mathzh.github.io/Dedekind-Django/"
 
 # Assets
 #
@@ -24,7 +24,7 @@ author:
 # Custom vars
 version:             2.0.0
 github:
-  repo:              https://github.com/poole/poole
+  repo:              https://github.com/poole/pool
 
 # Gems
 gems:
