@@ -3,7 +3,7 @@ from project.sua.serializers import PublicityWithActivitySerializer
 from project.sua.serializers import PublicitySerializer
 from project.sua.serializers import StudentSerializer
 from project.sua.serializers import SuaSerializer
-from project.sua.models import Activity, Appeal, Proof, Sua, Application, Publicity
+from project.sua.models import Activity, Appeal, Proof, Sua, Application, Publicity,Student
 
 class ActivityForAdminSerializer(serializers.HyperlinkedModelSerializer):
     publicities = PublicityWithActivitySerializer(many=True)
@@ -53,11 +53,15 @@ class AdminApplicationSerializer(serializers.HyperlinkedModelSerializer):
         model = Application
         fields = ('url', 'status','feedback', )
 
-
+#class studentwithnumberSerializer(serializers.HyperlinkedModelSerializer):
+#    class Meta:
+#        model = Student
+#        fields = ('name','number')
 class AdminAddSuaForActivitySerializer(serializers.HyperlinkedModelSerializer):
+#    students = studentwithnumberSerializer()
     class Meta:
         model = Sua
-        fields = ('url', 'student', 'team', 'suahours')
+        fields = ('url', 'student', 'team', 'suahours',)
 
 
 class PublicityWithActivitySerializer(serializers.HyperlinkedModelSerializer):

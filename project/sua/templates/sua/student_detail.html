@@ -36,6 +36,33 @@
   </div>
 </div>
 
+<div>公益时记录</div>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>活动名称</th>
+          <th>举办单位</th>
+          <th>活动时间</th>
+          <th>公益时</th>
+        </tr>
+      </thead>
+        <tbody>
+          {% for sua in serializer.data.suas %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ sua.activity.title }}</td>
+              <td>{{ sua.activity.group }}</td>
+              <td>{{ sua.activity.date }}</td>
+              <td>{{ sua.suahours }} h</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+  </div>
+
+
 <div class="row">
 {% if user.is_staff %}
   <div class="col-xs-offset-4">

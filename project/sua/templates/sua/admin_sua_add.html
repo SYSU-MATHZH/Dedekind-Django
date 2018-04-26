@@ -17,6 +17,7 @@
   </div>
 </div>
 
+
 <form enctype="multipart/form-data" action="" method="POST">
   {% csrf_token %}
   <div class="row">
@@ -27,7 +28,7 @@
         <label>
           学生
         </label>
-        <select class="form-control" name="student">
+        <select class="form-control" name="student" >
           {% for student in students %}
             <option value="{{ student.url }}">{{ student.name }}</option>
           {% endfor %}
@@ -37,6 +38,7 @@
       </div>
     </div>
   </div>
+
 
   <div class="row">
     <div class="col-lg-1">

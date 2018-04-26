@@ -162,3 +162,12 @@ class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
         instance.id = validated_data.get('id',instance.id)
         instance.save()
         return instance
+
+class detailofstudentSerializer(serializers.HyperlinkedModelSerializer):
+    suas = AddSuaSerializer(
+        many=True,
+    )
+
+    class Meta:
+        model = Student
+        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id','suas')

@@ -93,7 +93,7 @@ class StudentViewSet(
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
         permission_classes = (IsTheStudentOrIsAdminUser,),
         template_name='sua/student_detail.html',  # 模板文件
-        detail_serializer_class=firs.AddStudentSerializer,  # 序列化器
+        detail_serializer_class=firs.detailofstudentSerializer,  # 序列化器
     )
     def detail(self, request, *args, **kwargs):
         '''
