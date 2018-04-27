@@ -37,14 +37,14 @@ class IndexView(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         serialized = super(IndexView, self).serialize(request)
 
-        student_set = Student.objects.filter().order_by('number')  # 获取所有学生信息
+        student_set = Student.objects.filter(deletedAt=None).order_by('number')  # 获取所有学生信息
         student_data = StudentSerializer(  # 序列化所有学生信息
             student_set,
             many=True,
             context={'request': request}
         )
 
-        appeal_set = Appeal.objects.filter().order_by(
+        appeal_set = Appeal.objects.filter(deletedAt=None).order_by(
             'is_checked', '-created')  # 获取在公示期内的所有申诉
         appeal_data = AppealSerializer(  # 序列化申诉
             appeal_set,
@@ -56,8 +56,7 @@ class IndexView(BaseView, NavMixin):
             appeal['created'] = tools.DateTime2String_SHOW(
                 tools.TZString2DateTime(appeal['created']))
 
-        application_set = Application.objects.filter(  # 获取所有申请,
-        ).order_by('is_checked', '-created')                      # 按时间的倒序排序
+        application_set = Application.objects.filter(deletedAt=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
         application_data = ApplicationSerializer(  # 序列化所有申请
             application_set,
             many=True,
@@ -69,7 +68,7 @@ class IndexView(BaseView, NavMixin):
                 tools.TZString2DateTime(application['created']))
 
         activity_set = Activity.objects.filter(
-            owner=request.user).order_by('-created')  # 获取所有当前管理员创建的活动
+            owner=request.user,deletedAt=None).order_by('-created')  # 获取所有当前管理员创建的活动
         activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
             activity_set,
             many=True,
@@ -103,7 +102,7 @@ class AppealView(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         appeal_id = kwargs['pk']
         serialized = super(AppealView, self).serialize(request)
-        appeal = Appeal.objects.get(id=appeal_id)
+        appeal = Appeal.objects.filter(deletedAt=None,id=appeal_id).get()
         appeal_data = AdminPublicitySerializer(
             appeal,
             context={'request': request}
@@ -112,7 +111,8 @@ class AppealView(BaseView, NavMixin):
         activity = appeal.publicity.activity
         sua_set = activity.suas.filter(
             student=appeal.student,
-            application=None,
+            application=None,  
+            deletedAt=None,
         )
         if len(sua_set) == 0:
             sua = None
@@ -124,7 +124,7 @@ class AppealView(BaseView, NavMixin):
         )
 
         serializer = AdminAppealSerializer(
-            Appeal.objects.get(id=appeal_id),
+            Appeal.objects.filter(deletedAt=None,id=appeal_id).get(),
             context={'request': request}
         )
         serialized.update({
@@ -137,7 +137,7 @@ class AppealView(BaseView, NavMixin):
     def deserialize(self, request, *args, **kwargs):
         appeal_id = kwargs['pk']
         serializer = AdminAppealSerializer(
-            Appeal.objects.get(id=appeal_id),
+            Appeal.objects.filter(deletedAt=None,id=appeal_id).get(),
             data=request.data,
             context={'request': request}
         )
@@ -160,18 +160,19 @@ class ApplicationView(BaseView, NavMixin):
         serialized = super(ApplicationView, self).serialize(request)
 
         application_data = AdminApplicationMassageSerializer(
-            Application.objects.get(id=application_id),
+            Application.objects.filter(deletedAt=None,id=application_id).get(),
             context={'request': request}
         )
         sua_set = Sua.objects.filter(
             application__id=application_id,
+            deletedAt=None,
         ).get()
         sua_data = SuaSerializer(
             sua_set,
             context={'request': request}
         )
         serializer = AdminApplicationSerializer(
-            Application.objects.get(id=application_id),
+            Application.objects.filter(deletedAt=None,id=application_id).get(),
             context={'request': request}
         )
         serialized.update({
@@ -186,13 +187,14 @@ class ApplicationView(BaseView, NavMixin):
         sua_data = SuaforApplicationsSerializer(
             Sua.objects.filter(
                 application__id=application_id,
+                deletedAt=None,
             ).get(),
             data=request.data,
             context={'request': request},
         )
 
         serializer = AdminApplicationSerializer(
-            Application.objects.get(id=application_id),
+            Application.objects.filter(deletedAt=None,id=application_id).get(),
             data=request.data,
             context={'request': request},
         )
@@ -213,7 +215,7 @@ class PublicityView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         activity_id = kwargs['pk']
-        activity = Activity.objects.get(id=activity_id)
+        activity = Activity.objects.filter(deletedAt=None,id=activity_id).get()
         activity_data = ActivitySerializer(
             instance=activity,
             context={'request': request}
@@ -233,8 +235,8 @@ class PublicityView(BaseView, NavMixin):
         serializer = PublicityWithActivitySerializer(
             data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.save(activity=Activity.objects.get(
-                id=activity_id), owner=user)
+            serializer.save(activity=Activity.objects.filter(deletedAt=None,
+                id=activity_id).get(), owner=user)
             self.url = '/admin/publicities/%s/manage/' % activity_id
             return True
         else:
@@ -250,7 +252,7 @@ class ChangePublicityView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         publicity_id = kwargs['pk']
-        publicity = Publicity.objects.get(id=publicity_id)
+        publicity = Publicity.objects.filter(deletedAt=None,id=publicity_id).get()
         activity = publicity.activity
         serialized = super(ChangePublicityView, self).serialize(request)
         serializer = PublicityWithActivitySerializer(
@@ -273,7 +275,7 @@ class ChangePublicityView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
         publicity_id = kwargs['pk']
-        publicity = Publicity.objects.get(id=publicity_id)
+        publicity = Publicity.objects.filter(deletedAt=None,id=publicity_id).get()
         serializer = PublicityWithActivitySerializer(
             instance=publicity,
             data=request.data,
@@ -295,9 +297,10 @@ class ManagePublicityView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         activity_id = kwargs['pk']
-        activity = Activity.objects.get(id=activity_id)
+        activity = Activity.objects.filter(deletedAt=None,id=activity_id).get()
         serialized = super(ManagePublicityView, self).serialize(request)
         publicity_set = Publicity.objects.filter(  # 获取该活动的所有公示
+            deletedAt=None,
             activity=activity
         ).order_by('-is_published', '-created')
         publicity_data = PublicitySerializer(  # 序列化公示
@@ -326,8 +329,8 @@ class ManagePublicityView(BaseView, NavMixin):
             data=request.data, context={'request': request})
         if publicities.is_valid():
 
-            publicities.save(activity=Activity.objects.get(
-                id=activity_id), owner=user)
+            publicities.save(activity=Activity.objects.filter(deletedAt=None,
+                id=activity_id).get(), owner=user)
             self.url = publicities.data['url']
             return True
         else:
@@ -342,7 +345,7 @@ class AddSuaForActivityView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         activity_id = kwargs['pk']
-        activity = Activity.objects.get(id=activity_id)
+        activity = Activity.objects.filter(deletedAt=None,id=activity_id).get()
         serialized = super(AddSuaForActivityView, self).serialize(request)
         activitySerializer = ActivityWithSuaSerializer(
             activity,
@@ -350,9 +353,9 @@ class AddSuaForActivityView(BaseView, NavMixin):
         )
         students = []
         filter_students = []
-        for sua in activity.suas.all():
+        for sua in activity.suas.filter(deletedAt=None):
             filter_students.append(sua.student)
-        for student in Student.objects.all():
+        for student in Student.objects.filter(deletedAt=None):
             if student not in filter_students:
                 studentSerializer = StudentSerializer(
                     instance=student,
@@ -374,7 +377,7 @@ class AddSuaForActivityView(BaseView, NavMixin):
     def deserialize(self, request, *args, **kwargs):
         user = request.user
         activity_id = kwargs['pk']
-        activity = Activity.objects.get(id=activity_id)
+        activity = Activity.objects.filter(deletedAt=None,id=activity_id).get()
         activitySerializer = ActivitySerializer(
             activity,
             context={'request': request}
@@ -403,7 +406,7 @@ class ChangeSuaForActivityView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         sua_id = kwargs['pk']
-        sua = Sua.objects.get(id=sua_id)
+        sua = Sua.objects.filter(deletedAt=None,id=sua_id).get()
         students = [StudentSerializer(
             instance=sua.student,
             context={'request': request}
@@ -426,7 +429,7 @@ class ChangeSuaForActivityView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
         sua_id = kwargs['pk']
-        sua = Sua.objects.get(id=sua_id)
+        sua = Sua.objects.filter(deletedAt=None,id=sua_id).get()
         activitySerializer = ActivitySerializer(
             sua.activity,
             context={'request': request}

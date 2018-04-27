@@ -40,9 +40,10 @@ class IndexView(BaseView, NavMixin):
         user = request.user
 
         publicity_set = Publicity.objects.filter(  # 获取在公示期内的所有公示
+            deletedAt=None,
             is_published=True,
             begin__lte=timezone.now(),
-            end__gte=timezone.now()
+            end__gte=timezone.now() 
         )
         publicity_data = PublicitySerializer(  # 序列化公示
             publicity_set,
@@ -58,7 +59,7 @@ class IndexView(BaseView, NavMixin):
         # print(publicities)
 
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
-            user.applications,
+            user.applications.filter(deletedAt=None),
             many=True,
             context={'request': request}
         )
@@ -76,7 +77,7 @@ class IndexView(BaseView, NavMixin):
             student = user.student
 
             sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
-                student.suas.filter(is_valid=True),
+                student.suas.filter(deletedAt=None,is_valid=True),
                 many=True,
                 context={'request': request}
             )
@@ -86,7 +87,7 @@ class IndexView(BaseView, NavMixin):
                 sua['activity']['date'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['date']))
 
             appeal_data = AppealSerializer(  # 序列化当前学生的所有申诉
-                student.appeals,
+                student.appeals.filter(deletedAt=None),
                 many=True,
                 context={'request': request}
             )
@@ -111,7 +112,10 @@ class AppealView(BaseView,NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         publicity_id = kwargs['pk']
-        publicity = AddPublicitySerializer(Publicity.objects.get(id=publicity_id),context={'request':request})
+        publicity = AddPublicitySerializer(Publicity.objects.filter(
+            deletedAt=None,
+            id=publicity_id
+            ).get(),context={'request':request})
         serialized = super(AppealView, self).serialize(request)
         serializer = AddAppealSerializer(context={'request':request})
         serialized.update({
@@ -129,7 +133,10 @@ class AppealView(BaseView,NavMixin):
         serializer = AddAppealSerializer(data=request.data, context={'request': request,})
         if serializer.is_valid():
 
-            serializer.save(publicity=Publicity.objects.get(id=publicity_id),owner=user,student=student)
+            serializer.save(publicity=Publicity.objects.filter(
+            deletedAt=None,
+            id=publicity_id
+            ).get(),owner=user,student=student)
             self.url = serializer.data['url']
             return True
         else:
@@ -152,7 +159,7 @@ class SuasExportView(BaseView,NavMixin):
             student = user.student
 
             sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
-                student.suas.filter(is_valid=True),
+                student.suas.filter(deletedAt=None,is_valid=True).get(),
                 many=True,
                 context={'request': request}
             )
@@ -177,7 +184,7 @@ def Download(request):
     # Filename = 'str(student.name)'
 
     sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
-        student.suas.filter(is_valid=True),
+        student.suas.filter(deletedAt=None,is_valid=True).get(),
         many=True,
         context={'request': request}
     )

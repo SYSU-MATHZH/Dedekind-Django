@@ -14,8 +14,24 @@ for r in range(2016, datetime.datetime.now().year):
 
 EXPIRE_TIME = 86400
 
+"""
+实现软删除(需要继承该类)
+通过deletedAt字段保存删除的时间。
+若记录没有被删除，那么设置该值为None，如果被删除，那么设置时间为删除的时间。
+注意：在取得元素的时候，需要使用User.objects.filter(deletedAt=None)，而不是all()
+"""
+class BaseSchema(models.Model):
+    deletedAt = models.DateTimeField("删除时间",null=True,default=None)
 
-class Student(models.Model):
+    class Meta:
+        abstract = True     #设为抽象基类，否则会出现id字段冲突的情况
+
+    def delete(self, using=None, keep_parents=False):
+        self.deletedAt = timezone.now()
+        self.save()
+
+
+class Student(BaseSchema):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -36,7 +52,7 @@ class Student(models.Model):
         return self.name
 
 
-class SuaGroup(models.Model):
+class SuaGroup(BaseSchema):
     group = models.OneToOneField(
         Group,
         on_delete=models.CASCADE,
@@ -50,7 +66,7 @@ class SuaGroup(models.Model):
         return self.name
 
 
-class Activity(models.Model):
+class Activity(BaseSchema):
     owner = models.ForeignKey(
         'auth.User',
         related_name='activities',
@@ -68,7 +84,7 @@ class Activity(models.Model):
         return self.title
 
 
-class Sua(models.Model):
+class Sua(BaseSchema):
     owner = models.ForeignKey(
         'auth.User',
         related_name='suas',
@@ -106,7 +122,7 @@ class Sua(models.Model):
             self.added = self.suahours
 
 
-class Proof(models.Model):
+class Proof(BaseSchema):
     owner = models.ForeignKey(
         User,
         related_name='proofs',
@@ -129,7 +145,7 @@ class Proof(models.Model):
                 self.created.strftime("%Y%m%d%H%M%S")
 
 
-class Application(models.Model):
+class Application(BaseSchema):
     sua = models.OneToOneField(
         Sua,
         related_name='application',
@@ -156,7 +172,7 @@ class Application(models.Model):
         return self.sua.student.name + '的 ' + self.sua.activity.title + '的 ' + '申请'
 
 
-class Publicity(models.Model):
+class Publicity(BaseSchema):
     owner = models.ForeignKey(
         'auth.User',
         related_name='publicities',
@@ -179,7 +195,7 @@ class Publicity(models.Model):
         return self.title
 
 
-class Appeal(models.Model):
+class Appeal(BaseSchema):
     owner = models.ForeignKey(
         'auth.User',
         related_name='appeals',

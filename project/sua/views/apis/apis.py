@@ -13,29 +13,29 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminUserOrReadOnly,)
 
 class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
+    queryset = Student.objects.filter(deletedAt=None)
     serializer_class = StudentSerializer
 
 class ActivityViewSet(viewsets.ModelViewSet):
-    queryset = Activity.objects.all()
+    queryset = Activity.objects.filter(deletedAt=None)
     serializer_class = ActivitySerializer
 
 class PublicityViewSet(viewsets.ModelViewSet):
-    queryset = Publicity.objects.all()
+    queryset = Publicity.objects.filter(deletedAt=None)
     serializer_class = PublicitySerializer
 
 class SuaViewSet(viewsets.ModelViewSet):
-    queryset = Sua.objects.all()
+    queryset = Sua.objects.filter(deletedAt=None)
     serializer_class = SuaSerializer
 
 class ApplicationViewSet(viewsets.ModelViewSet):
-    queryset = Application.objects.all()
+    queryset = Application.objects.filter(deletedAt=None)
     serializer_class = ApplicationSerializer
 
 class AppealViewSet(viewsets.ModelViewSet):
-    queryset = Appeal.objects.all()
+    queryset = Appeal.objects.filter(deletedAt=None)
     serializer_class = AppealSerializer
 
 class ProofViewSet(viewsets.ModelViewSet):
-    queryset = Proof.objects.all()
+    queryset = Proof.objects.filter(deletedAt=None)
     serializer_class = ProofSerializer
