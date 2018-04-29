@@ -102,24 +102,24 @@ class Sua(BaseSchema):
         on_delete=models.CASCADE,
     )
     team = models.CharField(max_length=100)
-    suahours = models.FloatField()
-    added = models.FloatField(default=0.0)
+    suahours = models.FloatField(default=0.0)
+    # added = models.FloatField(default=0.0)
     is_valid = models.BooleanField(default=False)
 
     def __str__(self):
         return self.student.name + '的 ' + self.activity.title
 
-    def clean_suahours(self):
-        self.student.suahours -= self.added
-        self.student.save()
-        self.added = 0.0
+    # def clean_suahours(self):
+    #     self.student.suahours -= self.added
+    #     self.student.save()
+    #     self.added = 0.0
 
-    def update_student_suahours(self):
-        if self.added != self.suahours:
-            self.clean_suahours()
-            self.student.suahours += self.suahours
-            self.student.save()
-            self.added = self.suahours
+    # def update_student_suahours(self):
+    #     if self.added != self.suahours:
+    #         self.clean_suahours()
+    #         self.student.suahours += self.suahours
+    #         self.student.save()
+    #         self.added = self.suahours
 
 
 class Proof(BaseSchema):
