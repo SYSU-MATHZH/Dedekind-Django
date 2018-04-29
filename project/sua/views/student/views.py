@@ -174,19 +174,6 @@ class SuasExportView(BaseView,NavMixin):
         return serialized
 
 
-def SuasFilter(suas,request):
-    
-
-
-#计算传入的suas列表的公益时数总和
-def TotalSuahours(suas):
-    total_suahours = 0
-    if len(suas):
-        for sua in suas:
-            total_suahours += sua.suahours
-    return total_suahours
-
-
 def Download(request):
 
     pdfmetrics.registerFont(TTFont('song', os.getcwd() + '/project/sua/views/student/STSONG.ttf'))
