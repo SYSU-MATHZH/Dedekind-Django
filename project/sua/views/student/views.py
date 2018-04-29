@@ -55,8 +55,7 @@ class IndexView(BaseView, NavMixin):
         for publicity in publicities:
             publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
-
-        # print(publicities)
+            
 
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
             user.applications.filter(deletedAt=None),
@@ -173,6 +172,19 @@ class SuasExportView(BaseView,NavMixin):
 
 
         return serialized
+
+
+def SuasFilter(suas,request):
+    
+
+
+#计算传入的suas列表的公益时数总和
+def TotalSuahours(suas):
+    total_suahours = 0
+    if len(suas):
+        for sua in suas:
+            total_suahours += sua.suahours
+    return total_suahours
 
 
 def Download(request):

@@ -92,7 +92,7 @@
                 <td>{{ activity.date }}</td>
                 <td>{{ activity.title }}</td>
                 <td>{{ activity.group }}</td>
-                <td>{% if activity.publicities.0.deletedAt is None %}已公示{% else %}未公示{% endif %}</td>
+                <td>{% if activity.publicities.0.is_published %}已公示{% else %}未公示{% endif %}</td>
                 <td>{{ activity.publicities.0.begin }}</td>
                 <td>{{ activity.publicities.0.end }}</td>
                 <td>
