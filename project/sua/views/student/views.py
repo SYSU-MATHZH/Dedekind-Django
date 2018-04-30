@@ -96,17 +96,23 @@ class IndexView(BaseView, NavMixin):
             for appeal in appeals:
                 appeal['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(appeal['created']))
 
-            if student.power == 1:
+            if student.power == 1:  #活动级管理员
 
                 activity_data = ActivitySerializer(
                     Activity.objects.filter(owner=user),
                     many = True,
                     context = {'request':request}
                 )
+                activities = activity_data.data
+                for activity in activities:
+                    activity['date'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(activity['date']))
+
+
                 serialized.update({
                     'suas': sua_data.data,
                     'appeals': appeal_data.data,
-                    'activity':activity_data.data
+                    'activities':activity_data.data,
+                    'power':student.power
                 })
 
         return serialized
