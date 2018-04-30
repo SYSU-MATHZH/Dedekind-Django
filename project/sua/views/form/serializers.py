@@ -19,7 +19,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id')
+        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id','power')
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -41,6 +41,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
         instance.classtype = validated_data.get('classtype',instance.classtype)
         instance.phone = validated_data.get('phone',instance.phone)
         instance.id = validated_data.get('id',instance.id)
+        instance.power = validated_data.get('power',instance.power)
         instance.save()
         return instance
 
@@ -170,4 +171,4 @@ class detailofstudentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id','suas')
+        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id','suas','power')

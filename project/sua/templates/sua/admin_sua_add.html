@@ -30,7 +30,7 @@
         </label>
         <select class="form-control" name="student" >
           {% for student in students %}
-            <option value="{{ student.url }}">{{ student.name }}</option>
+            <option value="{{ student.url }}">{{ student.name }} {{ student.number }}</option>
           {% endfor %}
         </select>
       </div>
