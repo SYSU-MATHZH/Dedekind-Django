@@ -83,6 +83,10 @@ class Activity(BaseSchema):
     def __str__(self):
         return self.title
 
+    def delete(self, using=None, keep_parents=False):
+        self.deletedAt = timezone.now()
+        self.is_valid = False
+        self.save()
 
 class Sua(BaseSchema):
     owner = models.ForeignKey(
@@ -120,6 +124,11 @@ class Sua(BaseSchema):
             self.student.suahours += self.suahours
             self.student.save()
             self.added = self.suahours
+
+    def delete(self, using=None, keep_parents=False):
+        self.deletedAt = timezone.now()
+        self.is_valid = False
+        self.save()
 
 
 class Proof(BaseSchema):

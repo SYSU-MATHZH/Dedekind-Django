@@ -34,8 +34,9 @@
           </tr>
         </thead>
 {% for sua in serializer.data.suas %}
-
+{% if sua.is_valid %}
           <tr>
+          
           <td>{{ sua.student.name }}</td>
           <td>{{ sua.student.number }}</td>
           <td>{{ sua.team }}</td>
@@ -46,9 +47,12 @@
 
 		  </td>
           </tr>
+{% else %}
+{% endif %}
 		  {% endfor %}
 </table>
-      </div>
+</div>
+
 <a href="/admin/activities/{{ serializer.data.id }}/suas/add/" class="btn btn-default">添加参与人</a>
 <hr>
 <div class="row">

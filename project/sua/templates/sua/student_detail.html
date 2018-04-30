@@ -50,6 +50,7 @@
       </thead>
         <tbody>
           {% for sua in serializer.data.suas %}
+          {% if sua.is_valid %}
             <tr>
               <td>{{ forloop.counter }}</td>
               <td>{{ sua.activity.title }}</td>
@@ -57,6 +58,8 @@
               <td>{{ sua.activity.date }}</td>
               <td>{{ sua.suahours }} h</td>
             </tr>
+          {% else %}
+          {% endif %}
           {% endfor %}
         </tbody>
     </table>
