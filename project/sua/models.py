@@ -84,6 +84,10 @@ class Activity(BaseSchema):
     def __str__(self):
         return self.title
 
+    def delete(self, using=None, keep_parents=False):
+        self.deletedAt = timezone.now()
+        self.is_valid = False
+        self.save()
 
 class Sua(BaseSchema):
     owner = models.ForeignKey(
@@ -103,7 +107,7 @@ class Sua(BaseSchema):
         on_delete=models.CASCADE,
     )
     team = models.CharField(max_length=100)
-    suahours = models.FloatField()
+    suahours = models.FloatField(default=0.0)
     added = models.FloatField(default=0.0)
     is_valid = models.BooleanField(default=False)
 
@@ -121,6 +125,11 @@ class Sua(BaseSchema):
             self.student.suahours += self.suahours
             self.student.save()
             self.added = self.suahours
+
+    def delete(self, using=None, keep_parents=False):
+        self.deletedAt = timezone.now()
+        self.is_valid = False
+        self.save()
 
 
 class Proof(BaseSchema):

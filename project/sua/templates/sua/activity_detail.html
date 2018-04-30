@@ -9,53 +9,61 @@
 {% block content_detail %}
 <hr>
 <div class="row">
-  <div class="col-xs-5 col-xs-offset-5">
+  <div class="col-xs-5 col-xs-offset-4">
     <p>活动详情：{{ serializer.data.detail }}</p>
   </div>
 </div>
 <div class="row">
-    <div class="col-xs-5 col-xs-offset-5">
+  <div class="col-xs-5 col-xs-offset-4">
     <p>活动团队:{{ serializer.data.group }}</p>
   </div>
 </div>
 <div class="row">
-    <div class="col-xs-5 col-xs-offset-5">
+  <div class="col-xs-5 col-xs-offset-4">
     <p>活动日期:{{ serializer.data.date }}</p>
   </div>
 </div>
 <div class="table-responsive">
-<table class="table">
-<thead>
-          <tr>
-            <th>姓名</th>
-            <th>学号</th>
-            <th>所属组别</th>
-            <th>公益时数</th>
-          </tr>
-        </thead>
-{% for sua in serializer.data.suas %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>姓名</th>
+        <th>学号</th>
+        <th>所属组别</th>
+        <th>公益时数</th>
+        <th><a href="/admin/activities/{{ serializer.data.id }}/suas/add/" class="btn btn-default btn-xs">添加参与人</a></th>
+      </tr>
+    </thead>
+    <tbody>
+    {# {{ serializer.data.suas }} #}{# for debug #}
+    {% for sua in serializer.data.suas %}
+      {# <tr><td colspan="5">{{ sua.student }}</td></tr> #}{# for debug #}
+      {% if sua.is_valid %}
+      <tr>
+        <td>{{ sua.student.name }}</td>
+        <td>{{ sua.student.number }}</td>
+        <td>{{ sua.team }}</td>
+        <td>{{ sua.suahours }}</td>
+        <td>
+          <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/change/">编辑</a>
+          <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_delete_suas_{{ sua.id }}">删除</a>
+          {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_suas_" id2=sua.id title="确认删除学生" content="确认要删除该学生吗？" confirm_label="确认删除" confirm_href1="/suas/" confirm_href2=sua.id confirm_href3="/delete/" only%}
+        </td>
+      </tr>
+      {% else %}
+      {% endif %}
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
 
-          <tr>
-          <td>{{ sua.student.name }}</td>
-          <td>{{ sua.student.number }}</td>
-          <td>{{ sua.team }}</td>
-          <td>{{ sua.suahours }}</td>
-		  <td>
-		  <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/change/">编辑</a>
-		  <a class="btn btn-default btn-xs" href="/suas/{{ sua.id }}/delete/">删除</a>
-
-		  </td>
-          </tr>
-		  {% endfor %}
-</table>
-      </div>
-<a href="/admin/activities/{{ serializer.data.id }}/suas/add/" class="btn btn-default">添加参与人</a>
-<hr>
+<hr />
 <div class="row">
-		<div class="col-xs-offset-4">
-		<a href="/activities/{{ serializer.data.id }}/change/"class="btn btn-default">编辑内容</a>
-		<a href="/activities/{{ serializer.data.id }}/delete/" class="btn btn-default">删除该活动</a>
-		<a href="/admin/#activities" class="btn btn-default">返回主页</a>
-	</div>
+    <div class="col-xs-offset-4">
+    <a href="/activities/{{ serializer.data.id }}/change/"class="btn btn-default">编辑内容</a>
+    <a data-toggle="modal" data-target="#confirm_box_delete_activities_{{ serializer.data.id }}" class="btn btn-default">删除该活动</a>
+    <a href="/admin/#activities" class="btn btn-default">返回主页</a>
+    {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_activities_" id2=serializer.data.id title="确认删除活动" content="确认要删除该活动吗？" confirm_label="确认删除" confirm_href1="/activities/" confirm_href2=serializer.data.id confirm_href3="/delete/" only%}
+  </div>
 </div>
 {% endblock %}
