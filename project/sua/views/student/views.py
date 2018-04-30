@@ -158,7 +158,7 @@ class SuasExportView(BaseView,NavMixin):
             student = user.student
 
             sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
-                student.suas.filter(deletedAt=None,is_valid=True).get(),
+                student.suas.filter(deletedAt=None,is_valid=True),
                 many=True,
                 context={'request': request}
             )
@@ -183,7 +183,7 @@ def Download(request):
     # Filename = 'str(student.name)'
 
     sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
-        student.suas.filter(deletedAt=None,is_valid=True).get(),
+        student.suas.filter(deletedAt=None,is_valid=True),
         many=True,
         context={'request': request}
     )

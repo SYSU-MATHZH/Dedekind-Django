@@ -46,7 +46,7 @@ def DateTime2String_VALUE(date):
 #计算传入的suas列表的公益时数总和
 def TotalSuahours(suas):
     total_suahours = 0
-    if len(suas):
+    if len(suas) != 0 :
         for sua in suas:
             total_suahours += sua.suahours
     return total_suahours
