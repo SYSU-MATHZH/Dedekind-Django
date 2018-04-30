@@ -35,11 +35,13 @@
     <p>电话号码:{{ serializer.data.phone }}</p>
   </div>
 </div>
+{% if serializer.data.power > 0 or user.is_staff %}
 <div class="row">
   <div class="col-xs-4 col-xs-offset-4">
-    <p>权限:{{ serializer.data.power }}</p>
+    <p>权限:{% if serializer.data.power == 0 %}普通学生{% elif serializer.data.power == 1  %}活动级管理员{% else %}未知权限{% endif %}</p>
   </div>
 </div>
+{% endif %}
 
 
 

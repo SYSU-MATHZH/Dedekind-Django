@@ -5,18 +5,23 @@
 {# nav-bar #}
 {% block nav_tab %}
 <ul id="my-navbar-content" class="nav navbar-nav my-tab collapse navbar-collapse" role="tablist">
-<li role="presentation" class="active">
-  <a href="#home" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab1">公告</a>
-</li>
-<li role="presentation">
-  <a href="#suahoursdetail" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab2">公益时详情</a>
-</li>
-<li role="presentation">
-  <a href="#applications" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab3">申请记录</a>
-</li>
-<li role="presentation">
-  <a href="#appeals" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab4">申诉列表</a>
-</li>
+  <li role="presentation" class="active">
+    <a href="#publicities" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab1">公告</a>
+  </li>
+  <li role="presentation">
+    <a href="#suahoursdetail" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab2">公益时详情</a>
+  </li>
+  {% if nav.user.power == 1 %}
+  <li role="presentation">
+    <a href="#activities" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab2">活动</a>
+  </li>
+  {% endif %}
+  <li role="presentation">
+    <a href="#applications" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab3">申请记录</a>
+  </li>
+  <li role="presentation">
+    <a href="#appeals" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab4">申诉列表</a>
+  </li>
 </ul>
 {% endblock %}
 
@@ -38,8 +43,8 @@
 
 {% block content %}
 <div class="main-content" role="tabpanel">
-  <div id="tabContent1" class="tab-content my-tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="home">
+  <div id="tabContent" class="tab-content my-tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="publicities">
       <div class="tab-header">公告</div>
       <div class="table-responsive">
         <table class="table my-pub-table col-lg-12">
@@ -116,6 +121,11 @@
       {% endif %}
     </div>
     {% endfor %}
+    
+    {% if student.power == 1 %}
+      {% include './adminindex_tabs/activities_tab.html' %}
+    {% endif %}
+    
     <div role="tabpanel" class="tab-pane fade" id="suahoursdetail">
       <div class="row tab-header">
         公益时详情

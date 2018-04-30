@@ -65,46 +65,7 @@
       </div>
     </div>
 
-    <div role="tabpanel" class="tab-pane fade" id="activities">
-      <div class="row tab-header">
-        <div class="col-lg-9 col-xs-6">活动</div>
-        <div class="col-lg-3">
-          <a class="btn btn-default" href="/activities/add" target="_blank">创建活动</a>
-        </div>
-      </div>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>活动日期</th>
-              <th>活动名称</th>
-              <th>组织方</th>
-              <th>是否已公示</th>
-              <th>开始日</th>
-              <th>结束日</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for activity in activities %}
-              <tr>
-                <td>{{ activity.date }}</td>
-                <td>{{ activity.title }}</td>
-                <td>{{ activity.group }}</td>
-                <td>{% if activity.publicities.0.is_published %}已公示{% else %}未公示{% endif %}</td>
-                <td>{{ activity.publicities.0.begin }}</td>
-                <td>{{ activity.publicities.0.end }}</td>
-                <td>
-                  <a class="btn btn-default btn-xs" href="{{ activity.url }}">编辑活动</a>
-                  <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/">管理公示</a>
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    {% include './adminindex_tabs/activities_tab.html' %}
 
     <div role="tabpanel" class="tab-pane fade" id="applications">
       <div class="tab-header">申请</div>
