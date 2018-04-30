@@ -1,0 +1,38 @@
+<div role="tabpanel" class="tab-pane fade" id="applications">
+      <div class="tab-header">申请记录</div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+        <thead>
+          <tr>
+            <th colspan="2">序号</th>
+            <th>申请日期</th>
+            <th>活动名称</th>
+            <th>举办单位</th>
+            <th>公益时数</th>
+            <th>审核结果</th>
+            <th>是否已审核</th>
+          </tr>
+        </thead>
+        {% if applications %}
+          <tbody>
+            {% for application in applications %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{{ application.url }}" class="btn btn-default btn-xs">查看详情</a></td>
+                <td>{{ application.created }}</td>
+                <td>
+                {# <a href="{{ application.sua.activity.url }}"> #}{{ application.sua.activity.title }}{# </a> #}
+              </td>
+                <td>{{ application.sua.activity.group }}</td>
+                <td>{{ application.sua.suahours }}</td>
+                <td>{% if application.is_checked %}{% if application.status == 0 %} 通过 {% else %}{% if application.status == 1 %}未通过{% else %}{% endif %}{% if application.status == 2 %}需要线下声明{% endif %}{% endif %}{% endif %}</td>
+                <td>
+                {% if application.is_checked %} {% if application.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        {% endif %}
+        </table>
+      </div>
+    </div>

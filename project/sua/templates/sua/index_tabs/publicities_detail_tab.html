@@ -1,0 +1,55 @@
+<div role="tabpanel" class="tab-pane fade" id="publicity{{ publicity.id }}">
+  <div class="row my-pub-header">
+    <div class="col-lg-9 col-xs-6">
+      <span class="my-pub-title">{{ publicity.title }}</span>
+    </div>
+    <div class="col-lg-3 pull-right">
+      <a href="publicities/{{ publicity.id }}/appeal/" class="btn btn-default" role="button">
+        提出申诉
+      </a>
+      <a href="#{{ back_href|default:'publicities' }}" class="btn btn-default" data-toggle="tab">
+        返回
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <dl class="my-pub-detail my-horizontal-dl">
+        <dt>公示截止日期：</dt>
+        <dd>{{ publicity.end }}</dd>
+        <dt>参与人组别：</dt>
+        <dd>{{ publicity.team }}</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="row">
+    <div class="my-pub-content col-lg-12">
+      {{ publicity.content }}
+    </div>
+  </div>
+  {% if publicity.activity.suas %}
+  <div class="table-responsive my-pub-student">
+    <table class="table">
+      <caption>参与人列表</caption>
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>学号</th>
+          <th>公益时数</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for sua in publicity.activity.suas %}
+          <tr>
+            <td>{{ sua.student.name }}</td>
+            <td>{{ sua.student.number }}</td>
+            <td>{{ sua.suahours }}</td>
+          </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="my-empty-block"></div>
+  {% endif %}
+</div>

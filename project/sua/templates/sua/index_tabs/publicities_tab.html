@@ -1,0 +1,23 @@
+<div role="tabpanel" class="tab-pane fade in active" id="publicities">
+  <div class="tab-header">公告</div>
+  <div class="table-responsive">
+    <table class="table my-pub-table col-lg-12">
+      <tbody>
+        {% for publicity in publicities %}
+          <tr>
+            <td><a href="#publicity{{ publicity.id }}" data-toggle="tab">{{ publicity.title }}</a></td>
+            <td>公告至 {{ publicity.end }} 截止</td>
+            <td>{{ publicity.team }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td>暂无公告</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% for publicity in publicities %}
+  {% include './publicities_detail_tab.html' %}
+{% endfor %}
