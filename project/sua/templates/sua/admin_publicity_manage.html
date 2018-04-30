@@ -48,7 +48,8 @@
               <a class="btn btn-default btn-xs" href="/admin/publicities/{{ publicity.id }}/change/">编辑公示</a>
             </td>
             <td>
-              <a class="btn btn-default btn-xs" href="/publicities/{{ publicity.id }}/delete/">删除公示</a>
+              <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_delete_publicity_{{ publicity.id }}">删除公示</a>
+              {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_publicity_" id2=publicity.id title="确认删除公示" content="确认要删除该公示吗？" confirm_label="确认删除" confirm_href1="/publicities/" confirm_href2=publicity.id confirm_href3="/delete/" only%}
             </td>
           </tr>
           {% endfor %}
