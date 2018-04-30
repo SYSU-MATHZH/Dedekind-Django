@@ -131,26 +131,10 @@
                 <td>
                   <a class="btn btn-default btn-xs" href="{{ application.url }}">申请详情</a>
                   <!-- <a class="btn btn-default btn-xs" href="/admin/applications/{{ application.id }}/change/">审核申请</a> -->
-                  <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_delete_application">删除该申请</a>
+                  <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_delete_application_{{ application.id }}">删除该申请</a>
                 </td>
               </tr>
-              <div class="modal fade" id="confirm_delete_application" tabindex="-1" role="dialog" aria-labelledby="confirm_delete_application_content">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="confirm_delete_application_content">确认删除申请</h4>
-                    </div>
-                    <div class="modal-body">
-                      确认要删除该申请吗？
-                    </div>
-                    <div class="modal-footer my-empty-block">
-                      <a type="button" class="btn btn-default" data-dismiss="modal">取消</a>
-                      <a type="button" class="btn btn-primary" href="/applications/{{ application.id }}/delete">确认删除</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_application_" id2=application.id title="确认删除申请" content="确认要删除该申请吗？" confirm_label="确认删除" confirm_href1="/applications/" confirm_href2=application.id confirm_href3="/delete/" only%}
             {% endfor %}
           </tbody>
         </table>
@@ -171,6 +155,7 @@
             </tr>
           </thead>
           {% for appeal in appeals %}
+            
             <tr>
               <td>{{ appeal.created }}</td>
               <td><a href="{{ appeal.publicity.url }}">{{ appeal.publicity.title }}</a></td>
@@ -179,26 +164,10 @@
               <td>
                 <a class="btn btn-default btn-xs" href="/appeals/{{ appeal.id }}/detail/">申诉详情</a>
                 <!-- <a class="btn btn-default btn-xs" href="/admin/appeals/{{ appeal.id }}/change/">审核申诉</a> -->
-                <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_delete_appeal">删除该申诉</a>
+                <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_delete_appeal_{{ appeal.id }}">删除该申诉</a>
               </td>
             </tr>
-            <div class="modal fade" id="confirm_delete_appeal" tabindex="-1" role="dialog" aria-labelledby="confirm_delete_appeal_content">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="confirm_delete_appeal_content">确认删除申诉</h4>
-                  </div>
-                  <div class="modal-body">
-                    确认要删除该申诉吗？
-                  </div>
-                  <div class="modal-footer my-empty-block">
-                    <a type="button" class="btn btn-default" data-dismiss="modal">取消</a>
-                    <a type="button" class="btn btn-primary" href="/appeals/{{ appeal.id }}/delete">确认删除</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_appeal_" id2=appeal.id title="确认删除申诉" content="确认要删除该申诉吗？" confirm_label="确认删除" confirm_href1="/appeals/" confirm_href2=appeal.id confirm_href3="/delete/" only%}
           {% endfor %}
         </table>
       </div>
