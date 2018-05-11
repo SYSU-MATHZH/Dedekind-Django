@@ -4,7 +4,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.mixins import ListModelMixin
 
-from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly
+from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly,IsAdminUserOrActivity
 import project.sua.serializers as sirs
 import project.sua.views.form.serializers as firs
 import project.sua.views.form.mixins as mymixins
@@ -58,7 +58,7 @@ class StudentViewSet(
         template_name='sua/student_form.html',  # 模板文件
         add_serializer_class=firs.AddStudentSerializer,  # 序列化器
         add_success_url='/',  # 成功后的跳转url
-        permission_classes = (IsAdminUser, )
+        permission_classes = (IsAdminUser,)
     )
     def add(self, request):
         '''
@@ -216,6 +216,7 @@ class ActivityViewSet(
         template_name='sua/activity_form.html',  # 模板文件
         add_serializer_class=firs.AddActivitySerializer,  # 序列化器
         add_success_url='/',  # 成功后的跳转url
+        permission_classes = ()
     )
     def add(self, request):
         '''
@@ -236,7 +237,7 @@ class ActivityViewSet(
         template_name='sua/activity_form.html',  # 模板文件
         change_serializer_class=firs.AddActivitySerializer,  # 序列化器
         change_success_url='/',  # 成功后的跳转url
-        permission_classes = (IsAdminUser, )
+        permission_classes = (IsAdminUserOrActivity, )
     )
     def change(self, request, *args, **kwargs):
         '''
@@ -258,7 +259,7 @@ class ActivityViewSet(
     @detail_route(
         methods=['get'],  # HTTP METHODS
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
-        permission_classes = (IsTheStudentOrIsAdminUser,),
+        permission_classes = (IsAdminUserOrActivity, ),
         template_name='sua/activity_detail.html',  # 模板文件
         detail_serializer_class=firs.AddActivitySerializer,  # 序列化器
     )

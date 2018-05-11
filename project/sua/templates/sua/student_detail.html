@@ -35,8 +35,17 @@
     <p>电话号码:{{ serializer.data.phone }}</p>
   </div>
 </div>
+{% if serializer.data.power > 0 or user.is_staff %}
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-4">
+    <p>权限:{% if serializer.data.power == 0 %}普通学生{% elif serializer.data.power == 1  %}活动级管理员{% else %}未知权限{% endif %}</p>
+  </div>
+</div>
+{% endif %}
 
-<div>公益时记录</div>
+
+
+<b>公益时记录</b>
   <div class="table-responsive">
     <table class="table table-hover">
       <thead>
@@ -49,8 +58,8 @@
         </tr>
       </thead>
         <tbody>
-          {% for sua in serializer.data.suas %}
-          {% if sua.is_valid %}
+          {% for sua in serializer.data.suas|dictsortreversed:"is_valid" %}
+            {% if sua.is_valid %}
             <tr>
               <td>{{ forloop.counter }}</td>
               <td>{{ sua.activity.title }}</td>
@@ -58,8 +67,7 @@
               <td>{{ sua.activity.date }}</td>
               <td>{{ sua.suahours }} h</td>
             </tr>
-          {% else %}
-          {% endif %}
+            {% endif %}
           {% endfor %}
         </tbody>
     </table>

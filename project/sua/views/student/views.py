@@ -3,13 +3,14 @@ import os
 from django.utils import timezone
 from django.http import HttpResponse
 
-from project.sua.models import Publicity
+from project.sua.models import Publicity,Activity
 
 from project.sua.serializers import PublicitySerializer
 from project.sua.serializers import SuaSerializer
 from project.sua.serializers import ApplicationSerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import AddAppealSerializer
+from project.sua.serializers import ActivitySerializer
 
 from .serializers import DEAddApplicationsSerializer
 from .serializers import DEActivityForAddApplicationsSerializer
@@ -43,7 +44,7 @@ class IndexView(BaseView, NavMixin):
             deletedAt=None,
             is_published=True,
             begin__lte=timezone.now(),
-            end__gte=timezone.now() 
+            end__gte=timezone.now()
         )
         publicity_data = PublicitySerializer(  # 序列化公示
             publicity_set,
@@ -55,7 +56,7 @@ class IndexView(BaseView, NavMixin):
         for publicity in publicities:
             publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
-            
+
 
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
             user.applications.filter(deletedAt=None),
@@ -95,10 +96,24 @@ class IndexView(BaseView, NavMixin):
             for appeal in appeals:
                 appeal['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(appeal['created']))
 
-            serialized.update({
-                'suas': sua_data.data,
-                'appeals': appeal_data.data
-            })
+            if student.power == 1:  #活动级管理员
+
+                activity_data = ActivitySerializer(
+                    Activity.objects.filter(owner=user),
+                    many = True,
+                    context = {'request':request}
+                )
+                activities = activity_data.data
+                for activity in activities:
+                    activity['date'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(activity['date']))
+
+
+                serialized.update({
+                    'suas': sua_data.data,
+                    'appeals': appeal_data.data,
+                    'activities':activity_data.data,
+                    'power':student.power
+                })
 
         return serialized
 

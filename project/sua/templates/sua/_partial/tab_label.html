@@ -1,0 +1,3 @@
+<li role="presentation" {% if active|default:False %}class="active"{% endif %}>
+  <a href="#{{ id }}" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="{{ id }}">{{ label }}</a>
+</li>

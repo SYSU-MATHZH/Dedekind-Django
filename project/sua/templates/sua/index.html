@@ -5,18 +5,15 @@
 {# nav-bar #}
 {% block nav_tab %}
 <ul id="my-navbar-content" class="nav navbar-nav my-tab collapse navbar-collapse" role="tablist">
-<li role="presentation" class="active">
-  <a href="#home" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab1">公告</a>
-</li>
-<li role="presentation">
-  <a href="#suahoursdetail" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab2">公益时详情</a>
-</li>
-<li role="presentation">
-  <a href="#applications" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab3">申请记录</a>
-</li>
-<li role="presentation">
-  <a href="#appeals" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab4">申诉列表</a>
-</li>
+  {% include './_partial/tab_label.html' with id="publicities" label="公告" active=True only%}
+  
+  {% if nav.student.power >= 1 %}
+    {% include './_partial/tab_label.html' with id="activities" label="活动" only%}
+  {% endif %}
+  
+  {% include './_partial/tab_label.html' with id="suahoursdetail" label="公益时详情" only%}
+  {% include './_partial/tab_label.html' with id="applications" label="申请记录" only%}
+  {% include './_partial/tab_label.html' with id="appealslist" label="申诉列表" only%}
 </ul>
 {% endblock %}
 
@@ -38,192 +35,18 @@
 
 {% block content %}
 <div class="main-content" role="tabpanel">
-  <div id="tabContent1" class="tab-content my-tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="home">
-      <div class="tab-header">公告</div>
-      <div class="table-responsive">
-        <table class="table my-pub-table col-lg-12">
-          <tbody>
-            {% for publicity in publicities %}
-              <tr>
-                <td><a href="#publicity{{ publicity.id }}" data-toggle="tab">{{ publicity.title }}</a></td>
-                <td>公告至 {{ publicity.end }} 截止</td>
-                <td>{{ publicity.team }}</td>
-              </tr>
-            {% empty %}
-              <tr>
-                <td>暂无公告</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    {% for publicity in publicities %}
-    <div role="tabpanel" class="tab-pane fade" id="publicity{{ publicity.id }}">
-      <div class="row my-pub-header">
-        <div class="col-lg-9 col-xs-6">
-          <span class="my-pub-title">{{ publicity.title }}</span>
-        </div>
-        <div class="col-lg-3 pull-right">
-          <a href="publicities/{{ publicity.id }}/appeal/" class="btn btn-default" role="button">
-            提出申诉
-          </a>
-          <a href="#home" class="btn btn-default" data-toggle="tab">
-            返回
-          </a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12">
-          <dl class="my-pub-detail my-horizontal-dl">
-            <dt>公示截止日期：</dt>
-            <dd>{{ publicity.end }}</dd>
-            <dt>参与人组别：</dt>
-            <dd>{{ publicity.team }}</dd>
-          </dl>
-        </div>
-      </div>
-      <div class="row">
-        <div class="my-pub-content col-lg-12">
-          {{ publicity.content }}
-        </div>
-      </div>
-      {% if publicity.activity.suas %}
-      <div class="table-responsive my-pub-student">
-        <table class="table">
-          <caption>参与人列表</caption>
-          <thead>
-            <tr>
-              <th>姓名</th>
-              <th>学号</th>
-              <th>公益时数</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for sua in publicity.activity.suas %}
-              <tr>
-                <td>{{ sua.student.name }}</td>
-                <td>{{ sua.student.number }}</td>
-                <td>{{ sua.suahours }}</td>
-              </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      {% else %}
-      <div class="my-empty-block"></div>
-      {% endif %}
-    </div>
-    {% endfor %}
-    <div role="tabpanel" class="tab-pane fade" id="suahoursdetail">
-      <div class="row tab-header">
-        公益时详情
-        <div class="col-lg-3 pull-right">
-          <a class="btn btn-default" href="/suas/export" target="_blank">导出记录</a>
-        </div>
-      </div>
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>活动名称</th>
-              <th>举办单位</th>
-              <th>活动时间</th>
-              <th>公益时</th>
-            </tr>
-          </thead>
-          {% if suas %}
-            <tbody>
-              {% for sua in suas %}
-              {% if sua.is_valid %}
-            <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>{{ sua.activity.title }}</td>
-              <td>{{ sua.activity.group }}</td>
-              <td>{{ sua.activity.date }}</td>
-              <td>{{ sua.suahours }} h</td>
-            </tr>
-          {% else %}
-          {% endif %}
-          {% endfor %}
-            </tbody>
-          {% endif %}
-        </table>
-      </div>
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="applications">
-      <div class="tab-header">申请记录</div>
-      <div class="table-responsive">
-        <table class="table table-hover">
-        <thead>
-          <tr>
-            <th colspan="2">序号</th>
-            <th>申请日期</th>
-            <th>活动名称</th>
-            <th>举办单位</th>
-            <th>公益时数</th>
-            <th>审核结果</th>
-            <th>是否已审核</th>
-          </tr>
-        </thead>
-        {% if applications %}
-          <tbody>
-            {% for application in applications %}
-              <tr>
-                <td>{{ forloop.counter }}</td>
-                <td><a href="{{ application.url }}" class="btn btn-default btn-xs">查看详情</a></td>
-                <td>{{ application.created }}</td>
-                <td>
-                {# <a href="{{ application.sua.activity.url }}"> #}{{ application.sua.activity.title }}{# </a> #}
-              </td>
-                <td>{{ application.sua.activity.group }}</td>
-                <td>{{ application.sua.suahours }}</td>
-                <td>{% if application.is_checked %}{% if application.status == 0 %} 通过 {% else %}{% if application.status == 1 %}未通过{% else %}{% endif %}{% if application.status == 2 %}需要线下声明{% endif %}{% endif %}{% endif %}</td>
-                <td>
-                {% if application.is_checked %} {% if application.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        {% endif %}
-        </table>
-      </div>
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="appeals">
-      <div class="tab-header">申诉列表</div>
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>申请日期</th>
-              <th>申诉的公示</th>
-              <th>是否已处理</th>
-              <th>处理结果</th>
-              <th>处理反馈</th>
-            </tr>
-          </thead>
-          {% if appeals %}
-            <tbody>
-            {% for appeal in appeals %}
-              <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ appeal.created }}</td>
-                <td><a href="{{ appeal.url }}">“{{ appeal.publicity.title }}”的申诉</a></td>
-                <td>
-                  {% if appeal.is_checked %}是 {% else %} 否 {% endif %}
-                </td>
-                <td>{% if appeal.is_checked %}{% if appeal.status == 0 %} 通过 {% endif %}{% if appeal.status == 1 %} 未通过 {% endif %}{% if appeal.status == 2%} 需要线下处理 {% endif %} {% endif %}</td>
-                <td>{% if appeal.is_checked %}{{ appeal.feedback }} {% endif %}</td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          {% endif %}
-        </table>
-      </div>
-    </div>
+  <div id="tabContent" class="tab-content my-tab-content">
+    
+    {% include './index_tabs/publicities_tab.html' %}
+
+    {% if nav.student.power >= 1 %}
+      {% include './adminindex_tabs/activities_tab.html' %}
+    {% endif %}
+
+    {% include './index_tabs/suahoursdetail_tab.html' %}
+    {% include './index_tabs/applications_tab.html' %}
+    {% include './index_tabs/appealslist_tab.html' %}
+    
   </div>
 </div>
 {% endblock %}

@@ -5,18 +5,10 @@
 {# nav-bar #}
 {% block nav_tab %}
 <ul id="my-navbar-content" class="nav navbar-nav my-tab collapse navbar-collapse" role="tablist">
-  <li role="presentation" class="active">
-    <a href="#students" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab1">学生</a>
-  </li>
-  <li role="presentation">
-    <a href="#activities" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab2">活动</a>
-  </li>
-  <li role="presentation">
-    <a href="#applications" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab3">申请</a>
-  </li>
-  <li role="presentation">
-    <a href="#appeals" class="my-nav-tab" data-toggle="tab" role="tab" aria-controls="tab4">申诉</a>
-  </li>
+  {% include './_partial/tab_label.html' with id="students" label="学生" active=True only%}
+  {% include './_partial/tab_label.html' with id="activities" label="活动" only%}
+  {% include './_partial/tab_label.html' with id="applications" label="申请" only%}
+  {% include './_partial/tab_label.html' with id="appeals" label="申诉" only%}
 </ul>
 {% endblock %}
 {% block dropdown_label %}
@@ -35,143 +27,13 @@
 
 {% block content %}
 <div class="main-content" role="tabpanel">
-  <div id="tabContent1" class="tab-content my-tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="students">
-      <div class="row tab-header">
-        <div class="col-lg-9 col-xs-6">学生</div>
-        <div class="col-lg-3 pull-right"><a class="btn btn-default" href="/students/add" target="_blank">创建学生</a></div>
-      </div>
-      <div class="table-responsive">
-        <table class="table">
-        <thead>
-          <tr>
-            <th>学号</th>
-            <th>年级</th>
-            <th>班别</th>
-            <th>名字</th>
-            <th>公益时数</th>
-          </tr>
-        </thead>
-        {% for student in students %}
-          <tr>
-          <td>{{ student.number }}</td>
-          <td>{{ student.grade }}</td>
-          <td>{{ student.classtype }}</td>
-          <td><a href="{{ student.url }}">{{ student.name }}</a></td>
-          <td>{{ student.suahours }}</td>
-          </tr>
-        {% endfor %}
-        </table>
-      </div>
-    </div>
+  <div id="tabContent" class="tab-content my-tab-content">
 
-    <div role="tabpanel" class="tab-pane fade" id="activities">
-      <div class="row tab-header">
-        <div class="col-lg-9 col-xs-6">活动</div>
-        <div class="col-lg-3">
-          <a class="btn btn-default" href="/activities/add" target="_blank">创建活动</a>
-        </div>
-      </div>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>活动日期</th>
-              <th>活动名称</th>
-              <th>组织方</th>
-              <th>是否已公示</th>
-              <th>开始日</th>
-              <th>结束日</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for activity in activities %}
-              <tr>
-                <td>{{ activity.date }}</td>
-                <td>{{ activity.title }}</td>
-                <td>{{ activity.group }}</td>
-                <td>{% if activity.publicities.0.is_published %}已公示{% else %}未公示{% endif %}</td>
-                <td>{{ activity.publicities.0.begin }}</td>
-                <td>{{ activity.publicities.0.end }}</td>
-                <td>
-                  <a class="btn btn-default btn-xs" href="{{ activity.url }}">编辑活动</a>
-                  <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/">管理公示</a>
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div role="tabpanel" class="tab-pane fade" id="applications">
-      <div class="tab-header">申请</div>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>申请日期</th>
-              <th>活动名称</th>
-              <th>申请人</th>
-              <th>公益时</th>
-              <th>是否已审核</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for application in applications %}
-              <tr>
-                <td>{{ application.created }}</td>
-                <td><a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a></td>
-                <td><a href="{{ application.sua.student.url }}">{{ application.sua.student.name }}</a></td>
-                <td>{{ application.sua.suahours }}h</td>
-                <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
-                <td>
-                  <a class="btn btn-default btn-xs" href="{{ application.url }}">申请详情</a>
-                  <!-- <a class="btn btn-default btn-xs" href="/admin/applications/{{ application.id }}/change/">审核申请</a> -->
-                  <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_delete_application_{{ application.id }}">删除该申请</a>
-                </td>
-              </tr>
-              {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_application_" id2=application.id title="确认删除申请" content="确认要删除该申请吗？" confirm_label="确认删除" confirm_href1="/applications/" confirm_href2=application.id confirm_href3="/delete/" only%}
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div role="tabpanel" class="tab-pane fade" id="appeals">
-      <div class="tab-header">申诉</div>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>申诉日期</th>
-              <th>申诉的公示</th>
-              <th>申诉人</th>
-              <th>是否已处理</th>
-              <th></th>
-            </tr>
-          </thead>
-          {% for appeal in appeals %}
-            
-            <tr>
-              <td>{{ appeal.created }}</td>
-              <td><a href="{{ appeal.publicity.url }}">{{ appeal.publicity.title }}</a></td>
-              <td><a href="{{ appeal.student.url }}">{{ appeal.student.name }}</a></td>
-              <td>{% if appeal.is_checked %}已处理{% else %}未处理{% endif %}</td>
-              <td>
-                <a class="btn btn-default btn-xs" href="/appeals/{{ appeal.id }}/detail/">申诉详情</a>
-                <!-- <a class="btn btn-default btn-xs" href="/admin/appeals/{{ appeal.id }}/change/">审核申诉</a> -->
-                <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_delete_appeal_{{ appeal.id }}">删除该申诉</a>
-              </td>
-            </tr>
-            {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_appeal_" id2=appeal.id title="确认删除申诉" content="确认要删除该申诉吗？" confirm_label="确认删除" confirm_href1="/appeals/" confirm_href2=appeal.id confirm_href3="/delete/" only%}
-          {% endfor %}
-        </table>
-      </div>
-    </div>
+    {% include './adminindex_tabs/students_tab.html' %}
+    {% include './adminindex_tabs/activities_tab.html' %}
+    {% include './adminindex_tabs/applications_tab.html' %}
+    {% include './adminindex_tabs/appeals_tab.html' %}
+    
   </div>
 </div>
 {% endblock %}

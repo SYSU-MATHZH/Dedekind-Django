@@ -47,6 +47,7 @@ class Student(BaseSchema):
     )
     phone = models.CharField(max_length=100)
     id = models.AutoField(primary_key=True)
+    power = models.IntegerField(default=0)  # 0:普通学生  1:活动级管理员
 
     def __str__(self):
         return self.name
