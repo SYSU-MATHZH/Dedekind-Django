@@ -137,14 +137,17 @@
           {% if suas %}
             <tbody>
               {% for sua in suas %}
-                <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{ sua.activity.title }}</td>
-                  <td>{{ sua.activity.group }}</td>
-                  <td>{{ sua.activity.date }}</td>
-                  <td>{{ sua.suahours }} h</td>
-                </tr>
-              {% endfor %}
+              {% if sua.is_valid %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ sua.activity.title }}</td>
+              <td>{{ sua.activity.group }}</td>
+              <td>{{ sua.activity.date }}</td>
+              <td>{{ sua.suahours }} h</td>
+            </tr>
+          {% else %}
+          {% endif %}
+          {% endfor %}
             </tbody>
           {% endif %}
         </table>
