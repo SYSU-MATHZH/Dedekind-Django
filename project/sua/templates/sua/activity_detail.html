@@ -69,10 +69,12 @@
 <hr />
 <div class="row">
     <div class="col-xs-offset-4">
-    {% if serializer.data.is_valid %}
-      <a href="/admin/activities/{{ serializer.data.id }}/check/" class="btn btn-default">不通过</a>
-    {% else %}
-      <a href="/admin/activities/{{ serializer.data.id }}/check/" class="btn btn-default">通过</a>
+    {% if nav.user.is_staff %}
+      {% if serializer.data.is_valid %}
+        <a href="/admin/activities/{{ serializer.data.id }}/check/" class="btn btn-default">不通过</a>
+      {% else %}
+        <a href="/admin/activities/{{ serializer.data.id }}/check/" class="btn btn-default">通过</a>
+      {% endif %}
     {% endif %}
     <a href="/activities/{{ serializer.data.id }}/change/"class="btn btn-default">编辑内容</a>
     <a data-toggle="modal" data-target="#confirm_box_delete_activities_{{ serializer.data.id }}" class="btn btn-default">删除该活动</a>
