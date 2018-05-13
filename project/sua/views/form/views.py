@@ -249,7 +249,7 @@ class ActivityViewSet(
         template_name='sua/activity_form.html',  # 模板文件
         change_serializer_class=firs.AddActivitySerializer,  # 序列化器
         change_success_url='/',  # 成功后的跳转url
-        permission_classes = (IsAdminUserOrActivity,)
+        permission_classes = (IsAdminUserOrActivity, )
     )
     def change(self, request, *args, **kwargs):
         '''
@@ -271,7 +271,7 @@ class ActivityViewSet(
     @detail_route(
         methods=['get'],  # HTTP METHODS
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
-        permission_classes = (IsAdminUserOrActivity,),
+        permission_classes = (IsAdminUserOrActivity, ),
         template_name='sua/activity_detail.html',  # 模板文件
         detail_serializer_class=firs.AddActivitySerializer,  # 序列化器
     )
