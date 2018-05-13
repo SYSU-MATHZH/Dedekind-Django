@@ -20,12 +20,17 @@ from .serializers import SuaforApplicationsSerializer
 from .serializers import ActivityForAdminSerializer
 from .serializers import AdminPublicitySerializer
 from .serializers import AdminAppealSerializer
+from .serializers import AdminActivitySerializer
 
 from project.sua.views.utils.base import BaseView
 from project.sua.views.utils.mixins import NavMixin
 import project.sua.views.utils.tools as tools
 
 from .serializers import PublicityWithActivitySerializer
+
+from project.sua.permissions import IsAdminUserOrActivity
+
+from django.http import HttpResponseRedirect, Http404
 
 
 class IndexView(BaseView, NavMixin):
@@ -68,7 +73,7 @@ class IndexView(BaseView, NavMixin):
                 tools.TZString2DateTime(application['created']))
 
         activity_set = Activity.objects.filter(
-            owner=request.user,deletedAt=None).order_by('-created')  # 获取所有当前管理员创建的活动
+            deletedAt=None).order_by('-created')  # 获取所有当前管理员创建的活动
         activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
             activity_set,
             many=True,
@@ -111,7 +116,7 @@ class AppealView(BaseView, NavMixin):
         activity = appeal.publicity.activity
         sua_set = activity.suas.filter(
             student=appeal.student,
-            application=None,  
+            application=None,
             deletedAt=None,
         )
         if len(sua_set) == 0:
@@ -342,7 +347,6 @@ class AddSuaForActivityView(BaseView, NavMixin):
     components = {
         'nav': 'nav',
     }
-
     def serialize(self, request, *args, **kwargs):
         activity_id = kwargs['pk']
         activity = Activity.objects.filter(deletedAt=None,id=activity_id).get()
@@ -387,13 +391,14 @@ class AddSuaForActivityView(BaseView, NavMixin):
             context={'request': request},
         )
         if suaSerializer.is_valid():
-            suaSerializer.save(
-                owner=user,
-                activity=activity,
-                is_valid=True
-            )
-            self.url = activitySerializer.data['url']
-            return True
+            if((request.user.is_staff) or (request.user.student.power == 1 and activity.owner == request.user)):
+                suaSerializer.save(
+                    owner=user,
+                    activity=activity,
+                    is_valid=True
+                    )
+                self.url = activitySerializer.data['url']
+                return True
         else:
             return False
 
@@ -440,8 +445,24 @@ class ChangeSuaForActivityView(BaseView, NavMixin):
             context={'request': request},
         )
         if suaSerializer.is_valid():
-            suaSerializer.save()
-            self.url = activitySerializer.data['url']
-            return True
+            if((request.user.is_staff) or (request.user.student.power == 1 and activity.owner == request.user)):
+                suaSerializer.save()
+                self.url = activitySerializer.data['url']
+                return True
         else:
             return False
+
+def CheckTheActivityView(request, *args, **kwargs):
+    activity_id = kwargs['pk']
+    activity = Activity.objects.filter(deletedAt=None,id=activity_id).get()
+    activitySerializer = AdminActivitySerializer(
+        activity,
+        context={'request': request}
+    )
+    if(request.user.is_staff):
+        if(activity.is_valid == True):
+            activity.is_valid=False
+        else:
+            activity.is_valid=True
+        activity.save()
+    return HttpResponseRedirect(activitySerializer.data['url'])

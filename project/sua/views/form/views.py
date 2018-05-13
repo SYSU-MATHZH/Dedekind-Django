@@ -186,6 +186,13 @@ class SuaViewSet(
         '''
         return super(SuaViewSet, self).detail(request, *args, **kwargs)
 
+    @detail_route(
+        permission_classes = (IsAdminUserOrActivity,)
+    )
+    def delete(self, request, *args, **kwargs):
+
+        return super(SuaViewSet, self).delete(request, *args, **kwargs)
+
     def set_delete_success_url(self, *args, **kwargs):
         sua = self.get_object()
         self.delete_success_url = "/activities/%s/detail/" % sua.activity.id
@@ -216,7 +223,7 @@ class ActivityViewSet(
         template_name='sua/activity_form.html',  # 模板文件
         add_serializer_class=firs.AddActivitySerializer,  # 序列化器
         add_success_url='/',  # 成功后的跳转url
-        permission_classes = ()
+        permission_classes = (IsAdminUserOrActivity,)
     )
     def add(self, request):
         '''
@@ -229,7 +236,12 @@ class ActivityViewSet(
         return super(ActivityViewSet, self).add(request)
 
     def perform_add(self, serializer):
-        serializer.save(owner=self.request.user)
+        print(self.request.user.student)
+        if hasattr(self.request.user,'student'):
+            if(self.request.user.student.power == 1):
+                serializer.save(owner=self.request.user,is_valid = False)
+        elif (self.request.user.is_staff):
+             serializer.save(owner=self.request.user,is_valid = True)
 
     @detail_route(
         methods=['get', 'post'],  # HTTP METHODS
@@ -259,7 +271,7 @@ class ActivityViewSet(
     @detail_route(
         methods=['get'],  # HTTP METHODS
         renderer_classes=[TemplateHTMLRenderer],  # 使用TemplateHTMLRenderer
-        permission_classes = (IsTheStudentOrIsAdminUser),
+        permission_classes = (IsAdminUserOrActivity,),
         template_name='sua/activity_detail.html',  # 模板文件
         detail_serializer_class=firs.AddActivitySerializer,  # 序列化器
     )
@@ -271,6 +283,14 @@ class ActivityViewSet(
         - 表单字段：表单字段与serializer.data一致
         '''
         return super(ActivityViewSet, self).detail(request, *args, **kwargs)
+    @detail_route(
+        permission_classes = (IsAdminUserOrActivity,),
+    )
+    def delete(self, request, *args, **kwargs):
+        '''
+        - url: api/activities/<int:pk>/delete/
+        '''
+        return super(ActivityViewSet, self).delete(request, *args, **kwargs)
 
 
 class ApplicationViewSet(

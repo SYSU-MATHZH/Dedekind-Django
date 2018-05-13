@@ -23,6 +23,15 @@
     <p>活动日期:{{ serializer.data.date }}</p>
   </div>
 </div>
+<div class="row">
+  <div class="col-xs-5 col-xs-offset-4">
+    {% if serializer.data.is_valid %}
+      <p>是否有效：有效</p>
+    {% else %}
+      <p>是否有效：无效</p>
+    {% endif %}
+  </div>
+</div>
 <div class="table-responsive">
   <table class="table">
     <thead>
@@ -60,6 +69,11 @@
 <hr />
 <div class="row">
     <div class="col-xs-offset-4">
+    {% if serializer.data.is_valid %}
+      <a href="/admin/activities/{{ serializer.data.id }}/check/" class="btn btn-default">不通过</a>
+    {% else %}
+      <a href="/admin/activities/{{ serializer.data.id }}/check/" class="btn btn-default">通过</a>
+    {% endif %}
     <a href="/activities/{{ serializer.data.id }}/change/"class="btn btn-default">编辑内容</a>
     <a data-toggle="modal" data-target="#confirm_box_delete_activities_{{ serializer.data.id }}" class="btn btn-default">删除该活动</a>
     <a href="/admin/#activities" class="btn btn-default">返回主页</a>
