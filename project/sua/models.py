@@ -21,7 +21,7 @@ EXPIRE_TIME = 86400
 注意：在取得元素的时候，需要使用User.objects.filter(deletedAt=None)，而不是all()
 """
 class BaseSchema(models.Model):
-    deletedAt = models.DateTimeField("删除时间",null=True,default=None)
+    deletedAt = models.DateTimeField("删除时间", null=True, default=None, blank=True)
 
     class Meta:
         abstract = True     #设为抽象基类，否则会出现id字段冲突的情况
