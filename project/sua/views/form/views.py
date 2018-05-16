@@ -14,6 +14,7 @@ import project.sua.views.utils.tools as tools
 from django.contrib.auth.models import User, Group
 
 
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     - API endpoint that allows users to be viewed or edited.
@@ -281,8 +282,18 @@ class ActivityViewSet(
         - template: sua/activity_detail.html
         - GET: 向模板代码提供pk对应的Activity的序列化器(serializer)，渲染并返回Activity详情页面
         - 表单字段：表单字段与serializer.data一致
+        - 由于添加添加了user，所以在template里面要用serializer.acitivity来提取活动信息，用serializer.user提取用户信息
         '''
-        return super(ActivityViewSet, self).detail(request, *args, **kwargs)
+        serializer = {}
+        instance = self.get_object()
+        activity = self.get_detail_serializer(instance, context={'request': request})
+        serializer.update({
+            'activity':activity.data,
+            'user':request.user,
+        })
+
+        return self.get_detail_response(serializer)
+
     @detail_route(
         permission_classes = (IsAdminUserOrActivity,),
     )

@@ -44,7 +44,10 @@
       </div>
       <div class="form-group">
         <label>班别</label>
-        <input name="classtype" class="form-control" type="text" value="{{serializer.data.classtype}}" />
+        <select class="form-control" name="classtype" value="{{serializer.data.classtype}}">
+          <option value="1班" {% if serializer.data.classtype == 1班 %}selected{% endif %}>1班</option>
+          <option value="2班" {% if serializer.data.classtype == 2班 %}selected{% endif %}>2班</option>
+        </select>
       </div>
       <div class="form-group">
         <label>手机号</label>

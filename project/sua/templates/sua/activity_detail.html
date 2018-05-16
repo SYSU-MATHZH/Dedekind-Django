@@ -3,29 +3,29 @@
 {% load rest_framework %}
 
 {% block content_title %}
-<div class="col-xs-offset-4">{{ serializer.data.title }} 的活动详情</div>
+<div class="col-xs-offset-4">{{ serializer.activity.title }} 的活动详情</div>
 {% endblock %}
 
 {% block content_detail %}
 <hr>
 <div class="row">
   <div class="col-xs-5 col-xs-offset-4">
-    <p>活动详情：{{ serializer.data.detail }}</p>
+    <p>活动详情：{{ serializer.activity.detail }}</p>
   </div>
 </div>
 <div class="row">
   <div class="col-xs-5 col-xs-offset-4">
-    <p>活动团队:{{ serializer.data.group }}</p>
+    <p>活动团队:{{ serializer.activity.group }}</p>
   </div>
 </div>
 <div class="row">
   <div class="col-xs-5 col-xs-offset-4">
-    <p>活动日期:{{ serializer.data.date }}</p>
+    <p>活动日期:{{ serializer.activity.date }}</p>
   </div>
 </div>
 <div class="row">
   <div class="col-xs-5 col-xs-offset-4">
-    {% if serializer.data.is_valid %}
+    {% if serializer.activity.is_valid %}
       <p>是否有效：有效</p>
     {% else %}
       <p>是否有效：无效</p>
@@ -40,14 +40,14 @@
         <th>学号</th>
         <th>所属组别</th>
         <th>公益时数</th>
-        <th><a href="/admin/activities/{{ serializer.data.id }}/suas/add/" class="btn btn-default btn-xs">添加参与人</a></th>
+        <th><a href="/admin/activities/{{ serializer.activity.id }}/suas/add/" class="btn btn-default btn-xs">添加参与人</a></th>
       </tr>
     </thead>
     <tbody>
-    {# {{ serializer.data.suas }} #}{# for debug #}
-    {% for sua in serializer.data.suas %}
+    {# {{ serializer.activity.suas }} #}{# for debug #}
+    {% for sua in serializer.activity.suas %}
       {# <tr><td colspan="5">{{ sua.student }}</td></tr> #}{# for debug #}
-      {% if sua.is_valid %}
+      {% if 1 %}
       <tr>
         <td>{{ sua.student.name }}</td>
         <td>{{ sua.student.number }}</td>
@@ -69,11 +69,11 @@
 <hr />
 <div class="row">
     <div class="col-xs-offset-4">
-    {% if nav.user.is_staff %}
-      {% if serializer.data.is_valid %}
-        <a href="/admin/activities/{{ serializer.data.id }}/check/" class="btn btn-default">不通过</a>
+    {% if serializer.user.is_staff %}
+      {% if serializer.activity.is_valid %}
+        <a href="/admin/activities/{{ serializer.activity.id }}/check/" class="btn btn-default">不通过</a>
       {% else %}
-        <a href="/admin/activities/{{ serializer.data.id }}/check/" class="btn btn-default">通过</a>
+        <a href="/admin/activities/{{ serializer.activity.id }}/check/" class="btn btn-default">通过</a>
       {% endif %}
     {% endif %}
     <a href="/activities/{{ serializer.data.id }}/change/"class="btn btn-default">编辑内容</a>
