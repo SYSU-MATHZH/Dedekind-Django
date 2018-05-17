@@ -40,7 +40,6 @@ class IndexView(BaseView, NavMixin):
     }
 
     def serialize(self, request, *args, **kwargs):
-        print("hahahah")
         serialized = super(IndexView, self).serialize(request)
 
         student_set = Student.objects.filter(deletedAt=None,).order_by('number')  # 获取所有学生信息
