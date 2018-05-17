@@ -46,6 +46,7 @@ urlpatterns = [
     path('applications/apply/', login_required(student.ApplyView.as_view())),
     path('suas/export/download/',login_required(student.Download)),
     path('admin/',login_required(admin.IndexView.as_view())),
+    path('admin/<int:grade>/<int:classtype>/',login_required(admin.IndexViewSort.as_view())),
     path('admin/appeals/<int:pk>/change/',login_required(admin.AppealView.as_view())),
     path('admin/applications/<int:pk>/change/',login_required(admin.ApplicationView.as_view())),
     path('admin/publicities/<int:pk>/create/',login_required(admin.PublicityView.as_view())),

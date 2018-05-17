@@ -42,7 +42,7 @@ class IndexView(BaseView, NavMixin):
     def serialize(self, request, *args, **kwargs):
         serialized = super(IndexView, self).serialize(request)
 
-        student_set = Student.objects.filter(deletedAt=None).order_by('number')  # 获取所有学生信息
+        student_set = Student.objects.filter(deletedAt=None,).order_by('number')  # 获取所有学生信息
         student_data = StudentSerializer(  # 序列化所有学生信息
             student_set,
             many=True,
@@ -466,3 +466,70 @@ def CheckTheActivityView(request, *args, **kwargs):
             activity.is_valid=True
         activity.save()
     return HttpResponseRedirect(activitySerializer.data['url'])
+
+
+class IndexViewSort(BaseView, NavMixin):
+    template_name = 'sua/adminindex.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        serialized = super(IndexViewSort, self).serialize(request)
+        grade = kwargs['grade']
+        classtype = kwargs['classtype']
+        classtype = str(classtype)+'班'
+        student_set = Student.objects.filter(deletedAt=None, classtype=classtype, grade=grade).order_by('number')  # 获取所有学生信息
+        student_data = StudentSerializer(  # 序列化所有学生信息
+            student_set,
+            many=True,
+            context={'request': request}
+        )
+
+        appeal_set = Appeal.objects.filter(deletedAt=None).order_by(
+            'is_checked', '-created')  # 获取在公示期内的所有申诉
+        appeal_data = AppealSerializer(  # 序列化申诉
+            appeal_set,
+            many=True,
+            context={'request': request}
+        )
+        appeals = appeal_data.data
+        for appeal in appeals:
+            appeal['created'] = tools.DateTime2String_SHOW(
+                tools.TZString2DateTime(appeal['created']))
+
+        application_set = Application.objects.filter(deletedAt=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
+        application_data = ApplicationSerializer(  # 序列化所有申请
+            application_set,
+            many=True,
+            context={'request': request}
+        )
+        applications = application_data.data
+        for application in applications:
+            application['created'] = tools.DateTime2String_SHOW(
+                tools.TZString2DateTime(application['created']))
+
+        activity_set = Activity.objects.filter(
+            deletedAt=None).order_by('-created')  # 获取所有当前管理员创建的活动
+        activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
+            activity_set,
+            many=True,
+            context={'request': request}
+        )
+        activities = activity_data.data
+        for activity in activities:
+            activity['date'] = tools.Date2String_SHOW(
+                tools.TZString2DateTime(activity['date']))
+            for publicity in activity['publicities']:
+                publicity['begin'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(publicity['begin']))
+                publicity['end'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(publicity['end']))
+
+        serialized.update({
+            'appeals': appeals,
+            'applications': applications,
+            'students': student_data.data,
+            'activities': activities,
+        })
+        return serialized
