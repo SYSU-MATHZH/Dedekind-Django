@@ -40,7 +40,6 @@ class IndexView(BaseView, NavMixin):
     }
 
     def serialize(self, request, *args, **kwargs):
-        print("hahahah")
         serialized = super(IndexView, self).serialize(request)
 
         student_set = Student.objects.filter(deletedAt=None,).order_by('number')  # 获取所有学生信息
@@ -487,12 +486,12 @@ def CheckTheActivityView(request, *args, **kwargs):
         activity.save()
     return HttpResponseRedirect(activitySerializer.data['url'])
 
-
 class IndexViewSort(BaseView, NavMixin):
     template_name = 'sua/adminindex.html'
     components = {
         'nav': 'nav',
     }
+
     def serialize(self, request, *args, **kwargs):
         serialized = super(IndexViewSort, self).serialize(request)
         grade = kwargs['grade']
@@ -523,6 +522,37 @@ class IndexViewSort(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
+        applications = application_data.data
+        for application in applications:
+            application['created'] = tools.DateTime2String_SHOW(
+                tools.TZString2DateTime(application['created']))
+
+        activity_set = Activity.objects.filter(
+            deletedAt=None).order_by('-created')  # 获取所有当前管理员创建的活动
+        activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
+            activity_set,
+            many=True,
+            context={'request': request}
+        )
+        activities = activity_data.data
+        for activity in activities:
+            activity['date'] = tools.Date2String_SHOW(
+                tools.TZString2DateTime(activity['date']))
+            for publicity in activity['publicities']:
+                publicity['begin'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(publicity['begin']))
+                publicity['end'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(publicity['end']))
+
+        serialized.update({
+            'appeals': appeals,
+            'applications': applications,
+            'students': student_data.data,
+            'activities': activities,
+        })
+        return serialized
+
+
 class ApplicationsMergeView(BaseView, NavMixin):
     template_name = 'sua/applications_activity_merge.html'
     components = {
@@ -537,6 +567,10 @@ class ApplicationsMergeView(BaseView, NavMixin):
             )
         application_set = Application.objects.filter(deletedAt=None).order_by('created')# 获取所有申请,按时间的倒序排序
         applications_data = ApplicationSerializer(  # 序列化所有申请
+            application_set,
+            many=True,
+            context={'request':request},
+            )
         serialized = super(ApplicationsMergeView, self).serialize(request)
         serialized.update({
             'activities': activities_data.data,
@@ -567,6 +601,5 @@ class ApplicationsMergeView(BaseView, NavMixin):
                 sua_students.append(sua.student)
                 Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
                 old_activity.delete()
-
         self.url="/admin"
         return True
