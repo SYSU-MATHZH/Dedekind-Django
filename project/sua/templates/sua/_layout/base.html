@@ -5,7 +5,7 @@
     {% include 'sua/_partial/head.html' %}
   </head>
   <body>
-    
+
     {% block nav %}
     <nav id="my-navbar" class="navbar navbar-fixed-top">
       <div id="header-inner">
@@ -21,18 +21,18 @@
           {% endif %}
           <a class="navbar-brand" href="/" id="logo">数院公益时</a>
         </div>
-        
+
         <!-- 导航栏主体 -->
         <div class="main-navbar">
-        
+
           {% block nav_tab %}{% endblock %}
-          
+
           <ul id="my-status" class="nav navbar-nav navbar-right">
             <li role="presentation" class="dropdown">
               <button class="btn btn-default btn-block dropdown-toggle li-info" type="button" id="navdropdownMenu" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
                 {% block dropdown_label %}
-                我的公益时: {{ nav.student.suahours }}
+                我的公益时: {{ nav.student.totalhours }}
                 {% endblock %}
               </button>
               <ul class="dropdown-menu" aria-labelledby="navdropdownMenu">
@@ -49,13 +49,13 @@
     </nav>
     <div class="my-page-top-space"></div>
     {% endblock %}
-    
+
     {% block content %}
     <p>加载失败，请刷新重试</p>
     {% endblock %}
 
     <div class="my-empty-block"></div>
-    
+
   </body>
 {% include 'sua/_partial/load_js.html' %}
 </html>

@@ -52,6 +52,12 @@ class Student(BaseSchema):
     def __str__(self):
         return self.name
 
+    def totalhours(self):
+        total = 0
+        for sua in self.suas.filter(deletedAt=None, is_valid=True):
+            total += sua.suahours
+        return total
+
 
 class SuaGroup(BaseSchema):
     group = models.OneToOneField(
