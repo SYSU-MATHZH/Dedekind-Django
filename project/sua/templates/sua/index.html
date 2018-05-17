@@ -6,7 +6,7 @@
 {% block nav_tab %}
 <ul id="my-navbar-content" class="nav navbar-nav my-tab collapse navbar-collapse" role="tablist">
   {% include './_partial/tab_label.html' with id="publicities" label="公告" active=True only%}
-  
+
   {% if nav.student.power >= 1 %}
     {% include './_partial/tab_label.html' with id="activities" label="活动" only%}
   {% endif %}
@@ -36,7 +36,7 @@
 {% block content %}
 <div class="main-content" role="tabpanel">
   <div id="tabContent" class="tab-content my-tab-content">
-    
+
     {% include './index_tabs/publicities_tab.html' %}
 
     {% if nav.student.power >= 1 %}
@@ -46,7 +46,7 @@
     {% include './index_tabs/suahoursdetail_tab.html' %}
     {% include './index_tabs/applications_tab.html' %}
     {% include './index_tabs/appealslist_tab.html' %}
-    
+
   </div>
 </div>
 {% endblock %}
