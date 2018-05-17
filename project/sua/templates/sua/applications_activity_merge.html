@@ -1,0 +1,21 @@
+
+<form action="" method="POST">
+      {% csrf_token %}
+      <label>请选择一个活动:</label>
+      <from>
+        <select name="activity_id" multiple="multiple">
+      {% for activity in activities %}
+          <option value="{{ activity.id }}">{{ activity.title }}</option>
+      {% endfor %}
+    </select>
+    </from>
+    <from action="" method="POST">
+      {% for application in applications %}
+          {{ application.proof }}
+          {{ application.sua.activity.title }}
+          {{ application.id }}
+          <input type="checkbox" name="{{ application.id }}" value="True">
+      {% endfor %}
+      <input type="submit" value="提交">
+    </from>
+  </form>
