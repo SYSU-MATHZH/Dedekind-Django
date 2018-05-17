@@ -96,7 +96,26 @@ class IndexView(BaseView, NavMixin):
             'activities': activities,
         })
         return serialized
+    def deserialize(self, request, *args, **kwargs):
+        merge_applications = []
+        applications = Application.objects.filter(deletedAt=None,).all()
+        for application in applications:
+            if str(application.id) in request.data:
+                merge_applications.append(application)
+        if 'activity_id' in request.data:
+            activity = Activity.objects.filter(id=request.data['activity_id'],deletedAt=None).get()
+        elif bool(merge_applications):
+            activity = merge_applications[0].sua.activity
+        print(activity)
+        for i in range(len(merge_applications)):
+            sua = Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
+            print(sua)
+            #sua.save(activity=activity)
+            #else:
+                #return False
 
+        self.url="/admin"
+        return True
 
 class AppealView(BaseView, NavMixin):
     template_name = 'sua/admin_appeal.html'
@@ -467,7 +486,6 @@ def CheckTheActivityView(request, *args, **kwargs):
         activity.save()
     return HttpResponseRedirect(activitySerializer.data['url'])
 
-
 class IndexViewSort(BaseView, NavMixin):
     template_name = 'sua/adminindex.html'
     components = {
@@ -533,3 +551,55 @@ class IndexViewSort(BaseView, NavMixin):
             'activities': activities,
         })
         return serialized
+
+
+class ApplicationsMergeView(BaseView, NavMixin):
+    template_name = 'sua/applications_activity_merge.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        activities_data = ActivityWithSuaSerializer(
+            Activity.objects.filter(deletedAt=None,owner=request.user).order_by('id'),
+            many=True,
+            context={'request':request},
+            )
+        application_set = Application.objects.filter(deletedAt=None).order_by('created')# 获取所有申请,按时间的倒序排序
+        applications_data = ApplicationSerializer(  # 序列化所有申请
+            application_set,
+            many=True,
+            context={'request':request},
+            )
+        serialized = super(ApplicationsMergeView, self).serialize(request)
+        serialized.update({
+            'activities': activities_data.data,
+            'applications': applications_data.data,
+        })
+
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        merge_applications = []
+        sua_students = []
+        applications = Application.objects.filter(deletedAt=None,).all()
+        for application in applications:
+            if str(application.id) in request.data:
+                merge_applications.append(application)
+        if 'activity_id' in request.data:
+            activity = Activity.objects.filter(id=request.data['activity_id'],deletedAt=None).get()
+        elif bool(merge_applications):
+            activity = merge_applications[0].sua.activity
+        activity_suas = Sua.objects.filter(deletedAt=None, activity=activity).all()
+        for sua in activity_suas:
+            if sua.student not in sua_students:
+                sua_students.append(sua.student)
+        for i in range(len(merge_applications)):
+            sua = Sua.objects.filter(deletedAt=None,application=merge_applications[i]).get()
+            old_activity = sua.activity
+            if sua.student not in sua_students:
+                sua_students.append(sua.student)
+                Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
+                old_activity.delete()
+        self.url="/admin"
+        return True
