@@ -4,6 +4,8 @@ import project.sua.views.auth.views as auth
 import project.sua.views.admin.views as admin
 import project.sua.views.student.views as student
 import project.sua.views.form.views as form
+import project.sua.views.form.views2 as form2
+from project.sua.views.form.base import StudentViewSet
 from project.sua.views.apis import apis, auths
 
 from rest_framework import routers
@@ -12,7 +14,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'users', form.UserViewSet)
 router.register(r'groups', form.GroupViewSet)
-router.register(r'students', form.StudentViewSet)
+router.register(r'students', form2.StudentViewSet)
 router.register(r'suagroups', form.SuaGroupViewSet)
 router.register(r'suas', form.SuaViewSet)
 router.register(r'activities', form.ActivityViewSet)
@@ -20,6 +22,7 @@ router.register(r'applications', form.ApplicationViewSet)
 router.register(r'publicities', form.PublicityViewSet)
 router.register(r'appeals', form.AppealViewSet)
 router.register(r'proofs', form.ProofViewSet)
+router.register(r'base', StudentViewSet, base_name='base')
 
 rou = routers.DefaultRouter()
 rou.register(r'users', apis.UserViewSet,base_name = "api-user")
