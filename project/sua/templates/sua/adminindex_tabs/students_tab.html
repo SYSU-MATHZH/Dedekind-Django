@@ -1,17 +1,23 @@
 <div role="tabpanel" class="tab-pane fade in active" id="students">
       <div class="row tab-header">
-        <div class="col-lg-9 col-xs-6">学生</div>
-        <div class="col-lg-3 pull-right"><a class="btn btn-default" href="/students/add" target="_blank">创建学生</a></div>
+        <div class="col-lg-8 col-xs-6">学生</div>
+        <div class="col-lg-4 pull-right">
+          <a class="btn btn-default" href="/students/add" target="_blank">创建学生</a>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              筛选 <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="/admin/">取消筛选</a></li>
+              <li><a href="/admin/2016/1/">2016级1班</a></li>
+              <li><a href="/admin/2016/2/">2016级2班</a></li>
+              <li><a href="/admin/2017/1/">2017级1班</a></li>
+              <li><a href="/admin/2017/2/">2017级2班</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
-      {% block dropdown_label %}
-      <p>筛选</p>
-      {% endblock %}
-      {% block dropdown_content %}
-      <li><a href="/admin/2016/1/">2016级1班</a></li>
-      <li><a href="/admin/2016/2/">2016级2班</a></li>
-      <li><a href="/admin/2017/1/">2017级1班</a></li>
-      <li><a href="/admin/2016/1/">2017级2班</a></li>
-      {% endblock %}
+
       <div class="table-responsive">
         <table class="table">
         <thead>
