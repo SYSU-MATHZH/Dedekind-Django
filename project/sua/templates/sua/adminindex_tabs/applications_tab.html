@@ -1,9 +1,21 @@
 <div role="tabpanel" class="tab-pane fade" id="applications">
       <div class="tab-header">申请</div>
+      <from action="" method="POST">
+      {% csrf_token %}
+      <label>请选择一个活动:</label>
+      <from>
+        <select name="activity_id" multiple="multiple">
+      {% for activity in activities %}
+          <option value="{{ activity.id }}">{{ activity.title }}</option>
+      {% endfor %}
+    </select>
+    </from>
+      <input type="submit" value="提交">
       <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
+              <th>    </th>
               <th>申请日期</th>
               <th>活动名称</th>
               <th>申请人</th>
@@ -15,6 +27,7 @@
           <tbody>
             {% for application in applications %}
               <tr>
+                <td><input type="checkbox" name="{{ application.id }}" value="True"></td>
                 <td>{{ application.created }}</td>
                 <td><a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a></td>
                 <td><a href="{{ application.sua.student.url }}">{{ application.sua.student.name }}</a></td>
@@ -30,5 +43,6 @@
             {% endfor %}
           </tbody>
         </table>
+      </from>
       </div>
     </div>

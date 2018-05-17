@@ -54,5 +54,7 @@ urlpatterns = [
     path('admin/publicities/<int:pk>/manage/',login_required(admin.ManagePublicityView.as_view())),
     path('admin/activities/<int:pk>/suas/add/',login_required(admin.AddSuaForActivityView.as_view())),
     path('admin/suas/<int:pk>/change/',login_required(admin.ChangeSuaForActivityView.as_view())),
+    path('admin/applications/merge',login_required(admin.ApplicationsMergeView.as_view())),
+
     path('admin/activities/<int:pk>/check/',login_required(admin.CheckTheActivityView)),
 ]
