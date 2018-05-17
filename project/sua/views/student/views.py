@@ -99,7 +99,10 @@ class IndexView(BaseView, NavMixin):
             if student.power == 1:  #活动级管理员
 
                 activity_data = ActivitySerializer(
-                    Activity.objects.filter(owner=user),
+                    Activity.objects.filter(
+                        owner=user,
+                        deletedAt=None
+                        ).order_by('-created'),
                     many = True,
                     context = {'request':request}
                 )

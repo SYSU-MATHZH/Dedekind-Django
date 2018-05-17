@@ -41,8 +41,12 @@ class IsAdminUserOrReadOnly(permissions.BasePermission):
 class IsAdminUserOrActivity(permissions.BasePermission):
 
     def has_object_permission(self,request,view,obj):
-#        print(request.user.student.power)
+#        print(obj.owner)
+#        print(request.user)
         if not (request.user and request.user.is_authenticated):
             return False
-        if (request.user.is_staff or request.user.student.power == 1):
+        if (request.user.is_staff):
             return True
+        if hasattr(request.user,'student'):
+            if(request.user.student.power == 1 and obj.owner == request.user):
+                return True

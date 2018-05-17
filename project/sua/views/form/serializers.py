@@ -60,13 +60,15 @@ class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
         model = Sua
         fields = ('url', 'activity', 'student', 'team', 'suahours', 'id','is_valid')
 
-
 class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
-    suas = AddSuaSerializer(many=True, )
+    suas = AddSuaSerializer(
+        many=True,
+        instance = Activity.objects.filter(deletedAt=None)
+        )
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id')
+        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid',)
 
     def create(self, validated_data):
         sua_datas = []
