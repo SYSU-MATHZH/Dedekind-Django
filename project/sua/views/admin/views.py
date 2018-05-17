@@ -492,6 +492,7 @@ class IndexViewSort(BaseView, NavMixin):
     components = {
         'nav': 'nav',
     }
+
     def serialize(self, request, *args, **kwargs):
         serialized = super(IndexViewSort, self).serialize(request)
         grade = kwargs['grade']
@@ -522,26 +523,34 @@ class IndexViewSort(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
-class ApplicationsMergeView(BaseView, NavMixin):
-    template_name = 'sua/applications_activity_merge.html'
-    components = {
-        'nav': 'nav',
-    }
+        applications = application_data.data
+        for application in applications:
+            application['created'] = tools.DateTime2String_SHOW(
+                tools.TZString2DateTime(application['created']))
 
-    def serialize(self, request, *args, **kwargs):
-        activities_data = ActivityWithSuaSerializer(
-            Activity.objects.filter(deletedAt=None,owner=request.user).order_by('id'),
+        activity_set = Activity.objects.filter(
+            deletedAt=None).order_by('-created')  # 获取所有当前管理员创建的活动
+        activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
+            activity_set,
             many=True,
-            context={'request':request},
-            )
-        application_set = Application.objects.filter(deletedAt=None).order_by('created')# 获取所有申请,按时间的倒序排序
-        applications_data = ApplicationSerializer(  # 序列化所有申请
-        serialized = super(ApplicationsMergeView, self).serialize(request)
-        serialized.update({
-            'activities': activities_data.data,
-            'applications': applications_data.data,
-        })
+            context={'request': request}
+        )
+        activities = activity_data.data
+        for activity in activities:
+            activity['date'] = tools.Date2String_SHOW(
+                tools.TZString2DateTime(activity['date']))
+            for publicity in activity['publicities']:
+                publicity['begin'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(publicity['begin']))
+                publicity['end'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(publicity['end']))
 
+        serialized.update({
+            'appeals': appeals,
+            'applications': applications,
+            'students': student_data.data,
+            'activities': activities,
+        })
         return serialized
 
 
