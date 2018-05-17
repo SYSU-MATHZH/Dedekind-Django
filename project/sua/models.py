@@ -58,6 +58,9 @@ class Student(BaseSchema):
             total += sua.suahours
         return total
 
+    def get_suas(self):
+        return self.suas.filter(deletedAt=None, is_valid=True)
+
 
 class SuaGroup(BaseSchema):
     group = models.OneToOneField(
@@ -89,6 +92,9 @@ class Activity(BaseSchema):
 
     def __str__(self):
         return self.title
+
+    def get_suas(self):
+        return self.suas.filter(deletedAt=None, is_valid=True)
 
     def delete(self, using=None, keep_parents=False):
         self.deletedAt = timezone.now()

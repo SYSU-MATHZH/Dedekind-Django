@@ -83,7 +83,7 @@ class IndexView(BaseView, NavMixin):
             )
 
             suas = sua_data.data
-            print(suas)
+            # print(suas)
             for sua in suas:
                 sua['activity']['date'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['date']))
 

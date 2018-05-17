@@ -59,7 +59,7 @@
       </thead>
         <tbody>
           {% for sua in serializer.data.suas|dictsortreversed:"is_valid" %}
-            {% if sua.is_valid %}
+            {% if sua.is_valid and sua.deletedAt == None %}
             <tr>
               <td>{{ forloop.counter }}</td>
               <td>{{ sua.activity.title }}</td>

@@ -63,8 +63,8 @@ class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
 class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
     suas = AddSuaSerializer(
         many=True,
-        instance = Activity.objects.filter(deletedAt=None)
-        )
+        source='get_suas'
+    )
 
     class Meta:
         model = Activity
@@ -169,6 +169,7 @@ class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
 class detailofstudentSerializer(serializers.HyperlinkedModelSerializer):
     suas = AddSuaSerializer(
         many=True,
+        source='get_suas'
     )
 
     class Meta:
