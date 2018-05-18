@@ -13,7 +13,7 @@ class StudentViewSet(BaseViewSet, NavMixin):
     }
     serializer_class = firs.AddStudentSerializer
     queryset = Student.objects.filter(deletedAt=None)
-    filter_fields = ('grade', 'classtype')
+    # filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
         if self.action in ['add', 'change']:

@@ -24,6 +24,7 @@ class BaseViewSet(
         return self.components
 
     def get_context(self, request, *args, **kwargs):
+        # print(request.GET)
         components = self.get_components()
         extra_context = kwargs.get('extra_context', {})
         context = {}
@@ -113,3 +114,9 @@ class StudentViewSet(BaseViewSet):
     def get_template_names(self):
         print(self.action)
         return ['sua/tmp/test.html']
+
+    def get_context(self, request, *args, **kwargs):
+        context = super(StudentViewSet, self).get_context(request, *args, **kwargs)
+        print(context)
+        context.update({'year': 2016})
+        return context
