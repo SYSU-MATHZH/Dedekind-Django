@@ -41,8 +41,14 @@ class IndexView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         serialized = super(IndexView, self).serialize(request)
-
-        student_set = Student.objects.filter(deletedAt=None,).order_by('number')  # 获取所有学生信息
+        print(request.GET)
+#        if request.GET is not None:
+#            grade = request.GET['grade']
+#            classtype = request.GET['classtype']
+#            classtype = str(classtype)+'班'
+#            student_set = Student.objects.filter(deletedAt=None,grade=grade,classtype=classtype).order_by('number')
+#        else:
+        student_set = Student.objects.filter(deletedAt=None).order_by('number')  # 获取所有学生信息
         student_data = StudentSerializer(  # 序列化所有学生信息
             student_set,
             many=True,
@@ -187,10 +193,12 @@ class ApplicationView(BaseView, NavMixin):
             Application.objects.filter(deletedAt=None,id=application_id).get(),
             context={'request': request}
         )
+
         sua_set = Sua.objects.filter(
             application__id=application_id,
             deletedAt=None,
-        ).get()
+        )[0]
+
         sua_data = SuaSerializer(
             sua_set,
             context={'request': request}
@@ -486,71 +494,18 @@ def CheckTheActivityView(request, *args, **kwargs):
         activity.save()
     return HttpResponseRedirect(activitySerializer.data['url'])
 
-class IndexViewSort(BaseView, NavMixin):
-    template_name = 'sua/adminindex.html'
-    components = {
-        'nav': 'nav',
-    }
+def CheckTheSuaView(request, *args, **kwargs):
+    url = request.GET['url']
+    sua_id = kwargs['pk']
+    sua = Sua.objects.filter(deletedAt=None,id=sua_id).get()
+    if(request.user.is_staff or request.user.student.power == 1):
+        if(sua.is_valid == True):
+            sua.is_valid=False
+        else:
+            sua.is_valid=True
+        sua.save()
+    return HttpResponseRedirect(url)
 
-    def serialize(self, request, *args, **kwargs):
-        serialized = super(IndexViewSort, self).serialize(request)
-        grade = kwargs['grade']
-        classtype = kwargs['classtype']
-        classtype = str(classtype)+'班'
-        student_set = Student.objects.filter(deletedAt=None, classtype=classtype, grade=grade).order_by('number')  # 获取所有学生信息
-        student_data = StudentSerializer(  # 序列化所有学生信息
-            student_set,
-            many=True,
-            context={'request': request}
-        )
-
-        appeal_set = Appeal.objects.filter(deletedAt=None).order_by(
-            'is_checked', '-created')  # 获取在公示期内的所有申诉
-        appeal_data = AppealSerializer(  # 序列化申诉
-            appeal_set,
-            many=True,
-            context={'request': request}
-        )
-        appeals = appeal_data.data
-        for appeal in appeals:
-            appeal['created'] = tools.DateTime2String_SHOW(
-                tools.TZString2DateTime(appeal['created']))
-
-        application_set = Application.objects.filter(deletedAt=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
-        application_data = ApplicationSerializer(  # 序列化所有申请
-            application_set,
-            many=True,
-            context={'request': request}
-        )
-        applications = application_data.data
-        for application in applications:
-            application['created'] = tools.DateTime2String_SHOW(
-                tools.TZString2DateTime(application['created']))
-
-        activity_set = Activity.objects.filter(
-            deletedAt=None).order_by('-created')  # 获取所有当前管理员创建的活动
-        activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
-            activity_set,
-            many=True,
-            context={'request': request}
-        )
-        activities = activity_data.data
-        for activity in activities:
-            activity['date'] = tools.Date2String_SHOW(
-                tools.TZString2DateTime(activity['date']))
-            for publicity in activity['publicities']:
-                publicity['begin'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(publicity['begin']))
-                publicity['end'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(publicity['end']))
-
-        serialized.update({
-            'appeals': appeals,
-            'applications': applications,
-            'students': student_data.data,
-            'activities': activities,
-        })
-        return serialized
 
 
 class ApplicationsMergeView(BaseView, NavMixin):

@@ -54,8 +54,8 @@ class Student(BaseSchema):
 
     def totalhours(self):
         total = 0
-        for sua in self.suas.filter(deletedAt=None, is_valid=True):
-            total += sua.suahours
+        for sua in self.suas.filter(deletedAt=None, is_valid=True,activity__is_valid=True):
+                total += sua.suahours
         return total
 
     def get_suas(self):
@@ -95,6 +95,9 @@ class Activity(BaseSchema):
 
     def get_suas(self):
         return self.suas.filter(deletedAt=None, is_valid=True)
+
+    def get_suas_all(self):
+        return self.suas.filter(deletedAt=None)
 
     def delete(self, using=None, keep_parents=False):
         self.deletedAt = timezone.now()
