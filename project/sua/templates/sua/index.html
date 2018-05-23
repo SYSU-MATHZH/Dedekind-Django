@@ -10,7 +10,10 @@
   {% if nav.student.power >= 1 %}
     {% include './_partial/tab_label.html' with id="activities" label="活动" only%}
   {% endif %}
-  
+  {% if nav.student.power >= 1 %}
+    {% include './_partial/tab_label.html' with id="applications" label="申请" only%}
+  {% endif %}
+
   {% include './_partial/tab_label.html' with id="suahoursdetail" label="公益时详情" only%}
   {% include './_partial/tab_label.html' with id="applications" label="申请记录" only%}
   {% include './_partial/tab_label.html' with id="appealslist" label="申诉列表" only%}
@@ -41,6 +44,9 @@
 
     {% if nav.student.power >= 1 %}
       {% include './adminindex_tabs/activities_tab.html' %}
+    {% endif %}
+    {% if nav.student.power >= 1 %}
+      {% include './adminindex_tabs/applications_tab.html' %}
     {% endif %}
 
     {% include './index_tabs/suahoursdetail_tab.html' %}

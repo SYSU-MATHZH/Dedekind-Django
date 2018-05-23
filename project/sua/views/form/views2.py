@@ -71,3 +71,6 @@ class ActivityViewSet(BaseViewSet, NavMixin):
             permission_classes = (IsAdminUserOrReadOnly, )
 
         return [permission() for permission in permission_classes]
+
+    def perform_create(self,serializer):
+        serializer.save(owner=self.request.user)

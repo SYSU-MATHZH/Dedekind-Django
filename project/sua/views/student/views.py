@@ -3,7 +3,7 @@ import os
 from django.utils import timezone
 from django.http import HttpResponse
 
-from project.sua.models import Publicity,Activity
+from project.sua.models import Publicity,Activity,Application
 
 from project.sua.serializers import PublicitySerializer
 from project.sua.serializers import SuaSerializer
@@ -28,6 +28,8 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 
 from reportlab.pdfbase.ttfonts import TTFont
+
+from django.contrib.auth.models import User
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/index.html'
@@ -116,9 +118,18 @@ class IndexView(BaseView, NavMixin):
                 for activity in activities:
                     activity['date'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(activity['date']))
 
-
+                admin_applications = ApplicationSerializer(
+                    Application.objects.filter(sua__activity__owner=user,deletedAt=None).order_by('-created'),
+                    many=True,
+                    context={'request':request}
+                )
+                applications_admin = admin_applications.data
+                for application in applications_admin:
+                    application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
+                print(applications_admin)
                 serialized.update({
                     'activities':activity_data.data,
+                    'applications_admin':applications_admin,
                 })
 
         return serialized
@@ -227,7 +238,7 @@ def Download(request):
     p.setFont("song", 15) #字号
     p.drawString(zuo-5,750,'学号:'+str(user))#学号
     p.drawString(zuo+150,750,'名字:'+str(student.name))#名字
-    p.drawString(zuo-5,720,'总公益时数:'+str(student.suahours)+'h')#总公益时
+    p.drawString(zuo-5,720,'总公益时数:'+str(student.totalhours)+'h')#总公益时
 
     location = 640
     p.drawString(zuo,680,"活动名称")
@@ -286,6 +297,8 @@ class ApplyView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
         user = request.user
+        admin = User.objects.filter(is_staff=True)[0]
+        print(admin)
         if hasattr(user, 'student'):  # 判断当前用户是否为学生
             student = user.student
 
@@ -297,7 +310,7 @@ class ApplyView(BaseView, NavMixin):
         proof_serializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
         application_serializer = DEAddApplicationsSerializer(data=request.data, context={'request': request})
         if activity_serializer.is_valid() and sua_serializer.is_valid() and application_serializer.is_valid() and proof_serializer.is_valid():
-            activity = activity_serializer.save(owner=user)
+            activity = activity_serializer.save(owner=admin)
             sua = sua_serializer.save(activity=activity, owner=user, student=student)
             proof = proof_serializer.save(owner=user)
             application_serializer.save(sua=sua, proof=proof, owner=user)
