@@ -1,4 +1,5 @@
 import dateutil.parser
+import project.sua.models as myModels
 
 DATETIME_FORMAT_SHOW = "%Y-%m-%d %H:%M:%S"
 DATE_FORMAT_SHOW = "%Y-%m-%d"
@@ -35,9 +36,6 @@ def DateTime2String_VALUE(date):
         return None
     return date.strftime(DATETIME_FORMAT_VALUE)
 
-
-
-# def SuasFilter(suas,request):
 
 def get_deleteds(model, serializer, request):
     set = model.objects.exclude(deletedAt=None).order_by('-deletedAt')
