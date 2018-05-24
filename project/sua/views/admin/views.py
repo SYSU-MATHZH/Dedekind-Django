@@ -107,7 +107,7 @@ class IndexView(BaseView, NavMixin):
 
         # deleteds.sort(key=tools.sort_by_deletedAt, reverse=True)
 
-        print(deleteds)
+        # print(deleteds)
 
 
         serialized.update({
