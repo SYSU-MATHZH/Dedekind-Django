@@ -1,4 +1,4 @@
-<div role="tabpanel" class="tab-pane fade" id="suahoursdetail">
+<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'suahoursdetail' }}">
   <div class="row tab-header">
     公益时详情
     <div class="col-lg-3 pull-right">

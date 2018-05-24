@@ -1,4 +1,4 @@
-<div role="tabpanel" class="tab-pane fade" id="applications">
+<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'applications' }}">
   <div class="tab-header">申请
     <div class="col-lg-3 pull-right">
       <a class="btn btn-default" href="applications/merge" target="_blank"> 合并申请活动</a>
