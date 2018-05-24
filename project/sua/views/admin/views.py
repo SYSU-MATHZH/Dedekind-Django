@@ -41,19 +41,22 @@ class IndexView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         serialized = super(IndexView, self).serialize(request)
-        print(request.GET)
+        # print(request.GET)
 #        if request.GET is not None:
 #            grade = request.GET['grade']
 #            classtype = request.GET['classtype']
 #            classtype = str(classtype)+'班'
 #            student_set = Student.objects.filter(deletedAt=None,grade=grade,classtype=classtype).order_by('number')
 #        else:
+        deleteds = {}
         student_set = Student.objects.filter(deletedAt=None).order_by('number')  # 获取所有学生信息
         student_data = StudentSerializer(  # 序列化所有学生信息
             student_set,
             many=True,
             context={'request': request}
         )
+
+        deleteds['students'] = tools.get_deleteds(Student, StudentSerializer, request)
 
         appeal_set = Appeal.objects.filter(deletedAt=None).order_by(
             'is_checked', '-created')  # 获取在公示期内的所有申诉
@@ -67,6 +70,8 @@ class IndexView(BaseView, NavMixin):
             appeal['created'] = tools.DateTime2String_SHOW(
                 tools.TZString2DateTime(appeal['created']))
 
+        deleteds['appeals'] = tools.get_deleteds(Appeal, AppealSerializer, request)
+
         application_set = Application.objects.filter(deletedAt=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
         application_data = ApplicationSerializer(  # 序列化所有申请
             application_set,
@@ -78,6 +83,8 @@ class IndexView(BaseView, NavMixin):
             application['created'] = tools.DateTime2String_SHOW(
                 tools.TZString2DateTime(application['created']))
 
+        deleteds['applications'] = tools.get_deleteds(Application, ApplicationSerializer, request)
+
         activity_set = Activity.objects.filter(
             deletedAt=None).order_by('-created')  # 获取所有当前管理员创建的活动
         activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
@@ -85,6 +92,9 @@ class IndexView(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
+
+        deleteds['activities'] = tools.get_deleteds(Activity, ActivitySerializer, request)
+
         activities = activity_data.data
         for activity in activities:
             activity['date'] = tools.Date2String_SHOW(
@@ -95,11 +105,17 @@ class IndexView(BaseView, NavMixin):
                 publicity['end'] = tools.DateTime2String_SHOW(
                     tools.TZString2DateTime(publicity['end']))
 
+        # deleteds.sort(key=tools.sort_by_deletedAt, reverse=True)
+
+        print(deleteds)
+
+
         serialized.update({
             'appeals': appeals,
             'applications': applications,
             'students': student_data.data,
             'activities': activities,
+            'deleteds': deleteds,
         })
         return serialized
     def deserialize(self, request, *args, **kwargs):
