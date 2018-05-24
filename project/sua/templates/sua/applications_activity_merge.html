@@ -23,13 +23,14 @@
     <form action="" method="POST">
      {% csrf_token %}
      <label>请选择一个活动:</label>
-      <from>
-        <select name="activity_id" >
+      <from> 
+        <select id="activity.id" class="selectpicker show-tick form-control" data-live-search="true">
           {% for activity in activities %}
           <option value="{{ activity.id }}">
             {{ activity.title }}
           </option>
           {% endfor %}
+          optiond
         </select>
       </from>
       <div class="table-responsive">
