@@ -19,7 +19,7 @@
             <span class="icon-bar"></span>
           </button>
           {% endif %}
-          <a class="navbar-brand" href="/" id="logo">数院公益时</a>
+          <a class="navbar-brand" href="{% if nav.user.is_staff %}/admin/{% else %}/{% endif %}" id="logo">数院公益时</a>
         </div>
 
         <!-- 导航栏主体 -->
