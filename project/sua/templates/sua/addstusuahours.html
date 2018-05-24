@@ -14,20 +14,19 @@
   <form action="" method="POST">
       {% csrf_token %}
       <label>请选择一个活动:</label>
-      <from>
-        <select name="id" multiple="multiple">
-      {% for activity in activities %}
+      <select name="id" multiple="multiple">
+        {% for activity in activities %}
           <option value="{{ activity.id }}">{{ activity.title }}</option>
-      {% endfor %}
-    </select>
-    <!--</from>
+        {% endfor %}
+      </select>
+    <!--</form>
       {% for na in students %}
           {{ na.name }}
           <input type="checkbox" name="is_add{{ na.id }}" value="True">
           <input type="number" name="addsuahours{{ na.id }}" value="">
       {% endfor %}
-      <input type="submit" value="提交">
-  </form>-->
+      <input type="submit" value="提交">-->
+  </form>
 </body>
 
 </html>

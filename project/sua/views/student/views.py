@@ -1,4 +1,5 @@
 import os
+import datetime
 
 from django.utils import timezone
 from django.http import HttpResponse
@@ -185,12 +186,35 @@ class SuasExportView(BaseView,NavMixin):
         serialized = super(SuasExportView, self).serialize(request)
 
         user = request.user
-
         if hasattr(user, 'student'):  # 判断当前用户是否为学生
-            student = user.student
+            student = user.student        
+            sua_data = SuaSerializer(# 序列化当前学生的某学年的公益时记录
+                student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True,),
+                many=True,
+                context={'request': request}
+                )  
+        print(request.GET)      
+        if request.GET:
+            date = request.GET['seletedYears']
 
-            sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
-                student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
+            if date == 1 or date == 5:
+                start_date = datetime.date(2016, 8, 1)
+                end_date = datetime.date(2019, 8, 1)
+            elif date == 2:
+                start_date = datetime.date(2016, 8, 1)
+                end_date = datetime.date(2017, 8, 1)
+            elif date == 3:
+                start_date = datetime.date(2017, 8, 1)
+                end_date = datetime.date(2018, 8, 1)
+            elif date == 4:
+                start_date = datetime.date(2018, 8, 1)
+                end_date = datetime.date(2019, 8, 1)
+
+            sua_data = SuaSerializer(# 序列化当前学生的某学年的公益时记录
+                student.suas.filter(deletedAt=None,is_valid=True,
+                    activity__is_valid=True,
+                    activity__date__range=(start_date, end_date)
+                ),
                 many=True,
                 context={'request': request}
             )
@@ -204,7 +228,6 @@ class SuasExportView(BaseView,NavMixin):
 
 
         return serialized
-
 
 def Download(request):
 
