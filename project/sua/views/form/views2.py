@@ -14,6 +14,8 @@ class StudentViewSet(BaseViewSet, NavMixin):
     }
     serializer_class = firs.AddStudentSerializer
     queryset = Student.objects.filter(deletedAt=None)
+    revoke_queryset = Student.objects.all()
+    revoke_success_url = delete_success_url = '/admin/'
     # filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
@@ -40,13 +42,15 @@ class StudentViewSet(BaseViewSet, NavMixin):
 
         return [permission() for permission in permission_classes]
 
+
 class ActivityViewSet(BaseViewSet, NavMixin):
     components = {
         'nav': 'nav',
     }
     serializer_class = sirs.ActivitySerializer
     queryset = Activity.objects.filter(deletedAt=None)
-    # filter_fields = ('grade', 'classtype')
+    revoke_queryset = Activity.objects.all()
+    revoke_success_url = delete_success_url = '/admin/'
 
     def get_template_names(self):
         if self.action in ['add', 'change']:

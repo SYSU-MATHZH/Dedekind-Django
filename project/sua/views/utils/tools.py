@@ -38,8 +38,27 @@ def DateTime2String_VALUE(date):
 
 
 # def SuasFilter(suas,request):
-    
-    
+
+def get_deleteds(model, serializer, request):
+    set = model.objects.exclude(deletedAt=None).order_by('-deletedAt')
+    set_data = serializer(
+        set,
+        many=True,
+        context={
+            'request': request
+        }
+    )
+
+    datas = set_data.data
+
+    for i in range(len(datas)):
+        datas[i]['deletedAt'] = set[i].deletedAt
+
+    return list(set_data.data)
+
+
+def sort_by_deletedAt(elem):
+    return elem['deletedAt']
 
 
 
