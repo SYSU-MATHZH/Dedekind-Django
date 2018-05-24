@@ -192,9 +192,10 @@ class SuasExportView(BaseView,NavMixin):
                 student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True,),
                 many=True,
                 context={'request': request}
-                )        
-        if request.GET.seletedYears:
-            date = request.GET.seletedYears
+                )  
+        print(request.GET)      
+        if request.GET:
+            date = request.GET['seletedYears']
 
             if date == 1 or date == 5:
                 start_date = datetime.date(2016, 8, 1)

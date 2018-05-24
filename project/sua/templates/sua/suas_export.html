@@ -28,22 +28,15 @@
   </div>
 </div>
 
-<div>
-          <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              筛选 <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" name="seletedYears">
-              <li value = 1 >取消筛选</li>
-              <li value = 2>2016~2017(2016.8~2017.8)</li>
-              <li value = 3>2017~2018(2017.8~2018.8)</li>
-              <li value = 4>2018~2019(2018.8~2019.8)</li>
-              <li value = 5>所有</li>
-            </ul>
-          </div>
-
-
-</div>
+  <div class="full">
+    选择学年度:<select name="seletedYears">
+    <option value = 1 > 取消筛选 </option>
+    <option value = 2 > 2016~2017(2016.8~2017.8)</option>
+    <option value = 3 > 2017~2018(2017.8~2018.8)</option>
+    <option value = 4 > 2018~2019(2018.8~2019.8)</option>
+    <option value = 5 selected> 所有</option>
+    </select>
+  </div>
 
 <div class="row">
   <div class="col-lg-12">
@@ -53,6 +46,7 @@
           <tr>
             <th>序号</th>
             <th>活动名称</th>
+            <th>活动时间</th>
             <th>举办单位</th>
             <th>公益时</th>
           </tr>
@@ -63,6 +57,7 @@
           <tr>
             <td>{{ forloop.counter }}</td>
             <td>{{ sua.activity.title }}</td>
+            <td>{{ sua.activity.date }}</td>
             <td>{{ sua.activity.group }}</td>
             <td>{{ sua.suahours }} h</td>
           </tr>
