@@ -1,10 +1,15 @@
 import dateutil.parser
+import datetime
 import project.sua.models as myModels
 
 DATETIME_FORMAT_SHOW = "%Y-%m-%d %H:%M:%S"
 DATE_FORMAT_SHOW = "%Y-%m-%d"
 DATETIME_FORMAT_VALUE = "%Y-%m-%dT%H:%M:%S"
 DATE_FORMAT_VALUE = "%Y-%m-%d"
+
+YEAR_CHOICES = []
+for r in range(2016, datetime.datetime.now().year):
+    YEAR_CHOICES.append((r, r + 1))
 
 def TZString2DateTime(s):
     if s is None:
