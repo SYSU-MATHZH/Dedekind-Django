@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from django.db.models.query import QuerySet
 
 # from rest_framework import status
 from django.http import HttpResponseRedirect
@@ -18,6 +19,8 @@ class BaseViewSet(
     renderer_classes = [TemplateHTMLRenderer]
     template_name = None
     delete_success_url = None
+    revoke_success_url = None
+    revoke_queryset = None
     components = {}
 
     def get_components(self):
@@ -105,6 +108,34 @@ class BaseViewSet(
 
     def get_delete_response(self):
         return HttpResponseRedirect(self.delete_success_url)
+
+    def get_queryset(self):
+        if self.action != 'revoke':
+            return super(BaseViewSet, self).get_queryset()
+        assert self.revoke_queryset is not None, (
+            "'%s' should either include a `revoke_queryset` attribute, "
+            "or override the `get_queryset()` method."
+            % self.__class__.__name__
+        )
+
+        queryset = self.revoke_queryset
+        if isinstance(queryset, QuerySet):
+            # Ensure queryset is re-evaluated on each request.
+            queryset = queryset.all()
+        return queryset
+
+    @detail_route(methods=['get'])
+    def revoke(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_revoke(instance)
+        return self.get_revoke_response()
+
+    def perform_revoke(self, instance):
+        instance.deletedAt = None
+        instance.save()
+
+    def get_revoke_response(self):
+        return HttpResponseRedirect(self.revoke_success_url)
 
 class StudentViewSet(BaseViewSet):
     # template_name = 'sua/tmp/test.html'
