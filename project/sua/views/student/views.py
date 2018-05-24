@@ -97,6 +97,10 @@ class IndexView(BaseView, NavMixin):
                     many=True,
                     context={'request': request}
                 )
+                serialized.update({
+                    'year_begin':year_begin,
+                    'year_end':year_end
+                })                
             suas = sua_data.data
             # print(suas)
             for sua in suas:
@@ -143,8 +147,6 @@ class IndexView(BaseView, NavMixin):
                 serialized.update({
                     'activities':activity_data.data,
                     'applications_admin':applications_admin,
-                    'begin':year_begin,
-                    'end':year_end
                 })
 
         return serialized
@@ -220,7 +222,11 @@ class SuasExportView(BaseView,NavMixin):
                     ),
                     many=True,
                     context={'request': request}
-                )            
+                )
+                serialized.update({
+                    'year_begin':year_begin,
+                    'year_end':year_end            
+                    })                            
             # print(IndexView)       
             # sua_data = SuaSerializer(# 序列化当前学生的某学年的公益时记录
             #     student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True,),
@@ -232,9 +238,7 @@ class SuasExportView(BaseView,NavMixin):
             'suas': sua_data.data,
             'name':student.name,
             'number':student.number,
-            'hours':student.totalhours,
-            'begin':year_begin,
-            'end':year_end            
+            'hours':student.totalhours,           
             })
 
 
