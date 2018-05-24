@@ -15,7 +15,8 @@
             </tr>
           </thead>
           <tbody>
-            {% for application in applications %}
+            {% if nav.user.is_staff %}
+              {% for application in applications %}
               <tr>
                 <td>{{ application.created }}</td>
                 <td><a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a></td>
@@ -29,7 +30,26 @@
                 </td>
               </tr>
               {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_application_" id2=application.id title="确认删除申请" content="确认要删除该申请吗？" confirm_label="确认删除" confirm_href1="/applications/" confirm_href2=application.id confirm_href3="/delete/" only%}
-            {% endfor %}
+              {% endfor %}
+            {% endif %}
+
+            {% if nav.student.power == 1 %}
+              {% for application in applications_admin %}
+              <tr>
+                <td>{{ application.created }}</td>
+                <td><a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a></td>
+                <td><a href="{{ application.sua.student.url }}">{{ application.sua.student.name }}</a></td>
+                <td>{{ application.sua.suahours }}h</td>
+                <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
+                <td>
+                  <a class="btn btn-default btn-xs" href="{{ application.url }}">申请详情</a>
+                  <!-- <a class="btn btn-default btn-xs" href="/admin/applications/{{ application.id }}/change/">审核申请</a> -->
+                  <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_delete_application_{{ application.id }}">删除该申请</a>
+                </td>
+              </tr>
+              {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_application_" id2=application.id title="确认删除申请" content="确认要删除该申请吗？" confirm_label="确认删除" confirm_href1="/applications/" confirm_href2=application.id confirm_href3="/delete/" only%}
+              {% endfor %}
+            {% endif %}
           </tbody>
         </table>
       </from>
