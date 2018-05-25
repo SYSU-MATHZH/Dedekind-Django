@@ -48,6 +48,8 @@ class SuaViewSet(BaseViewSet, NavMixin):
     }
     serializer_class = firs.AddSuaSerializer
     queryset = Sua.objects.filter(deletedAt=None)
+    revoke_queryset = Sua.objects.all()
+    revoke_success_url = delete_success_url = '/admin/'
     #filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
@@ -78,6 +80,8 @@ class ActivityViewSet(BaseViewSet, NavMixin):
     }
     serializer_class = firs.AddActivitySerializer
     queryset = Activity.objects.filter(deletedAt=None)
+    revoke_queryset = Activity.objects.all()
+    revoke_success_url = delete_success_url = '/admin/'
     #filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
@@ -106,6 +110,8 @@ class ApplicationViewSet(BaseViewSet, NavMixin):
     }
     serializer_class = firs.AddApplicationSerializer
     queryset = Application.objects.filter(deletedAt=None)
+    revoke_queryset = Application.objects.all()
+    revoke_success_url = delete_success_url = '/admin/'
     #filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
@@ -136,6 +142,8 @@ class PublicityViewSet(BaseViewSet, NavMixin):
     }
     serializer_class = firs.AddPublicitySerializer
     queryset = Publicity.objects.filter(deletedAt=None)
+    revoke_queryset = Publicity.objects.all()
+    revoke_success_url = delete_success_url = '/admin/'
     #filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
@@ -166,6 +174,8 @@ class AppealViewSet(BaseViewSet, NavMixin):
     }
     serializer_class = firs.AddAppealSerializer
     queryset = Appeal.objects.filter(deletedAt=None)
+    revoke_queryset = Appeal.objects.all()
+    revoke_success_url = delete_success_url = '/admin/'
     #filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
@@ -196,6 +206,8 @@ class ProofViewSet(BaseViewSet, NavMixin):
     }
     serializer_class = firs.AddProofSerializer
     queryset = Proof.objects.filter(deletedAt=None)
+    revoke_queryset = Proof.objects.all()
+    revoke_success_url = delete_success_url = '/admin/'
     #filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
