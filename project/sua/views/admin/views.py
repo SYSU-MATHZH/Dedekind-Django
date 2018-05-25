@@ -107,7 +107,7 @@ class IndexView(BaseView, NavMixin):
 
         # deleteds.sort(key=tools.sort_by_deletedAt, reverse=True)
 
-        print(deleteds)
+        #print(deleteds)
 
 
         serialized.update({
@@ -220,7 +220,7 @@ class ApplicationView(BaseView, NavMixin):
             context={'request': request}
         )
         serializer = AdminApplicationSerializer(
-            Application.objects.filter(deletedAt=None,id=application_id).get(),
+            Application.objects.filter(deletedAt=None,id=application_id),
             context={'request': request}
         )
         serialized.update({
@@ -231,6 +231,8 @@ class ApplicationView(BaseView, NavMixin):
         return serialized
 
     def deserialize(self, request, *args, **kwargs):
+
+        user = request.user
         application_id = kwargs['pk']
         sua_data = SuaforApplicationsSerializer(
             Sua.objects.filter(
@@ -246,11 +248,16 @@ class ApplicationView(BaseView, NavMixin):
             data=request.data,
             context={'request': request},
         )
+
         if serializer.is_valid() and sua_data.is_valid():
-            serializer.save(is_checked=True)
-            sua_data.save(is_valid=True)
-            self.url = serializer.data['url']
-            return True
+            if user.is_staff or (user.student.power == 1):
+                serializer.save(is_checked=True)
+                if(serializer.data['status'] == 0):
+                    sua_data.save(is_valid=True)
+                elif serializer.data['status'] >= 1:
+                    sua_data.save(is_valid=False)
+                self.url = serializer.data['url']
+                return True
         else:
             return False
 

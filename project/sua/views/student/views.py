@@ -59,7 +59,7 @@ class IndexView(BaseView, NavMixin):
             publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
 
-
+        print(user.applications.all())
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
             user.applications.filter(deletedAt=None),
             many=True,
@@ -126,7 +126,7 @@ class IndexView(BaseView, NavMixin):
                 applications_admin = admin_applications.data
                 for application in applications_admin:
                     application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
-                print(applications_admin)
+
                 serialized.update({
                     'activities':activity_data.data,
                     'applications_admin':applications_admin,
@@ -165,9 +165,9 @@ class AppealView(BaseView,NavMixin):
         if serializer.is_valid():
 
             serializer.save(publicity=Publicity.objects.filter(
-            deletedAt=None,
-            id=publicity_id
-            ).get(),owner=user,student=student)
+                deletedAt=None,
+                id=publicity_id
+                ).get(),owner=user,student=student)
             self.url = serializer.data['url']
             return True
         else:
