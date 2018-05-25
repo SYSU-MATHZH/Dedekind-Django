@@ -9,9 +9,7 @@
 
   {% if nav.student.power >= 1 %}
     {% include './_partial/tab_label.html' with id="activities" label="活动" only%}
-  {% endif %}
-  {% if nav.student.power >= 1 %}
-    {% include './_partial/tab_label.html' with id="applications" label="申请" only%}
+    {% include './_partial/tab_label.html' with id="admin_applications" label="申请" only%}
   {% endif %}
 
   {% include './_partial/tab_label.html' with id="suahoursdetail" label="公益时详情" only%}
@@ -40,13 +38,11 @@
 <div class="main-content" role="tabpanel">
   <div id="tabContent" class="tab-content my-tab-content">
 
-    {% include './index_tabs/publicities_tab.html' %}
+    {% include './index_tabs/publicities_tab.html' with active=True %}
 
     {% if nav.student.power >= 1 %}
       {% include './adminindex_tabs/activities_tab.html' %}
-    {% endif %}
-    {% if nav.student.power >= 1 %}
-      {% include './adminindex_tabs/applications_tab.html' %}
+      {% include './adminindex_tabs/applications_tab.html' with id="admin_applications" %}
     {% endif %}
 
     {% include './index_tabs/suahoursdetail_tab.html' %}

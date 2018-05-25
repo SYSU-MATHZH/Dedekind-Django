@@ -578,6 +578,8 @@ class ApplicationsMergeView(BaseView, NavMixin):
             if sua.student not in sua_students:
                 sua_students.append(sua.student)
                 Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
-                old_activity.delete()
+                if old_activity != activity:
+                    old_activity.delete()
+
         self.url="/admin"
         return True
