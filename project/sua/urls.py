@@ -17,8 +17,8 @@ router.register(r'groups', form.GroupViewSet)
 router.register(r'students', form2.StudentViewSet)
 router.register(r'suagroups', form.SuaGroupViewSet)
 router.register(r'suas', form.SuaViewSet)
-router.register(r'activities', form.ActivityViewSet)
-router.register(r'applications', form.ApplicationViewSet)
+router.register(r'activities', form2.ActivityViewSet)
+router.register(r'applications', form2.ApplicationViewSet)
 router.register(r'publicities', form.PublicityViewSet)
 router.register(r'appeals', form.AppealViewSet)
 router.register(r'proofs', form.ProofViewSet)
@@ -49,7 +49,6 @@ urlpatterns = [
     path('applications/apply/', login_required(student.ApplyView.as_view())),
     path('suas/export/download/',login_required(student.Download)),
     path('admin/',login_required(admin.IndexView.as_view())),
-    path('admin/<int:grade>/<int:classtype>/',login_required(admin.IndexViewSort.as_view())),
     path('admin/appeals/<int:pk>/change/',login_required(admin.AppealView.as_view())),
     path('admin/applications/<int:pk>/change/',login_required(admin.ApplicationView.as_view())),
     path('admin/publicities/<int:pk>/create/',login_required(admin.PublicityView.as_view())),
@@ -59,4 +58,5 @@ urlpatterns = [
     path('admin/suas/<int:pk>/change/',login_required(admin.ChangeSuaForActivityView.as_view())),
     path('admin/applications/merge',login_required(admin.ApplicationsMergeView.as_view())),
     path('admin/activities/<int:pk>/check/',login_required(admin.CheckTheActivityView)),
+    path('admin/suas/<int:pk>/check/',login_required(admin.CheckTheSuaView)),
 ]

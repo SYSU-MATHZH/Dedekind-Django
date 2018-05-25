@@ -5,6 +5,7 @@ from project.sua.views.utils.mixins import NavMixin
 from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly,IsAdminUserOrActivity
 from project.sua.models import Student, Sua, Activity, Application, Publicity, Appeal, Proof
 import project.sua.views.form.serializers as firs
+import project.sua.serializers as sirs
 
 
 class StudentViewSet(BaseViewSet, NavMixin):
@@ -13,7 +14,9 @@ class StudentViewSet(BaseViewSet, NavMixin):
     }
     serializer_class = firs.AddStudentSerializer
     queryset = Student.objects.filter(deletedAt=None)
-    filter_fields = ('grade', 'classtype')
+    revoke_queryset = Student.objects.all()
+    revoke_success_url = delete_success_url = '/admin/'
+    # filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
         if self.action in ['add', 'change']:

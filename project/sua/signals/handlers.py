@@ -43,20 +43,20 @@ def Application_post_delete_handler(sender, instance, *args, **kwargs):
             instance.proof.delete()
 
 
-@receiver(
-    post_save,
-    sender=Activity,
-    dispatch_uid="Activity_post_save",
-)
-def Activity_post_save_handler(sender, instance, *args, **kwargs):
-    for sua in instance.suas.all():
-        if instance.is_valid:
-            sua.is_valid = True
-            sua.save()
-        else:
-            if not hasattr(sua, 'application') or not sua.application.is_checked:
-                sua.is_valid = False
-                sua.save()
+# @receiver(
+#     post_save,
+#     sender=Activity,
+#     dispatch_uid="Activity_post_save",
+# )
+# def Activity_post_save_handler(sender, instance, *args, **kwargs):
+#     for sua in instance.suas.all():
+#         if instance.is_valid:
+#             sua.is_valid = True
+#             sua.save()
+#         else:
+#             if not hasattr(sua, 'application') or not sua.application.is_checked:
+#                 sua.is_valid = False
+#                 sua.save()
 
 
 # @receiver(

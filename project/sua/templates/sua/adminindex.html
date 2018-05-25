@@ -9,6 +9,7 @@
   {% include './_partial/tab_label.html' with id="activities" label="活动" only%}
   {% include './_partial/tab_label.html' with id="applications" label="申请" only%}
   {% include './_partial/tab_label.html' with id="appeals" label="申诉" only%}
+  {% include './_partial/tab_label.html' with id="deleteds" label="删除记录" only%}
 </ul>
 {% endblock %}
 {% block dropdown_label %}
@@ -29,10 +30,11 @@
 <div class="main-content" role="tabpanel">
   <div id="tabContent" class="tab-content my-tab-content">
 
-    {% include './adminindex_tabs/students_tab.html' %}
+    {% include './adminindex_tabs/students_tab.html' with active=True %}
     {% include './adminindex_tabs/activities_tab.html' %}
     {% include './adminindex_tabs/applications_tab.html' %}
     {% include './adminindex_tabs/appeals_tab.html' %}
+    {% include './adminindex_tabs/deleteds_tab.html' %}
     
   </div>
 </div>
