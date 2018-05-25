@@ -56,7 +56,7 @@ class ActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
+        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id', 'iscreatebystudent')
 
 class ProofSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
