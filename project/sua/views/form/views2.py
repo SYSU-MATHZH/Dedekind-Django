@@ -104,6 +104,9 @@ class ActivityViewSet(BaseViewSet, NavMixin):
 
         return [permission() for permission in permission_classes]
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 class ApplicationViewSet(BaseViewSet, NavMixin):
     components = {
         'nav': 'nav',
@@ -135,6 +138,9 @@ class ApplicationViewSet(BaseViewSet, NavMixin):
             permission_classes = (IsAdminUserOrReadOnly,)
 
         return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class PublicityViewSet(BaseViewSet, NavMixin):
     components = {

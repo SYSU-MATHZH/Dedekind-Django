@@ -60,7 +60,6 @@ class IndexView(BaseView, NavMixin):
             publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
 
-        print(user.applications.all())
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
             user.applications.filter(deletedAt=None),
             many=True,
@@ -100,7 +99,7 @@ class IndexView(BaseView, NavMixin):
                 serialized.update({
                     'year_begin':year_begin,
                     'year_end':year_end
-                })                
+                })
             suas = sua_data.data
             # print(suas)
             for sua in suas:
@@ -119,7 +118,6 @@ class IndexView(BaseView, NavMixin):
             serialized.update({
                 'suas': sua_data.data,
                 'appeals': appeal_data.data,
-                'power':student.power
             })
             if student.power == 1:  #活动级管理员
 
@@ -203,7 +201,7 @@ class SuasExportView(BaseView,NavMixin):
 
         user = request.user
         if hasattr(user, 'student'):  # 判断当前用户是否为学生
-            student = user.student 
+            student = user.student
             if 'year_begin' not in request.GET:
                 sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
                     student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
@@ -225,20 +223,20 @@ class SuasExportView(BaseView,NavMixin):
                 )
                 serialized.update({
                     'year_begin':year_begin,
-                    'year_end':year_end            
-                    })                            
-            # print(IndexView)       
+                    'year_end':year_end
+                    })
+            # print(IndexView)
             # sua_data = SuaSerializer(# 序列化当前学生的某学年的公益时记录
             #     student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True,),
             #     many=True,
             #     context={'request': request}
-            #     )    
+            #     )
 
         serialized.update({
             'suas': sua_data.data,
             'name':student.name,
             'number':student.number,
-            'hours':student.totalhours,           
+            'hours':student.totalhours,
             })
 
 
@@ -249,7 +247,7 @@ def Download(request):
     pdfmetrics.registerFont(TTFont('song', os.getcwd() + '/project/sua/views/student/STSONG.ttf'))
     user = request.user
     if hasattr(user, 'student'):  # 判断当前用户是否为学生
-        student = user.student 
+        student = user.student
         if 'year_begin' not in request.GET:
             sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
                 student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
@@ -268,7 +266,7 @@ def Download(request):
                 ),
                 many=True,
                 context={'request': request}
-            ) 
+            )
     # student = user.student
     # # Filename = 'str(student.name)'
 

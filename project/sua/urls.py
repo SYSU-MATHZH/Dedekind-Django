@@ -7,6 +7,7 @@ import project.sua.views.form.views as form
 import project.sua.views.form.views2 as form2
 from project.sua.views.form.base import StudentViewSet
 from project.sua.views.apis import apis, auths
+from project.sua.views.index.views import IndexView
 
 from rest_framework import routers
 
@@ -37,6 +38,7 @@ rou.register(r'appeals', apis.AppealViewSet, base_name="api-appeal")
 
 # app_name = 'sua'
 urlpatterns = [
+    path('index/',login_required(IndexView.as_view())),
     path('suas/export/',login_required(student.SuasExportView.as_view())),
     path('', login_required(student.IndexView.as_view()), name='index'),
     path('apis/',include(rou.urls)),

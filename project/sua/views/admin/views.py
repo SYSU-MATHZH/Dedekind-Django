@@ -21,6 +21,7 @@ from .serializers import ActivityForAdminSerializer
 from .serializers import AdminPublicitySerializer
 from .serializers import AdminAppealSerializer
 from .serializers import AdminActivitySerializer
+from .serializers import SuaSerializer
 
 from project.sua.views.utils.base import BaseView
 from project.sua.views.utils.mixins import NavMixin
@@ -243,6 +244,12 @@ class ApplicationView(BaseView, NavMixin):
             context={'request': request},
         )
 
+        sua = Sua.objects.filter(
+            application__id=application_id,
+            deletedAt=None,
+        ).get()
+        activity = sua.activity
+        print(activity.is_valid)
         serializer = AdminApplicationSerializer(
             Application.objects.filter(deletedAt=None,id=application_id).get(),
             data=request.data,
@@ -253,8 +260,10 @@ class ApplicationView(BaseView, NavMixin):
             if user.is_staff or (user.student.power == 1):
                 serializer.save(is_checked=True)
                 if(serializer.data['status'] == 0):
+                    activity.is_valid=True
                     sua_data.save(is_valid=True)
                 elif serializer.data['status'] >= 1:
+                    activity.is_valid=False
                     sua_data.save(is_valid=False)
                 self.url = serializer.data['url']
                 return True
@@ -518,16 +527,20 @@ def CheckTheActivityView(request, *args, **kwargs):
     return HttpResponseRedirect(activitySerializer.data['url'])
 
 def CheckTheSuaView(request, *args, **kwargs):
-    url = request.GET['url']
     sua_id = kwargs['pk']
     sua = Sua.objects.filter(deletedAt=None,id=sua_id).get()
-    if(request.user.is_staff or request.user.student.power == 1):
+    activity_data = AdminActivitySerializer(
+        sua.activity,
+        context = {'request':request}
+    )
+
+    if(request.user.is_staff or (request.user.student.power == 1 and sua.activity.owner == request.user)):
         if(sua.is_valid == True):
             sua.is_valid=False
         else:
             sua.is_valid=True
         sua.save()
-    return HttpResponseRedirect(url)
+    return HttpResponseRedirect(activity_data.data['url'])
 
 
 

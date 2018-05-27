@@ -58,9 +58,9 @@
         <td>
         {% if nav.user.is_staff or nav.student.power == 1 %}
           {% if sua.is_valid %}
-            <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/check/?url={{ serializer.data.url }}">不通过</a>
+            <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/check/">不通过</a>
           {% else %}
-            <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/check/?url={{ serializer.data.url }}">通过</a>
+            <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/check/">通过</a>
           {% endif %}
         {% endif %}
           <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/change/">编辑</a>
