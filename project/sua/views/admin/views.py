@@ -552,7 +552,7 @@ class ApplicationsMergeView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         activities_data = ActivityWithSuaSerializer(
-            Activity.objects.filter(deletedAt=None,owner=request.user).order_by('id'),
+            Activity.objects.filter(deletedAt=None,iscreatebystudent=False).order_by('id'),
             many=True,
             context={'request':request},
             )
@@ -562,6 +562,7 @@ class ApplicationsMergeView(BaseView, NavMixin):
             many=True,
             context={'request':request},
             )
+        print('hahah')
         serialized = super(ApplicationsMergeView, self).serialize(request)
         serialized.update({
             'activities': activities_data.data,
@@ -572,27 +573,25 @@ class ApplicationsMergeView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
         merge_applications = []
-        sua_students = []
+        print(request.data)
         applications = Application.objects.filter(deletedAt=None,).all()
         for application in applications:
             if str(application.id) in request.data:
                 merge_applications.append(application)
+        print(merge_applications)
         if 'activity_id' in request.data:
             activity = Activity.objects.filter(id=request.data['activity_id'],deletedAt=None).get()
         elif bool(merge_applications):
             activity = merge_applications[0].sua.activity
-        activity_suas = Sua.objects.filter(deletedAt=None, activity=activity).all()
-        for sua in activity_suas:
-            if sua.student not in sua_students:
-                sua_students.append(sua.student)
+        #activity_suas = Sua.objects.filter(deletedAt=None, activity=activity).all()
         for i in range(len(merge_applications)):
             sua = Sua.objects.filter(deletedAt=None,application=merge_applications[i]).get()
             old_activity = sua.activity
-            if sua.student not in sua_students:
-                sua_students.append(sua.student)
-                Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
-                if old_activity != activity:
-                    old_activity.delete()
+            sua_students.append(sua.student)
+            Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
+            print("hahah")
+            if old_activity != activity:
+                old_activity.delete()
 
         self.url="/admin"
         return True

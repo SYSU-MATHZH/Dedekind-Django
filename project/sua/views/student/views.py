@@ -366,7 +366,8 @@ class ApplyView(BaseView, NavMixin):
         proof_serializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
         application_serializer = DEAddApplicationsSerializer(data=request.data, context={'request': request})
         if activity_serializer.is_valid() and sua_serializer.is_valid() and application_serializer.is_valid() and proof_serializer.is_valid():
-            activity = activity_serializer.save(owner=admin)
+            activity = activity_serializer.save(owner=admin, iscreatebystudent=True)
+            print(activity.iscreatebystudent)
             sua = sua_serializer.save(activity=activity, owner=user, student=student)
             proof = proof_serializer.save(owner=user)
             application_serializer.save(sua=sua, proof=proof, owner=user)
