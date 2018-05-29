@@ -542,7 +542,6 @@ class ApplicationsMergeView(BaseView, NavMixin):
             many=True,
             context={'request':request},
             )
-        print('hahah')
         serialized = super(ApplicationsMergeView, self).serialize(request)
         serialized.update({
             'activities': activities_data.data,
