@@ -11,8 +11,8 @@
               <th></th>
             </tr>
           </thead>
-          {% for appeal in appeals %}
-            
+          {% for appeal in admin_appeals %}
+
             <tr>
               <td>{{ appeal.created }}</td>
               <td><a href="{{ appeal.publicity.url }}">{{ appeal.publicity.title }}</a></td>

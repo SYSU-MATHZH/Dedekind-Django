@@ -140,11 +140,17 @@
                 审核结果
                 </label>
                 {% if serializer.data.is_checked %}
-                  {% if serializer.data.sua.is_valid %}
-                  <p id="" class="form-control-static">审核通过</p>
-                  {% else %}
-                  <textarea name="sua_ApplicationForm-detail" placeholder="{{ serializer.data.feedback }}" maxlength="400" rows="10" id="" cols="20" class="form-control" readonly></textarea>
+                  {% if serializer.data.status == 0 %}
+                  <p id="" class="form-control-static">通过</p>
+                  {% elif serializer.data.status == 1 %}
+                  <p id="" class="form-control-static">不通过</p>
+                  {% elif serializer.data.status == 2 %}
+                  <p id="" class="form-control-static">需要提交线下证明</p>
                   {% endif %}
+                  <label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
+                  反馈
+                  </label>
+                  <textarea name="sua_ApplicationForm-detail" placeholder="{{ serializer.data.feedback }}" maxlength="400" rows="5" id="" cols="10" class="form-control" readonly></textarea>
                 {% else %}
                 <p id="" class="form-control-static">待审核</p>
                 {% endif %}

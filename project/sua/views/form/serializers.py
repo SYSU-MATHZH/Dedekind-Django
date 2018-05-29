@@ -142,7 +142,7 @@ class AddApplicationSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Application
-        fields = ('url', 'sua', 'created','contact', 'proof','feedback', 'id','is_checked')
+        fields = ('url', 'sua', 'created','contact', 'proof','feedback', 'id','is_checked','status')
 
 
     def create(self, validated_data):
