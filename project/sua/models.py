@@ -6,7 +6,7 @@ from django.utils import timezone
 from project.sua.storage import FileStorage
 import datetime
 import hashlib
-
+from djangodeletes.softdeletes import SoftDeletable, SoftDeleteManager, SoftDeleteQuerySet
 
 YEAR_CHOICES = []
 for r in range(2016, datetime.datetime.now().year):
@@ -16,22 +16,22 @@ EXPIRE_TIME = 86400
 
 """
 实现软删除(需要继承该类)
-通过deletedAt字段保存删除的时间。
+通过deleted_at字段保存删除的时间。
 若记录没有被删除，那么设置该值为None，如果被删除，那么设置时间为删除的时间。
-注意：在取得元素的时候，需要使用User.objects.filter(deletedAt=None)，而不是all()
+注意：在取得元素的时候，需要使用User.objects.filter(deleted_at=None)，而不是all()
 """
-class BaseSchema(models.Model):
-    deletedAt = models.DateTimeField("删除时间", null=True, default=None, blank=True)
+# class BaseSchema(SoftDeletable, models.Model):
+#     deleted_at = models.DateTimeField("删除时间", null=True, default=None, blank=True)
 
-    class Meta:
-        abstract = True     #设为抽象基类，否则会出现id字段冲突的情况
+#     class Meta:
+#         abstract = True     #设为抽象基类，否则会出现id字段冲突的情况
 
-    def delete(self, using=None, keep_parents=False):
-        self.deletedAt = timezone.now()
-        self.save()
+#     def delete(self, using=None, keep_parents=False):
+#         self.deleted_at = timezone.now()
+#         self.save()
 
 
-class Student(BaseSchema):
+class Student(SoftDeletable, models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -54,17 +54,17 @@ class Student(BaseSchema):
 
     def totalhours(self):
         total = 0
-        for sua in self.suas.filter(deletedAt=None, is_valid=True, activity__is_valid=True,):
+        for sua in self.suas.filter(deleted_at=None, is_valid=True, activity__is_valid=True,):
             total += sua.suahours
         self.suahours = total
         self.save()
         return total
 
     def get_suas(self):
-        return self.suas.filter(deletedAt=None, is_valid=True, activity__is_valid=True)
+        return self.suas.filter(deleted_at=None, is_valid=True, activity__is_valid=True)
 
 
-class SuaGroup(BaseSchema):
+class SuaGroup(SoftDeletable, models.Model):
     group = models.OneToOneField(
         Group,
         on_delete=models.CASCADE,
@@ -78,7 +78,7 @@ class SuaGroup(BaseSchema):
         return self.name
 
 
-class Activity(BaseSchema):
+class Activity(SoftDeletable, models.Model):
     owner = models.ForeignKey(
         'auth.User',
         related_name='activities',
@@ -97,17 +97,17 @@ class Activity(BaseSchema):
         return self.title
 
     def get_suas(self):
-        return self.suas.filter(deletedAt=None, is_valid=True)
+        return self.suas.filter(deleted_at=None, is_valid=True)
 
     def get_suas_all(self):
-        return self.suas.filter(deletedAt=None)
+        return self.suas.filter(deleted_at=None)
 
-    def delete(self, using=None, keep_parents=False):
-        self.deletedAt = timezone.now()
-        self.is_valid = False
-        self.save()
+    # def delete(self, using=None, keep_parents=False):
+    #     self.deleted_at = timezone.now()
+    #     self.is_valid = False
+    #     self.save()
 
-class Sua(BaseSchema):
+class Sua(SoftDeletable, models.Model):
     owner = models.ForeignKey(
         'auth.User',
         related_name='suas',
@@ -144,13 +144,13 @@ class Sua(BaseSchema):
             self.student.save()
             self.added = self.suahours
 
-    def delete(self, using=None, keep_parents=False):
-        self.deletedAt = timezone.now()
-        self.is_valid = False
-        self.save()
+    # def delete(self, using=None, keep_parents=False):
+    #     self.deleted_at = timezone.now()
+    #     self.is_valid = False
+    #     self.save()
 
 
-class Proof(BaseSchema):
+class Proof(SoftDeletable, models.Model):
     owner = models.ForeignKey(
         User,
         related_name='proofs',
@@ -173,7 +173,7 @@ class Proof(BaseSchema):
                 self.created.strftime("%Y%m%d%H%M%S")
 
 
-class Application(BaseSchema):
+class Application(SoftDeletable, models.Model):
     sua = models.OneToOneField(
         Sua,
         related_name='application',
@@ -200,7 +200,7 @@ class Application(BaseSchema):
         return self.sua.student.name + '的 ' + self.sua.activity.title + '的 ' + '申请'
 
 
-class Publicity(BaseSchema):
+class Publicity(SoftDeletable, models.Model):
     owner = models.ForeignKey(
         'auth.User',
         related_name='publicities',
@@ -223,7 +223,7 @@ class Publicity(BaseSchema):
         return self.title
 
 
-class Appeal(BaseSchema):
+class Appeal(SoftDeletable, models.Model):
     owner = models.ForeignKey(
         'auth.User',
         related_name='appeals',

@@ -38,6 +38,7 @@ THIRD_PARTY_APPS = (
     'django_filters',
     'drf_yasg',  # 自动生成docs
     'corsheaders',
+    'djangodeletes'
 )
 
 LOCAL_APPS = (

@@ -31,7 +31,7 @@ class SuaGroupSerializer(serializers.HyperlinkedModelSerializer):
 
 class FilterIsPublishedListSerializer(serializers.ListSerializer):
     def to_representation(self, data):
-        data = data.filter(deletedAt=None,is_published=True)
+        data = data.filter(deleted_at=None,is_published=True)
         return super(FilterIsPublishedListSerializer, self).to_representation(data)
 
 
