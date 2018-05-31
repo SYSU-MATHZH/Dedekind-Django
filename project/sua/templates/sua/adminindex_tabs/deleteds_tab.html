@@ -1,24 +1,29 @@
 <div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_deleteds' }}">
-    <div class="tab-header">学生</div>
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                <th>时间</th>
-                <th>姓名</th>
-                <th></th>
-                <th></th>
-            </tr>
-            </thead>
-            {% for student in deleteds.students %}
-            <tr>
-                <td width="339.17px">{{ student.deletedAt }}</td>
-                <td>{{ student.name }}</td>
-                <td><a class="btn btn-default btn-xs" href="/students/{{ student.id }}/revoke/">撤销删除</a></td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+
+  <div class="tab-header">学生</div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>删除时间</th>
+          <th>姓名</th>
+          <th>学号</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for student in deleteds.students %}
+        <tr>
+          <td>{{ student.deletedAt }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.number }}</td>
+          <td><a class="btn btn-default btn-xs" href="/students/{{ student.id }}/revoke/">撤销删除</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
 
 <hr>
 
@@ -104,9 +109,3 @@
       </tbody>
     </table>
   </div>
-
-<<<<<<< HEAD
-</div>
-=======
-</div>
->>>>>>> 794e222b7ec7c01ebf0f4d807ede145e7da041d5
