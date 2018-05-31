@@ -55,7 +55,7 @@ def get_deleteds(model, serializer, request):
     datas = set_data.data
 
     for i in range(len(datas)):
-        datas[i]['deletedAt'] = set[i].deletedAt
+        datas[i]['deletedAt'] = DateTime2String_SHOW(set[i].deletedAt)
 
     return list(set_data.data)
 
