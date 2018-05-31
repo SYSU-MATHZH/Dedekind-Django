@@ -6,6 +6,7 @@
         <tr>
           <th>删除时间</th>
           <th>姓名</th>
+          <th>学号</th>
           <th></th>
         </tr>
       </thead>
@@ -13,7 +14,8 @@
       {% for student in deleteds.students %}
         <tr>
           <td>{{ student.deletedAt }}</td>
-          <td><a href="{{ student.url }}">{{ student.name }}</a></td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.number }}</td>
           <td><a class="btn btn-default btn-xs" href="/students/{{ student.id }}/revoke/">撤销删除</a></td>
         </tr>
       {% endfor %}
@@ -69,8 +71,8 @@
         <tr>
           <td>{{ application.deletedAt }}</td>
           <td>{{ application.created }}</td>
-          <td><a>{{ application.sua.activity.title }}</a></td>
-          <td><a>{{ application.sua.student.name }}</a></td>
+          <td>{{ application.sua.activity.title }}</td>
+          <td>{{ application.sua.student.name }}</td>
           <td>{{ application.sua.suahours }}h</td>
           <td><a class="btn btn-default btn-xs" href="/applications/{{ application.id }}/revoke/">撤销删除</a></td>
         </tr>
@@ -97,8 +99,8 @@
         <tr>
           <td>{{ appeal.deletedAt }}</td>
           <td>{{ appeal.created }}</td>
-          <td><a href="{{ appeal.publicity.url }}">{{ appeal.publicity.title }}</a></td>
-          <td><a href="{{ appeal.student.url }}">{{ appeal.student.name }}</a></td>
+          <td>{{ appeal.publicity.title }}</td>
+          <td>{{ appeal.student.name }}</td>
           <td><a class="btn btn-default btn-xs" href="/appeals/{{ appeal.id }}/revoke/">撤销删除</a></td>
         </tr>
         {% endfor %}
