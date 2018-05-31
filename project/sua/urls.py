@@ -1,23 +1,23 @@
 from django.urls import path, include
 from django.contrib.auth.decorators import login_required
-from project.sua.views import api, auth, student ,admin
+# from project.sua.views import api, auth, student ,admin
 from project.sua.views.apis import apis,auths
 
 from rest_framework import routers
 from django.conf.urls import url
 
 
-router = routers.DefaultRouter()
-router.register(r'users', api.UserViewSet)
-router.register(r'groups', api.GroupViewSet)
-router.register(r'students', api.StudentViewSet)
-router.register(r'suagroups', api.SuaGroupViewSet)
-router.register(r'suas', api.SuaViewSet)
-router.register(r'activities', api.ActivityViewSet)
-router.register(r'applications', api.ApplicationViewSet)
-router.register(r'publicities', api.PublicityViewSet)
-router.register(r'appeals', api.AppealViewSet)
-router.register(r'proofs', api.ProofViewSet)
+# router = routers.DefaultRouter()
+# router.register(r'users', api.UserViewSet)
+# router.register(r'groups', api.GroupViewSet)
+# router.register(r'students', api.StudentViewSet)
+# router.register(r'suagroups', api.SuaGroupViewSet)
+# router.register(r'suas', api.SuaViewSet)
+# router.register(r'activities', api.ActivityViewSet)
+# router.register(r'applications', api.ApplicationViewSet)
+# router.register(r'publicities', api.PublicityViewSet)
+# router.register(r'appeals', api.AppealViewSet)
+# router.register(r'proofs', api.ProofViewSet)
 
 rou = routers.DefaultRouter()
 rou.register(r'users', apis.UserViewSet,base_name = "api-user")
@@ -34,20 +34,20 @@ rou.register(r'appeals', apis.AppealViewSet, base_name="api-appeal")
 #app_name = 'sua'
 urlpatterns = [
 #    path('suas/export/',login_required(student.SuasExportView.as_view())),
-    path('', login_required(student.IndexView.as_view()), name='index'),
+    # path('', login_required(student.IndexView.as_view()), name='index'),
     path('',include(rou.urls)),
     path('login/', auths.LoginView.as_view()),
-    path('test/', login_required(student.TestBaseView.as_view())),
+    # path('test/', login_required(student.TestBaseView.as_view())),
 
-    path('publicities/<int:pk>/appeal/', login_required(student.AppealView.as_view())),
-    path('applications/apply/', login_required(student.ApplyView.as_view())),
-    path('suas/export/download/',login_required(student.Download)),
-    path('admin/',login_required(admin.IndexView.as_view())),
-    path('admin/appeals/<int:pk>/change/',login_required(admin.AppealView.as_view())),
-    path('admin/applications/<int:pk>/change/',login_required(admin.ApplicationView.as_view())),
-    path('admin/addsuahours',login_required(admin.Addstusuahoursview.as_view())),
-    path('admin/publicities/<int:pk>/create/',login_required(admin.PublicityView.as_view())),
-    path('admin/publicities/<int:pk>/manage/',login_required(admin.ManagePublicityView.as_view())),
+    # path('publicities/<int:pk>/appeal/', login_required(student.AppealView.as_view())),
+    # path('applications/apply/', login_required(student.ApplyView.as_view())),
+    # path('suas/export/download/',login_required(student.Download)),
+    # path('admin/',login_required(admin.IndexView.as_view())),
+    # path('admin/appeals/<int:pk>/change/',login_required(admin.AppealView.as_view())),
+    # path('admin/applications/<int:pk>/change/',login_required(admin.ApplicationView.as_view())),
+    # path('admin/addsuahours',login_required(admin.Addstusuahoursview.as_view())),
+    # path('admin/publicities/<int:pk>/create/',login_required(admin.PublicityView.as_view())),
+    # path('admin/publicities/<int:pk>/manage/',login_required(admin.ManagePublicityView.as_view())),
 #     path('playMFS/', views.playMFS, name='playMFS'),
 #     path('admin/', views.adminIndex, name='admin-index'),
 #     path('apply_sua/', views.apply_sua, name='apply_sua'),

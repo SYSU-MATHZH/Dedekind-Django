@@ -30,10 +30,20 @@ class Student(models.Model):
         default=datetime.datetime.now().year
     )
     phone = models.CharField(max_length=100)
-    id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return self.name
+
+    def totalhours(self):
+        total = 0
+        for sua in self.suas.filter(is_valid=True, activity__is_valid=True,):
+            total += sua.suahours
+        self.suahours = total
+        self.save()
+        return total
+
+    def get_suas(self):
+        return self.suas.filter(is_valid=True, activity__is_valid=True)
 
 
 class SuaGroup(models.Model):
@@ -62,10 +72,16 @@ class Activity(models.Model):
     group = models.CharField(max_length=100)
     date = models.DateTimeField('活动日期')
     is_valid = models.BooleanField(default=False)
-    id = models.AutoField(primary_key=True)
+    is_create_by_student = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
+
+    def get_suas(self):
+        return self.suas.filter(is_valid=True)
+
+    def get_suas_all(self):
+        return self.suas.all()
 
 
 class Sua(models.Model):
@@ -92,18 +108,6 @@ class Sua(models.Model):
 
     def __str__(self):
         return self.student.name + '的 ' + self.activity.title
-
-    def clean_suahours(self):
-        self.student.suahours -= self.added
-        self.student.save()
-        self.added = 0.0
-
-    def update_student_suahours(self):
-        if self.added != self.suahours:
-            self.clean_suahours()
-            self.student.suahours += self.suahours
-            self.student.save()
-            self.added = self.suahours
 
 
 class Proof(models.Model):
