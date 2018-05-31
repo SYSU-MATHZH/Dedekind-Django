@@ -593,5 +593,5 @@ class ApplicationsMergeView(BaseView, NavMixin):
             if old_activity != activity:
                 old_activity.delete()
 
-        self.url="/admin"
+        self.url="/"
         return True

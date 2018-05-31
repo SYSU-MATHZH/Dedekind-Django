@@ -80,7 +80,6 @@ class IndexView(BaseView, NavMixin):
                 many=True,
                 context={'request': request}
             )
-            deleteds['activities'] = tools.get_deleteds(Activity, ActivitySerializer, request)
 
             activities = activity_data.data
             for activity in activities:
@@ -91,6 +90,7 @@ class IndexView(BaseView, NavMixin):
                         tools.TZString2DateTime(publicity['begin']))
                     publicity['end'] = tools.DateTime2String_SHOW(
                         tools.TZString2DateTime(publicity['end']))
+            deleteds['activities'] = tools.get_deleteds(Activity, ActivitySerializer, request)
 
             serialized.update({
                 'admin_applications':applications,
@@ -199,13 +199,13 @@ class IndexView(BaseView, NavMixin):
                 activity = Activity.objects.filter(id=request.data['activity_id'],deletedAt=None).get()
             elif bool(merge_applications):
                 activity = merge_applications[0].sua.activity
-            print(activity)
+            #print(activity)
             for i in range(len(merge_applications)):
                 sua = Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
-                print(sua)
+            #    print(sua)
                 #sua.save(activity=activity)
                 #else:
                     #return False
-
-            self.url="/index"
+            print(1)
+            self.url=""
             return True

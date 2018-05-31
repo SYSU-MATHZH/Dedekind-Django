@@ -11,7 +11,7 @@
       <div id="header-inner">
         <!-- 兼容移动设备 -->
         <div class="navbar-header">
-          {% if request.path == '/' or request.path == '/admin/' %}
+          {% if request.path == '/' or request.path == '/' %}
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#my-navbar-content" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
@@ -19,7 +19,7 @@
             <span class="icon-bar"></span>
           </button>
           {% endif %}
-          <a class="navbar-brand" href="{% if nav.user.is_staff %}/admin/{% else %}/{% endif %}" id="logo">数院公益时</a>
+          <a class="navbar-brand" href="{% if nav.user.is_staff %}/{% else %}/{% endif %}" id="logo">数院公益时</a>
         </div>
 
         <!-- 导航栏主体 -->

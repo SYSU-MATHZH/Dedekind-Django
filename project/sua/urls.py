@@ -23,7 +23,7 @@ router.register(r'applications', form2.ApplicationViewSet)
 router.register(r'publicities', form.PublicityViewSet)
 router.register(r'appeals', form.AppealViewSet)
 router.register(r'proofs', form.ProofViewSet)
-router.register(r'base', StudentViewSet, base_name='base')
+router.register(r'base', IndexView, base_name='base')
 
 rou = routers.DefaultRouter()
 rou.register(r'users', apis.UserViewSet,base_name = "api-user")
@@ -38,9 +38,9 @@ rou.register(r'appeals', apis.AppealViewSet, base_name="api-appeal")
 
 # app_name = 'sua'
 urlpatterns = [
-    path('index/',login_required(IndexView.as_view())),
+    path('',login_required(IndexView.as_view()), name='index'),
     path('suas/export/',login_required(student.SuasExportView.as_view())),
-    path('', login_required(student.IndexView.as_view()), name='index'),
+#    path('', login_required(student.IndexView.as_view()), name='index'),
     path('apis/',include(rou.urls)),
     path('', include(router.urls)),
     path('apis/login/', auths.LoginView.as_view()),
@@ -50,7 +50,7 @@ urlpatterns = [
     path('publicities/<int:pk>/appeal/', login_required(student.AppealView.as_view())),
     path('applications/apply/', login_required(student.ApplyView.as_view())),
     path('suas/export/download/',login_required(student.Download)),
-    path('admin/',login_required(admin.IndexView.as_view())),
+#    path('admin/',login_required(admin.IndexView.as_view())),
     path('admin/appeals/<int:pk>/change/',login_required(admin.AppealView.as_view())),
     path('admin/applications/<int:pk>/change/',login_required(admin.ApplicationView.as_view())),
     path('admin/publicities/<int:pk>/create/',login_required(admin.PublicityView.as_view())),
