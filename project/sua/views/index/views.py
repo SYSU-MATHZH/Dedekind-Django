@@ -17,7 +17,7 @@ import project.sua.views.utils.tools as tools
 from django.utils import timezone
 
 class IndexView(BaseView, NavMixin):
-    template_name = 'sua/index2.html'
+    template_name = 'sua/index.html'
     components = {
         'nav': 'nav',
     }

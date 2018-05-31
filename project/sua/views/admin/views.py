@@ -562,7 +562,6 @@ class ApplicationsMergeView(BaseView, NavMixin):
             many=True,
             context={'request':request},
             )
-        print('hahah')
         serialized = super(ApplicationsMergeView, self).serialize(request)
         serialized.update({
             'activities': activities_data.data,
@@ -573,7 +572,6 @@ class ApplicationsMergeView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
         merge_applications = []
-        print(request.data)
         applications = Application.objects.filter(deletedAt=None,).all()
         for application in applications:
             if str(application.id) in request.data:
@@ -589,7 +587,6 @@ class ApplicationsMergeView(BaseView, NavMixin):
             old_activity = sua.activity
             sua_students.append(sua.student)
             Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
-            print("hahah")
             if old_activity != activity:
                 old_activity.delete()
 

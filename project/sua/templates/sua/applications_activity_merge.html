@@ -9,6 +9,7 @@
   <form action="" method="POST">
     <label>请选择一个活动:</label>
     <select id="activity.id" class="selectpicker show-tick form-control" data-live-search="true">
+      <option value="">无任何活动</option>
       {% for activity in activities %}
       <option value="{{ activity.id }}">
         {{ activity.title }}
