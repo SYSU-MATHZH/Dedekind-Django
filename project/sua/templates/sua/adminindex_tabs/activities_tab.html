@@ -1,4 +1,4 @@
-<div role="tabpanel" class="tab-pane fade" id="activities">
+<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_activities' }}">
   <div class="row tab-header">
     <div class="col-lg-9 col-xs-6">活动</div>
     <div class="col-lg-3">
@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for activity in activities %}
+        {% for activity in admin_activities %}
           <tr>
             <td>{{ activity.date }}</td>
             <td>{{ activity.title }}</td>

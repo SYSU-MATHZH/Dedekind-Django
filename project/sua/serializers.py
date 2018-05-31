@@ -8,13 +8,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     password = serializers.CharField(write_only=True)
     class Meta:
         model = User
-        fields = ('url', 'student', 'username', 'is_staff', 'password', 'groups', 'applications', )
+        fields = ('url', 'id', 'student', 'username', 'is_staff', 'password', 'groups', 'applications', )
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
-        fields = ('url', 'suagroup', 'name', 'user_set')
+        fields = ('url', 'id', 'suagroup', 'name', 'user_set')
 
 
 class StudentSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,7 +26,7 @@ class StudentSerializer(serializers.HyperlinkedModelSerializer):
 class SuaGroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = SuaGroup
-        fields = ('url', 'group', 'name', 'is_staff', 'contact', 'rank')
+        fields = ('url', 'id', 'group', 'name', 'is_staff', 'contact', 'rank')
 
 
 class FilterIsPublishedListSerializer(serializers.ListSerializer):
@@ -40,7 +40,7 @@ class PublicityWithActivitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Publicity
         list_serializer_class = FilterIsPublishedListSerializer
-        fields = ('url', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end' )
+        fields = ('url', 'id', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end' )
 
 
 class ActivityForAdminSerializer(serializers.HyperlinkedModelSerializer):
@@ -56,7 +56,7 @@ class ActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
+        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id', 'iscreatebystudent')
 
 class ProofSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -69,7 +69,7 @@ class SuaSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Sua
-        fields = ('url', 'student', 'activity', 'team', 'suahours', 'application', 'is_valid',)
+        fields = ('url', 'id', 'student', 'activity', 'team', 'suahours', 'application', 'is_valid',)
 
 
 class StudentNameNumberSerializer(serializers.ModelSerializer):
@@ -90,7 +90,7 @@ class ActivityWithSuaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url','title', 'date', 'detail', 'group', 'suas', 'id')
+        fields = ('url', 'title', 'date', 'detail', 'group', 'suas', 'id')
 
 
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):

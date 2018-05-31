@@ -5,10 +5,11 @@
 {# nav-bar #}
 {% block nav_tab %}
 <ul id="my-navbar-content" class="nav navbar-nav my-tab collapse navbar-collapse" role="tablist">
-  {% include './_partial/tab_label.html' with id="students" label="学生" active=True only%}
-  {% include './_partial/tab_label.html' with id="activities" label="活动" only%}
-  {% include './_partial/tab_label.html' with id="applications" label="申请" only%}
-  {% include './_partial/tab_label.html' with id="appeals" label="申诉" only%}
+  {% include './_partial/tab_label.html' with id="admin_students" label="学生" active=True only%}
+  {% include './_partial/tab_label.html' with id="admin_activities" label="活动" only%}
+  {% include './_partial/tab_label.html' with id="admin_applications" label="申请" only%}
+  {% include './_partial/tab_label.html' with id="admin_appeals" label="申诉" only%}
+  {% include './_partial/tab_label.html' with id="admin_deleteds" label="删除记录" only%}
 </ul>
 {% endblock %}
 {% block dropdown_label %}
@@ -29,11 +30,12 @@
 <div class="main-content" role="tabpanel">
   <div id="tabContent" class="tab-content my-tab-content">
 
-    {% include './adminindex_tabs/students_tab.html' %}
+    {% include './adminindex_tabs/students_tab.html' with active=True %}
     {% include './adminindex_tabs/activities_tab.html' %}
     {% include './adminindex_tabs/applications_tab.html' %}
     {% include './adminindex_tabs/appeals_tab.html' %}
-    
+    {% include './adminindex_tabs/deleteds_tab.html' %}
+
   </div>
 </div>
 {% endblock %}

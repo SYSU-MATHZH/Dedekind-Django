@@ -140,11 +140,17 @@
                 审核结果
                 </label>
                 {% if serializer.data.is_checked %}
-                  {% if serializer.data.sua.is_valid %}
-                  <p id="" class="form-control-static">审核通过</p>
-                  {% else %}
-                  <textarea name="sua_ApplicationForm-detail" placeholder="{{ serializer.data.feedback }}" maxlength="400" rows="10" id="" cols="20" class="form-control" readonly></textarea>
+                  {% if serializer.data.status == 0 %}
+                  <p id="" class="form-control-static">通过</p>
+                  {% elif serializer.data.status == 1 %}
+                  <p id="" class="form-control-static">不通过</p>
+                  {% elif serializer.data.status == 2 %}
+                  <p id="" class="form-control-static">需要提交线下证明</p>
                   {% endif %}
+                  <label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
+                  反馈
+                  </label>
+                  <textarea name="sua_ApplicationForm-detail" placeholder="{{ serializer.data.feedback }}" maxlength="400" rows="5" id="" cols="10" class="form-control" readonly></textarea>
                 {% else %}
                 <p id="" class="form-control-static">待审核</p>
                 {% endif %}
@@ -156,9 +162,11 @@
           <div class="row">
             <div class="col-lg-12">
               {% if user.is_staff %}
-              <a class="btn btn-block btn-primary" href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a>
-              {% else %}{% endif %}
-              <a class="btn btn-block btn-default" href='{% if user.is_staff %}/admin/{% else %}/{% endif %}'>返回</a>
+                <a class="btn btn-block btn-primary" href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a>
+              {% elif nav.student.power == 1 and serializer.data.sua.activity.owner == nav.user.url %}
+                <a class="btn btn-block btn-primary" href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a>
+              {% endif %}
+              <a class="btn btn-block btn-default" href='{% if user.is_staff %}/{% else %}/{% endif %}'>返回</a>
             </div>
           </div>
         </form>

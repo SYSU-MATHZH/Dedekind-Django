@@ -9,24 +9,39 @@
 
   {% if nav.user.is_staff %}
     {% include './_partial/tab_label.html' with id="admin_students" label="学生"%}
+  {% endif %}
+
+  {% if nav.student.power >= 1 or nav.user.is_staff %}
     {% include './_partial/tab_label.html' with id="admin_activities" label="活动" only%}
     {% include './_partial/tab_label.html' with id="admin_applications" label="申请" only%}
-    {% include './_partial/tab_label.html' with id="admin_appeals" label="申诉" only%}
-    {% include './_partial/tab_label.html' with id="admin_deleteds" label="删除记录" only%}
-  {% else %}
+  {% endif %}
+
+  {% if nav.user.is_staff %}
+    {% include './_partial/tab_label.html' with id="appeals" label="申诉" only%}
+    {% include './_partial/tab_label.html' with id="deleteds" label="删除记录" only%}
+  {% endif %}
+
+  {% if nav.student.power >= 0 %}
     {% include './_partial/tab_label.html' with id="suahoursdetail" label="公益时详情" only%}
     {% include './_partial/tab_label.html' with id="applications" label="申请记录" only%}
     {% include './_partial/tab_label.html' with id="appealslist" label="申诉列表" only%}
-    {% if nav.student.power >= 1 %}
-      {% include './_partial/tab_label.html' with id="admin_activities" label="活动" only%}
-      {% include './_partial/tab_label.html' with id="admin_applications" label="申请" only%}
-      {% include './_partial/tab_label.html' with id="admin_deleteds" label="删除记录" only%}
-    {% endif %}
   {% endif %}
+
 </ul>
 {% endblock %}
 
+
+
+  <li><a href="/applications/apply/">申请公益时</a></li>
+  <li><a href="#">查看帮助</a></li>
+
+  <li role="separator" class="divider"></li>
+
+  <li><a href="{{ nav.student.url }}">{{ nav.student.name }}</a></li>
+
+
 {% block dropdown_content %}
+  <li><a href="#">查看帮助</a></li>
   {% if nav.user.is_staff %}
     <li><a href="{{ nav.user.url }}">{{ nav.user.username }}</a></li>
   {% else %}
@@ -34,7 +49,7 @@
     <li><a href="{{ nav.student.url }}">{{ nav.student.name }}</a></li>
   {% endif %}
   <li role="separator" class="divider"></li>
-  <li><a href="#">查看帮助</a></li>
+  <li><a href="/index">返回主页</a></li>
 {% endblock %}
 {# end nav-bar #}
 
@@ -47,19 +62,22 @@
 
     {% if nav.user.is_staff %}
       {% include './adminindex_tabs/students_tab.html' %}
-      {% include './adminindex_tabs/activities_tab.html' %}
-      {% include './adminindex_tabs/applications_tab.html' %}
+    {% endif %}
+
+    {% if nav.student.power >= 1 or nav.user.is_staff %}
+      {% include './adminindex_tabs/activities_tab.html' with id="admin_activities" %}
+      {% include './adminindex_tabs/applications_tab.html' with id="admin_applications" %}
+    {% endif %}
+
+    {% if nav.user.is_staff %}
       {% include './adminindex_tabs/appeals_tab.html' %}
       {% include './adminindex_tabs/deleteds_tab.html' %}
-    {% else %}
+    {% endif %}
+
+    {% if nav.student %}
       {% include './index_tabs/suahoursdetail_tab.html' %}
       {% include './index_tabs/applications_tab.html' %}
       {% include './index_tabs/appealslist_tab.html' %}
-      {% if nav.student.power >= 1 %}
-        {% include './adminindex_tabs/activities_tab.html' %}
-        {% include './adminindex_tabs/applications_tab.html' %}
-        {% include './adminindex_tabs/deleteds_tab.html' %}
-      {% endif %}
     {% endif %}
 
   </div>

@@ -54,8 +54,8 @@ class Student(BaseSchema):
 
     def totalhours(self):
         total = 0
-        for sua in self.suas.filter(deletedAt=None, is_valid=True, activity__is_valid=True):
-                total += sua.suahours
+        for sua in self.suas.filter(deletedAt=None, is_valid=True, activity__is_valid=True,):
+            total += sua.suahours
         self.suahours = total
         self.save()
         return total
@@ -91,6 +91,7 @@ class Activity(BaseSchema):
     date = models.DateTimeField('活动日期')
     is_valid = models.BooleanField(default=False)
     id = models.AutoField(primary_key=True)
+    iscreatebystudent = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

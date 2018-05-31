@@ -1,4 +1,5 @@
 import os
+import datetime
 
 from django.utils import timezone
 from django.http import HttpResponse
@@ -59,7 +60,6 @@ class IndexView(BaseView, NavMixin):
             publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
 
-
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
             user.applications.filter(deletedAt=None),
             many=True,
@@ -77,13 +77,29 @@ class IndexView(BaseView, NavMixin):
 
         if hasattr(user, 'student'):  # 判断当前用户是否为学生
             student = user.student
-
-            sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
-                student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
-                many=True,
-                context={'request': request}
-            )
-
+            if 'year_begin' not in request.GET:
+                sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
+                    student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
+                    many=True,
+                    context={'request': request}
+                )
+            else:
+                year_begin = int(request.GET['year_begin'])
+                year_end = int(request.GET['year_end'])
+                start_date = datetime.date(year_begin, 8, 1)
+                end_date = datetime.date(year_end, 8, 1)
+                sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
+                    student.suas.filter(deletedAt=None,is_valid=True,
+                        activity__is_valid=True,
+                        activity__date__range=(start_date, end_date)
+                    ),
+                    many=True,
+                    context={'request': request}
+                )
+                serialized.update({
+                    'year_begin':year_begin,
+                    'year_end':year_end
+                })
             suas = sua_data.data
             # print(suas)
             for sua in suas:
@@ -102,7 +118,6 @@ class IndexView(BaseView, NavMixin):
             serialized.update({
                 'suas': sua_data.data,
                 'appeals': appeal_data.data,
-                'power':student.power
             })
             if student.power == 1:  #活动级管理员
 
@@ -126,7 +141,7 @@ class IndexView(BaseView, NavMixin):
                 applications_admin = admin_applications.data
                 for application in applications_admin:
                     application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
-                print(applications_admin)
+
                 serialized.update({
                     'activities':activity_data.data,
                     'applications_admin':applications_admin,
@@ -165,9 +180,9 @@ class AppealView(BaseView,NavMixin):
         if serializer.is_valid():
 
             serializer.save(publicity=Publicity.objects.filter(
-            deletedAt=None,
-            id=publicity_id
-            ).get(),owner=user,student=student)
+                deletedAt=None,
+                id=publicity_id
+                ).get(),owner=user,student=student)
             self.url = serializer.data['url']
             return True
         else:
@@ -185,15 +200,37 @@ class SuasExportView(BaseView,NavMixin):
         serialized = super(SuasExportView, self).serialize(request)
 
         user = request.user
-
         if hasattr(user, 'student'):  # 判断当前用户是否为学生
             student = user.student
-
-            sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
-                student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
-                many=True,
-                context={'request': request}
-            )
+            if 'year_begin' not in request.GET:
+                sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
+                    student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
+                    many=True,
+                    context={'request': request}
+                )
+            else:
+                year_begin = int(request.GET['year_begin'])
+                year_end = int(request.GET['year_end'])
+                start_date = datetime.date(year_begin, 8, 1)
+                end_date = datetime.date(year_end, 8, 1)
+                sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
+                    student.suas.filter(deletedAt=None,is_valid=True,
+                        activity__is_valid=True,
+                        activity__date__range=(start_date, end_date)
+                    ),
+                    many=True,
+                    context={'request': request}
+                )
+                serialized.update({
+                    'year_begin':year_begin,
+                    'year_end':year_end
+                    })
+            # print(IndexView)
+            # sua_data = SuaSerializer(# 序列化当前学生的某学年的公益时记录
+            #     student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True,),
+            #     many=True,
+            #     context={'request': request}
+            #     )
 
         serialized.update({
             'suas': sua_data.data,
@@ -205,20 +242,39 @@ class SuasExportView(BaseView,NavMixin):
 
         return serialized
 
-
 def Download(request):
 
     pdfmetrics.registerFont(TTFont('song', os.getcwd() + '/project/sua/views/student/STSONG.ttf'))
     user = request.user
+    if hasattr(user, 'student'):  # 判断当前用户是否为学生
+        student = user.student
+        if 'year_begin' not in request.GET:
+            sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
+                student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
+                many=True,
+                context={'request': request}
+            )
+        else:
+            year_begin = int(request.GET['year_begin'])
+            year_end = int(request.GET['year_end'])
+            start_date = datetime.date(year_begin, 8, 1)
+            end_date = datetime.date(year_end, 8, 1)
+            sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
+                student.suas.filter(deletedAt=None,is_valid=True,
+                    activity__is_valid=True,
+                    activity__date__range=(start_date, end_date)
+                ),
+                many=True,
+                context={'request': request}
+            )
+    # student = user.student
+    # # Filename = 'str(student.name)'
 
-    student = user.student
-    # Filename = 'str(student.name)'
-
-    sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
-        student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
-        many=True,
-        context={'request': request}
-    )
+    # sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
+    #     student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
+    #     many=True,
+    #     context={'request': request}
+    # )
 
 
     response = HttpResponse(content_type='application/pdf')
@@ -310,7 +366,8 @@ class ApplyView(BaseView, NavMixin):
         proof_serializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
         application_serializer = DEAddApplicationsSerializer(data=request.data, context={'request': request})
         if activity_serializer.is_valid() and sua_serializer.is_valid() and application_serializer.is_valid() and proof_serializer.is_valid():
-            activity = activity_serializer.save(owner=admin)
+            activity = activity_serializer.save(owner=admin, iscreatebystudent=True)
+            print(activity.iscreatebystudent)
             sua = sua_serializer.save(activity=activity, owner=user, student=student)
             proof = proof_serializer.save(owner=user)
             application_serializer.save(sua=sua, proof=proof, owner=user)

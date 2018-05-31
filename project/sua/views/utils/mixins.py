@@ -1,4 +1,5 @@
 from project.sua.serializers import UserSerializer, StudentSerializer
+import project.sua.views.utils.tools as tools
 
 
 class NavMixin(object):
@@ -12,4 +13,5 @@ class NavMixin(object):
         studentSerializer = StudentSerializer(student, context={'request': request})
         navs['user'] = userSerializer.data
         navs['student'] = studentSerializer.data
+        navs['YEAR_CHOICES'] = tools.YEAR_CHOICES
         return navs

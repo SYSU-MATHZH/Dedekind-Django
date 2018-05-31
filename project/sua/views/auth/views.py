@@ -19,7 +19,7 @@ def login_view(request):
                 else:
                     request.session.set_expiry(0)
                 if user.is_staff:
-                    return HttpResponseRedirect('/admin/')
+                    return HttpResponseRedirect('/')
                 return HttpResponseRedirect('/')
             else:
                 return HttpResponseRedirect('/login')

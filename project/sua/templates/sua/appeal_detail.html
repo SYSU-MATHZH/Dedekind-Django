@@ -109,7 +109,7 @@
             {% if user.is_staff %}
             <a class="btn btn-block btn-primary" href='/admin/appeals/{{ serializer.data.id }}/change/'>处理申诉</a>
             {% else %}{% endif %}
-            <a href="{% if user.is_staff %}/admin/{% else %}/{% endif %}" class="btn btn-default btn-block">返回</a>
+            <a href="{% if user.is_staff %}/{% else %}/{% endif %}" class="btn btn-default btn-block">返回</a>
           </div>
         </div>
       </div>

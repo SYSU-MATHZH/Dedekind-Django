@@ -1,4 +1,4 @@
-<div role="tabpanel" class="tab-pane fade in active" id="students">
+<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_students' }}">
       <div class="row tab-header">
         <div class="col-lg-8 col-xs-6">学生</div>
         <div class="col-lg-4 pull-right">
@@ -30,7 +30,7 @@
             <th>公益时数</th>
           </tr>
         </thead>
-        {% for student in students %}
+        {% for student in admin_students %}
           <tr>
           <td>{{ student.number }}</td>
           <td>{{ student.grade }}</td>

@@ -1,4 +1,4 @@
-<div role="tabpanel" class="tab-pane fade" id="appeals">
+<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_appeals' }}">
       <div class="tab-header">申诉</div>
       <div class="table-responsive">
         <table class="table">
@@ -11,8 +11,8 @@
               <th></th>
             </tr>
           </thead>
-          {% for appeal in appeals %}
-            
+          {% for appeal in admin_appeals %}
+
             <tr>
               <td>{{ appeal.created }}</td>
               <td><a href="{{ appeal.publicity.url }}">{{ appeal.publicity.title }}</a></td>
