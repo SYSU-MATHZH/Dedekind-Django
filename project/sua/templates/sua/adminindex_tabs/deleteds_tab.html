@@ -13,7 +13,7 @@
             {% for student in deleteds.students %}
             <tr>
                 <td width="339.17px">{{ student.deletedAt }}</td>
-                <td><a href="{{ student.url }}">{{ student.name }}</a></td>
+                <td>{{ student.name }}</td>
                 <td><a class="btn btn-default btn-xs" href="/students/{{ student.id }}/revoke/">撤销删除</a></td>
             </tr>
             {% endfor %}
@@ -95,4 +95,3 @@
         {% endfor %}
 
 </div>
-    
