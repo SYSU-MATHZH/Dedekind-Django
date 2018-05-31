@@ -27,10 +27,12 @@
 {% endblock %}
 
 {% block dropdown_content %}
-  {% if not nav.user.is_staff %}
+  {% if nav.user.is_staff %}
+    <li><a href="{{ nav.user.url }}">{{ nav.user.username }}</a></li>
+  {% else %}
     <li><a href="/applications/apply/">申请公益时</a></li>
+    <li><a href="{{ nav.student.url }}">{{ nav.student.name }}</a></li>
   {% endif %}
-  <li><a href="{{ nav.student.url }}">{{ nav.student.name }}</a></li>
   <li role="separator" class="divider"></li>
   <li><a href="#">查看帮助</a></li>
 {% endblock %}

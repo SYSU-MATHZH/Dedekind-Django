@@ -22,76 +22,91 @@
 
 <hr>
 
-    <div class="tab-header">活动</div>
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>活动日期</th>
-                    <th>活动名称</th>
-                    <th>组织方</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            {% for activity in deleteds.activities %}
-            <tr>
-                <td>{{ activity.date }}</td>
-                <td>{{ activity.title }}</td>
-                <td>{{ activity.group }}</td>
-                <td><a class="btn btn-default btn-xs" href="/activities/{{ activity.id }}/revoke/">撤销删除</a></td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-<hr>
-
-    <div class="tab-header">申请</div>
-    <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>申请日期</th>
-              <th>活动名称</th>
-              <th>申请人</th>
-              <th>公益时</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-              {% for application in deleteds.applications %}
-              <tr>
-                <td>{{ application.created }}</td>
-                <td><a>{{ application.sua.activity.title }}</a></td>
-                <td><a>{{ application.sua.student.name }}</a></td>
-                <td>{{ application.sua.suahours }}h</td>
-                <td><a class="btn btn-default btn-xs" href="/applications/{{ application.id }}/revoke/">撤销删除</a></td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-<hr>
-
-    <div class="tab-header">申诉</div>
-    <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-            <th>申诉日期</th>
-            <th>申诉的公示</th>
-            <th>申诉人</th>
-            <th></th>
-            </tr>
-          </thead>
-        {% for appeal in deleteds.appeals %}
+  <div class="tab-header">活动</div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
         <tr>
-            <td>{{ appeal.created }}</td>
-            <td><a href="{{ appeal.publicity.url }}">{{ appeal.publicity.title }}</a></td>
-            <td><a href="{{ appeal.student.url }}">{{ appeal.student.name }}</a></td>
-            <td><a class="btn btn-default btn-xs" href="/appeals/{{ appeal.id }}/revoke/">撤销删除</a></td>
+          <th>删除时间</th>
+          <th>活动日期</th>
+          <th>活动名称</th>
+          <th>组织方</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for activity in deleteds.activities %}
+        <tr>
+          <td>{{ activity.deletedAt }}</td>
+          <td>{{ activity.date }}</td>
+          <td>{{ activity.title }}</td>
+          <td>{{ activity.group }}</td>
+          <td><a class="btn btn-default btn-xs" href="/activities/{{ activity.id }}/revoke/">撤销删除</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+<hr>
+
+  <div class="tab-header">申请</div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>删除时间</th>
+          <th>申请日期</th>
+          <th>活动名称</th>
+          <th>申请人</th>
+          <th>公益时</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for application in deleteds.applications %}
+        <tr>
+          <td>{{ application.deletedAt }}</td>
+          <td>{{ application.created }}</td>
+          <td>{{ application.sua.activity.title }}</td>
+          <td>{{ application.sua.student.name }}</td>
+          <td>{{ application.sua.suahours }}h</td>
+          <td><a class="btn btn-default btn-xs" href="/applications/{{ application.id }}/revoke/">撤销删除</a></td>
         </tr>
         {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
+<hr>
+
+  <div class="tab-header">申诉</div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>删除时间</th>
+          <th>申诉日期</th>
+          <th>申诉的公示</th>
+          <th>申诉人</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for appeal in deleteds.appeals %}
+        <tr>
+          <td>{{ appeal.deletedAt }}</td>
+          <td>{{ appeal.created }}</td>
+          <td>{{ appeal.publicity.title }}</td>
+          <td>{{ appeal.student.name }}</td>
+          <td><a class="btn btn-default btn-xs" href="/appeals/{{ appeal.id }}/revoke/">撤销删除</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> 794e222b7ec7c01ebf0f4d807ede145e7da041d5

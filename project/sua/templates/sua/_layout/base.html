@@ -32,7 +32,11 @@
               <button class="btn btn-default btn-block dropdown-toggle li-info" type="button" id="navdropdownMenu" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
                 {% block dropdown_label %}
-                我的公益时: {{ nav.student.totalhours }}
+                {% if nav.user.is_staff %}
+                  {{ nav.user.username }}
+                {% else %}
+                  我的公益时: {{ nav.student.totalhours }}
+                {% endif %}
                 {% endblock %}
               </button>
               <ul class="dropdown-menu" aria-labelledby="navdropdownMenu">

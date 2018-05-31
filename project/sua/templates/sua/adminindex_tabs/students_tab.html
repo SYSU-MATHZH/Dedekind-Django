@@ -4,17 +4,14 @@
         <div class="col-lg-4 pull-right">
           <a class="btn btn-default" href="/students/add" target="_blank">创建学生</a>
           <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              筛选 <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="/admin/">取消筛选</a></li>
-              <li><a href="/admin/?grade=2016&classtype=1">2016级1班</a></li>
-              <li><a href="/admin/?grade=2016&classtype=2">2016级2班</a></li>
-              <li><a href="/admin/?grade=2017&classtype=1">2017级1班</a></li>
-              <li><a href="/admin/?grade=2017&classtype=2">2017级2班</a></li>
-            </ul>
-          </div>
+            <select id="activity.id" title="筛选" class="selectpicker show-tick form-control" data-live-search="true" data-toggle="dropdown">
+              <option value="">2016级1班</option>
+              <option value="">2016级2班</option>
+              <option value="">2017级1班</option>
+              <option value="">2017级2班</option>
+              </option>
+            </select>
+            </div>
         </div>
       </div>
 

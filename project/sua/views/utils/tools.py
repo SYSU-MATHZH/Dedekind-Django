@@ -43,7 +43,7 @@ def DateTime2String_VALUE(date):
 
 
 def get_deleteds(model, serializer, request):
-    set = model.objects.exclude(deletedAt=None).order_by('-deletedAt')
+    set = model.objects.order_by('-deletedAt').exclude(deletedAt=None)
     set_data = serializer(
         set,
         many=True,
@@ -55,7 +55,7 @@ def get_deleteds(model, serializer, request):
     datas = set_data.data
 
     for i in range(len(datas)):
-        datas[i]['deletedAt'] = set[i].deletedAt
+        datas[i]['deletedAt'] = DateTime2String_SHOW(set[i].deletedAt)
 
     return list(set_data.data)
 
