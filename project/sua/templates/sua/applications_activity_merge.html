@@ -8,7 +8,7 @@
   {% csrf_token %}
   <form action="" method="POST">
     <label>请选择一个活动:</label>
-    <select id="activity.id" class="selectpicker show-tick form-control" data-live-search="true">
+    <select id="activity.id" title="请选择活动" class="selectpicker show-tick form-control" data-live-search="true">
       <option value="">无任何活动</option>
       {% for activity in activities %}
       <option value="{{ activity.id }}">
