@@ -552,11 +552,11 @@ class ApplicationsMergeView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         activities_data = ActivityWithSuaSerializer(
-            Activity.objects.filter(deletedAt=None,iscreatebystudent=False).order_by('id'),
+            Activity.objects.filter(deletedAt=None, iscreatebystudent=False).order_by('id'),
             many=True,
             context={'request':request},
             )
-        application_set = Application.objects.filter(deletedAt=None).order_by('created')# 获取所有申请,按时间的倒序排序
+        application_set = Application.objects.filter(deletedAt=None, is_checked=False).order_by('created')# 获取所有申请,按时间的倒序排序
         applications_data = ApplicationSerializer(  # 序列化所有申请
             application_set,
             many=True,
@@ -576,17 +576,20 @@ class ApplicationsMergeView(BaseView, NavMixin):
         for application in applications:
             if str(application.id) in request.data:
                 merge_applications.append(application)
-        print(merge_applications)
+        #print(request.data)
         if 'activity_id' in request.data:
-            activity = Activity.objects.filter(id=request.data['activity_id'],deletedAt=None).get()
-        elif bool(merge_applications):
-            activity = merge_applications[0].sua.activity
-        #activity_suas = Sua.objects.filter(deletedAt=None, activity=activity).all()
+            if request.data['activity_id'] in ['None', ''] and bool(merge_applications):
+                activity = merge_applications[0].sua.activity
+            else:
+                activity = Activity.objects.filter(id=request.data['activity_id'],deletedAt=None).get()
+
+        #print(activity)
+        #print(merge_applications)
         for i in range(len(merge_applications)):
             sua = Sua.objects.filter(deletedAt=None,application=merge_applications[i]).get()
             old_activity = sua.activity
             Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
-            if old_activity != activity:
+            if old_activity != activity and old_activity.iscreatebystudent:
                 old_activity.delete()
 
         self.url="/"
