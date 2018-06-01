@@ -15,6 +15,7 @@ from project.sua.views.utils.mixins import NavMixin
 import project.sua.views.utils.tools as tools
 
 from django.utils import timezone
+import datetime
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/index.html'
