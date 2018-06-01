@@ -585,7 +585,6 @@ class ApplicationsMergeView(BaseView, NavMixin):
         for i in range(len(merge_applications)):
             sua = Sua.objects.filter(deletedAt=None,application=merge_applications[i]).get()
             old_activity = sua.activity
-            sua_students.append(sua.student)
             Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
             if old_activity != activity:
                 old_activity.delete()
