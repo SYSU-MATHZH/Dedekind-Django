@@ -28,7 +28,7 @@
         <label>
           学生
         </label>
-        <select class="form-control" name="student" >
+        <select class="selectpicker show-tick form-control" title="请选择参与人" data-live-search="true"name="student" >
           {% for student in students %}
             <option value="{{ student.url }}">{{ student.name }} {{ student.number }}</option>
           {% endfor %}

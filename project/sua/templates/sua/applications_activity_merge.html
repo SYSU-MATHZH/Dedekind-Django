@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block content_detail %}
-  {% csrf_token %}
   <form action="" method="POST">
+    {% csrf_token %}
     <label>请选择一个活动:</label>
-    <select id="activity.id" class="selectpicker show-tick form-control" data-live-search="true">
-      <option value="">无任何活动</option>
+    <select name="activity_id" title="请选择活动" class="selectpicker show-tick form-control" data-live-search="true">
+      <option value="None">无任何活动</option>
       {% for activity in activities %}
       <option value="{{ activity.id }}">
         {{ activity.title }}
