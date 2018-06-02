@@ -131,7 +131,7 @@ class BaseViewSet(
         return self.get_revoke_response()
 
     def perform_revoke(self, instance):
-        instance.deletedAt = None
+        instance.deleted_at = None
         instance.save()
 
     def get_revoke_response(self):
