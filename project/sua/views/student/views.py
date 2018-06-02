@@ -44,7 +44,7 @@ class IndexView(BaseView, NavMixin):
         user = request.user
 
         publicity_set = Publicity.objects.filter(  # 获取在公示期内的所有公示
-            deletedAt=None,
+            deleted_at=None,
             is_published=True,
             begin__lte=timezone.now(),
             end__gte=timezone.now()
@@ -61,7 +61,7 @@ class IndexView(BaseView, NavMixin):
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
 
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
-            user.applications.filter(deletedAt=None),
+            user.applications.filter(deleted_at=None),
             many=True,
             context={'request': request}
         )
@@ -79,7 +79,7 @@ class IndexView(BaseView, NavMixin):
             student = user.student
             if 'year_begin' not in request.GET:
                 sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
-                    student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
+                    student.suas.filter(deleted_at=None,is_valid=True,activity__is_valid=True),
                     many=True,
                     context={'request': request}
                 )
@@ -89,7 +89,7 @@ class IndexView(BaseView, NavMixin):
                 start_date = datetime.date(year_begin, 8, 1)
                 end_date = datetime.date(year_end, 8, 1)
                 sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
-                    student.suas.filter(deletedAt=None,is_valid=True,
+                    student.suas.filter(deleted_at=None,is_valid=True,
                         activity__is_valid=True,
                         activity__date__range=(start_date, end_date)
                     ),
@@ -106,7 +106,7 @@ class IndexView(BaseView, NavMixin):
                 sua['activity']['date'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['date']))
 
             appeal_data = AppealSerializer(  # 序列化当前学生的所有申诉
-                student.appeals.filter(deletedAt=None),
+                student.appeals.filter(deleted_at=None),
                 many=True,
                 context={'request': request}
             )
@@ -124,7 +124,7 @@ class IndexView(BaseView, NavMixin):
                 activity_data = ActivitySerializer(
                     Activity.objects.filter(
                         owner=user,
-                        deletedAt=None
+                        deleted_at=None
                         ).order_by('-created'),
                     many = True,
                     context = {'request':request}
@@ -134,7 +134,7 @@ class IndexView(BaseView, NavMixin):
                     activity['date'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(activity['date']))
 
                 admin_applications = ApplicationSerializer(
-                    Application.objects.filter(sua__activity__owner=user,deletedAt=None).order_by('-created'),
+                    Application.objects.filter(sua__activity__owner=user,deleted_at=None).order_by('-created'),
                     many=True,
                     context={'request':request}
                 )
@@ -159,7 +159,7 @@ class AppealView(BaseView,NavMixin):
     def serialize(self, request, *args, **kwargs):
         publicity_id = kwargs['pk']
         publicity = AddPublicitySerializer(Publicity.objects.filter(
-            deletedAt=None,
+            deleted_at=None,
             id=publicity_id
             ).get(),context={'request':request})
         serialized = super(AppealView, self).serialize(request)
@@ -180,7 +180,7 @@ class AppealView(BaseView,NavMixin):
         if serializer.is_valid():
 
             serializer.save(publicity=Publicity.objects.filter(
-                deletedAt=None,
+                deleted_at=None,
                 id=publicity_id
                 ).get(),owner=user,student=student)
             self.url = serializer.data['url']
@@ -204,7 +204,7 @@ class SuasExportView(BaseView,NavMixin):
             student = user.student
             if 'year_begin' not in request.GET:
                 sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
-                    student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
+                    student.suas.filter(deleted_at=None,is_valid=True,activity__is_valid=True),
                     many=True,
                     context={'request': request}
                 )
@@ -214,7 +214,7 @@ class SuasExportView(BaseView,NavMixin):
                 start_date = datetime.date(year_begin, 8, 1)
                 end_date = datetime.date(year_end, 8, 1)
                 sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
-                    student.suas.filter(deletedAt=None,is_valid=True,
+                    student.suas.filter(deleted_at=None,is_valid=True,
                         activity__is_valid=True,
                         activity__date__range=(start_date, end_date)
                     ),
@@ -227,7 +227,7 @@ class SuasExportView(BaseView,NavMixin):
                     })
             # print(IndexView)
             # sua_data = SuaSerializer(# 序列化当前学生的某学年的公益时记录
-            #     student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True,),
+            #     student.suas.filter(deleted_at=None,is_valid=True,activity__is_valid=True,),
             #     many=True,
             #     context={'request': request}
             #     )
@@ -250,7 +250,7 @@ def Download(request):
         student = user.student
         if 'year_begin' not in request.GET:
             sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
-                student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
+                student.suas.filter(deleted_at=None,is_valid=True,activity__is_valid=True),
                 many=True,
                 context={'request': request}
             )
@@ -260,7 +260,7 @@ def Download(request):
             start_date = datetime.date(year_begin, 8, 1)
             end_date = datetime.date(year_end, 8, 1)
             sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
-                student.suas.filter(deletedAt=None,is_valid=True,
+                student.suas.filter(deleted_at=None,is_valid=True,
                     activity__is_valid=True,
                     activity__date__range=(start_date, end_date)
                 ),
@@ -271,7 +271,7 @@ def Download(request):
     # # Filename = 'str(student.name)'
 
     # sua_data = SuaSerializer(# 序列化当前学生的所有公益时记录
-    #     student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
+    #     student.suas.filter(deleted_at=None,is_valid=True,activity__is_valid=True),
     #     many=True,
     #     context={'request': request}
     # )

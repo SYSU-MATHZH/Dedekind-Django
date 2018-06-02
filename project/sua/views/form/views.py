@@ -44,7 +44,7 @@ class StudentViewSet(
     """
     - API endpoint that allows students to be viewed or edited.
     """
-    queryset = Student.objects.filter(deletedAt=None)
+    queryset = Student.objects.filter(deleted_at=None)
     serializer_class = sirs.StudentSerializer
     permission_classes = (IsAdminUserOrReadOnly, )
     filter_fields = ('grade', 'classtype')
@@ -110,7 +110,7 @@ class SuaGroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
     - API endpoint that allows suagroups to be viewed or edited.
     """
-    queryset = SuaGroup.objects.filter(deletedAt=None)
+    queryset = SuaGroup.objects.filter(deleted_at=None)
     serializer_class = sirs.SuaGroupSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
 
@@ -126,7 +126,7 @@ class SuaViewSet(
     """
     - API endpoint that allows suas to be viewed or edited.
     """
-    queryset = Sua.objects.filter(deletedAt=None)
+    queryset = Sua.objects.filter(deleted_at=None)
     serializer_class = sirs.SuaSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     delete_success_url='/'
@@ -211,7 +211,7 @@ class ActivityViewSet(
     """
     - API endpoint that allows activities to be viewed or edited.
     """
-    queryset = Activity.objects.filter(deletedAt=None)
+    queryset = Activity.objects.filter(deleted_at=None)
     serializer_class = sirs.ActivitySerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     delete_success_url='/admin'
@@ -315,7 +315,7 @@ class ApplicationViewSet(
     """
     - API endpoint that allows applications to be viewed or edited.
     """
-    queryset = Application.objects.filter(deletedAt=None)
+    queryset = Application.objects.filter(deleted_at=None)
     serializer_class = sirs.ApplicationSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     delete_success_url='/admin'
@@ -387,7 +387,7 @@ class PublicityViewSet(
     """
     - API endpoint that allows publicities to be viewed or edited.
     """
-    queryset = Publicity.objects.filter(deletedAt=None)
+    queryset = Publicity.objects.filter(deleted_at=None)
     serializer_class = sirs.PublicitySerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     delete_success_url = '/'
@@ -460,7 +460,7 @@ class AppealViewSet(
     """
     - API endpoint that allows appeals to be viewed or edited.
     """
-    queryset = Appeal.objects.filter(deletedAt=None)
+    queryset = Appeal.objects.filter(deleted_at=None)
     serializer_class = sirs.AppealSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     delete_success_url = '/admin'
@@ -532,7 +532,7 @@ class ProofViewSet(
     """
     - API endpoint that allows proofs to be viewed or edited.
     """
-    queryset = Proof.objects.filter(deletedAt=None)
+    queryset = Proof.objects.filter(deleted_at=None)
     serializer_class = sirs.ProofSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     delete_success_url='/'

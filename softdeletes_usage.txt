@@ -1,0 +1,23 @@
+from djangodeletes.softdelete import SoftDeletable,SoftDeleteManager, SoftDeleteQuerySet
+
+
+class MyModel(SoftDeletable, models.Model):
+    ...
+    ...
+    ...
+
+    objects = SoftDeleteManager.from_queryset(SoftDeleteQuerySet)()
+
+
+（这部分暂时没用，用的话效果为xx.bojects.xx()可以按照正常使用，目前还是用的之前的filter来过滤）
+.objects.... (use as normal)
+---------------------------------------------------------------------
+
+
+
+.deleted_at (None or time when deleting happens)
+.deleted  (bool)
+.delete()
+.delete(final=True)      [real delete]
+.restore() (undelete itself)
+.full_restore()  (undelete all related)

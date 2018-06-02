@@ -14,7 +14,7 @@
       <tbody>
       {% for student in deleteds.students %}
         <tr>
-          <td>{{ student.deletedAt }}</td>
+          <td>{{ student.deleted_at }}</td>
           <td>{{ student.name }}</td>
           <td>{{ student.number }}</td>
           <td><a class="btn btn-default btn-xs" href="/students/{{ student.id }}/revoke/">撤销删除</a></td>
@@ -42,7 +42,7 @@
       <tbody>
       {% for activity in deleteds.activities %}
         <tr>
-          <td>{{ activity.deletedAt }}</td>
+          <td>{{ activity.deleted_at }}</td>
           <td>{{ activity.date }}</td>
           <td>{{ activity.title }}</td>
           <td>{{ activity.group }}</td>
@@ -71,7 +71,7 @@
       <tbody>
         {% for application in deleteds.applications %}
         <tr>
-          <td>{{ application.deletedAt }}</td>
+          <td>{{ application.deleted_at }}</td>
           <td>{{ application.created }}</td>
           <td>{{ application.sua.activity.title }}</td>
           <td>{{ application.sua.student.name }}</td>
@@ -99,7 +99,7 @@
       <tbody>
         {% for appeal in deleteds.appeals %}
         <tr>
-          <td>{{ appeal.deletedAt }}</td>
+          <td>{{ appeal.deleted_at }}</td>
           <td>{{ appeal.created }}</td>
           <td>{{ appeal.publicity.title }}</td>
           <td>{{ appeal.student.name }}</td>

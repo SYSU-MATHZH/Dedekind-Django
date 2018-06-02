@@ -29,7 +29,7 @@ class IndexView(BaseView, NavMixin):
         user = request.user
         deleteds = {}
         publicity_set = Publicity.objects.filter(  # 获取在公示期内的所有公示
-            deletedAt=None,
+            deleted_at=None,
             is_published=True,
             begin__lte=timezone.now(),
             end__gte=timezone.now()
@@ -52,9 +52,9 @@ class IndexView(BaseView, NavMixin):
         if user.is_staff or user.student.power == 1:
 
             if user.is_staff:
-                application_set = Application.objects.filter(deletedAt=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
+                application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
             elif user.student.power == 1:
-                application_set = Application.objects.filter(sua__activity__owner=user,deletedAt=None).order_by('-created')# 获取活该学生创建的活动的申请
+                application_set = Application.objects.filter(sua__activity__owner=user,deleted_at=None).order_by('-created')# 获取活该学生创建的活动的申请
 
             application_data = ApplicationSerializer(  # 序列化所有申请
                 application_set,
@@ -69,11 +69,11 @@ class IndexView(BaseView, NavMixin):
 
             if user.is_staff:
                 activity_set = Activity.objects.filter(
-                    deletedAt=None).order_by('-created')  # 获取所有当前管理员创建的活动
+                    deleted_at=None).order_by('-created')  # 获取所有当前管理员创建的活动
             elif user.student.power == 1:
                 activity_set = Activity.objects.filter(
                     owner=user,
-                    deletedAt=None
+                    deleted_at=None
                     ).order_by('-created')                # 获取该活动级管理员创建的活动
 
             activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
@@ -100,7 +100,7 @@ class IndexView(BaseView, NavMixin):
 
         if user.is_staff:
 
-            student_set = Student.objects.filter(deletedAt=None).order_by('number')  # 获取所有学生信息
+            student_set = Student.objects.filter(deleted_at=None).order_by('number')  # 获取所有学生信息
             student_data = StudentSerializer(  # 序列化所有学生信息
                 student_set,
                 many=True,
@@ -109,7 +109,7 @@ class IndexView(BaseView, NavMixin):
 
             deleteds['students'] = tools.get_deleteds(Student, StudentSerializer, request)
 
-            appeal_set = Appeal.objects.filter(deletedAt=None).order_by(
+            appeal_set = Appeal.objects.filter(deleted_at=None).order_by(
                 'is_checked', '-created')  # 获取在公示期内的所有申诉
             appeal_data = AppealSerializer(  # 序列化申诉
                 appeal_set,
@@ -134,7 +134,7 @@ class IndexView(BaseView, NavMixin):
             student = user.student
 
             application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
-                user.applications.filter(deletedAt=None),
+                user.applications.filter(deleted_at=None),
                 many=True,
                 context={'request': request}
             )
@@ -145,7 +145,7 @@ class IndexView(BaseView, NavMixin):
 
             if 'year_begin' not in request.GET:
                 sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
-                    student.suas.filter(deletedAt=None,is_valid=True,activity__is_valid=True),
+                    student.suas.filter(deleted_at=None,is_valid=True,activity__is_valid=True),
                     many=True,
                     context={'request': request}
                 )
@@ -155,7 +155,7 @@ class IndexView(BaseView, NavMixin):
                 start_date = datetime.date(year_begin, 8, 1)
                 end_date = datetime.date(year_end, 8, 1)
                 sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
-                    student.suas.filter(deletedAt=None,is_valid=True,
+                    student.suas.filter(deleted_at=None,is_valid=True,
                         activity__is_valid=True,
                         activity__date__range=(start_date, end_date)
                     ),
@@ -172,7 +172,7 @@ class IndexView(BaseView, NavMixin):
                 sua['activity']['date'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['date']))
 
             appeal_data = AppealSerializer(  # 序列化当前学生的所有申诉
-                student.appeals.filter(deletedAt=None),
+                student.appeals.filter(deleted_at=None),
                 many=True,
                 context={'request': request}
             )
@@ -192,17 +192,17 @@ class IndexView(BaseView, NavMixin):
     def deserialize(self, request, *args, **kwargs):
         if request.user.is_staff:
             merge_applications = []
-            applications = Application.objects.filter(deletedAt=None,).all()
+            applications = Application.objects.filter(deleted_at=None,).all()
             for application in applications:
                 if str(application.id) in request.data:
                     merge_applications.append(application)
             if 'activity_id' in request.data:
-                activity = Activity.objects.filter(id=request.data['activity_id'],deletedAt=None).get()
+                activity = Activity.objects.filter(id=request.data['activity_id'],deleted_at=None).get()
             elif bool(merge_applications):
                 activity = merge_applications[0].sua.activity
             #print(activity)
             for i in range(len(merge_applications)):
-                sua = Sua.objects.filter(deletedAt=None,application=merge_applications[i]).update(activity=activity)
+                sua = Sua.objects.filter(deleted_at=None,application=merge_applications[i]).update(activity=activity)
             #    print(sua)
                 #sua.save(activity=activity)
                 #else:

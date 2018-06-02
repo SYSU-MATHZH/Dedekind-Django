@@ -13,7 +13,7 @@ class StudentViewSet(BaseViewSet, NavMixin):
         'nav': 'nav',
     }
     serializer_class = firs.AddStudentSerializer
-    queryset = Student.objects.filter(deletedAt=None)
+    queryset = Student.objects.filter(deleted_at=None)
     revoke_queryset = Student.objects.all()
     revoke_success_url = delete_success_url = '/'
     # filter_fields = ('grade', 'classtype')
@@ -47,7 +47,7 @@ class SuaViewSet(BaseViewSet, NavMixin):
         'nav': 'nav',
     }
     serializer_class = firs.AddSuaSerializer
-    queryset = Sua.objects.filter(deletedAt=None)
+    queryset = Sua.objects.filter(deleted_at=None)
     revoke_queryset = Sua.objects.all()
     revoke_success_url = delete_success_url = '/'
     #filter_fields = ('grade', 'classtype')
@@ -79,7 +79,7 @@ class ActivityViewSet(BaseViewSet, NavMixin):
         'nav': 'nav',
     }
     serializer_class = firs.AddActivitySerializer
-    queryset = Activity.objects.filter(deletedAt=None)
+    queryset = Activity.objects.filter(deleted_at=None)
     revoke_queryset = Activity.objects.all()
     revoke_success_url = delete_success_url = '/'
     #filter_fields = ('grade', 'classtype')
@@ -112,7 +112,7 @@ class ApplicationViewSet(BaseViewSet, NavMixin):
         'nav': 'nav',
     }
     serializer_class = firs.AddApplicationSerializer
-    queryset = Application.objects.filter(deletedAt=None)
+    queryset = Application.objects.filter(deleted_at=None)
     revoke_queryset = Application.objects.all()
     revoke_success_url = delete_success_url = '/'
     #filter_fields = ('grade', 'classtype')
@@ -147,7 +147,7 @@ class PublicityViewSet(BaseViewSet, NavMixin):
         'nav': 'nav',
     }
     serializer_class = firs.AddPublicitySerializer
-    queryset = Publicity.objects.filter(deletedAt=None)
+    queryset = Publicity.objects.filter(deleted_at=None)
     revoke_queryset = Publicity.objects.all()
     revoke_success_url = delete_success_url = '/'
     #filter_fields = ('grade', 'classtype')
@@ -179,7 +179,7 @@ class AppealViewSet(BaseViewSet, NavMixin):
         'nav': 'nav',
     }
     serializer_class = firs.AddAppealSerializer
-    queryset = Appeal.objects.filter(deletedAt=None)
+    queryset = Appeal.objects.filter(deleted_at=None)
     revoke_queryset = Appeal.objects.all()
     revoke_success_url = delete_success_url = '/'
     #filter_fields = ('grade', 'classtype')
@@ -211,7 +211,7 @@ class ProofViewSet(BaseViewSet, NavMixin):
         'nav': 'nav',
     }
     serializer_class = firs.AddProofSerializer
-    queryset = Proof.objects.filter(deletedAt=None)
+    queryset = Proof.objects.filter(deleted_at=None)
     revoke_queryset = Proof.objects.all()
     revoke_success_url = delete_success_url = '/'
     #filter_fields = ('grade', 'classtype')
