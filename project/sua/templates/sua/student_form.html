@@ -25,7 +25,7 @@
     <div class="col-lg-6 col-lg-offset-3">
       <div class="form-group">
         <label>学号</label>
-        <input name="number" class="form-control" type="number" value="{{serializer.data.number}}" />
+          <input name="number" class="form-control" type="number" value="{{serializer.data.number}}"/>
       </div>
       <div class="form-group">
         <label>姓名</label>
@@ -54,14 +54,16 @@
         <input name="phone" class="form-control" type="text" value="{{serializer.data.phone}}" />
       </div>
 
+    {% if user.is_staff %}
       <div class="form-group">
         <label>权限</label>
-        <select class="form-control" name="power" value="{{serializer.data.power}}">
+        <select class="form-control" name="power" value="{{serializer.data.power}}" disabled="True">
           <option value="0" {% if serializer.data.power == 0 %}selected{% endif %}>普通学生</option>
           <option value="1" {% if serializer.data.power == 1 %}selected{% endif %}>活动级管理员</option>
         </select>
       </div>
-
+    {% endif %}
+    
       <div class="form-group">
         <label>密码</label>
         <input name="user.password" class="form-control" type="password" />

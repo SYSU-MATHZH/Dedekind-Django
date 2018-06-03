@@ -126,7 +126,6 @@ class IndexView(BaseView, NavMixin):
             serialized.update({
                 'admin_appeals': appeals,
                 'admin_students': student_data.data,
-                'deleteds': deleteds,
             })
 
         if hasattr(user,'student'):
@@ -186,7 +185,9 @@ class IndexView(BaseView, NavMixin):
                 'suas': sua_data.data,
                 'appeals': appeal_data.data,
             })
-#        print(serialized)
+        serialized.update({
+            'deleteds': deleteds,
+        })
         return serialized
 
     def deserialize(self, request, *args, **kwargs):

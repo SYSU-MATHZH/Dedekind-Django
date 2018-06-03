@@ -2,7 +2,7 @@ from .base import BaseViewSet
 
 from rest_framework.permissions import IsAdminUser
 from project.sua.views.utils.mixins import NavMixin
-from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly,IsAdminUserOrActivity
+from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly,IsAdminUserOrActivity,IsAdminUserOrStudent
 from project.sua.models import Student, Sua, Activity, Application, Publicity, Appeal, Proof
 import project.sua.views.form.serializers as firs
 import project.sua.serializers as sirs
@@ -33,10 +33,10 @@ class StudentViewSet(BaseViewSet, NavMixin):
             return self.serializer_class
 
     def get_permissions(self):
-        if self.action in ['add', 'change']:
+        if self.action in ['add',]:
             permission_classes = (IsAdminUser, )
-        elif self.action == 'detail':
-            permission_classes = (IsTheStudentOrIsAdminUser, )
+        elif self.action in ['detail','change']:
+            permission_classes = (IsAdminUserOrStudent, )
         else:
             permission_classes = (IsAdminUserOrReadOnly, )
 

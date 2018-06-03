@@ -1,5 +1,6 @@
 <div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_deleteds' }}">
 
+{% if nav.user.is_staff %}
   <div class="tab-header">学生</div>
   <div class="table-responsive">
     <table class="table">
@@ -12,18 +13,18 @@
         </tr>
       </thead>
       <tbody>
-      {% for student in deleteds.students %}
-        <tr>
-          <td>{{ student.deleted_at }}</td>
-          <td>{{ student.name }}</td>
-          <td>{{ student.number }}</td>
-          <td><a class="btn btn-default btn-xs" href="/students/{{ student.id }}/revoke/">撤销删除</a></td>
-        </tr>
-      {% endfor %}
+        {% for student in deleteds.students %}
+          <tr>
+            <td>{{ student.deleted_at }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.number }}</td>
+            <td><a class="btn btn-default btn-xs" href="/students/{{ student.id }}/revoke/">撤销删除</a></td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
-
+{% endif %}
 
 <hr>
 
@@ -85,6 +86,7 @@
 
 <hr>
 
+{% if nav.user.is_staff %}
   <div class="tab-header">申诉</div>
   <div class="table-responsive">
     <table class="table">
@@ -109,3 +111,4 @@
       </tbody>
     </table>
   </div>
+{% endif %}

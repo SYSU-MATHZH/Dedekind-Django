@@ -43,7 +43,16 @@ def DateTime2String_VALUE(date):
 
 
 def get_deleteds(model, serializer, request):
-    set = model.objects.order_by('-deleted_at').exclude(deleted_at=None)
+    user = request.user
+    if user.is_staff:
+        set = model.objects.order_by('-deleted_at').exclude(deleted_at=None)
+    if hasattr(user,'student'):
+        if user.student.power == 1:
+            if model == myModels.Activity:
+                set = model.objects.filter(owner=user).order_by('-deleted_at').exclude(deleted_at=None)
+            elif model == myModels.Application:
+                set = model.objects.filter(sua__activity__owner=user).order_by('-deleted_at').exclude(deleted_at=None)
+            
     set_data = serializer(
         set,
         many=True,
