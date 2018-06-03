@@ -95,7 +95,6 @@ class IndexView(BaseView, NavMixin):
         )
 
         deleteds['activities'] = tools.get_deleteds(Activity, ActivitySerializer, request)
-
         activities = activity_data.data
         for activity in activities:
             activity['date'] = tools.Date2String_SHOW(
