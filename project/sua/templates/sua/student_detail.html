@@ -83,6 +83,7 @@
     <a href="/" class="btn btn-default">返回主页</a>
     {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_student_" id2=serializer.data.id title="确认删除学生" content="确认要删除该学生吗？" confirm_label="确认删除" confirm_href1="/students/" confirm_href2=serializer.data.id confirm_href3="/delete/" only%}
   </div>
+  {{ serializer.data.user }}
 </div>
 
 {% endblock %}
