@@ -131,8 +131,10 @@ class BaseViewSet(
         return self.get_revoke_response()
 
     def perform_revoke(self, instance):
-        instance.deleted_at = None
-        instance.save()
+        # instance.deleted_at = None
+        # instance.deleted = True
+        instance.full_restore()
+        # instance.save()
 
     def get_revoke_response(self):
         return HttpResponseRedirect(self.revoke_success_url)

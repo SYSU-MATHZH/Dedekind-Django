@@ -6,7 +6,7 @@ from django.utils import timezone
 from project.sua.storage import FileStorage
 import datetime
 import hashlib
-from djangodeletes.softdeletes import SoftDeletable, SoftDeleteManager, SoftDeleteQuerySet
+from project.sua.softdeletes.models import SoftDeletable
 
 YEAR_CHOICES = []
 for r in range(2016, datetime.datetime.now().year):
