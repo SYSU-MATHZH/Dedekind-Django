@@ -260,9 +260,11 @@ class ApplicationView(BaseView, NavMixin):
                 serializer.save(is_checked=True)
                 if(serializer.data['status'] == 0):
                     activity.is_valid=True
+                    activity.save()
                     sua_data.save(is_valid=True)
                 elif serializer.data['status'] >= 1:
                     activity.is_valid=False
+                    activity.save()
                     sua_data.save(is_valid=False)
                 self.url = serializer.data['url']
                 return True
