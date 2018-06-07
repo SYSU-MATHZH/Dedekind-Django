@@ -100,6 +100,15 @@ class BaseViewSet(
     @detail_route(methods=['get'])
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
+        user = request.user
+        deleted = None
+        if user.is_staff or user.student.power == 1:
+            if user.is_staff:
+                deleted = user.username
+            elif user.student.power == 1:
+                deleted = user.student.name
+        instance.deleted_by = deleted
+        instance.save()
         self.perform_delete(instance)
         return self.get_delete_response()
 
