@@ -6,7 +6,7 @@ from django.utils import timezone
 from project.sua.storage import FileStorage
 import datetime
 import hashlib
-from djangodeletes.softdeletes import SoftDeletable, SoftDeleteManager, SoftDeleteQuerySet
+from project.sua.softdeletes.models import SoftDeletable
 
 YEAR_CHOICES = []
 for r in range(2016, datetime.datetime.now().year):
@@ -30,8 +30,14 @@ EXPIRE_TIME = 86400
 #         self.deleted_at = timezone.now()
 #         self.save()
 
+class BaseSchema(SoftDeletable, models.Model):
+    deleted_by = models.CharField(max_length=100, null=True, default=None)
 
-class Student(SoftDeletable, models.Model):
+    class Meta:
+        abstract = True     #设为抽象基类，否则会出现id字段冲突的情况
+
+
+class Student(BaseSchema):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -64,7 +70,7 @@ class Student(SoftDeletable, models.Model):
         return self.suas.filter(deleted_at=None, is_valid=True, activity__is_valid=True)
 
 
-class SuaGroup(SoftDeletable, models.Model):
+class SuaGroup(BaseSchema):
     group = models.OneToOneField(
         Group,
         on_delete=models.CASCADE,
@@ -78,7 +84,7 @@ class SuaGroup(SoftDeletable, models.Model):
         return self.name
 
 
-class Activity(SoftDeletable, models.Model):
+class Activity(BaseSchema):
     owner = models.ForeignKey(
         'auth.User',
         related_name='activities',
@@ -107,7 +113,7 @@ class Activity(SoftDeletable, models.Model):
     #     self.is_valid = False
     #     self.save()
 
-class Sua(SoftDeletable, models.Model):
+class Sua(BaseSchema):
     owner = models.ForeignKey(
         'auth.User',
         related_name='suas',
@@ -150,7 +156,7 @@ class Sua(SoftDeletable, models.Model):
     #     self.save()
 
 
-class Proof(SoftDeletable, models.Model):
+class Proof(BaseSchema):
     owner = models.ForeignKey(
         User,
         related_name='proofs',
@@ -173,7 +179,7 @@ class Proof(SoftDeletable, models.Model):
                 self.created.strftime("%Y%m%d%H%M%S")
 
 
-class Application(SoftDeletable, models.Model):
+class Application(BaseSchema):
     sua = models.OneToOneField(
         Sua,
         related_name='application',
@@ -200,7 +206,7 @@ class Application(SoftDeletable, models.Model):
         return self.sua.student.name + '的 ' + self.sua.activity.title + '的 ' + '申请'
 
 
-class Publicity(SoftDeletable, models.Model):
+class Publicity(BaseSchema):
     owner = models.ForeignKey(
         'auth.User',
         related_name='publicities',
@@ -223,7 +229,7 @@ class Publicity(SoftDeletable, models.Model):
         return self.title
 
 
-class Appeal(SoftDeletable, models.Model):
+class Appeal(BaseSchema):
     owner = models.ForeignKey(
         'auth.User',
         related_name='appeals',

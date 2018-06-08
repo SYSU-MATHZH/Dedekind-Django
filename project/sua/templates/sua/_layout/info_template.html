@@ -8,7 +8,9 @@
 
 <div class="main-content">
   <div class="tab-content my-tab-content">
+    {% block rewritten_content_title %}
     <div class="tab-header">{% block content_title %}加载失败了!{% endblock %}</div>
+    {% endblock %}
     {% block content_detail %}
       <div>请刷新页面重试</div>
     {% endblock %}

@@ -5,47 +5,47 @@
 {% endblock %}
 
 {% block content_detail %}
-  <form action="" method="POST">
-    {% csrf_token %}
-    <label>请选择一个活动:</label>
-    <select name="activity_id" title="请选择活动" class="selectpicker show-tick form-control" data-live-search="true">
-      <option value="None">无任何活动</option>
-      {% for activity in activities %}
-      <option value="{{ activity.id }}">
-        {{ activity.title }}
-      </option>
-      {% endfor %}
-    </select>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>申请日期</th>
-            <th>活动名称</th>
-            <th>申请人</th>
-            <th>公益时</th>
-            <th>是否已审核</th>
-            <th> </th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for application in applications %}
-          <tr>
-            <td>{{ application.created }}</td>
-            <td><a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a></td>
-            <td><a href="{{ application.sua.student.url }}">{{ application.sua.student.name }}</a></td>
-            <td>{{ application.sua.suahours }}h</td>
-            <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
-            <td><input type="checkbox" name="{{ application.id }}" value="True"></td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+<form action="" method="POST">
+  {% csrf_token %}
+  <label>请选择一个活动:</label>
+  <select name="activity_id" title="请选择活动" class="selectpicker show-tick form-control" data-live-search="true">
+    <option value="None">无任何活动</option>
+    {% for activity in activities %}
+    <option value="{{ activity.id }}">
+      {{ activity.title }}
+    </option>
+    {% endfor %}
+  </select>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>申请日期</th>
+          <th>活动名称</th>
+          <th>申请人</th>
+          <th>公益时</th>
+          <th>是否已审核</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for application in applications %}
+        <tr>
+          <td>{{ application.created }}</td>
+          <td><a href="{{ application.sua.activity.url }}">{{ application.sua.activity.title }}</a></td>
+          <td><a href="{{ application.sua.student.url }}">{{ application.sua.student.name }}</a></td>
+          <td>{{ application.sua.suahours }}h</td>
+          <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
+          <td><input type="checkbox" name="{{ application.id }}" value="True"></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 col-lg-offset-4">
+      <input class="btn btn-default btn-block" type="submit" value="提交">
     </div>
-    <div class="row">
-      <div class="col-lg-4 col-lg-offset-4">
-        <input class="btn btn-default btn-block" type="submit" value="提交">
-      </div>
-    </div>
-  </form>
+  </div>
+</form>
 {% endblock %}
