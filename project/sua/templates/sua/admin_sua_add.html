@@ -1,4 +1,6 @@
 {% extends 'sua/_layout/info_template.html' %}
+{% load static %}
+{% load rest_framework %}
 
 {% block title %}添加参与人{% endblock %}
 
@@ -7,7 +9,6 @@
 {% endblock %}
 
 {% block content_detail %}
-{% load rest_framework %}
 <div class="row">
   <div class="col-lg-10">
     <hr>
@@ -22,7 +23,7 @@
         <label>
           学生
         </label>
-        <select class="selectpicker show-tick form-control" title="请选择参与人" data-live-search="true"name="student" >
+        <select name="student" class="selectpicker show-tick form-control" title="请选择参与人" data-live-search="true">
           {% for student in students %}
             <option value="{{ student.url }}">{{ student.name }} {{ student.number }}</option>
           {% endfor %}

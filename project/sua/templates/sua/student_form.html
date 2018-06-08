@@ -2,19 +2,15 @@
 
 {% block title %}申请个人公益时{% endblock %}
 
-{% block content_title %}
-<div class="row">
-  <div class="col-lg-12">
-    <div align="center">
-      {% if serializer.data.url %}
-        正在编辑“{{ serializer.data.name }}”的账号信息
-      {% else %}
-        创建新的学生帐号
-      {% endif %}
-    </div>
-    <hr />
-  </div>
+{% block rewritten_content_title %}
+<div class="center-tab-header">
+{% if serializer.data.url %}
+  正在编辑“{{ serializer.data.name }}”的账号信息
+{% else %}
+  创建新的学生帐号
+{% endif %}
 </div>
+<hr/>
 {% endblock %}
 
 {% block content_detail %}
