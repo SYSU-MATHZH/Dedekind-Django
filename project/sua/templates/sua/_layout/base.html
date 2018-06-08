@@ -3,6 +3,7 @@
   <head>
     <title>{% block title %} 公益时平台 {% endblock %}</title>
     {% include 'sua/_partial/head.html' %}
+    {% block preload %}{% endblock %}
   </head>
   <body>
 
@@ -61,5 +62,6 @@
     <div class="my-empty-block"></div>
 
   </body>
-{% include 'sua/_partial/load_js.html' %}
+  {% include 'sua/_partial/load_js.html' %}
+  {% block load_scripts %}{% endblock %}
 </html>

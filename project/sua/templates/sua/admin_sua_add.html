@@ -1,13 +1,18 @@
 {% extends 'sua/_layout/info_template.html' %}
+{% load static %}
+{% load rest_framework %}
 
 {% block title %}添加参与人{% endblock %}
+
+{% block preload %}
+<link rel="stylesheet" type="text/css" href="{% static 'sua/css/bootstrap-select.min.css' %}">
+{% endblock %}
 
 {% block content_title %}
 为“{{activity.title}}”添加参与人
 {% endblock %}
 
 {% block content_detail %}
-{% load rest_framework %}
 <div class="row">
   <div class="col-lg-10">
     <hr>
@@ -22,7 +27,7 @@
         <label>
           学生
         </label>
-        <select class="selectpicker show-tick form-control" title="请选择参与人" data-live-search="true"name="student" >
+        <select name="student" class="selectpicker show-tick form-control" title="请选择参与人" data-live-search="true">
           {% for student in students %}
             <option value="{{ student.url }}">{{ student.name }} {{ student.number }}</option>
           {% endfor %}
@@ -130,4 +135,9 @@ ul{margin: 0;padding: 0;}
   </div>
   <div class="my-empty-block"></div>
 </form>
+{% endblock %}
+
+{% block load_scripts %}
+<script type="text/javascript" src="{% static 'sua/js/bootstrap-select.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'sua/js/defaults-zh_CN.min.js' %}"></script>
 {% endblock %}
