@@ -62,14 +62,17 @@ header {
   white-space: nowrap;
 }
 
-.center-element {
+.center-text {
 	text-align: center;
 }
 
-.center-block {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+.center-wrapper {
+	text-align: center;
+}
+
+.center-wrapper * {
+	display: inline-block;
+	float: none;
 }
 
 /*--- 导航 --*/

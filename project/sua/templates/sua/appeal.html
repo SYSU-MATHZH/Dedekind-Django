@@ -2,57 +2,53 @@
 
 {% block title %}提出申诉{% endblock %}
 
-{% block content_title %}
-<div class="row">
-  <div class="col-xs-6 col-xs-offset-3">
-<h1>对{{ publicity.title }}的申诉</h1>
-  </div>
-</div>
+{% block rewritten_content_title %}
+<div class="center-tab-header"><h1>对{{ publicity.title }}的申诉</h1></div>
 {% endblock %}
 
 {% block content_detail %}
 {% load static %}
 {% load rest_framework %}
 <div class="row">
-  <div class="col-xs-4 col-xs-offset-4">
-	<p>公示标题: {{ publicity.title }}</p>
+  <div class="col-lg-6 col-lg-offset-3">
+    <p>公示标题: {{ publicity.title }}</p>
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-4 col-xs-offset-4">
-<p>公示内容: {{ publicity.content }}</p>
+  <div class="col-lg-6 col-lg-offset-3">
+    <p>公示内容: {{ publicity.content }}</p>
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-4 col-xs-offset-4">
-<p>联系方式: {{ publicity.contact }}</p>
+  <div class="col-lg-6 col-lg-offset-3">
+    <p>联系方式: {{ publicity.contact }}</p>
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-4 col-xs-offset-4">
-<p>开始日期: {{ publicity.begin }}</p>
+  <div class="col-lg-6 col-lg-offset-3">
+    <p>开始日期: {{ publicity.begin }}</p>
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-4 col-xs-offset-4">
-<p>截止日期: {{ publicity.end }}</p>
+  <div class="col-lg-6 col-lg-offset-3">
+    <p>截止日期: {{ publicity.end }}</p>
   </div>
 </div>
 <form enctype="multipart/form-data" action="" method="POST">
-{% csrf_token %}
-<div class="row">
-  <div class="col-xs-4 col-xs-offset-4">
-	<div class="form-group">
-		<label>申诉原因</label>
-		<input name="content" class="form-control" text="text" />
-	</div>
-</div>
-</div>
-<hr>
+  {% csrf_token %}
   <div class="row">
-  <div class="col-xs-4 col-xs-offset-4">
-  <input class="btn btn-default" type="submit" name="save" value="发起申诉">
+    <div class="col-lg-6 col-lg-offset-3">
+      <div class="form-group">
+        <label>申诉原因</label>
+        <input name="content" class="form-control" text="text" />
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row center-wrapper">
+    <div class="col-lg-4 col-xs-12">
+      <input class="btn btn-default btn-block" type="submit" name="save" value="发起申诉">
   	</div>
-</div>
+  </div>
 </form>
 {% endblock %}
