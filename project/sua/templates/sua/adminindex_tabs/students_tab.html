@@ -1,46 +1,45 @@
 <div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_students' }}">
-      <div class="row tab-header">
-        <div class="col-lg-8 col-xs-6">学生</div>
-        <div class="col-lg-4 pull-right">
-          <a class="btn btn-default" href="/students/add" target="_blank">创建学生</a>
-          <div class="btn-group">
-            <select id="activity.id" title="筛选" class="selectpicker show-tick form-control" data-live-search="true" data-toggle="dropdown">
-              <option value="">2016级1班</option>
-              <option value="">2016级2班</option>
-              <option value="">2017级1班</option>
-              <option value="">2017级2班</option>
-              </option>
-            </select>
-            </div>
-        </div>
-      </div>
-
-      <div class="table-responsive">
-        <table class="table">
-        <thead>
-          <tr>
-            <th>学号</th>
-            <th>年级</th>
-            <th>班别</th>
-            <th>名字</th>
-            <th>学生类别</th>
-            <th>公益时数</th>
-          </tr>
-        </thead>
-        {% for student in admin_students %}
-          <tr>
-          <td>{{ student.number }}</td>
-          <td>{{ student.grade }}</td>
-          <td>{{ student.classtype }}</td>
-          <td><a href="{{ student.url }}">{{ student.name }}</a></td>
-          {% if student.power == 1 %}
-            <td>活动级管理员</td>
-          {% else %}
-            <td>普通学生</td>
-          {% endif %}
-          <td>{{ student.totalhours }}</td>
-          </tr>
-        {% endfor %}
-        </table>
+  <div class="row tab-header">
+    <div class="col-lg-8 col-xs-6">学生</div>
+    <div class="col-lg-4 pull-right">
+      <a class="btn btn-default" href="/students/add" target="_blank">创建学生</a>
+      <div class="btn-group">
+        <select id="activity.id" title="筛选" class="selectpicker show-tick form-control" data-live-search="true" data-toggle="dropdown">
+          <option value="">2016级1班</option>
+          <option value="">2016级2班</option>
+          <option value="">2017级1班</option>
+          <option value="">2017级2班</option>
+        </select>
       </div>
     </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+    <thead>
+      <tr>
+        <th>学号</th>
+        <th>年级</th>
+        <th>班别</th>
+        <th>名字</th>
+        <th>学生类别</th>
+        <th>公益时数</th>
+      </tr>
+    </thead>
+    {% for student in admin_students %}
+      <tr>
+      <td>{{ student.number }}</td>
+      <td>{{ student.grade }}</td>
+      <td>{{ student.classtype }}</td>
+      <td><a href="{{ student.url }}">{{ student.name }}</a></td>
+      {% if student.power == 1 %}
+        <td>活动级管理员</td>
+      {% else %}
+        <td>普通学生</td>
+      {% endif %}
+      <td>{{ student.totalhours }}</td>
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
+</div>

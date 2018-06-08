@@ -50,6 +50,8 @@ header {
   }
 }
 
+/* utilities */
+
 .my-horizontal-dl dt {
   float: left;
   overflow-x: hidden;
@@ -58,6 +60,16 @@ header {
   text-align: right;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.center-element {
+	text-align: center;
+}
+
+.center-block {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /*--- 导航 --*/
@@ -154,6 +166,12 @@ header {
   font-size: 2em;
   margin-bottom: 0.5em;
   margin-top: 0.5em;
+}
+.center-tab-header {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  text-align: center;
 }
 @media screen and (min-width: 768px) {
   .tab-header {

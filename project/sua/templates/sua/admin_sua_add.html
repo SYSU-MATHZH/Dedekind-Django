@@ -4,10 +4,6 @@
 
 {% block title %}添加参与人{% endblock %}
 
-{% block preload %}
-<link rel="stylesheet" type="text/css" href="{% static 'sua/css/bootstrap-select.min.css' %}">
-{% endblock %}
-
 {% block content_title %}
 为“{{activity.title}}”添加参与人
 {% endblock %}
@@ -135,9 +131,4 @@ ul{margin: 0;padding: 0;}
   </div>
   <div class="my-empty-block"></div>
 </form>
-{% endblock %}
-
-{% block load_scripts %}
-<script type="text/javascript" src="{% static 'sua/js/bootstrap-select.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'sua/js/defaults-zh_CN.min.js' %}"></script>
 {% endblock %}
