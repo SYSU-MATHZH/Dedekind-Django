@@ -61,7 +61,7 @@ class IndexView(BaseView, NavMixin):
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
 
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
-            user.applications.filter(deleted_at=None),
+            user.applications.filter(deleted_at=None).order_by('-created'),
             many=True,
             context={'request': request}
         )
@@ -106,7 +106,7 @@ class IndexView(BaseView, NavMixin):
                 sua['activity']['date'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['date']))
 
             appeal_data = AppealSerializer(  # 序列化当前学生的所有申诉
-                student.appeals.filter(deleted_at=None),
+                student.appeals.filter(deleted_at=None).order_by("-created"),
                 many=True,
                 context={'request': request}
             )
@@ -254,6 +254,8 @@ def Download(request):
                 many=True,
                 context={'request': request}
             )
+            #for sua in sua_data.data:
+                #sua['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(sua['created']))
         else:
             year_begin = int(request.GET['year_begin'])
             year_end = int(request.GET['year_end'])
@@ -267,6 +269,8 @@ def Download(request):
                 many=True,
                 context={'request': request}
             )
+            #for sua in sua_data.data:
+                #sua['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(sua['created']))
     # student = user.student
     # # Filename = 'str(student.name)'
 

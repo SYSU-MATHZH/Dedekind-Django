@@ -94,7 +94,7 @@ class Activity(BaseSchema):
     title = models.CharField(max_length=100)
     detail = models.CharField(max_length=400)
     group = models.CharField(max_length=100)
-    date = models.DateTimeField('活动日期')
+    date = models.DateField('活动日期')
     is_valid = models.BooleanField(default=False)
     id = models.AutoField(primary_key=True)
     iscreatebystudent = models.BooleanField(default=False)
@@ -190,7 +190,7 @@ class Application(BaseSchema):
         related_name='applications',
         on_delete=models.CASCADE,
     )
-    created = models.DateTimeField('创建日期', auto_now_add=True)
+    created = models.DateTimeField('创建日期', default=timezone.now)
     contact = models.CharField(max_length=100, blank=True)
     proof = models.ForeignKey(
         Proof,
@@ -222,8 +222,8 @@ class Publicity(BaseSchema):
     content = models.CharField(max_length=400)
     contact = models.CharField(max_length=100, blank=True)
     is_published = models.BooleanField(default=False)
-    begin = models.DateTimeField('开始公示时间', default=timezone.now)
-    end = models.DateTimeField('结束公示时间')
+    begin = models.DateField('开始公示时间', default=timezone.now)
+    end = models.DateField('结束公示时间')
     id = models.AutoField(primary_key=True)
     def __str__(self):
         return self.title
