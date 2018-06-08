@@ -107,6 +107,7 @@ class ActivityViewSet(BaseViewSet, NavMixin):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+
 class ApplicationViewSet(BaseViewSet, NavMixin):
     components = {
         'nav': 'nav',

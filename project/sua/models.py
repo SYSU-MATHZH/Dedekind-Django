@@ -91,7 +91,7 @@ class Activity(SoftDeletable, models.Model):
     date = models.DateTimeField('活动日期')
     is_valid = models.BooleanField(default=False)
     id = models.AutoField(primary_key=True)
-    iscreatebystudent = models.BooleanField(default=False)
+    is_created_by_student = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

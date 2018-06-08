@@ -69,11 +69,14 @@ class IndexView(BaseView, NavMixin):
 
             if user.is_staff:
                 activity_set = Activity.objects.filter(
-                    deleted_at=None).order_by('-created')  # 获取所有当前管理员创建的活动
+                    deleted_at=None,
+                    is_created_by_student=False,
+                    ).order_by('-created')  # 获取所有当前管理员创建的活动
             elif user.student.power == 1:
                 activity_set = Activity.objects.filter(
                     owner=user,
-                    deleted_at=None
+                    deleted_at=None,
+                    is_created_by_student=False,
                     ).order_by('-created')                # 获取该活动级管理员创建的活动
 
             activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动

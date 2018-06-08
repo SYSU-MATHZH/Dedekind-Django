@@ -553,7 +553,7 @@ class ApplicationsMergeView(BaseView, NavMixin):
 
     def serialize(self, request, *args, **kwargs):
         activities_data = ActivityWithSuaSerializer(
-            Activity.objects.filter(deleted_at=None, iscreatebystudent=False).order_by('id'),
+            Activity.objects.filter(deleted_at=None, is_created_by_student=False).order_by('id'),
             many=True,
             context={'request':request},
             )
@@ -590,7 +590,7 @@ class ApplicationsMergeView(BaseView, NavMixin):
             sua = Sua.objects.filter(deleted_at=None,application=merge_applications[i]).get()
             old_activity = sua.activity
             Sua.objects.filter(deleted_at=None,application=merge_applications[i]).update(activity=activity)
-            if old_activity != activity and old_activity.iscreatebystudent:
+            if old_activity != activity and old_activity.is_created_by_student:
                 old_activity.delete()
 
         self.url="/"

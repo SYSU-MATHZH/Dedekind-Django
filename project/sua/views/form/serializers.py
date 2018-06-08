@@ -71,19 +71,25 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid',)
+        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid')
 
     def create(self, validated_data):
+        print(validated_data)
         sua_datas = []
         if 'suas' in validated_data:
             sua_datas = validated_data.pop('suas')
-        activity = Activity.objects.create(**validated_data)
         owner = validated_data['owner']
+        if owner.is_staff or owner.student.power == 1:
+            activity = Activity.objects.create(is_created_by_student=False,**validated_data)
+        else:
+            activity = Activity.objects.create(is_created_by_student=True,**validated_data)
         for sua_data in sua_datas:
             sua = Sua.objects.create(owner=owner, activity=activity, **sua_data)
         return activity
     def update(self, instance, validated_data):
-        sua_datas = validated_data.pop('suas')
+        sua_datas = []
+        if 'suas' in validated_data:
+            sua_datas = validated_data.pop('suas')
         suas = (instance.suas).all()
         suas = list(suas)
         instance.title = validated_data.get('title',instance.title)

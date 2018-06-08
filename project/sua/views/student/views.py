@@ -353,8 +353,6 @@ class ApplyView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
         user = request.user
-        admin = User.objects.filter(is_staff=True)[0]
-        print(admin)
         if hasattr(user, 'student'):  # 判断当前用户是否为学生
             student = user.student
 
@@ -366,8 +364,7 @@ class ApplyView(BaseView, NavMixin):
         proof_serializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
         application_serializer = DEAddApplicationsSerializer(data=request.data, context={'request': request})
         if activity_serializer.is_valid() and sua_serializer.is_valid() and application_serializer.is_valid() and proof_serializer.is_valid():
-            activity = activity_serializer.save(owner=admin, iscreatebystudent=True)
-            print(activity.iscreatebystudent)
+            activity = activity_serializer.save(owner=user, is_created_by_student=True)
             sua = sua_serializer.save(activity=activity, owner=user, student=student)
             proof = proof_serializer.save(owner=user)
             application_serializer.save(sua=sua, proof=proof, owner=user)
