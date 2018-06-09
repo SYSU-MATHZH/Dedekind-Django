@@ -1,14 +1,14 @@
 <div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_students' }}">
   <div class="row tab-header">
-    <a href="/#?grade=2017&classtype=1班">oo</a>
     <div class="col-lg-8 col-xs-6">学生</div>
     <div class="col-lg-4 pull-right">
       <a class="btn btn-default" href="/students/add" target="_blank">创建学生</a>
       <div class="btn-group">
         <select id="activity.id" title="筛选" class="selectpicker show-tick form-control" data-live-search="true" data-toggle="dropdown" onchange="self.location.href=options[selectedIndex].value">
+          <option value="/#admin_students">所有学生</option>
           {% for grade in grades %}
             {% for classtype in classtypes %}
-              <option value="/#admin_students/?grade={{ grade }}&classtype={{ classtype }}">{{ grade }}级{{ classtype }}</option>
+              <option value="?grade={{ grade }}&classtype={{ classtype }}#admin_students">{{ grade }}级{{ classtype }}</option>
             {% endfor %}
           {% endfor %}
         </select>

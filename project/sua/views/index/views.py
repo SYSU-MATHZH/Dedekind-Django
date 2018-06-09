@@ -102,15 +102,18 @@ class IndexView(BaseView, NavMixin):
             })
 
         if user.is_staff:
-            print(args)
             classtypes =set([])
             grades =set([])
-            student_set = Student.objects.filter(deleted_at=None).order_by('number')  # 获取所有学生信息
-            for student in student_set:
+            student_all = Student.objects.filter(deleted_at=None,).order_by('number')
+            if 'classtype' and 'grade' in request.GET:
+                classtype = request.GET.get('classtype')
+                grade = request.GET.get('grade')
+                student_set = Student.objects.filter(deleted_at=None,classtype=classtype,grade=grade).order_by('number')
+            else:
+                student_set = Student.objects.filter(deleted_at=None,).order_by('number')  # 获取所有学生信息
+            for student in student_all:
                 classtypes.add(student.classtype)
                 grades.add(student.grade)
-            print(classtypes)
-            print(grades)
             student_data = StudentSerializer(  # 序列化所有学生信息
                 student_set,
                 many=True,
