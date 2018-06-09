@@ -5,7 +5,7 @@
 {# nav-bar #}
 {% block nav_tab %}
 <ul id="my-navbar-content" class="nav navbar-nav my-tab collapse navbar-collapse" role="tablist">
-  {% include './_partial/tab_label.html' with id="publicities" label="公告" active=True only%}
+  {% include './_partial/tab_label.html' with id="publicities" label="公告" only%}
 
   {% if nav.user.is_staff %}
     {% include './_partial/tab_label.html' with id="admin_students" label="学生"%}
@@ -43,7 +43,7 @@
 <div class="main-content" role="tabpanel">
   <div id="tabContent" class="tab-content my-tab-content">
 
-    {% include './index_tabs/publicities_tab.html' with active=True %}
+    {% include './index_tabs/publicities_tab.html' %}
 
     {% if nav.user.is_staff %}
       {% include './adminindex_tabs/students_tab.html' %}
@@ -64,4 +64,13 @@
 
   </div>
 </div>
+{% endblock %}
+
+{% block load_scripts %}
+  <script type="text/javascript">
+    $('body').ready( function(e) {
+      var tabID = (document.location.hash !== "") ? document.location.hash: "#publicities";
+      $('#my-tab-labels a[href=' + tabID + ']').tab('show');
+    });
+  </script>
 {% endblock %}
