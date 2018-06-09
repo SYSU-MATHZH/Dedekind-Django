@@ -166,7 +166,7 @@
               {% elif nav.student.power == 1 and serializer.data.sua.activity.owner == nav.user.url and serilaizer.data.sua.activity.is_created_by_student == False %}
                 <a class="btn btn-block btn-primary" href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a>
               {% endif %}
-              <a class="btn btn-block btn-default" href='{% if user.is_staff %}/{% else %}/{% endif %}'>返回</a>
+              <a class="btn btn-block btn-default" href='{% if user.is_staff %}/#admin_applications{% else %}/#applications{% endif %}'>返回</a>
             </div>
           </div>
         </form>

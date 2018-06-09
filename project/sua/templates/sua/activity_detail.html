@@ -48,7 +48,6 @@
     {# {{ serializer.data.suas }} #}{# for debug #}
     {% for sua in serializer.data.suas %}
       {# <tr><td colspan="5">{{ sua.student }}</td></tr> #}{# for debug #}
-      {% if True %}
       <tr>
         <td>{{ sua.student.name }}</td>
         <td>{{ sua.student.number }}</td>
@@ -68,15 +67,13 @@
           {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_suas_" id2=sua.id title="确认删除学生" content="确认要删除该学生吗？" confirm_label="确认删除" confirm_href1="/suas/" confirm_href2=sua.id confirm_href3="/delete/" only%}
         </td>
       </tr>
-      {% else %}
-      {% endif %}
     {% endfor %}
     </tbody>
   </table>
 </div>
 <hr />
 <div class="row">
-    <div class="col-xs-offset-4">
+  <div class="center-wrapper">
     {% if nav.user.is_staff %}
       {% if serializer.data.is_valid %}
         <a href="/admin/activities/{{ serializer.data.id }}/check/" class="btn btn-default">设为无效</a>
@@ -86,8 +83,8 @@
     {% endif %}
     <a href="/activities/{{ serializer.data.id }}/change/"class="btn btn-default">编辑内容</a>
     <a data-toggle="modal" data-target="#confirm_box_delete_activities_{{ serializer.data.id }}" class="btn btn-default">删除该活动</a>
-    <a href="/#activities" class="btn btn-default">返回主页</a>
-    {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_activities_" id2=serializer.data.id title="确认删除活动" content="确认要删除该活动吗？" confirm_label="确认删除" confirm_href1="/activities/" confirm_href2=serializer.data.id confirm_href3="/delete/" only%}
+    <a href="/#admin_activities" class="btn btn-default">返回主页</a>
   </div>
+  {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_activities_" id2=serializer.data.id title="确认删除活动" content="确认要删除该活动吗？" confirm_label="确认删除" confirm_href1="/activities/" confirm_href2=serializer.data.id confirm_href3="/delete/" only%}
 </div>
 {% endblock %}
