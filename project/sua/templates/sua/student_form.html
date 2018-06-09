@@ -67,7 +67,7 @@
         <input name="user.password" class="form-control" type="password" />
       </div>
       <button type="submit" class="btn btn-block btn-primary">提交</button>
-      <a class="btn btn-default btn-block" href="{{ serializer.data.url }}">返回</a>
+      <a class="btn btn-default btn-block" href="{% if serializer.data.url %}{{ serializer.data.url }}{% else %}/#admin_students{% endif %}">返回</a>
     </div>
   </div>
 </form>
