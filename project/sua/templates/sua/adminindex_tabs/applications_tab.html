@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        {% if nav.user.is_staff %}
+        {% if user.is_staff or user.student.power == 1 %}
           {% for application in admin_applications %}
           <tr>
             <td>{{ application.created }}</td>

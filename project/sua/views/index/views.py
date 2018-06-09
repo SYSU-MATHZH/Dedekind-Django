@@ -54,7 +54,7 @@ class IndexView(BaseView, NavMixin):
             if user.is_staff:
                 application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
             elif user.student.power == 1:
-                application_set = Application.objects.filter(sua__activity__owner=user,deleted_at=None).order_by('-created')# 获取活该学生创建的活动的申请
+                application_set = Application.objects.filter(sua__activity__owner=user,sua__activity__is_created_by_student=False,deleted_at=None).order_by('-created')# 获取活该学生创建的活动的申请
 
             application_data = ApplicationSerializer(  # 序列化所有申请
                 application_set,
@@ -102,8 +102,15 @@ class IndexView(BaseView, NavMixin):
             })
 
         if user.is_staff:
-
+            print(args)
+            classtypes =set([])
+            grades =set([])
             student_set = Student.objects.filter(deleted_at=None).order_by('number')  # 获取所有学生信息
+            for student in student_set:
+                classtypes.add(student.classtype)
+                grades.add(student.grade)
+            print(classtypes)
+            print(grades)
             student_data = StudentSerializer(  # 序列化所有学生信息
                 student_set,
                 many=True,
@@ -129,6 +136,8 @@ class IndexView(BaseView, NavMixin):
             serialized.update({
                 'admin_appeals': appeals,
                 'admin_students': student_data.data,
+                'classtypes':classtypes,
+                'grades':grades,
             })
 
         if hasattr(user,'student'):
