@@ -8,7 +8,7 @@
         <select id="activity.id" title="筛选" class="selectpicker show-tick form-control" data-live-search="true" data-toggle="dropdown" onchange="self.location.href=options[selectedIndex].value">
           {% for grade in grades %}
             {% for classtype in classtypes %}
-              <option value="/#?grade={{ grade }}&classtype={{ classtype }}">{{ grade }}级{{ classtype }}</option>
+              <option value="/#admin_students/?grade={{ grade }}&classtype={{ classtype }}">{{ grade }}级{{ classtype }}</option>
             {% endfor %}
           {% endfor %}
         </select>
