@@ -1,6 +1,6 @@
 {% extends 'sua/_layout/info_template.html' %}
 
-{% block title %}申请个人公益时{% endblock %}
+{% block title %}学生帐号{% endblock %}
 
 {% block rewritten_content_title %}
 <div class="center-tab-header">
@@ -38,14 +38,12 @@
       </div>
       <div class="form-group">
         <label>学生年级</label>
-        <select class="form-control" name="grade" value="{{serializer.data.grade}}">
-          <option value="2016" {% if serializer.data.grade == 2016 %}selected="true"{% endif %}>2016</option>
-          <option value="2017" {% if serializer.data.grade == 2017 %}selected="true"{% endif %}>2017</option>
+          <input name="grade" class="form-control" type="text" value="{{serializer.data.grade}}"/>
         </select>
       </div>
       <div class="form-group">
         <label>班别</label>
-        <input name="grade" class="form-control" type="text" value="{{serializer.data.classtype}}"/>
+        <input name="classtype" class="form-control" type="text" value="{{serializer.data.classtype}}"/>
       </div>
       <div class="form-group">
         <label>手机号</label>
