@@ -11,6 +11,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from project.sua.models import Student
 from project.sua.views.form.serializers import AddStudentSerializer
 
+import project.sua.views.utils.tools as tools
 
 class BaseViewSet(
     viewsets.GenericViewSet,
@@ -50,7 +51,11 @@ class BaseViewSet(
     def detail(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer}))
+        if 'created' in serializer.data:
+            created  = tools.DateTime2String_SHOW(tools.TZString2DateTime(serializer.data['created']))
+            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'created':created}))
+        else:
+            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer}))
 
     @list_route(methods=['get', 'post'])
     def add(self, request, *args, **kwargs):
