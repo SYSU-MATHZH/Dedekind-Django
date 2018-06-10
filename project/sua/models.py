@@ -205,6 +205,20 @@ class Application(BaseSchema):
     def __str__(self):
         return self.sua.student.name + '的 ' + self.sua.activity.title + '的 ' + '申请'
 
+    # def delete(self):
+    #     self.sua.delete()
+    #     self.sua.activity.delete()
+    #     self.proof.delete()
+    #     self.proof.save()
+    #     self.sua.activity.save()
+    #     self.sua.save()
+    #     super().delete()
+
+    # def full_restore(self):
+    #     self.sua.full_restore()
+    #     self.sua.activity.full_restore()        
+    #     self.proof.full_restore()
+    #     super().full_restore()
 
 class Publicity(BaseSchema):
     owner = models.ForeignKey(
