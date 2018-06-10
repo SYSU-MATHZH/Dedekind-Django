@@ -31,7 +31,7 @@ EXPIRE_TIME = 86400
 #         self.save()
 
 class BaseSchema(SoftDeletable, models.Model):
-    deleted_by = models.CharField(max_length=100, null=True, default=None)
+    deleted_by = models.CharField(max_length=100, null=True, default=None, blank=True)
 
     class Meta:
         abstract = True     #设为抽象基类，否则会出现id字段冲突的情况
