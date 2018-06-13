@@ -32,10 +32,10 @@
         <label>姓名</label>
         <input name="name" class="form-control" type="text" value="{{serializer.data.name}}"/>
       </div>
-      <div class="form-group">
+      <!--<div class="form-group">
         <label>公益时</label>
         <input name="suahours" class="form-control" type="number" value="{{serializer.data.suahours}}" disabled="true"/>
-      </div>
+      </div>-->
       <div class="form-group">
         <label>学生年级</label>
           <input name="grade" class="form-control" type="text" value="{{serializer.data.grade}}"/>
@@ -60,10 +60,10 @@
       </div>
       {% endif %}
 
-      <div class="form-group">
+      <!--<div class="form-group">
         <label>密码</label>
         <input name="user.password" class="form-control" type="password" />
-      </div>
+      </div>-->
       <button type="submit" class="btn btn-block btn-primary">提交</button>
       <a class="btn btn-default btn-block" href="{% if serializer.data.url %}{{ serializer.data.url }}{% else %}/#admin_students{% endif %}">返回</a>
     </div>
