@@ -6,9 +6,9 @@
       <button type="btn btn-default" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          学年  <span class="caret"></span></button>
       <ul class="dropdown-menu">
-        <li><a href="">全部</a></li>
+        <li><a href="#suahoursdetail">全部</a></li>
         {% for year in nav.YEAR_CHOICES %}
-        <li><a href="?year_begin={{year.0}}&year_end={{year.1}}">{{year.0}}~{{year.1}}学年度</a></li>
+        <li><a href="?year_begin={{year.0}}&year_end={{year.1}}#suahoursdetail">{{year.0}}~{{year.1}}学年度</a></li>
         {% endfor %}
 
     </div>

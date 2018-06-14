@@ -298,7 +298,7 @@ def Download(request):
     p.setFont("song", 15) #字号
     p.drawString(zuo-5,750,'学号:'+str(user))#学号
     p.drawString(zuo+150,750,'名字:'+str(student.name))#名字
-    p.drawString(zuo-5,720,'总公益时数:'+str(student.totalhours)+'h')#总公益时
+    p.drawString(zuo-5,720,'总公益时数:'+str(student.suahours)+'h')#总公益时
 
     location = 640
     p.drawString(zuo,680,"活动名称")

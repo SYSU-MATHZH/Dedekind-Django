@@ -225,6 +225,6 @@ class IndexView(BaseView, NavMixin):
                 #sua.save(activity=activity)
                 #else:
                     #return False
-            print(1)
+            #print(1)
             self.url=""
             return True
