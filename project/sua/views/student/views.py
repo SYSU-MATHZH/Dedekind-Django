@@ -61,7 +61,7 @@ class IndexView(BaseView, NavMixin):
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
 
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
-            user.applications.filter(deleted_at=None).order_by('-created'),
+            user.applications.filter(deleted_at=None).order_by('created'),
             many=True,
             context={'request': request}
         )
