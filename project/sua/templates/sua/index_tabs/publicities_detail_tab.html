@@ -4,9 +4,15 @@
       <span class="my-pub-title">{{ publicity.title }}</span>
     </div>
     <div class="col-lg-3 pull-right">
+      {% if nav.user.is_staff %}
       <a href="publicities/{{ publicity.id }}/appeal/" class="btn btn-default" role="button">
         提出申诉
       </a>
+      {% else %}
+      <a href="publicities/{{ publicity.id }}/detail/" class="btn btn-default" role="button">
+        公示详情
+      </a>
+      {% endif %}
       <a href="#{{ back_href|default:'publicities' }}" class="btn btn-default" data-toggle="tab">
         返回
       </a>
