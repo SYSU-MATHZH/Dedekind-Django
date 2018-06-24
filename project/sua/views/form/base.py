@@ -49,13 +49,18 @@ class BaseViewSet(
 
     @detail_route(methods=['get'])
     def detail(self, request, *args, **kwargs):
+        url = '#'
         instance = self.get_object()
         serializer = self.get_serializer(instance)
+        if 'from' in request.GET:
+            url = '#'+request.GET['from']
+            print(url)
+
         if 'created' in serializer.data:
             created  = tools.DateTime2String_SHOW(tools.TZString2DateTime(serializer.data['created']))
-            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'created':created}))
+            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'created':created,'url':url}))
         else:
-            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer}))
+            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer,'url':url}))
 
     @list_route(methods=['get', 'post'])
     def add(self, request, *args, **kwargs):

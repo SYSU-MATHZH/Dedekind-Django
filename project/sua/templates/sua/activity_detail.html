@@ -84,7 +84,7 @@
     <a href="/activities/{{ serializer.data.id }}/change/"class="btn btn-default">编辑内容</a>
     <a data-toggle="modal" data-target="#confirm_box_delete_activities_{{ serializer.data.id }}" class="btn btn-default">删除该活动</a>
     <a href="/admin/publicities/{{ serializer.data.id }}/manage/" class="btn btn-default">管理公示</a>
-    <a href="/#admin_activities" class="btn btn-default">返回主页</a>
+    <a href="/{{ url }}" class="btn btn-default">返回主页</a>
   </div>
   {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_activities_" id2=serializer.data.id title="确认删除活动" content="确认要删除该活动吗？" confirm_label="确认删除" confirm_href1="/activities/" confirm_href2=serializer.data.id confirm_href3="/delete/" only%}
 </div>
