@@ -1,15 +1,16 @@
-<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'publicity' }}{{ publicity.id }}">
+{% with id=id|default:'publicity' %}
+<div role="tabpanel" class="tab-pane fade" id="{{ id }}{{ publicity.id }}">
   <div class="row my-pub-header">
     <div class="col-lg-9 col-xs-6">
       <span class="my-pub-title">{{ publicity.title }}</span>
     </div>
     <div class="col-lg-3 pull-right">
       {% if nav.user.is_staff %}
-      <a href="publicities/{{ publicity.id }}/appeal/" class="btn btn-default" role="button">
+      <a href="publicities/{{ publicity.id }}/appeal/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
         提出申诉
       </a>
       {% else %}
-      <a href="publicities/{{ publicity.id }}/detail/" class="btn btn-default" role="button">
+      <a href="publicities/{{ publicity.id }}/detail/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
         公示详情
       </a>
       {% endif %}
@@ -59,3 +60,4 @@
   <div class="my-empty-block"></div>
   {% endif %}
 </div>
+{% endwith %}

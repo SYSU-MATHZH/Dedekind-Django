@@ -1,7 +1,8 @@
-<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_applications' }}">
+{% with id=id|default:'admin_applications' %}
+<div role="tabpanel" class="tab-pane fade" id="{{ id }}">
   <div class="tab-header">申请
     <div class="col-lg-3 pull-right">
-      <a class="btn btn-default" href="applications/merge" target="_blank"> 合并申请活动</a>
+      <a class="btn btn-default" href="applications/merge/?from=%2F%23{{ id }}" target="_blank"> 合并申请活动</a>
     </div>
   </div>
   <div class="table-responsive">
@@ -21,12 +22,12 @@
           {% for application in admin_applications %}
           <tr>
             <td>{{ application.created }}</td>
-            <td><a href="{{ application.sua.activity.url }}?from=admin_applications">{{ application.sua.activity.title }}</a></td>
-            <td><a href="{{ application.sua.student.url }}?from=admin_applications">{{ application.sua.student.name }}</a></td>
+            <td><a href="{{ application.sua.activity.url }}?from=%2F%23{{ id }}">{{ application.sua.activity.title }}</a></td>
+            <td><a href="{{ application.sua.student.url }}?from=%2F%23{{ id }}">{{ application.sua.student.name }}</a></td>
             <td>{{ application.sua.suahours }}h</td>
             <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
             <td>
-              <a class="btn btn-default btn-xs" href="{{ application.url }}">申请详情</a>
+              <a class="btn btn-default btn-xs" href="{{ application.url }}?from=%2F%23{{ id }}">申请详情</a>
               <!-- <a class="btn btn-default btn-xs" href="/admin/applications/{{ application.id }}/change/">审核申请</a> -->
               <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_delete_application_{{ application.id }}">删除该申请</a>
             </td>
@@ -38,3 +39,4 @@
     </table>
   </div>
 </div>
+{% endwith %}

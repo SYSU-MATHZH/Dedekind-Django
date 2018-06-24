@@ -1,4 +1,5 @@
-<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_deleteds' }}">
+{% with id=id|default:'admin_deleteds' %}
+<div role="tabpanel" class="tab-pane fade" id="{{ id }}">
 
 {% if nav.user.is_staff %}
   <div class="tab-header">学生</div>
@@ -120,3 +121,4 @@
     </table>
   </div>
 {% endif %}
+{% endwith %}
