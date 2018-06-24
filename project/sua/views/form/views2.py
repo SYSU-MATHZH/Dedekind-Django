@@ -33,9 +33,9 @@ class StudentViewSet(BaseViewSet, NavMixin):
             return self.serializer_class
 
     def get_permissions(self):
-        if self.action in ['add',]:
+        if self.action in ['add','change']:
             permission_classes = (IsAdminUser, )
-        elif self.action in ['detail','change']:
+        elif self.action in ['detail',]:
             permission_classes = (IsAdminUserOrStudent, )
         else:
             permission_classes = (IsAdminUserOrReadOnly, )
