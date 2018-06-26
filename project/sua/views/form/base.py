@@ -54,7 +54,7 @@ class BaseViewSet(
         serializer = self.get_serializer(instance)
         if 'from' in request.GET:
             from_url = request.GET['from']
-
+            print(from_url)
         if 'created' in serializer.data:
             created  = tools.DateTime2String_SHOW(tools.TZString2DateTime(serializer.data['created']))
             return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'created':created,'from_url':from_url}))
