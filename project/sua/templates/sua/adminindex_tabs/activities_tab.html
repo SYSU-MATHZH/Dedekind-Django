@@ -1,8 +1,9 @@
-<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_activities' }}">
+{% with id=id|default:'admin_activities' %}
+<div role="tabpanel" class="tab-pane fade" id="{{ id }}">
   <div class="row tab-header">
     <div class="col-lg-9 col-xs-6">活动</div>
     <div class="col-lg-3">
-      <a class="btn btn-default" href="/activities/add" target="_blank">创建活动</a>
+      <a class="btn btn-default" href="/activities/add/?from=%2F%23{{ id }}" target="_blank">创建活动</a>
     </div>
   </div>
   <div class="table-responsive">
@@ -37,8 +38,8 @@
             <td>{{ activity.publicities.0.begin }}</td>
             <td>{{ activity.publicities.0.end }}</td>
             <td>
-              <a class="btn btn-default btn-xs" href="{{ activity.url }}?from=%23admin_activities">编辑活动</a>
-              <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/">管理公示</a>
+              <a class="btn btn-default btn-xs" href="{{ activity.url }}?from=%2F%23{{ id }}">编辑活动</a>
+              <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/?from=%2F%23{{ id }}">管理公示</a>
             </td>
           </tr>
         {% endfor %}
@@ -46,3 +47,4 @@
     </table>
   </div>
 </div>
+{% endwith %}

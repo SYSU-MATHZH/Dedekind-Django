@@ -8,7 +8,7 @@
   {% include './_partial/tab_label.html' with id="publicities" label="公告" only%}
 
   {% if nav.user.is_staff %}
-    {% include './_partial/tab_label.html' with id="admin_students" label="学生"%}
+    {% include './_partial/tab_label.html' with id="admin_students" label="学生" only%}
     {% include './_partial/tab_label.html' with id="admin_activities" label="活动" only%}
     {% include './_partial/tab_label.html' with id="admin_applications" label="申请" only%}
     {% include './_partial/tab_label.html' with id="admin_appeals" label="申诉" only%}

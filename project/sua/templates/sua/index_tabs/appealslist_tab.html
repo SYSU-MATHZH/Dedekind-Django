@@ -1,4 +1,5 @@
-<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'appealslist' }}">
+{% with id=id|default:'appealslist' %}
+<div role="tabpanel" class="tab-pane fade" id="{{ id }}">
   <div class="tab-header">申诉列表</div>
   <div class="table-responsive">
     <table class="table table-hover">
@@ -18,7 +19,7 @@
           <tr>
             <td>{{ forloop.counter }}</td>
             <td>{{ appeal.created }}</td>
-            <td><a href="{{ appeal.url }}">“{{ appeal.publicity.title }}”的申诉</a></td>
+            <td><a href="{{ appeal.url }}?from=%2F%23{{ id }}">“{{ appeal.publicity.title }}”的申诉</a></td>
             <td>
               {% if appeal.is_checked %}是 {% else %} 否 {% endif %}
             </td>

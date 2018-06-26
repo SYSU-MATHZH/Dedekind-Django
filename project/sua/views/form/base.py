@@ -49,7 +49,7 @@ class BaseViewSet(
 
     @detail_route(methods=['get'])
     def detail(self, request, *args, **kwargs):
-        from_url = '#'
+        from_url = '/'
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         if 'from' in request.GET:
@@ -59,7 +59,7 @@ class BaseViewSet(
             created  = tools.DateTime2String_SHOW(tools.TZString2DateTime(serializer.data['created']))
             return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'created':created,'from_url':from_url}))
         else:
-            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer,'from_url':from_url}))
+            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'from_url':from_url}))
 
     @list_route(methods=['get', 'post'])
     def add(self, request, *args, **kwargs):
