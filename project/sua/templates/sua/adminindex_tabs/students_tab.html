@@ -33,7 +33,7 @@
       <td>{{ student.number }}</td>
       <td>{{ student.grade }}</td>
       <td>{{ student.classtype }}</td>
-      <td><a href="{{ student.url }}?from=admin_students">{{ student.name }}</a></td>
+      <td><a href="{{ student.url }}?from=%23admin_students">{{ student.name }}</a></td>
       {% if student.power == 1 %}
         <td>活动级管理员</td>
       {% else %}

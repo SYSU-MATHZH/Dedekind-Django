@@ -21,8 +21,8 @@
           {% for application in admin_applications %}
           <tr>
             <td>{{ application.created }}</td>
-            <td><a href="{{ application.sua.activity.url }}?from=admin_applications">{{ application.sua.activity.title }}</a></td>
-            <td><a href="{{ application.sua.student.url }}?from=admin_applications">{{ application.sua.student.name }}</a></td>
+            <td><a href="{{ application.sua.activity.url }}?from=%23admin_applications">{{ application.sua.activity.title }}</a></td>
+            <td><a href="{{ application.sua.student.url }}?from=%23admin_applications">{{ application.sua.student.name }}</a></td>
             <td>{{ application.sua.suahours }}h</td>
             <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
             <td>
