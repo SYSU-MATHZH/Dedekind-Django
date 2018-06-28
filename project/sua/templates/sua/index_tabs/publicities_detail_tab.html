@@ -10,9 +10,13 @@
         提出申诉
       </a>
       {% else %}
-      <a href="publicities/{{ publicity.id }}/detail/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
+      <td><a href="publicities/{{ publicity.id }}/detail/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
         公示详情
       </a>
+      <a href="admin/publicities/{{ publicity.id }}/check/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
+        撤销公示
+      </a>
+    </td>
       {% endif %}
       <a href="#{{ back_href|default:'publicities' }}" class="btn btn-default" data-toggle="tab">
         返回
