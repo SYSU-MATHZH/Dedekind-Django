@@ -38,8 +38,16 @@
             <td>{{ activity.publicities.0.begin }}</td>
             <td>{{ activity.publicities.0.end }}</td>
             <td>
-              <a class="btn btn-default btn-xs" href="{{ activity.url }}?from=%2F%23{{ id }}">编辑活动</a>
-              <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/?from=%2F%23{{ id }}">管理公示</a>
+              <div class="btn-group">
+              <button type="button" id="navdropdownMenu" data-toggle="dropdown" class="btn btn-default">
+                请选择操作
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a class="btn btn-default btn-xs" href="{{ activity.url }}?from=%2F%23{{ id }}">编辑活动</a></li>
+                <li><a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/?from=%2F%23{{ id }}">管理公示</a></li>
+              </ul>
+              </div>
             </td>
           </tr>
         {% endfor %}
