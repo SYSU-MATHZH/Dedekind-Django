@@ -10,15 +10,14 @@
     <table class="table">
       <thead>
         <tr>
-          <th>活动日期</th>
-          <th>活动名称</th>
-          <th>组织方</th>
-          <th>是否已公示</th>
-          <th>是否有效</th>
-          <th>开始日</th>
-          <th>结束日</th>
-          <th></th>
-          <th></th>
+          <th width="12%">活动日期</th>
+          <th width="12%">活动名称</th>
+          <th width="16%">组织方</th>
+          <th width="12%">是否已公示</th>
+          <th width="12%">是否有效</th>
+          <th width="12%">开始日</th>
+          <th width="12%">结束日</th>
+          <th/>
         </tr>
       </thead>
       <tbody>
@@ -43,9 +42,9 @@
                 请选择操作
                 <span class="caret"></span>
               </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a class="btn btn-default btn-xs" href="{{ activity.url }}?from=%2F%23{{ id }}">编辑活动</a></li>
-                <li><a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/?from=%2F%23{{ id }}">管理公示</a></li>
+              <ul class="dropdown-menu pull-right" role="menu">
+                <li><a href="{{ activity.url }}?from=%2F%23{{ id }}">编辑活动</a></li>
+                <li><a href="/admin/publicities/{{ activity.id }}/manage/?from=%2F%23{{ id }}">管理公示</a></li>
               </ul>
               </div>
             </td>

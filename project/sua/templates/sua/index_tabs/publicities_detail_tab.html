@@ -4,24 +4,6 @@
     <div class="col-lg-9 col-xs-6">
       <span class="my-pub-title">{{ publicity.title }}</span>
     </div>
-    <div class="col-lg-3 pull-right">
-      {% if nav.user.is_staff %}
-      <a href="publicities/{{ publicity.id }}/appeal/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
-        提出申诉
-      </a>
-      {% else %}
-      <td><a href="publicities/{{ publicity.id }}/detail/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
-        公示详情
-      </a>
-      <a href="admin/publicities/{{ publicity.id }}/check/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
-        撤销公示
-      </a>
-    </td>
-      {% endif %}
-      <a href="#{{ back_href|default:'publicities' }}" class="btn btn-default" data-toggle="tab">
-        返回
-      </a>
-    </div>
   </div>
   <div class="row">
     <div class="col-lg-12">
@@ -63,5 +45,31 @@
   {% else %}
   <div class="my-empty-block"></div>
   {% endif %}
+
+  <div class="col-lg-4 pull-right">
+    {% if user.is_staff %}
+    <a href="publicities/{{ publicity.id }}/appeal/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
+      提出申诉
+    </a>
+    {% else %}
+    <td><a href="publicities/{{ publicity.id }}/detail/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
+      公示详情
+    </a>
+    <a href="admin/publicities/{{ publicity.id }}/check/?from=%2F%23{{ id }}{{ publicity.id }}" class="btn btn-default" role="button">
+      撤销公示
+    </a>
+  </td>
+    {% endif %}
+    <a href="#{{ back_href|default:'publicities' }}" class="btn btn-default" data-toggle="tab">
+      返回
+    </a>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <hr />
+    </div>
+  </div>
 </div>
+
+
 {% endwith %}
