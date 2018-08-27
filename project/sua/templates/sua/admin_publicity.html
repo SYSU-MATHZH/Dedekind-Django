@@ -16,18 +16,6 @@
     为"{{ activity.title }}"活动创建公示
   {% endif %}
 </div>
-<center>
-<div class="row">
-<p>
-  <label>活动标题：{{ activity.title }}&</label>
-  <label>活动详情：{{ activity.detail }}<label>
-</p>
-<p>
-  <label>活动小组：{{ activity.group }}</label>
-  <label>活动日期：{{ activity.date }}</label>
-</p>
-</div>
-</center>
 <hr/>
 {% endblock %}
 
@@ -38,6 +26,22 @@
 
     <form enctype="multipart/form-data" action="" method="POST">
       {% csrf_token %}
+      <div class="from-group">
+        <label>活动标题</label>
+        <br><p>&nbsp&nbsp&nbsp{{ activity.title }}</p>
+      </div>
+      <div class="from-group">
+        <label>活动详情</label>
+        <br><p>&nbsp&nbsp&nbsp{{ activity.detail }}</p>
+      </div>
+      <div class="from-group">
+        <label>活动小组</label>
+        <br><p>&nbsp&nbsp&nbsp{{ activity.group }}</p>
+      </div>
+      <div class="from-group">
+        <label>活动日期</label>
+        <br><p>&nbsp&nbsp&nbsp{{ activity.date }}</p>
+      </div>
       <div class="form-group">
         <label>公示标题</label>
         <input name="title" class="form-control" type="text" value="{% if serializer.data.url %}{{ serializer.data.title }}{% endif %}">
