@@ -7,6 +7,9 @@ from project.sua.models import Student, Sua, Activity, Application, Publicity, A
 import project.sua.views.form.serializers as firs
 import project.sua.serializers as sirs
 
+from rest_framework.decorators import list_route, detail_route
+from rest_framework.response import Response
+
 
 class StudentViewSet(BaseViewSet, NavMixin):
     components = {
@@ -33,14 +36,15 @@ class StudentViewSet(BaseViewSet, NavMixin):
             return self.serializer_class
 
     def get_permissions(self):
-        if self.action in ['add',]:
+        if self.action in ['add','change']:
             permission_classes = (IsAdminUser, )
-        elif self.action in ['detail','change']:
+        elif self.action in ['detail',]:
             permission_classes = (IsAdminUserOrStudent, )
         else:
             permission_classes = (IsAdminUserOrReadOnly, )
 
         return [permission() for permission in permission_classes]
+
 
 class SuaViewSet(BaseViewSet, NavMixin):
     components = {

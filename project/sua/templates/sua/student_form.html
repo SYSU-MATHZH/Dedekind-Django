@@ -15,7 +15,7 @@
 
 {% block content_detail %}
 {% load rest_framework %}
-<form enctype="multipart/form-data" role="form" action="" method="post">
+<form enctype="multipart/form-data" role="form" action="" method="POST">
   {% csrf_token %}
   <div class="row">
     <div class="col-lg-6 col-lg-offset-3">
@@ -38,16 +38,16 @@
       </div>-->
       <div class="form-group">
         <label>学生年级</label>
-          <input name="grade" class="form-control" type="text" value="{{serializer.data.grade}}"/>
+          <input name="grade" class="form-control" type="number" value="{{serializer.data.grade}}"/>
         </select>
       </div>
       <div class="form-group">
         <label>班别</label>
-        <input name="classtype" class="form-control" type="text" value="{{serializer.data.classtype}}"/>
+        <input name="classtype" class="form-control" type="number" value="{{serializer.data.classtype}}"/>
       </div>
       <div class="form-group">
         <label>手机号</label>
-        <input name="phone" class="form-control" type="text" value="{{serializer.data.phone}}" />
+        <input name="phone" class="form-control" type="tel" value="{{serializer.data.phone}}" />
       </div>
 
       {% if user.is_staff %}
@@ -60,9 +60,10 @@
       </div>
       {% endif %}
 
+      
       <div class="form-group">
         <label>密码</label>
-        <input name="user.password" class="form-control" type="password" />
+        <input name="user.password" class="form-control" type="password" value="{{serializer.data.user.password}}"/>
       </div>
       <button type="submit" class="btn btn-block btn-primary">提交</button>
       <a class="btn btn-default btn-block" href="{% if serializer.data.url %}{{ serializer.data.url }}{% else %}/#admin_students{% endif %}">返回</a>

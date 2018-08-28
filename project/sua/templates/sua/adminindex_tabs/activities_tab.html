@@ -1,23 +1,23 @@
-<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_activities' }}">
+{% with id=id|default:'admin_activities' %}
+<div role="tabpanel" class="tab-pane fade" id="{{ id }}">
   <div class="row tab-header">
     <div class="col-lg-9 col-xs-6">活动</div>
     <div class="col-lg-3">
-      <a class="btn btn-default" href="/activities/add" target="_blank">创建活动</a>
+      <a class="btn btn-default" href="/activities/add/?from=%2F%23{{ id }}" target="_blank">创建活动</a>
     </div>
   </div>
   <div class="table-responsive">
     <table class="table">
       <thead>
         <tr>
-          <th>活动日期</th>
-          <th>活动名称</th>
-          <th>组织方</th>
-          <th>是否已公示</th>
-          <th>是否有效</th>
-          <th>开始日</th>
-          <th>结束日</th>
-          <th></th>
-          <th></th>
+          <th width="12%">活动日期</th>
+          <th width="12%">活动名称</th>
+          <th width="16%">组织方</th>
+          <th width="12%">是否已公示</th>
+          <th width="12%">是否有效</th>
+          <th width="12%">开始日</th>
+          <th width="12%">结束日</th>
+          <th/>
         </tr>
       </thead>
       <tbody>
@@ -37,8 +37,16 @@
             <td>{{ activity.publicities.0.begin }}</td>
             <td>{{ activity.publicities.0.end }}</td>
             <td>
-              <a class="btn btn-default btn-xs" href="{{ activity.url }}">编辑活动</a>
-              <a class="btn btn-default btn-xs" href="/admin/publicities/{{ activity.id }}/manage/">管理公示</a>
+              <div class="btn-group">
+              <button type="button" id="navdropdownMenu" data-toggle="dropdown" class="btn btn-default">
+                请选择操作
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu pull-right" role="menu">
+                <li><a href="{{ activity.url }}?from=%2F%23{{ id }}">编辑活动</a></li>
+                <li><a href="/admin/publicities/{{ activity.id }}/manage/?from=%2F%23{{ id }}">管理公示</a></li>
+              </ul>
+              </div>
             </td>
           </tr>
         {% endfor %}
@@ -46,3 +54,4 @@
     </table>
   </div>
 </div>
+{% endwith %}

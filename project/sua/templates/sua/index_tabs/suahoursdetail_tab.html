@@ -1,16 +1,16 @@
-<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'suahoursdetail' }}">
+{% with id=id|default:'suahoursdetail' %}
+<div role="tabpanel" class="tab-pane fade" id="{{ id }}">
   <div class="row tab-header">
     公益时详情
     <div class="col-lg-3 pull-right">
-      <a class="btn btn-default" href="/suas/export/{% if year_begin and year_end %}?year_begin={{ year_begin }}&year_end={{ year_end }}{% endif %}" target="_blank">导出记录</a>
+      <a class="btn btn-default" href="/suas/export/?from=%2F%23{{ id }}{% if year_begin and year_end %}&year_begin={{ year_begin }}&year_end={{ year_end }}{% endif %}" target="_blank">导出记录</a>
       <button type="btn btn-default" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          学年  <span class="caret"></span></button>
       <ul class="dropdown-menu">
-        <li><a href="">全部</a></li>
+        <li><a href="#{{ id }}">全部</a></li>
         {% for year in nav.YEAR_CHOICES %}
-        <li><a href="?year_begin={{year.0}}&year_end={{year.1}}">{{year.0}}~{{year.1}}学年度</a></li>
+        <li><a href="?year_begin={{year.0}}&year_end={{year.1}}#{{ id }}">{{year.0}}~{{year.1}}学年度</a></li>
         {% endfor %}
-
     </div>
   </div>
   <div class="table-responsive">
@@ -40,3 +40,4 @@
     </table>
   </div>
 </div>
+{% endwith %}

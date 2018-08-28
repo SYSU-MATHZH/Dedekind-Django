@@ -543,6 +543,15 @@ def CheckTheSuaView(request, *args, **kwargs):
         sua.save()
     return HttpResponseRedirect(activity_data.data['url'])
 
+def CheckThePublicityView(request, *args, **kwargs):
+    publicity_id = kwargs['pk']
+    publicity = Publicity.objects.filter(deleted_at=None,id=publicity_id).get()
+
+    if request.user.is_staff:
+        if(publicity.is_published == True):
+            publicity.is_published=False
+        publicity.save()
+    return HttpResponseRedirect("/")
 
 
 class ApplicationsMergeView(BaseView, NavMixin):

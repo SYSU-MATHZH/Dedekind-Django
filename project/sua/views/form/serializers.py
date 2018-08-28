@@ -4,6 +4,7 @@ from project.sua.models import Student, Sua, Application, Activity, Publicity, A
 from rest_framework import serializers
 
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth import authenticate
 
 
 class AddUserSerializer(serializers.HyperlinkedModelSerializer):
@@ -33,7 +34,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user')
         user = instance.user
-        user.password = make_password(user_data['password'])
+        user.set_password(user_data['password'])
         user.save()
         instance.number = validated_data.get('number',instance.number)
         instance.name = validated_data.get('name',instance.name)

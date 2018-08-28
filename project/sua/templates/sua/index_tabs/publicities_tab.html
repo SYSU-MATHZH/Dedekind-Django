@@ -1,4 +1,5 @@
-<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'publicities' }}">
+{% with id=id|default:'publicities' %}
+<div role="tabpanel" class="tab-pane fade" id="{{ id }}">
   <div class="tab-header">公告</div>
   <div class="table-responsive">
     <table class="table my-pub-table col-lg-12">
@@ -19,5 +20,6 @@
   </div>
 </div>
 {% for publicity in publicities %}
-  {% include './publicities_detail_tab.html' with publicity=publicity only%}
+  {% include './publicities_detail_tab.html' with id='publicity' publicity=publicity %}
 {% endfor %}
+{% endwith %}

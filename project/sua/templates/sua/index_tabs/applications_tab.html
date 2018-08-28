@@ -1,4 +1,5 @@
-<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'applications' }}">
+{% with id=id|default:'applications' %}
+<div role="tabpanel" class="tab-pane fade" id="{{ id }}">
       <div class="tab-header">申请记录</div>
       <div class="table-responsive">
         <table class="table table-hover">
@@ -18,10 +19,10 @@
             {% for application in applications %}
               <tr>
                 <td>{{ forloop.counter }}</td>
-                <td><a href="{{ application.url }}" class="btn btn-default btn-xs">查看详情</a></td>
+                <td><a href="{{ application.url }}?from=%2F%23{{ id }}" class="btn btn-default btn-xs">查看详情</a></td>
                 <td>{{ application.created }}</td>
                 <td>
-                {# <a href="{{ application.sua.activity.url }}"> #}{{ application.sua.activity.title }}{# </a> #}
+                {# <a href="{{ application.sua.activity.url }}?from=%2F%23{{ id }}"> #}{{ application.sua.activity.title }}{# </a> #}
               </td>
                 <td>{{ application.sua.activity.group }}</td>
                 <td>{{ application.sua.suahours }}</td>
@@ -36,3 +37,4 @@
         </table>
       </div>
     </div>
+    {% endwith %}
