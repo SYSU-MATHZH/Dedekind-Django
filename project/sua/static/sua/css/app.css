@@ -1,0 +1,177 @@
+::before {
+    box-sizing: border-box;
+}
+
+.user-info>table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.user-info>table>tbody>tr>td{
+    padding: 12px 0;
+}
+
+.user-info>table>tbody>tr>td.item {
+    width: 34%;
+}
+
+.title {
+    font-size: .9231rem;
+    color: #5f5f5f;
+}
+
+.counter {
+    font-size: 1.385rem;
+}
+
+.my-card-header {
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 27px;
+    padding-bottom: 14px;
+}
+
+.user-timeline {
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+
+.card-hr {
+    margin-bottom: 27px;
+}
+
+.list-item {
+    display: block;
+    position: relative;
+    padding-left: 60px;
+    margin-bottom: 27px;
+    padding-bottom: 27px;
+}
+
+.list-item-author {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.list-item-info {
+    margin-top: 20px;
+    color: #cccccc;
+    font-weight: 100;
+    font-size: 0.5rem;
+}
+
+.list-item-info>div.info {
+    float: left;
+    margin-right: 5px;
+}
+
+.list-item-btn {
+    float: right;
+    margin-top: -17px;
+    background-color: #4285f4;
+}
+
+.list>li:before {
+    text-align: center;
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: 400;
+    color: #4285f4;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    height: 48px;
+    width: 48px;
+    line-height: 28px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #4285f4;
+}
+
+.list>li.item-1:before {
+    background-color: #4285f4;
+    color: #fff;
+    content: "";
+}
+
+
+.user-timeline:before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 2px;
+    height: 100%;
+    width: 2px;
+    background-color:#f6c163;
+}
+.user-timeline:after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    bottom: -3px;
+    height: 10px;
+    width: 10px;
+    background-color: #f6c163;
+    border-radius: 50%;
+}
+
+.user-timeline>li {
+    display: block;
+    position: relative;
+    padding-left: 40px;
+    padding-bottom: 27px;
+}
+
+.user-timeline>li.item-1:before {
+    background-color: #f6c163;
+    color: #fff;
+    content: "+12";
+}
+.user-timeline>li.item-2:before {
+    content: "+10";
+}
+.user-timeline>li.item-3:before {
+    content: "+2";
+}
+
+.user-timeline>li:before {
+    text-align: center;
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: 400;
+    color: #f6c163;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    height: 30px;
+    width: 30px;
+    line-height: 28px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #f6c163;
+}
+
+.user-timeline-date {
+    float: right;
+    text-transform: capitalize;
+    margin-bottom: 0;
+    line-height: 22px;
+}
+
+.user-timeline-title {
+    font-size: 1.385rem;
+    font-weight: 300;
+}
+
+.user-timeline-description {
+    color: #737373;
+    margin-top: 4px;
+}
