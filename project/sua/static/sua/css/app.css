@@ -108,7 +108,7 @@
 .user-timeline:before {
     content: "";
     position: absolute;
-    left: 14px;
+    left: 17px;
     top: 2px;
     height: 100%;
     width: 2px;
@@ -117,7 +117,7 @@
 .user-timeline:after {
     content: "";
     position: absolute;
-    left: 10px;
+    left: 13px;
     bottom: -3px;
     height: 10px;
     width: 10px;
@@ -128,14 +128,14 @@
 .user-timeline>li {
     display: block;
     position: relative;
-    padding-left: 40px;
+    padding-left: 50px;
     padding-bottom: 27px;
 }
 
 .user-timeline>li.item-1:before {
     background-color: #f6c163;
     color: #fff;
-    content: "+12";
+    content: "+12.0";
 }
 .user-timeline>li.item-2:before {
     content: "+10";
@@ -153,9 +153,9 @@
     position: absolute;
     left: 0;
     top: 2px;
-    height: 30px;
-    width: 30px;
-    line-height: 28px;
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
     background-color: #fff;
     border-radius: 50%;
     border: 1px solid #f6c163;
