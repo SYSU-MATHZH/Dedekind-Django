@@ -130,17 +130,7 @@
     padding-bottom: 27px;
 }
 
-.user-timeline>li.item-1:before {
-    background-color: #f6c163;
-    color: #fff;
-    content: "+12";
-}
-.user-timeline>li.item-2:before {
-    content: "+10";
-}
-.user-timeline>li.item-3:before {
-    content: "+2";
-}
+
 
 .user-timeline>li:before {
     text-align: center;
