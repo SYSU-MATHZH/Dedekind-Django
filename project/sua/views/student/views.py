@@ -3,8 +3,9 @@ import datetime
 
 from django.utils import timezone
 from django.http import HttpResponse
+from django.contrib.auth import authenticate
 
-from project.sua.models import Publicity,Activity,Application
+from project.sua.models import Publicity,Activity,Application,Student
 
 from project.sua.serializers import PublicitySerializer
 from project.sua.serializers import SuaSerializer
@@ -12,6 +13,7 @@ from project.sua.serializers import ApplicationSerializer
 from project.sua.serializers import AppealSerializer
 from project.sua.serializers import AddAppealSerializer
 from project.sua.serializers import ActivitySerializer
+from project.sua.serializers import StudentSerializer
 
 from .serializers import DEAddApplicationsSerializer
 from .serializers import DEActivityForAddApplicationsSerializer
@@ -376,3 +378,24 @@ class ApplyView(BaseView, NavMixin):
             return True
         else:
             return False
+
+class ChangePasswordView(BaseView, NavMixin):
+    template_name = 'sua/change_password.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def deserialize(self, request, *args, **kwargs):
+
+        id = kwargs['pk']
+        user = request.user
+        
+        user_data = authenticate(username = user,password = request.data['OldPassword'])
+        if user_data == user and request.data['NewPassword1'] == request.data['NewPassword2']:
+            user.set_password(request.data['NewPassword1'])
+            user.save()
+            self.url = '/students/'+str(id)+'/detail/'
+        else:
+            self.url = '/students/'+str(id)+'/changepassword/'
+
+        return True

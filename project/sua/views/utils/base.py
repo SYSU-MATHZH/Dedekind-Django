@@ -51,6 +51,6 @@ class BaseView(APIView):
         else:
             return None
         args = self.request.META.get('QUERY_STRING', '')
-        if args and self.query_string:
+        if args:
             url = "%s?%s" % (url, args)
         return url

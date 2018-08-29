@@ -1,4 +1,5 @@
-<div role="tabpanel" class="tab-pane fade{% if active|default:False %} active in{% endif %}" id="{{ id|default:'admin_deleteds' }}">
+{% with id=id|default:'admin_deleteds' %}
+<div role="tabpanel" class="tab-pane fade" id="{{ id }}">
 
 {% if nav.user.is_staff %}
   <div class="tab-header">学生</div>
@@ -20,15 +21,16 @@
             <td>{{ student.name }}</td>
             <td>{{ student.number }}</td>
             <td>{{ student.deleted_by }}</td>
-            <td><a class="btn btn-default btn-xs" href="/students/{{ student.id }}/revoke/">撤销删除</a></td>
+            <td> <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_revoke_student_{{ student.id }}">撤销删除</a></td>
           </tr>
+          {% include "sua/_partial/confirm_box.html" with id1="confirm_box_revoke_student_" id2=student.id title="确认撤销删除学生" content="确认要撤销删除该学生吗？" confirm_label="确认撤销删除" confirm_href1="/students/" confirm_href2=student.id confirm_href3="/revoke/" only%}
         {% endfor %}
       </tbody>
     </table>
   </div>
-{% endif %}
 
 <hr>
+{% endif %}
 
   <div class="tab-header">活动</div>
   <div class="table-responsive">
@@ -51,8 +53,9 @@
           <td>{{ activity.title }}</td>
           <td>{{ activity.group }}</td>
           <td>{{ activity.deleted_by }}</td>
-          <td><a class="btn btn-default btn-xs" href="/activities/{{ activity.id }}/revoke/">撤销删除</a></td>
+          <td> <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_revoke_activity_{{ activity.id }}">撤销删除</a></td>
         </tr>
+        {% include "sua/_partial/confirm_box.html" with id1="confirm_box_revoke_activity_" id2=activity.id title="确认撤销删除活动" content="确认要撤销删除该活动吗？" confirm_label="确认撤销删除" confirm_href1="/activities/" confirm_href2=activity.id confirm_href3="/revoke/" only%}
       {% endfor %}
       </tbody>
     </table>
@@ -83,8 +86,9 @@
           <td>{{ application.sua.student.name }}</td>
           <td>{{ application.sua.suahours }}h</td>
           <td>{{ application.deleted_by }}</td>
-          <td><a class="btn btn-default btn-xs" href="/applications/{{ application.id }}/revoke/">撤销删除</a></td>
+          <td><a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_revoke_application_{{ application.id }}">撤销删除</a></td>
         </tr>
+        {% include "sua/_partial/confirm_box.html" with id1="confirm_box_revoke_application_" id2=application.id title="确认撤销删除申请" content="确认要撤销删除该申请吗？" confirm_label="确认撤销删除" confirm_href1="/applications/" confirm_href2=application.id confirm_href3="/revoke/" only%}
         {% endfor %}
       </tbody>
     </table>
@@ -113,10 +117,12 @@
           <td>{{ appeal.publicity.title }}</td>
           <td>{{ appeal.student.name }}</td>
           <td>{{ appeal.deleted_by }}</td>
-          <td><a class="btn btn-default btn-xs" href="/appeals/{{ appeal.id }}/revoke/">撤销删除</a></td>
+          <td><a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_revoke_appeal_{{ appeal.id }}">撤销删除</a></td>
         </tr>
+        {% include "sua/_partial/confirm_box.html" with id1="confirm_box_revoke_appeal_" id2=appeal.id title="确认撤销删除申诉" content="确认要撤销删除该申诉吗？" confirm_label="确认撤销删除" confirm_href1="/appeals/" confirm_href2=appeal.id confirm_href3="/revoke/" only%}
         {% endfor %}
       </tbody>
     </table>
   </div>
 {% endif %}
+{% endwith %}

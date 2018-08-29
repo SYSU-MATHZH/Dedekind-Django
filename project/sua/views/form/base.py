@@ -49,13 +49,17 @@ class BaseViewSet(
 
     @detail_route(methods=['get'])
     def detail(self, request, *args, **kwargs):
+        from_url = '/'
         instance = self.get_object()
         serializer = self.get_serializer(instance)
+        if 'from' in request.GET:
+            from_url = request.GET['from']
+            print(from_url)
         if 'created' in serializer.data:
             created  = tools.DateTime2String_SHOW(tools.TZString2DateTime(serializer.data['created']))
-            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'created':created}))
+            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'created':created,'from_url':from_url}))
         else:
-            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer}))
+            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'from_url':from_url}))
 
     @list_route(methods=['get', 'post'])
     def add(self, request, *args, **kwargs):
@@ -148,7 +152,8 @@ class BaseViewSet(
         instance.full_restore()
 
     def get_revoke_response(self):
-        return HttpResponseRedirect(self.revoke_success_url)
+        revoke_url = '/#admin_deleteds'
+        return HttpResponseRedirect(revoke_url)
 
 class StudentViewSet(BaseViewSet):
     # template_name = 'sua/tmp/test.html'
