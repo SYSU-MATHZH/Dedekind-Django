@@ -1,0 +1,25 @@
+{% extends 'sua/_layout/info_template.html' %}
+
+{% block title %}{{ serializer.data.title }} 的公示详情{% endblock %}
+
+{% block content_title %}
+{{ serializer.data.title }} 的公示
+{% endblock %}
+
+{% block content_detail %}
+<dl class="col-lg-offset-1 my-horizontal-dl">
+  <dt>公示详情：</dt><dd>{{ serializer.data.content }}</dd>
+  <dt>联系方式：</dt><dd>{{ serializer.data.contact }}</dd>
+  <dt>是否已公示：</dt><dd>{% if serializer.data.is_published %}已公示{% else %}未公示{% endif %}</dd>
+  <dt>公示开始时间：</dt><dd>{{ serializer.data.begin }}</dd>
+  <dt>公示截止时间：</dt><dd>{{ serializer.data.end }}</dd>
+</dl>
+<div class="row">
+  <div class="col-lg-12 col-lg-offset-1">
+    <a data-toggle="modal" data-target="#confirm_box_delete_publicity_{{ serializer.data.id }}" class="btn btn-default">删除该公示</a>
+    <a href="/admin/publicities/{{ serializer.data.id }}/change" class="btn btn-default">编辑该公示</a>
+    <a href="/admin/publicities/{{ serializer.data.id }}/manage/" class="btn btn-default">返回</a>
+  </div>
+  {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_publicity_" id2=serializer.data.id title="确认删除公示" content="确认要删除该公示吗？" confirm_label="确认删除" confirm_href1="/publicities/" confirm_href2=serializer.data.id confirm_href3="/delete/" only%}
+</div>
+{% endblock %}
