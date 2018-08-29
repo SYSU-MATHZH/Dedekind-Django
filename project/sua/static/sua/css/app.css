@@ -7,6 +7,8 @@
     table-layout: fixed;
 }
 
+
+
 .user-info>table>tbody>tr>td{
     padding: 12px 0;
 }
@@ -27,7 +29,7 @@
 .my-card-header {
     font-size: 18px;
     font-weight: 300;
-    margin-bottom: 27px;
+    margin-bottom: 20px;
     padding-bottom: 14px;
 }
 
@@ -247,7 +249,15 @@
 
 .card-table .card-table-body {
     padding: 0;
+    margin-top: 0px;
+}
+
+.card-subtitle {
+    display: block;
+    font-size: 0.8rem;
+    color: #707070;
     margin-top: 0;
+    margin-bottom: .4615rem;
 }
 
 .card-table-header .my-card-header {
@@ -284,12 +294,34 @@ thead {
     padding-left: 20px;
 }
 
-.my-card-header .tools {
+.tools {
     float: right;
     padding-right: 0px;
     margin-right: -4px;
 }
 
-.my-card-header .tools .dropdown-toggle::after {
+.tools .dropdown-toggle::after {
     content: None;
+}
+
+.page-head {
+    padding: 20px 25px 10px;
+    position: relative;
+}
+
+.page-head-title {
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 6px;
+    font-weight: 300;
+    letter-spacing: -1px;
+    font-size: 2.154rem;
+    color: #6b6b6b;
+    line-height: 36px;
+}
+
+.main-content {
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 30px;
 }
