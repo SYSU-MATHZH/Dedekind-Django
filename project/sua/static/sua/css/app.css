@@ -423,9 +423,14 @@ body {
     display: block;
 }
 
+.invoice-person:last-child {
+    text-align: right;
+}
+
 .invoice-details {
     width: 100%;
     font-size: 1.231rem;
+    margin-bottom: 80px;
 }
 
 .invoice-details th:first-child {
@@ -461,4 +466,26 @@ body {
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
+}
+.invoice-footer {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.invoice-footer .btn {
+    min-width: 96px;
+    font-size: 1.077rem;
+}
+
+.btn-space {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.btn-lg {
+    padding: 0 12px;
+    font-size: 1.1538rem;
+    line-height: 38px;
+    border-radius: 3px;
+    font-weight: 500;
 }
