@@ -108,7 +108,7 @@
 .user-timeline:before {
     content: "";
     position: absolute;
-    left: 14px;
+    left: 17px;
     top: 2px;
     height: 100%;
     width: 2px;
@@ -117,7 +117,7 @@
 .user-timeline:after {
     content: "";
     position: absolute;
-    left: 10px;
+    left: 13px;
     bottom: -3px;
     height: 10px;
     width: 10px;
@@ -128,7 +128,7 @@
 .user-timeline>li {
     display: block;
     position: relative;
-    padding-left: 40px;
+    padding-left: 50px;
     padding-bottom: 27px;
 }
 
@@ -143,9 +143,9 @@
     position: absolute;
     left: 0;
     top: 2px;
-    height: 30px;
-    width: 30px;
-    line-height: 28px;
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
     background-color: #fff;
     border-radius: 50%;
     border: 1px solid #f6c163;
@@ -293,8 +293,6 @@ thead {
 .tools .dropdown-toggle::after {
     content: None;
 }
-<<<<<<< HEAD
-=======
 
 .page-head {
     padding: 20px 25px 10px;
@@ -415,9 +413,14 @@ body {
     display: block;
 }
 
+.invoice-person:last-child {
+    text-align: right;
+}
+
 .invoice-details {
     width: 100%;
     font-size: 1.231rem;
+    margin-bottom: 80px;
 }
 
 .invoice-details th:first-child {
@@ -454,4 +457,27 @@ body {
     margin-right: -15px;
     margin-left: -15px;
 }
->>>>>>> baab6fedfef6fb6b4b4f0737b2cbeaba976ded2d
+
+
+.invoice-footer {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.invoice-footer .btn {
+    min-width: 96px;
+    font-size: 1.077rem;
+}
+
+.btn-space {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.btn-lg {
+    padding: 0 12px;
+    font-size: 1.1538rem;
+    line-height: 38px;
+    border-radius: 3px;
+    font-weight: 500;
+}
