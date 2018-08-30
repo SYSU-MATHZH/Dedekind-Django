@@ -7,7 +7,7 @@ import project.sua.views.form.views as form
 import project.sua.views.form.views2 as form2
 from project.sua.views.form.base import StudentViewSet
 from project.sua.views.apis import apis, auths
-from project.sua.views.index.views import IndexView
+from project.sua.views.index.views import IndexView, Application_tab_View, Appeal_tab_View
 
 from rest_framework import routers
 
@@ -63,4 +63,7 @@ urlpatterns = [
     path('admin/publicities/<int:pk>/check/',login_required(admin.CheckThePublicityView)),
     path('admin/suas/<int:pk>/check/',login_required(admin.CheckTheSuaView)),
     path('students/<int:pk>/changepassword/',login_required(student.ChangePasswordView.as_view())),
+
+    path('applications/tab',login_required(Application_tab_View.as_view()), ),
+    path('appeals/tab',login_required(Appeal_tab_View.as_view()), ),
 ]
