@@ -244,14 +244,15 @@ class Application_tab_View(BaseView, NavMixin):
 
         user = request.user
 
-        if user.is_staff:
-            application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
-        elif user.student.power == 1:
-            application_set = Application.objects.filter(
-            sua__activity__owner=user,
-            sua__activity__is_created_by_student=False,
-            deleted_at=None).order_by('-created')# 获取该活动管理员创建的活动的申请
-        elif hasattr(user,'student'):
+        # if user.is_staff:
+        #     application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
+        # elif user.student.power == 1:
+        #     print("1")
+        #     application_set = Application.objects.filter(
+        #     sua__activity__owner=user,
+        #     sua__activity__is_created_by_student=False,
+        #     deleted_at=None).order_by('-created')# 获取该活动管理员创建的活动的申请
+        if hasattr(user,'student'):
             application_set = user.applications.filter(
             deleted_at=None).order_by('-created')# 获取该学生创建的活动的申请
 
@@ -282,10 +283,11 @@ class Appeal_tab_View(BaseView, NavMixin):
 
         user = request.user
 
-        if user.is_staff:
-            appeal_set = Appeal.objects.filter(deleted_at=None).order_by(
-                'is_checked', '-created')  # 获取在公示期内的所有申诉
-        else:
+        # if user.is_staff:
+        #     appeal_set = Appeal.objects.filter(deleted_at=None).order_by(
+        #         'is_checked', '-created')  # 获取在公示期内的所有申诉
+        # else:
+        if hasattr(user,'student'):
             appeal_set = user.appeals.filter(deleted_at=None).order_by('-created')#获取该学生创建的申诉
 
 
