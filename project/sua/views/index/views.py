@@ -41,6 +41,7 @@ class IndexView(BaseView, NavMixin):
         )
 
         publicities = publicity_data.data
+        print(publicities[0])
         for publicity in publicities:
             publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
@@ -243,8 +244,6 @@ class Application_tab_View(BaseView, NavMixin):
         serialized = super(Application_tab_View, self).serialize(request)
 
         user = request.user
-        if hasattr(user,'student'):
-            student = user.student
 
         if user.is_staff:
             application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
@@ -252,7 +251,7 @@ class Application_tab_View(BaseView, NavMixin):
             application_set = Application.objects.filter(
             sua__activity__owner=user,
             sua__activity__is_created_by_student=False,
-            deleted_at=None).order_by('-created')# 获取该学生创建的活动的申请
+            deleted_at=None).order_by('-created')# 获取该活动管理员创建的活动的申请
         elif hasattr(user,'student'):
             student = user.student
             application_set = user.applications.filter(
@@ -318,37 +317,23 @@ class Appeal_tab_View(BaseView, NavMixin):
         if user.is_staff:
             appeal_set = Appeal.objects.filter(deleted_at=None).order_by(
                 'is_checked', '-created')  # 获取在公示期内的所有申诉
-            appeal_data = AppealSerializer(  # 序列化申诉
-                appeal_set,
-                many=True,
-                context={'request': request}
-            )
-            appeals = appeal_data.data
-            for appeal in appeals:
-                appeal['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(appeal['created']))
+        else:
+            appeal_set = user.appeals.filter(deleted_at=None).order_by('-created')#获取该学生创建的申诉
 
-            deleteds['appeals'] = tools.get_deleteds(Appeal, AppealSerializer, request)
 
-            serialized.update({
-                'admin_appeals': appeals,
-            })
+        appeal_data = AppealSerializer(  # 序列化申诉
+            appeal_set,
+            many=True,
+            context={'request': request}
+        )
+        appeals = appeal_data.data
+        for appeal in appeals:
+            appeal['created'] = tools.DateTime2String_SHOW(
+                tools.TZString2DateTime(appeal['created']))
 
-        if hasattr(user,'student'):
 
-            student = user.student
+        serialized.update({
+            'appeals': appeals,
+        })
 
-            appeal_data = AppealSerializer(  # 序列化当前学生的所有申诉
-                student.appeals.filter(deleted_at=None),
-                many=True,
-                context={'request': request}
-            )
-
-            appeals = appeal_data.data
-            for appeal in appeals:
-                appeal['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(appeal['created']))
-
-            serialized.update({
-                'appeals': appeal_data.data,
-            })
         return serialized
