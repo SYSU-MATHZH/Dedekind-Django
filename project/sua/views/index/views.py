@@ -265,38 +265,42 @@ class Application_tab_View(BaseView, NavMixin):
         for application in applications:
             application['created'] = tools.DateTime2String_SHOW(
                 tools.TZString2DateTime(application['created']))
-
-        if 'year_begin' not in request.GET:
-            sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
-                student.suas.filter(deleted_at=None,is_valid=True,activity__is_valid=True),
-                many=True,
-                context={'request': request}
-            )
-        else:
-            year_begin = int(request.GET['year_begin'])
-            year_end = int(request.GET['year_end'])
-            start_date = datetime.date(year_begin, 8, 1)
-            end_date = datetime.date(year_end, 8, 1)
-            sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
-                student.suas.filter(deleted_at=None,is_valid=True,
-                    activity__is_valid=True,
-                    activity__date__range=(start_date, end_date)
-                ),
-                many=True,
-                context={'request': request}
-            )
-            serialized.update({
-                'year_begin':year_begin,
-                'year_end':year_end
-            })
-        suas = sua_data.data
-        # print(suas)
-        for sua in suas:
-            sua['activity']['date'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['date']))
         serialized.update({
             'applications': applications,
-            'suas': sua_data.data,
         })
+        if hasattr(user,'student'):
+            if 'year_begin' not in request.GET:
+
+                sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
+                    student.suas.filter(deleted_at=None,is_valid=True,activity__is_valid=True),
+                    many=True,
+                    context={'request': request}
+                )
+            else:
+                year_begin = int(request.GET['year_begin'])
+                year_end = int(request.GET['year_end'])
+                start_date = datetime.date(year_begin, 8, 1)
+                end_date = datetime.date(year_end, 8, 1)
+                sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
+                    student.suas.filter(deleted_at=None,is_valid=True,
+                        activity__is_valid=True,
+                        activity__date__range=(start_date, end_date)
+                    ),
+                    many=True,
+                    context={'request': request}
+                )
+                serialized.update({
+                    'year_begin':year_begin,
+                    'year_end':year_end
+                })
+            suas = sua_data.data
+            # print(suas)
+            for sua in suas:
+                sua['activity']['date'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['date']))
+            serialized.update({
+                'applications': applications,
+                'suas': sua_data.data,
+            })
 
         return serialized
 
