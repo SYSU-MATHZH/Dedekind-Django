@@ -264,9 +264,11 @@ class Application_tab_View(BaseView, NavMixin):
         for application in applications:
             application['created'] = tools.DateTime2String_SHOW(
                 tools.TZString2DateTime(application['created']))
+
         serialized.update({
             'applications': applications,
         })
+
         return serialized
 
 
