@@ -1,177 +1,184 @@
-{% extends 'sua/_layout/info_template.html' %}
+<!doctype html>
+{% load staticfiles %}
+<html lang="en">
 
-{% block title %}申请详情{% endblock %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block content_title %}
-<div class="col-lg-offset-1">申请详情</div>
-{% endblock %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'sua/css/bootstrap.min.css' %}">
 
-{% block content_detail %}
-{% load static %}
-<div class="row">
-  <div class="col-lg-10 col-lg-offset-1">
-    <div class="col-lg-3"></div>
-    <hr>
-    <div class="row">
-      <div class="col-xs-12">
-        <form enctype="multipart/form-data" role="form" action="{% url 'index' %}" method="GET">
-          {% csrf_token %}
-          <div class="row">
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-xs-6">
-                  <div class="form-group">
-                    <label for="actor-name">
-                      姓名
-                    </label>
-                    <p id="actor-name" class="form-control-static">{{ serializer.data.sua.student.name }}</p>
-                  </div>
-                </div>
-                <div class="col-xs-6">
-                  <div class="form-group">
-                    <label for="actor-code">
-                      学号
-                    </label>
-                    <p id="actor-code" class="form-control-static">{{ serializer.data.sua.student.number }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <!-- My CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
 
+    <title>Hello, world!</title>
+</head>
 
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-xs-6">
-                  <div class="form-group">
-                    <label for="actor-date">
-                      申请日期
-                    </label>
-                    <p id="actor-date" class="form-control-static">{{ created }}</p>
-                  </div>
+<body style="background-color: #EEEEEE">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #4d4d4d;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/applications/tab/">< 返回 <span
+                            class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <a class="navbar-brand mr-auto" href="/">
+                <img src="{% static 'sua/images/logo-icon3.png' %}" width="30" height="30" class="d-inline-block align-top"
+                    alt=""> 数院公益时
+            </a>
+            <ul class="navbar-nav my-2 my-lg-0">
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <img src="/Users/nouzan/git/tmp/Dedekind-Django/project/sua/static/sua/images/plus.png" width="15" height="15" class="d-inline-block"
+                            alt="" style="mix-blend-mode: #fff">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/applications/apply/">新增公益时申请</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        {% if nav.user.student == None %}
+                          {{ nav.user.username }}
+                        {% else %}
+                          {{ nav.user.student.name }}
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/students/{{ nav.student.id }}/detail/">我的信息</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout">登出</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <div class="page-head">
+            <h2 class="page-head-title">公益时申请</h2>
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb page-head-nav">
+                    <li class="breadcrumb-item"><a href="/">主页</a></li>
+                    <li class="breadcrumb-item"><a href="/applications/tab/">申请记录</a></li>
+                    <li class="breadcrumb-item active">公益时申请</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row main-content">
+            <div class="col-lg">
+                <div class="invoice">
+                    <div class="row invoice-header">
+                        <div class="col-sm-7">
+                            <div class="invoice-logo"></div>
+                        </div>
+                        <div class="col-sm-5 invoice-order">
+                            <span class="invoice-id">公益时申请 #2308</span>
+                            <span class="incoice-date">{{ serializer.data.created }}</span>
+                        </div>
+                    </div>
+                    <div class="row invoice-data">
+                        <div class="col-sm invoice-person">
+                            <span class="name">申请人信息</span>
+                            <span>姓名：{{ serializer.data.sua.student.name }}</span>
+                            <span>学号：{{ serializer.data.sua.student.number }}</span>
+                            <span>班级：{{ serializer.data.sua.student.grade }}级{{ serializer.data.sua.student.classtype }}班</span>
+                        </div>
+                        <div class="col-sm invoice-person">
+                            <span class="name">活动信息</span>
+                            <span>名称：{{ serializer.data.sua.activity.title }}</span>
+                            <span>主办单位：{{ serializer.data.sua.activity.group }}</span>
+                            <span>联系方式：{{ serializer.data.contact }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="invoice-details">
+                                <tbody>
+                                    <tr>
+                                        <th style="width:60%;">公益时获得情况</th>
+                                        <th class="hours" style="width:17%;"></th>
+                                        <th class="amount" style="width:15%;">公益时数</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="description">{{ serializer.data.sua.team }}</td>
+                                        <td class="hours"></td>
+                                        <td class="amount">{{ serializer.data.sua.suahours }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-bottom-width: 0;"></td>
+                                        <td style="text-align: left;">总计</td>
+                                        <td class="amount-total-value">10</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row invoice-data">
+                        <div class="col-sm invoice-person">
+                            <span class="name">证明材料</span>
+                            <span>
+                              {% if serializer.data.proof.is_offline %}
+                              <p id="" class="form-control-static">线下证明</p>
+                              {% else %}
+                              <p id="" class="form-control-static"><a href="{{ serializer.data.proof.proof_file }}">线上证明</a></p>
+                              {% endif %}
+                            </span>
+                        </div>
+                        <div class="col-sm invoice-person"></div>
+                    </div>
+
+                    <div class="row invoice-data">
+                            <div class="col-sm invoice-person">
+                                <span class="name">申请结果</span>
+                                <span>
+                                  {% if serializer.data.is_checked %}
+                                    {% if serializer.data.status == 0 %}
+                                    <p id="" class="form-control-static">通过</p>
+                                    {% elif serializer.data.status == 1 %}
+                                    <p id="" class="form-control-static">不通过</p>
+                                    {% elif serializer.data.status == 2 %}
+                                    <p id="" class="form-control-static">需要提交线下证明</p>
+                                    {% endif %}
+                                    <label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
+                                    反馈
+                                    </label>
+                                    <textarea name="sua_ApplicationForm-detail" placeholder="{{ serializer.data.feedback }}" maxlength="400" rows="5" id="" cols="10" class="form-control" readonly></textarea>
+                                  {% else %}
+                                  <p id="" class="form-control-static">待审核</p>
+                                  {% endif %}
+                                </span>
+                            </div>
+                            <div class="col-sm invoice-person"></div>
+                        </div>
+
+                    <div class="row invoice-footer">
+                        <div class="col-lg-12">
+                            <button class="btn btn-lg btn-space btn-secondary">导出PDF</button>
+                            <button class="btn btn-lg btn-space btn-secondary">打印</button>
+
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-6">
-                  <div class="form-group">
-                    <label for="actor-date">
-                      学年度
-                    </label>
-                    <p id="actor-date" class="form-control-static">{{ year_before }}~{{ year_after }}</p>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="id_{{ suaForm.prefix }}-{{ suaForm.title.name }}">
-                  活动名称*
-                </label>
-                <p id="" class="form-control-static">{{ serializer.data.sua.activity.title }}</p>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="id_{{ suaForm.prefix }}-{{ suaForm.date.name }}">
-                  活动日期*
-                </label>
-                <p id="" class="form-control-static">{{ serializer.data.sua.activity.date }}</p>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="id_{{ suaForm.prefix }}-{{ suaForm.group.name }}">
-                  活动组织方*
-                </label>
-                <p id="" class="form-control-static">{{ serializer.data.sua.activity.group }}</p>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="id_{{ sua_ApplicationForm.prefix }}-{{ sua_ApplicationForm.contact.name }}">
-                  负责人手机/电话*
-                </label>
-                <p id="" class="form-control-static">{{ serializer.data.contact }}</p>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="id_{{ suaForm.prefix }}-{{ suaForm.team.name }}">
-                  参与组别
-                </label>
-                <p id="" class="form-control-static">{{ serializer.data.sua.team }}</p>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="id_{{ suaForm.prefix }}-{{ suaForm.suahours.name }}">
-                  公益时数
-                </label>
-                <div class="input-group">
-                  <input type="text" class="form-control" id="" placeholder="{{ serializer.data.sua.suahours }}" readonly>
-                  <div class="input-group-addon">小时</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
-                  公益时证明
-                </label>
-                {% if serializer.data.proof.is_offline %}
-                <p id="" class="form-control-static">线下证明</p>
-                {% else %}
-                <p id="" class="form-control-static"><a href="{{ serializer.data.proof.proof_file }}">线上证明</a></p>
-                {% endif %}
-              </div>
-            </div>
-            <div class="col-lg-6"></div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="form-group">
-                <label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
-                审核结果
-                </label>
-                {% if serializer.data.is_checked %}
-                  {% if serializer.data.status == 0 %}
-                  <p id="" class="form-control-static">通过</p>
-                  {% elif serializer.data.status == 1 %}
-                  <p id="" class="form-control-static">不通过</p>
-                  {% elif serializer.data.status == 2 %}
-                  <p id="" class="form-control-static">需要提交线下证明</p>
-                  {% endif %}
-                  <label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
-                  反馈
-                  </label>
-                  <textarea name="sua_ApplicationForm-detail" placeholder="{{ serializer.data.feedback }}" maxlength="400" rows="5" id="" cols="10" class="form-control" readonly></textarea>
-                {% else %}
-                <p id="" class="form-control-static">待审核</p>
-                {% endif %}
-              </div>
-            </div>
-            <div class="col-lg-6"></div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-lg-12">
-              {% if user.is_staff %}
-                <a class="btn btn-block btn-primary" href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a>
-              {% elif nav.student.power == 1 and serializer.data.sua.activity.owner == nav.user.url and serializer.data.sua.activity.is_created_by_student == True %}
-                <a class="btn btn-block btn-primary" href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a>
-              {% endif %}
-              <a class="btn btn-block btn-default" href='{% if user.is_staff %}/#admin_applications{% else %}/#applications{% endif %}'>返回</a>
-            </div>
-          </div>
-        </form>
-      </div>
+        </div>
+
     </div>
-  </div>
-</div>
-{% endblock %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'sua/js/jquery-3.3.1.slim.min.js' %}"></script>
+    <script src="{% static 'sua/js/popper.min.js' %}"></script>
+    <script src="{% static 'sua/js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>

@@ -114,8 +114,8 @@ class PublicityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
     activity = AddActivitySerializer()
 
     class Meta:
-        model = Activity
-        fields = ('url','activity','title')
+        model = Publicity
+        fields = ('url','activity','title','contact','id')
 
 class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
     student = AddStudentSerializer()
