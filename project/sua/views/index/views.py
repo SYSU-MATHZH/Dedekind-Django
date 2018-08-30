@@ -265,7 +265,6 @@ class Application_tab_View(BaseView, NavMixin):
         )
         applications = application_data.data
         for application in applications:
-            print(application)
             application['created'] = tools.DateTime2String_SHOW(
                 tools.TZString2DateTime(application['created']))
 
