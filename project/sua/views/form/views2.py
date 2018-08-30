@@ -172,8 +172,8 @@ class PublicityViewSet(BaseViewSet, NavMixin):
     def get_permissions(self):
         if self.action == 'change':
             permission_classes = (IsAdminUser, )
-        elif self.action == 'detail':
-            permission_classes = (IsTheStudentOrIsAdminUser,)
+        # elif self.action == 'detail':
+        #     permission_classes = (IsTheStudentOrIsAdminUser,)
         else:
             permission_classes = (IsAdminUserOrReadOnly, )
 

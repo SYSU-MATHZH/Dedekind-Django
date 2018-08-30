@@ -41,7 +41,6 @@ class IndexView(BaseView, NavMixin):
         )
 
         publicities = publicity_data.data
-        print(publicities[0])
         for publicity in publicities:
             publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
