@@ -19,7 +19,6 @@ import datetime
 
 class IndexView(BaseView, NavMixin):
     def get_template_names(self):#获取template_name
-        print(self)
         if self.request.user.is_staff:
             return ['sua/admin/admin_index.html']
         else:
@@ -64,7 +63,6 @@ class IndexView(BaseView, NavMixin):
                 application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
                 unreviewed_applications_set = Application.objects.filter(deleted_at=None, is_checked=False).order_by('-created')# 获取未审核的申请
                 unreviewed_appeals_set = Appeal.objects.filter(deleted_at=None, is_checked=False).order_by('-created')# 获取未审核的申诉
-                print(unreviewed_appeals_set[0].is_checked)
                 serialized.update({
                     'ur_applications_num': len(unreviewed_applications_set),
                     'ur_appeals_num': len(unreviewed_appeals_set),
@@ -256,7 +254,6 @@ class IndexView(BaseView, NavMixin):
 
 class Application_tab_View(BaseView, NavMixin):
     def get_template_names(self):#获取template_name
-        print(self)
         if self.request.user.is_staff:
             return ['sua/admin/admin_applications.html']
         else:
@@ -321,7 +318,6 @@ class Application_tab_View(BaseView, NavMixin):
 
 class Appeal_tab_View(BaseView, NavMixin):
     def get_template_names(self):#获取template_name
-        print(self)
         if self.request.user.is_staff:
             return ['sua/admin/admin_appeals.html']
         else:
