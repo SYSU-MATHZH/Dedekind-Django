@@ -91,6 +91,7 @@ class Activity(BaseSchema):
         on_delete=models.CASCADE,
     )
     created = models.DateTimeField('创建日期', auto_now_add=True)
+    contact = models.CharField(max_length=100, blank=True)
     title = models.CharField(max_length=100)
     detail = models.CharField(max_length=400)
     group = models.CharField(max_length=100)
@@ -107,6 +108,13 @@ class Activity(BaseSchema):
 
     def get_suas_all(self):
         return self.suas.filter(deleted_at=None)
+
+    def number(self):
+        number = 0
+        suas = self.get_suas()
+        for sua in suas:
+            number += 1
+        return number
 
     # def delete(self, using=None, keep_parents=False):
     #     self.deleted_at = timezone.now()
@@ -216,7 +224,7 @@ class Application(BaseSchema):
 
     # def full_restore(self):
     #     self.sua.full_restore()
-    #     self.sua.activity.full_restore()        
+    #     self.sua.activity.full_restore()
     #     self.proof.full_restore()
     #     super().full_restore()
 
@@ -261,6 +269,7 @@ class Appeal(BaseSchema):
         on_delete=models.CASCADE,
     )
     content = models.CharField(max_length=400, blank=True)
+    contact = models.CharField(max_length=100, blank=True)
     status = models.IntegerField(default=0)  # 0: 通过; 1: 未通过; 2: 需要线下处理
     is_checked = models.BooleanField(default=False)
     feedback = models.CharField(max_length=400, blank=True)

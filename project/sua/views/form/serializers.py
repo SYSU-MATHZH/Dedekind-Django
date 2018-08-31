@@ -20,7 +20,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id','power')
+        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id','power','totalhours')
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -44,6 +44,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
         instance.phone = validated_data.get('phone',instance.phone)
         instance.id = validated_data.get('id',instance.id)
         instance.power = validated_data.get('power',instance.power)
+        instance.totalhours = validated_data.get('totalhours',instance.totalhours)
         instance.save()
         return instance
 
@@ -72,7 +73,7 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid')
+        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid','contact','number')
 
     def create(self, validated_data):
         print(validated_data)
@@ -98,6 +99,7 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
         instance.group = validated_data.get('group',instance.group)
         instance.date = validated_data.get('date',instance.date)
         instance.id = validated_data.get('id',instance.id)
+        instance.number = validated_data.get('number',instance.number)
         instance.save()
 
         for sua_data in sua_datas:
@@ -123,7 +125,7 @@ class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Appeal
-        fields = ('url','owner','student','publicity', 'content', 'status', 'is_checked', 'feedback','created', 'id')
+        fields = ('url','owner','student','publicity', 'content', 'status', 'is_checked', 'feedback','created', 'id','contact')
 
 
 class AddPublicitySerializer(serializers.HyperlinkedModelSerializer):
@@ -186,4 +188,4 @@ class detailofstudentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id','suas','power')
+        fields = ('url', 'number', 'name', 'suahours', 'grade', 'classtype', 'phone', 'user', 'id','suas','power','totalhours')

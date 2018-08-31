@@ -1,0 +1,93 @@
+{% extends 'sua/_layout/info_template.html' %}
+
+{% load rest_framework %}
+
+{% block rewritten_content_title %}
+<div class="center-tab-header">{{ serializer.data.title }} 的活动详情</div>
+{% endblock %}
+
+{% block content_detail %}
+{% with this_url=request.path|urlencode:'' %}
+<hr>
+<div class="row">
+  <div class="col-xs-5 col-xs-offset-4">
+    <p>活动详情：{{ serializer.data.detail }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-5 col-xs-offset-4">
+    <p>活动团队:{{ serializer.data.group }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-5 col-xs-offset-4">
+    <p>活动日期:{{ serializer.data.date }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-5 col-xs-offset-4">
+    {% if serializer.data.is_valid %}
+      <p>是否有效：有效</p>
+    {% else %}
+      <p>是否有效：无效</p>
+    {% endif %}
+  </div>
+</div>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>姓名</th>
+        <th>学号</th>
+        <th>所属组别</th>
+        <th>公益时数</th>
+        <th>是否有效</th>
+        <th><a href="/admin/activities/{{ serializer.data.id }}/suas/add/?from={{ this_url }}" class="btn btn-default btn-xs">添加参与人</a></th>
+      </tr>
+    </thead>
+    <tbody>
+    {# {{ serializer.data.suas }} #}{# for debug #}
+    {% for sua in serializer.data.suas %}
+      {# <tr><td colspan="5">{{ sua.student }}</td></tr> #}{# for debug #}
+      <tr>
+        <td>{{ sua.student.name }}</td>
+        <td>{{ sua.student.number }}</td>
+        <td>{{ sua.team }}</td>
+        <td>{{ sua.suahours }}</td>
+        <td>{{ sua.is_valid }}</td>
+        <td>
+        {% if nav.user.is_staff or nav.student.power == 1 %}
+          {% if sua.is_valid %}
+            <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/check/?from={{ this_url }}">不通过</a>
+          {% else %}
+            <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/check/?from={{ this_url }}">通过</a>
+          {% endif %}
+        {% endif %}
+          <a class="btn btn-default btn-xs" href="/admin/suas/{{ sua.id }}/change/?from={{ this_url }}">编辑</a>
+          <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm_box_delete_suas_{{ sua.id }}">删除</a>
+          {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_suas_" id2=sua.id title="确认删除学生" content="确认要删除该学生吗？" confirm_label="确认删除" confirm_href1="/suas/" confirm_href2=sua.id confirm_href3="/delete/" only%}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<hr />
+<div class="row">
+  <div class="center-wrapper">
+    {% if nav.user.is_staff %}
+      {% if serializer.data.is_valid %}
+        <a href="/admin/activities/{{ serializer.data.id }}/check/?from={{ this_url }}" class="btn btn-default">设为无效</a>
+      {% else %}
+        <a href="/admin/activities/{{ serializer.data.id }}/check/?from={{ this_url }}" class="btn btn-default">设为有效</a>
+      {% endif %}
+    {% endif %}
+    <a href="/activities/{{ serializer.data.id }}/change/?from={{ this_url }}"class="btn btn-default">编辑内容</a>
+    <a data-toggle="modal" data-target="#confirm_box_delete_activities_{{ serializer.data.id }}" class="btn btn-default">删除该活动</a>
+    <a href="/admin/publicities/{{ serializer.data.id }}/manage/?from={{ this_url }}" class="btn btn-default">管理公示</a>
+    <a href="{{ from_url }}" class="btn btn-default">返回</a>
+  </div>
+  {% include "sua/_partial/confirm_box.html" with id1="confirm_box_delete_activities_" id2=serializer.data.id title="确认删除活动" content="确认要删除该活动吗？" confirm_label="确认删除" confirm_href1="/activities/" confirm_href2=serializer.data.id confirm_href3="/delete/" only%}
+</div>
+{% endwith %}
+{% endblock %}
