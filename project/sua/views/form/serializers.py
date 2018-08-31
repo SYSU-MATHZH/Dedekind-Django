@@ -53,7 +53,7 @@ class ActivityWithSuaSerialiezer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url','title','date','group','owner','is_created_by_student')
+        fields = ('url','title','date','group','owner','is_created_by_student','id')
 
 
 class AddSuaSerializer(serializers.HyperlinkedModelSerializer):

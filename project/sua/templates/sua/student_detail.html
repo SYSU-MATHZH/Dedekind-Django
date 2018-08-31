@@ -170,7 +170,7 @@
                                 <tbody>
                                   {% for sua in serializer.data.suas %}
                                     <tr>
-                                        <td>{{ sua.activity.title }}</td>
+                                        <td><a href="/activities/{{ sua.activity.id }}/detail/">{{ sua.activity.title }}</a></td>
                                         <td>{{ sua.activity.date }}</td>
                                         <td>{{ sua.activity.group }}</td>
                                         <td>{{ sua.suahours }}</td>
