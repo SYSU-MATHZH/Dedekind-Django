@@ -48,6 +48,8 @@ class IndexView(BaseView, NavMixin):
         )
 
         publicities = publicity_data.data
+        for i in range(len(publicities)):
+            publicities[i]['join_number'] = publicity_set[i].activity.number()
         for publicity in publicities:
             publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
             publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
@@ -60,6 +62,13 @@ class IndexView(BaseView, NavMixin):
 
             if user.is_staff:
                 application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
+                unreviewed_applications_set = Application.objects.filter(deleted_at=None, is_checked=False).order_by('-created')# 获取未审核的申请
+                unreviewed_appeals_set = Appeal.objects.filter(deleted_at=None, is_checked=False).order_by('-created')# 获取未审核的申诉
+                print(unreviewed_appeals_set[0].is_checked)
+                serialized.update({
+                    'ur_applications_num': len(unreviewed_applications_set),
+                    'ur_appeals_num': len(unreviewed_appeals_set),
+                })
             elif user.student.power == 1:
                 application_set = Application.objects.filter(
                 sua__activity__owner=user,
@@ -196,6 +205,10 @@ class IndexView(BaseView, NavMixin):
             # print(suas)
             for sua in suas:
                 sua['activity']['date'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['date']))
+            join_suas_number = 0
+            for sua in suas:
+                if sua['is_valid']:
+                    join_suas_number += 1
 
             appeal_data = AppealSerializer(  # 序列化当前学生的所有申诉
                 student.appeals.filter(deleted_at=None),
@@ -211,6 +224,7 @@ class IndexView(BaseView, NavMixin):
                 'applications': applications,
                 'suas': sua_data.data,
                 'appeals': appeal_data.data,
+                'join_suas_number': join_suas_number,
             })
         serialized.update({
             'deleteds': deleteds,
@@ -259,7 +273,21 @@ class Application_tab_View(BaseView, NavMixin):
         user = request.user
 
         if user.is_staff:
-            application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
+            application_set = Application.objects.filter(deleted_at=None, is_checked=True).order_by('is_checked', '-created')# 获取所有已审核的申请,按时间的倒序排序
+            unreviewed_applications_set = Application.objects.filter(deleted_at=None, is_checked=False).order_by('-created')#获取所有未审核的申请
+            unreviewed_applications_data = ApplicationSerializer(
+                unreviewed_applications_set,
+                many=True,
+                context={'request': request}
+            )
+            unreviewed_applications = unreviewed_applications_data.data
+            for application in unreviewed_applications:
+                application['created'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(application['created']))
+            serialized.update({
+                'unreviewed_applications': unreviewed_applications,
+            })
+
         # elif user.student.power == 1:
         #     print("1")
         #     application_set = Application.objects.filter(
@@ -275,10 +303,14 @@ class Application_tab_View(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
+
         applications = application_data.data
+
         for application in applications:
             application['created'] = tools.DateTime2String_SHOW(
                 tools.TZString2DateTime(application['created']))
+
+
 
         serialized.update({
             'applications': applications,
@@ -306,8 +338,23 @@ class Appeal_tab_View(BaseView, NavMixin):
         user = request.user
 
         if user.is_staff:
-            appeal_set = Appeal.objects.filter(deleted_at=None).order_by(
-                'is_checked', '-created')  # 获取在公示期内的所有申诉
+            appeal_set = Appeal.objects.filter(deleted_at=None, is_checked=True).order_by(
+                'is_checked', '-created')  # 获取所有已审核的申诉
+            unreviewed_appeals_set = Appeal.objects.filter(deleted_at=None, is_checked=False).order_by('-created')#获取未审核的申诉
+            unreviewed_appeals_data = AppealSerializer(
+                unreviewed_appeals_set,
+                many=True,
+                context={'request':request},
+            )
+            unreviewed_appeals = unreviewed_appeals_data.data
+            for appeal in unreviewed_appeals:
+                appeal['created'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(appeal['created']))
+            serialized.update({
+                'unreviewed_appeals':unreviewed_appeals,
+            })
+
+
         elif hasattr(user,'student'):
             appeal_set = user.appeals.filter(deleted_at=None).order_by('-created')#获取该学生创建的申诉
 
@@ -317,7 +364,10 @@ class Appeal_tab_View(BaseView, NavMixin):
             many=True,
             context={'request': request}
         )
+
         appeals = appeal_data.data
+
+
         for appeal in appeals:
             appeal['created'] = tools.DateTime2String_SHOW(
                 tools.TZString2DateTime(appeal['created']))
@@ -352,6 +402,9 @@ class Activity_tab_View(BaseView, NavMixin):
             context={'request': request}
         )
         activities = activity_data.data
+        for i in range(len(activities)):
+            activities[i]['number'] = activity_set[i].number()
+
 
         serialized.update({
             'activities': activities,

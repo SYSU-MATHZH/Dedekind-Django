@@ -112,14 +112,18 @@
                                     <tr>
                                         <td>{{ activity.title }}</td>
                                         <td>{{ activity.date }}</td>
-                                        <td>###</td>
+                                        <td>{{ activity.number }}</td>
                                         <td>{% if activity.is_published %}是{% else %}否{% endif %}</td>
                                         <td>
                                             <div class="btn-group btn-hspace">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
                                                 <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
                                                     <a class="dropdown-item" href="{{ activity.url }}">查看详情</a>
-                                                    <a class="dropdown-item" href="#">查看公示</a>                        
+                                                    {% if activity.is_published %}
+                                                      <a class="dropdown-item" href="/admin/publicities/{{ activity.id }}/manage/?from=%2F%23{{ id }}">查看公示</a>
+                                                      {% else %}
+                                                      <a class="dropdown-item" href="/admin/publicities/{{ activity.id }}/create/">创建公示</a>
+                                                      {% endif %}
                                                     <a class="dropdown-item" href="/activities/{{ activity.id }}/change/">编辑</a>
                                                     <a class="dropdown-item" href="/activities/{{ activity.id }}/delete/">删除</a>
                                                 </div>
