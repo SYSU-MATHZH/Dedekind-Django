@@ -380,6 +380,10 @@ body {
     margin-bottom: 100px;
 }
 
+.invoice-form-header {
+    margin-bottom: 30px;
+}
+
 .invoice-logo {
     height: 108px;
     width: 220px;
@@ -479,5 +483,10 @@ body {
     font-size: 1.1538rem;
     line-height: 38px;
     border-radius: 3px;
+    font-weight: 500;
+}
+
+.form-group label {
+    font-size: 1.382rem;
     font-weight: 500;
 }
