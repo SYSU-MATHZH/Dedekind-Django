@@ -18,10 +18,17 @@ from django.utils import timezone
 import datetime
 
 class IndexView(BaseView, NavMixin):
-    template_name = 'sua/index.html'
+    def get_template_names(self):#获取template_name
+        print(self)
+        if self.request.user.is_staff:
+            return ['sua/admin/admin_index.html']
+        else:
+            return ['sua/student/index.html']
+    # template_name = 'sua/student/index.html'
     components = {
         'nav': 'nav',
     }
+
 
     def serialize(self, request, *args, **kwargs):
         serialized = super(IndexView, self).serialize(request)
@@ -232,8 +239,15 @@ class IndexView(BaseView, NavMixin):
             self.url=""
             return True
 
+
 class Application_tab_View(BaseView, NavMixin):
-    template_name = 'sua/applications.html'
+    def get_template_names(self):#获取template_name
+        print(self)
+        if self.request.user.is_staff:
+            return ['sua/admin/admin_applications.html']
+        else:
+            return ['sua/student/applications.html']
+    # template_name = 'sua/student/applications.html'
     components = {
         'nav': 'nav',
     }
@@ -244,15 +258,15 @@ class Application_tab_View(BaseView, NavMixin):
 
         user = request.user
 
-        # if user.is_staff:
-        #     application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
+        if user.is_staff:
+            application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
         # elif user.student.power == 1:
         #     print("1")
         #     application_set = Application.objects.filter(
         #     sua__activity__owner=user,
         #     sua__activity__is_created_by_student=False,
         #     deleted_at=None).order_by('-created')# 获取该活动管理员创建的活动的申请
-        if hasattr(user,'student'):
+        elif hasattr(user,'student'):
             application_set = user.applications.filter(
             deleted_at=None).order_by('-created')# 获取该学生创建的活动的申请
 
@@ -274,7 +288,13 @@ class Application_tab_View(BaseView, NavMixin):
 
 
 class Appeal_tab_View(BaseView, NavMixin):
-    template_name = 'sua/appeals.html'
+    def get_template_names(self):#获取template_name
+        print(self)
+        if self.request.user.is_staff:
+            return ['sua/admin/admin_appeals.html']
+        else:
+            return ['sua/student/appeals.html']
+    # template_name = 'sua/student/appeals.html'
     components = {
         'nav': 'nav',
     }
@@ -285,11 +305,10 @@ class Appeal_tab_View(BaseView, NavMixin):
 
         user = request.user
 
-        # if user.is_staff:
-        #     appeal_set = Appeal.objects.filter(deleted_at=None).order_by(
-        #         'is_checked', '-created')  # 获取在公示期内的所有申诉
-        # else:
-        if hasattr(user,'student'):
+        if user.is_staff:
+            appeal_set = Appeal.objects.filter(deleted_at=None).order_by(
+                'is_checked', '-created')  # 获取在公示期内的所有申诉
+        elif hasattr(user,'student'):
             appeal_set = user.appeals.filter(deleted_at=None).order_by('-created')#获取该学生创建的申诉
 
 
