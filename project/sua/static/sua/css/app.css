@@ -383,7 +383,7 @@ body {
 .invoice-logo {
     height: 108px;
     width: 220px;
-    background-image: url("/Users/nouzan/git/tmp/Dedekind-Django/project/sua/static/sua/images/logo.png");
+    background-image: url("../images/logo.png");
     background-size: cover;
     background-position: 0;
 }
