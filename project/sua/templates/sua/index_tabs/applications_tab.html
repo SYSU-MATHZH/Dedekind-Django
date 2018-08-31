@@ -28,7 +28,7 @@
                 <td>{{ application.sua.suahours }}</td>
                 <td>{% if application.is_checked %}{% if application.status == 0 %} 通过 {% else %}{% if application.status == 1 %}未通过{% else %}{% endif %}{% if application.status == 2 %}需要线下声明{% endif %}{% endif %}{% endif %}</td>
                 <td>
-                {% if application.is_checked %} {% if application.sua.is_valid %} 是 {% else %} 否 {% endif %} {% else %} 待审核 {% endif %}
+                {% if application.is_checked %} {% if application.sua.is_valid %} 已审核 有效 {% else %} 已审核 非有效 {% endif %} {% else %} 待审核 {% endif %}
                 </td>
               </tr>
             {% endfor %}
