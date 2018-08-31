@@ -17,7 +17,7 @@
 
 <body style="background-color: #EEEEEE">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #4d4d4d;">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img src="{% static 'sua/images/logo-icon3.png' %}" width="30" height="30" class="d-inline-block align-top"
                 alt=""> 数院公益时
         </a>
@@ -28,7 +28,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+              <li class="nav-item">
                   <a class="nav-link" href="/">主页 <span
                           class="sr-only">(current)</span></a>
               </li>
@@ -45,7 +45,7 @@
                   <a class="nav-link" href="/appeals/tab">申诉记录</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="deleteds/tab">删除记录</a>
+                  <a class="nav-link" href="/deleteds/tab">删除记录</a>
                 </li>
             </ul>
             <ul class="navbar-nav my-2 my-lg-0">
@@ -109,6 +109,7 @@
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
                                                 <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
                                                     <a class="dropdown-item" href="{{ appeal.url }}">查看详情</a>
+                                                    <a class="dropdown-item" href="/appeals/{{ appeal.id }}/delete/">删除</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -153,6 +154,7 @@
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
                                                 <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
                                                     <a class="dropdown-item" href="{{ appeal.url }}">查看详情</a>
+                                                    <a class="dropdown-item" href="/appeals/{{ appeal.id }}/delete/">删除</a>
                                                 </div>
                                             </div>
                                         </td>

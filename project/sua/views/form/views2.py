@@ -18,7 +18,9 @@ class StudentViewSet(BaseViewSet, NavMixin):
     serializer_class = firs.AddStudentSerializer
     queryset = Student.objects.filter(deleted_at=None)
     revoke_queryset = Student.objects.all()
-    revoke_success_url = delete_success_url = '/'
+    revoke_success_url = '/deleteds/tab'
+    delete_success_url = '/students/tab'
+
     # filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
@@ -85,7 +87,8 @@ class ActivityViewSet(BaseViewSet, NavMixin):
     serializer_class = firs.AddActivitySerializer
     queryset = Activity.objects.filter(deleted_at=None)
     revoke_queryset = Activity.objects.all()
-    revoke_success_url = delete_success_url = '/'
+    revoke_success_url = '/deleteds/tab'
+    delete_success_url = '/activities/tab'
     #filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
@@ -119,7 +122,8 @@ class ApplicationViewSet(BaseViewSet, NavMixin):
     serializer_class = firs.AddApplicationSerializer
     queryset = Application.objects.filter(deleted_at=None)
     revoke_queryset = Application.objects.all()
-    revoke_success_url = delete_success_url = '/'
+    revoke_success_url = '/deleteds/tab'
+    delete_success_url = '/applications/tab'
     #filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
@@ -186,7 +190,8 @@ class AppealViewSet(BaseViewSet, NavMixin):
     serializer_class = firs.AddAppealSerializer
     queryset = Appeal.objects.filter(deleted_at=None)
     revoke_queryset = Appeal.objects.all()
-    revoke_success_url = delete_success_url = '/'
+    revoke_success_url = '/deleteds/tab'
+    delete_success_url = '/appeals/tab'
     #filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):

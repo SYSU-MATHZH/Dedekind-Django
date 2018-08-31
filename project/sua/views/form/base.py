@@ -152,8 +152,7 @@ class BaseViewSet(
         instance.full_restore()
 
     def get_revoke_response(self):
-        revoke_url = '/#admin_deleteds'
-        return HttpResponseRedirect(revoke_url)
+        return HttpResponseRedirect(self.revoke_success_url)
 
 class StudentViewSet(BaseViewSet):
     # template_name = 'sua/tmp/test.html'

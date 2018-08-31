@@ -328,3 +328,176 @@ class Appeal_tab_View(BaseView, NavMixin):
         })
 
         return serialized
+
+class Activity_tab_View(BaseView, NavMixin):
+    template_name = 'sua/admin/admin_activities.html'
+    components = {
+        'nav': 'nav',
+    }
+
+
+    def serialize(self, request, *args, **kwargs):
+        serialized = super(Activity_tab_View, self).serialize(request)
+
+        user = request.user
+
+        if user.is_staff:
+            activity_set = Activity.objects.filter(deleted_at=None).order_by('-created')  # 获取所有活动
+        else:
+            activity_set = None
+
+        activity_data = ActivitySerializer(  # 序列化申诉
+            activity_set,
+            many=True,
+            context={'request': request}
+        )
+        activities = activity_data.data
+
+        serialized.update({
+            'activities': activities,
+        })
+
+        return serialized
+
+
+class Student_tab_View(BaseView, NavMixin):
+
+    template_name = 'sua/admin/admin_students.html'
+    components = {
+        'nav': 'nav',
+    }
+
+    def serialize(self, request, *args, **kwargs):
+        serialized = super(Student_tab_View, self).serialize(request)
+        user = request.user
+
+        if user.is_staff:
+            classtypes =set([])
+            grades =set([])
+            student_all = Student.objects.filter(deleted_at=None,).order_by('number') #获取所有学生
+            for student in student_all:
+                classtypes.add(student.classtype)
+                grades.add(student.grade)
+
+            if 'classtype' and 'grade' in request.GET:
+                classtype = request.GET.get('classtype')
+                grade = request.GET.get('grade')
+                student_set = Student.objects.filter(deleted_at=None,classtype=classtype,grade=grade).order_by('number')
+            else:
+                student_set = Student.objects.filter(deleted_at=None,).order_by('number')  # 获取筛选的学生
+
+            student_data = StudentSerializer(  # 序列化所有学生信息
+                student_set,
+                many=True,
+                context={'request': request}
+            )
+            serialized.update({
+                'students': student_data.data,
+                'classtypes':classtypes,
+                'grades':grades,
+            })
+        return serialized
+
+
+class Deleted_tab_View(BaseView, NavMixin):
+    template_name = 'sua/admin/admin_deletes.html'
+    components = {
+        'nav': 'nav',
+    }
+    def serialize(self, request, *args, **kwargs):
+        serialized = super(Deleted_tab_View, self).serialize(request)
+
+        user = request.user
+        deleteds = {}
+
+        if user.is_staff or user.student.power == 1:
+
+            if user.is_staff:
+                application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
+            elif user.student.power == 1:
+                application_set = Application.objects.filter(
+                sua__activity__owner=user,
+                sua__activity__is_created_by_student=False,
+                deleted_at=None).order_by('-created')# 获取该学生创建的活动的申请
+
+            application_data = ApplicationSerializer(  # 序列化所有申请
+                application_set,
+                many=True,
+                context={'request': request}
+            )
+            applications = application_data.data
+            for application in applications:
+                application['created'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(application['created']))
+            deleteds['applications'] = tools.get_deleteds(Application, ApplicationSerializer, request)
+
+            if user.is_staff:
+                activity_set = Activity.objects.filter(
+                    deleted_at=None,
+                    is_created_by_student=False,
+                    ).order_by('-created')  # 获取所有当前管理员创建的活动
+            elif user.student.power == 1:
+                activity_set = Activity.objects.filter(
+                    owner=user,
+                    deleted_at=None,
+                    is_created_by_student=False,
+                    ).order_by('-created')                # 获取该活动级管理员创建的活动
+
+            activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
+                activity_set,
+                many=True,
+                context={'request': request}
+            )
+
+            activities = activity_data.data
+            for activity in activities:
+                activity['date'] = tools.Date2String_SHOW(
+                    tools.TZString2DateTime(activity['date']))
+                for publicity in activity['publicities']:
+                    publicity['begin'] = tools.DateTime2String_SHOW(
+                        tools.TZString2DateTime(publicity['begin']))
+                    publicity['end'] = tools.DateTime2String_SHOW(
+                        tools.TZString2DateTime(publicity['end']))
+            deleteds['activities'] = tools.get_deleteds(Activity, ActivitySerializer, request)
+
+        if user.is_staff:
+            classtypes =set([])
+            grades =set([])
+            student_all = Student.objects.filter(deleted_at=None,).order_by('number') #获取所有学生
+            for student in student_all:
+                classtypes.add(student.classtype)
+                grades.add(student.grade)
+
+            if 'classtype' and 'grade' in request.GET:
+                classtype = request.GET.get('classtype')
+                grade = request.GET.get('grade')
+                student_set = Student.objects.filter(deleted_at=None,classtype=classtype,grade=grade).order_by('number')
+            else:
+                student_set = Student.objects.filter(deleted_at=None,).order_by('number')  # 获取筛选的学生
+
+            student_data = StudentSerializer(  # 序列化所有学生信息
+                student_set,
+                many=True,
+                context={'request': request}
+            )
+
+            deleteds['students'] = tools.get_deleteds(Student, StudentSerializer, request)
+
+            appeal_set = Appeal.objects.filter(deleted_at=None).order_by(
+                'is_checked', '-created')  # 获取在公示期内的所有申诉
+            appeal_data = AppealSerializer(  # 序列化申诉
+                appeal_set,
+                many=True,
+                context={'request': request}
+            )
+            appeals = appeal_data.data
+            for appeal in appeals:
+                appeal['created'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(appeal['created']))
+
+            deleteds['appeals'] = tools.get_deleteds(Appeal, AppealSerializer, request)
+
+        serialized.update({
+            'deleteds': deleteds,
+        })
+        return serialized
