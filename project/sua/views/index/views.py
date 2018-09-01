@@ -19,8 +19,11 @@ import datetime
 
 class IndexView(BaseView, NavMixin):
     def get_template_names(self):#获取template_name
+
         if self.request.user.is_staff:
             return ['sua/admin/admin_index.html']
+        elif self.request.user.student.power == 1:
+            return ['sua/student_manager/manager_index.html']
         else:
             return ['sua/student/index.html']
     # template_name = 'sua/student/index.html'
@@ -72,6 +75,20 @@ class IndexView(BaseView, NavMixin):
                 sua__activity__owner=user,
                 sua__activity__is_created_by_student=False,
                 deleted_at=None).order_by('-created')# 获取该学生创建的活动的申请
+                unreviewed_applications_set = Application.objects.filter(
+                sua__activity__owner=user,
+                sua__activity__is_created_by_student=False,
+                deleted_at=None,
+                is_checked=False).order_by('-created')
+                unreviewed_appeals_set = Appeal.objects.filter(
+                publicity__activity__owner=user,
+                publicity__activity__is_created_by_student=False,
+                deleted_at=None,
+                is_checked=False).order_by('-created')
+                serialized.update({
+                    'ur_applications_num': len(unreviewed_applications_set),
+                    'ur_appeals_num': len(unreviewed_appeals_set),
+                })#获取未处理的申请和申诉的数量
 
             application_data = ApplicationSerializer(  # 序列化所有申请
                 application_set,
@@ -256,6 +273,8 @@ class Application_tab_View(BaseView, NavMixin):
     def get_template_names(self):#获取template_name
         if self.request.user.is_staff:
             return ['sua/admin/admin_applications.html']
+        elif self.request.user.student.power == 1:
+            return ['sua/student_manager/manager_applications.html']
         else:
             return ['sua/student/applications.html']
     # template_name = 'sua/student/applications.html'
@@ -285,13 +304,43 @@ class Application_tab_View(BaseView, NavMixin):
                 'unreviewed_applications': unreviewed_applications,
             })
 
-        # elif user.student.power == 1:
-        #     print("1")
-        #     application_set = Application.objects.filter(
-        #     sua__activity__owner=user,
-        #     sua__activity__is_created_by_student=False,
-        #     deleted_at=None).order_by('-created')# 获取该活动管理员创建的活动的申请
-        elif hasattr(user,'student'):
+        elif user.student.power == 1:
+            my_applications_set = user.applications.filter(deleted_at=None).order_by('-created')#获取活动级管理员的申请
+            application_set = Application.objects.filter(
+            sua__activity__owner=user,
+            sua__activity__is_created_by_student=False,
+            deleted_at=None).order_by('-created')# 获取该活动管理员创建的活动的申请
+            unreviewed_applications_set = Application.objects.filter(
+            sua__activity__owner=user,
+            sua__activity__is_created_by_student=False,
+            deleted_at=None,
+            is_checked=False,).order_by('-created')#获取所有未审核的申请
+
+            my_applications_data = ApplicationSerializer(
+                my_applications_set,
+                many=True,
+                context={'request':request},
+            )
+            unreviewed_applications_data = ApplicationSerializer(
+                unreviewed_applications_set,
+                many=True,
+                context={'request': request},
+            )
+
+            my_applications = my_applications_data.data
+            unreviewed_applications = unreviewed_applications_data.data
+
+            for application in unreviewed_applications:
+                application['created'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(application['created']))
+            for application in my_applications:
+                application['created'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(application['created']))
+            serialized.update({
+                'unreviewed_applications': unreviewed_applications,
+                'my_applications':my_applications,
+            })
+        else:
             application_set = user.applications.filter(
             deleted_at=None).order_by('-created')# 获取该学生创建的活动的申请
 
@@ -320,6 +369,8 @@ class Appeal_tab_View(BaseView, NavMixin):
     def get_template_names(self):#获取template_name
         if self.request.user.is_staff:
             return ['sua/admin/admin_appeals.html']
+        elif self.request.user.student.power == 1:
+            return ['sua/student_manager/manager_appeals.html']
         else:
             return ['sua/student/appeals.html']
     # template_name = 'sua/student/appeals.html'
@@ -349,6 +400,44 @@ class Appeal_tab_View(BaseView, NavMixin):
             serialized.update({
                 'unreviewed_appeals':unreviewed_appeals,
             })
+        elif user.student.power == 1:
+            my_appeal_set = user.appeals.filter(deleted_at=None).order_by('-created')#获取活动管理员的申诉
+            appeal_set = Appeal.objects.filter(
+                publicity__activity__owner=user,
+                publicity__activity__is_created_by_student=False,
+                deleted_at=None,
+                is_checked=True).order_by('is_checked', '-created')  # 获取所有已审核的申诉
+            unreviewed_appeals_set = Appeal.objects.filter(
+                publicity__activity__owner=user,
+                publicity__activity__is_created_by_student=False,
+                deleted_at=None,
+                is_checked=False).order_by('-created')#获取未审核的申诉
+
+            my_appeals_data = AppealSerializer(
+                my_appeal_set,
+                many=True,
+                context={'request':request},
+            )
+            my_appeals = my_appeals_data.data
+
+            unreviewed_appeals_data = AppealSerializer(
+                unreviewed_appeals_set,
+                many=True,
+                context={'request':request},
+            )
+            unreviewed_appeals = unreviewed_appeals_data.data
+
+            for appeal in unreviewed_appeals:
+                appeal['created'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(appeal['created']))
+            for appeal in my_appeals:
+                appeal['created'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(appeal['created']))
+            serialized.update({
+                'unreviewed_appeals':unreviewed_appeals,
+                'my_appeals':my_appeals,
+            })
+
 
 
         elif hasattr(user,'student'):
@@ -376,7 +465,12 @@ class Appeal_tab_View(BaseView, NavMixin):
         return serialized
 
 class Activity_tab_View(BaseView, NavMixin):
-    template_name = 'sua/admin/admin_activities.html'
+    def get_template_names(self):#获取模版页面
+        if self.request.user.is_staff:
+            return ['sua/admin/admin_activities.html']
+        elif self.request.user.student.power == 1:
+            return ['sua/student_manager/manager_activities.html']
+    #template_name = 'sua/admin/admin_activities.html'
     components = {
         'nav': 'nav',
     }
@@ -389,8 +483,12 @@ class Activity_tab_View(BaseView, NavMixin):
 
         if user.is_staff:
             activity_set = Activity.objects.filter(deleted_at=None).order_by('-created')  # 获取所有活动
-        else:
-            activity_set = None
+        elif user.student.power == 1:
+            activity_set = Activity.objects.filter(
+                owner = user,
+                deleted_at = None,
+                is_created_by_student=False,
+            ).order_by('-created')#获取管理员创建的活动
 
         activity_data = ActivitySerializer(  # 序列化申诉
             activity_set,
@@ -400,7 +498,15 @@ class Activity_tab_View(BaseView, NavMixin):
         activities = activity_data.data
         for i in range(len(activities)):
             activities[i]['number'] = activity_set[i].number()
-
+            activities[i]['is_published'] = activity_set[i].get_is_published()#获取活动是否公示，若是，则将数据序列化
+            if activities[i]['is_published']:
+                publicity_data = PublicitySerializer(
+                    activities[i]['is_published'],
+                    many=True,
+                    context={'request':request},
+                )
+                publicity = publicity_data.data
+                activities[i]['is_published'] = publicity[0]['url']
 
         serialized.update({
             'activities': activities,
@@ -449,7 +555,12 @@ class Student_tab_View(BaseView, NavMixin):
 
 
 class Deleted_tab_View(BaseView, NavMixin):
-    template_name = 'sua/admin/admin_deletes.html'
+    def get_template_names(self):
+        if self.request.user.is_staff:
+            return ['sua/admin/admin_deletes.html']
+        elif self.request.user.student.power == 1:
+            return ['sua/student_manager/manager_deletes.html']
+    #template_name = 'sua/admin/admin_deletes.html'
     components = {
         'nav': 'nav',
     }
@@ -460,12 +571,18 @@ class Deleted_tab_View(BaseView, NavMixin):
         deleteds = {}
 
         if user.is_staff or user.student.power == 1:
-            deleteds['applications'] = tools.get_deleteds(Application, ApplicationSerializer, request)
-            # deleteds['activities'] = tools.get_deleteds(Activity, ActivitySerializer, request)
-            deleteds['students'] = tools.get_deleteds(Student, StudentSerializer, request)
-            deleteds['appeals'] = tools.get_deleteds(Appeal, AppealSerializer, request)
+            if user.is_staff:
+                deleteds['students'] = tools.get_deleteds(Student, StudentSerializer, request)
+                deleteds['applications'] = tools.get_deleteds(Application, ApplicationSerializer, request)
+                # deleteds['activities'] = tools.get_deleteds(Activity, ActivitySerializer, request)
+                deleteds['appeals'] = tools.get_deleteds(Appeal, AppealSerializer, request)
 
-            activity_set = Activity.objects.order_by('-deleted_at').exclude(deleted_at=None) #获取被删除的活动
+                activity_set = Activity.objects.order_by('-deleted_at').exclude(deleted_at=None) #获取被删除的活动
+            else:
+                activity_set = Activity.objects.filter(
+                    deleted_by = user.student,
+                ).order_by('-deleted_at').exclude(deleted_at=None)#获取管理员删除的活动
+
             activity_data = ActivitySerializer(
                 activity_set,
                 many = True,
@@ -477,13 +594,36 @@ class Deleted_tab_View(BaseView, NavMixin):
                 activities[i]['deleted_at'] = tools.DateTime2String_SHOW(activity_set[i].deleted_at)
             deleteds['activities'] = activities
 
-            for application in deleteds['applications']:
-                application['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(application['created']))
-            for appeal in deleteds['appeals']:
-                appeal['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(appeal['created']))
+        if user.student.power == 1:
+            application_set = Application.objects.filter(
+            deleted_by=user,).order_by('-deleted_at').exclude(deleted_at=None)# 获取该活动管理员删除的活动的申请
+            application_data = ApplicationSerializer(  # 序列化所有申请
+                application_set,
+                many=True,
+                context={'request': request}
+            )
 
+            applications = application_data.data
+            deleteds['applications'] = applications
+
+            appeal_set = Appeal.objects.filter(
+            deleted_by=user,).order_by('-deleted_at').exclude(deleted_at=None)# 获取该活动管理员删除的活动的申诉
+            appeal_data = AppealSerializer(  # 序列化所有申请
+                appeal_set,
+                many=True,
+                context={'request': request}
+            )
+
+            appeals = appeal_data.data
+            deleteds['appeals'] = appeals
+
+
+        for application in deleteds['applications']:
+            application['created'] = tools.DateTime2String_SHOW(
+                tools.TZString2DateTime(application['created']))
+        for appeal in deleteds['appeals']:
+            appeal['created'] = tools.DateTime2String_SHOW(
+                tools.TZString2DateTime(appeal['created']))
         serialized.update({
             'deleteds': deleteds,
         })

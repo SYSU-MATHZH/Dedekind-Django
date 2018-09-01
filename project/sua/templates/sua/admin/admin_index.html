@@ -11,21 +11,6 @@
 
     <!-- My CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
-    <style>
-        .user-timeline>li.item-1:before {
-            background-color: #f6c163;
-            color: #fff;
-            content: "+12";
-        }
-
-        .user-timeline>li.item-2:before {
-            content: "+10";
-        }
-
-        .user-timeline>li.item-3:before {
-            content: "+2";
-        }
-    </style>
     <title>公益时平台</title>
 </head>
 
@@ -103,7 +88,9 @@
                                     公益时申请
                                 </div>
                                 <div class="counter">
+                                  <a href="/applications/tab">
                                     {{ ur_applications_num }}
+                                  </a>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -111,7 +98,9 @@
                                     申诉
                                 </div>
                                 <div class="counter">
+                                  <a href="/appeals/tab">
                                     {{ ur_appeals_num }}
+                                  </a>
                                 </div>
                             </div>
                         </div>
@@ -132,22 +121,7 @@
                                         {{ nav.user.username }}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="item">
-                                        组织
-                                    </td>
-                                    <td>
-                                        学工办
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="item">
-                                        联系方式
-                                    </td>
-                                    <td>
-                                        13326788921
-                                    </td>
-                                </tr>
+
                                 <tr>
                                     <td class="item">
                                         身份
@@ -188,7 +162,7 @@
                                       参与人数 {{ publicity.join_number }}人
                                   </div>
 
-                              </div>                      
+                              </div>
                               <a class="btn btn-primary btn-sm list-item-btn" href="/publicities/{{ publicity.id }}/detail/">
                                   查看详情
                               </a>
@@ -201,81 +175,6 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="my-card-header border-bottom">
-                            管理记录
-                        </div>
-                        <ul class="user-timeline user-timeline-compact">
-                            <li class="item-1">
-                                <div class="user-timeline-date">
-                                    2018年8月17日
-                                </div>
-                                <div class="user-timeline-title">
-                                    通过了 李超朗的1份公益时申请
-                                </div>
-                                <div class="user-timeline-description">
-                                    公益时平台开发活动
-                                </div>
-                            </li>
-                            <li class="item-2">
-                                <div class="user-timeline-date">
-                                    2018年8月12日
-                                </div>
-                                <div class="user-timeline-title">
-                                    处理了 李超朗的1份申诉
-                                </div>
-                                <div class="user-timeline-description">
-                                    暑期三下乡活动
-                                </div>
-                            </li>
-                            <li class="item-3">
-                                <div class="user-timeline-date">
-                                    2018年8月10日
-                                </div>
-                                <div class="user-timeline-title">
-                                    发布了 学工办的1个公示
-                                </div>
-                                <div class="user-timeline-description">
-                                    暑期三下乡活动公示
-                                </div>
-                            </li>
-                            <li class="item-3">
-                                <div class="user-timeline-date">
-                                    2018年8月10日
-                                </div>
-                                <div class="user-timeline-title">
-                                    修改了 学工办的1个活动
-                                </div>
-                                <div class="user-timeline-description">
-                                    暑期三下乡活动
-                                </div>
-                            </li>
-                            <li class="item-3">
-                                <div class="user-timeline-date">
-                                    2018年8月10日
-                                </div>
-                                <div class="user-timeline-title">
-                                    创建了 学工办的1个活动
-                                </div>
-                                <div class="user-timeline-description">
-                                    暑期三下乡活动
-                                </div>
-                            </li>
-                            <li class="item-3">
-                                <div class="user-timeline-date">
-                                    2018年8月10日
-                                </div>
-                                <div class="user-timeline-title">
-                                    添加了 2018级的100位学生
-                                </div>
-                                <div class="user-timeline-description">
-                                    李超朗等
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
 

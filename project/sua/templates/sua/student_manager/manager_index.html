@@ -11,17 +11,6 @@
 
     <!-- My CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
-    <style>
-    {% for sua in suas %}
-      .user-timeline>li.item-{{ forloop.counter }}:before {
-          {% if forloop.counter == 1 %}
-            background-color: #f6c163;
-            color: #fff;
-            {% endif %}
-          content: "+{{ sua.suahours }}";
-      }
-      {% endfor %}
-    </style>
     <title>公益时平台</title>
 </head>
 
@@ -39,7 +28,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">主页 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">主页 <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/activities/tab">活动列表</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/applications/tab">申请记录</a>
@@ -47,26 +40,25 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/appeals/tab">申诉记录</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/deleteds/tab">删除记录</a>
+                  </li>
             </ul>
             <ul class="navbar-nav my-2 my-lg-0">
                 <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="applications/apply/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         <img src="{% static 'sua/images/plus.png' %}" width="15" height="15" class="d-inline-block"
                             alt="" style="mix-blend-mode: #fff">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="applications/apply/">新增公益时申请</a>
+                        <a class="dropdown-item" href="activities/add/">创建活动</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
-                        {% if nav.user.student == None %}
-                          {{ nav.user.username }}
-                        {% else %}
-                          {{ nav.user.student.name }}
-                        {% endif %}
+                        {{ nav.student.name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ nav.student.url }}">我的信息</a>
@@ -81,27 +73,57 @@
     <div class="container mt-5 pt-5">
         <div class="row">
             <div class="col-sm-4">
+              <div class="card mb-4">
+                  <div class="card-body">
+                      <div class="my-card-header border-bottom">
+                          本学年度
+                      </div>
+
+                      <div class="row">
+                          <div class="col-6">
+                              <div class="title">
+                                  公益时
+                              </div>
+                              <div class="counter">
+                                  {{ nav.student.suahours }}
+                              </div>
+                          </div>
+                          <div class="col-6">
+                              <div class="title">
+                                  参加活动数
+                              </div>
+                              <div class="counter">
+                                  {{ join_suas_number }}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="my-card-header border-bottom">
-                            本学年度
+                            待处理
                         </div>
 
                         <div class="row">
                             <div class="col-6">
                                 <div class="title">
-                                    公益时
+                                    公益时申请
                                 </div>
                                 <div class="counter">
-                                    {{ nav.student.suahours }}
+                                  <a href="/applications/tab">
+                                    {{ ur_applications_num }}
+                                  </a>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="title">
-                                    参加活动数
+                                    申诉
                                 </div>
                                 <div class="counter">
-                                    {{ join_suas_number }}
+                                  <a href="/appeals/tab">
+                                    {{ ur_appeals_num }}
+                                  </a>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +132,7 @@
                 <div class="card mb-4">
                     <div class="card-body user-info">
                         <div class="my-card-header border-bottom">
-                            个人情况
+                            管理员信息
                         </div>
                         <table>
                             <tbody>
@@ -132,22 +154,19 @@
                                 </tr>
                                 <tr>
                                     <td class="item">
-                                        学号
+                                        联系方式
                                     </td>
                                     <td>
-                                        {{ nav.student.number }}
+                                        {{ nav.student.phone }}
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <td class="item">
                                         身份
                                     </td>
                                     <td>
-                                        {% if nav.student.power < 1 %}
-                                          普通学生
-                                        {% else %}
-                                          活动级管理员
-                                        {% endif %}
+                                        活动级管理员
                                     </td>
                                 </tr>
                             </tbody>
@@ -158,47 +177,48 @@
             <div class="col-sm-8">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <div class="my-card-header border-bottom">
-                            公益时认定公示
-                        </div>
-                        <ul class="list">
-                          {% if publicities %}
-                          {% for publicity in publicities %}
-                            <li class="list-item border-bottom item-1">
-                                <div class="user-timeline-date">
-                                    截止至 {{ publicity.end }}
-                                </div>
-                                <div class="list-item-author">
-                                    {{ publicity.activity.group }}
-                                </div>
-                                <div class="user-timeline-title">
-                                    {{ publicity.title }}
-                                </div>
-                                <div class="user-timeline-description">
-                                    {{ publicity.detail }}
-                                </div>
-                                <div class="list-item-info">
-                                    <div class="info">
-                                        参与人数 {{ publicity.join_number }}人
-                                    </div>
-                                    <div class="info">
-                                        ·
-                                    </div>
-                                    <div class="info">
-                                      {% for sua in publicity.activity.sua %}
-                                        {% if sua.student.name == nav.student.name %}
-                                          你获得了 {{ sua.suahours }}个公益时
-                                        {% endif %}
-                                      {% endfor %}
-                                    </div>
-                                </div>
-                                <a class="btn btn-primary btn-sm list-item-btn" href="/publicities/{{ publicity.id }}/detail/">
-                                    查看详情
-                                </a>
-
+                      <div class="my-card-header border-bottom">
+                          公益时认定公示
+                      </div>
+                      <ul class="list">
+                        {% if publicities %}
+                        {% for publicity in publicities %}
+                          <li class="list-item border-bottom item-1">
+                              <div class="user-timeline-date">
+                                  截止至 {{ publicity.end }}
+                              </div>
+                              <div class="list-item-author">
+                                  {{ publicity.activity.group }}
+                              </div>
+                              <div class="user-timeline-title">
+                                  {{ publicity.title }}
+                              </div>
+                              <div class="user-timeline-description">
+                                  {{ publicity.detail }}
+                              </div>
+                              <div class="list-item-info">
+                                  <div class="info">
+                                      参与人数 {{ publicity.join_number }}人
+                                  </div>
+                                  <div class="info">
+                                      ·
+                                  </div>
+                                  <div class="info">
+                                    <!-- {{ publicity.activity.suas }} -->
+                                    {% for sua in publicity.activity.suas %}
+                                      {% if sua.student.name == nav.student.name %}
+                                        你获得了 {{ sua.suahours }}个公益时
+                                      {% endif %}
+                                    {% endfor %}
+                                  </div>
+                              </div>
+                              <a class="btn btn-primary btn-sm list-item-btn" href="/publicities/{{ publicity.id }}/detail/">
+                                  查看详情
+                              </a>
                             </li>
                             {% endfor %}
                             {% endif %}
+
                         </ul>
 
                     </div>

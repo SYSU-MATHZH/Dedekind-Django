@@ -115,6 +115,12 @@ class Activity(BaseSchema):
         for sua in suas:
             number += 1
         return number
+    def get_is_published(self):#获取活动是否公示，若是，则将数据传出去
+        is_published = False
+        publicity = self.publicities.filter(is_published=True)
+        if publicity:
+            is_published = publicity
+        return is_published
 
     # def delete(self, using=None, keep_parents=False):
     #     self.deleted_at = timezone.now()
