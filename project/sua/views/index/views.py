@@ -594,28 +594,29 @@ class Deleted_tab_View(BaseView, NavMixin):
                 activities[i]['deleted_at'] = tools.DateTime2String_SHOW(activity_set[i].deleted_at)
             deleteds['activities'] = activities
 
-        if user.student.power == 1:
-            application_set = Application.objects.filter(
-            deleted_by=user,).order_by('-deleted_at').exclude(deleted_at=None)# 获取该活动管理员删除的活动的申请
-            application_data = ApplicationSerializer(  # 序列化所有申请
-                application_set,
-                many=True,
-                context={'request': request}
-            )
+            if hasattr(user,'student'):
+                if user.student.power == 1:
+                    application_set = Application.objects.filter(
+                    deleted_by=user,).order_by('-deleted_at').exclude(deleted_at=None)# 获取该活动管理员删除的活动的申请
+                    application_data = ApplicationSerializer(  # 序列化所有申请
+                        application_set,
+                        many=True,
+                        context={'request': request}
+                    )
 
-            applications = application_data.data
-            deleteds['applications'] = applications
+                    applications = application_data.data
+                    deleteds['applications'] = applications
 
-            appeal_set = Appeal.objects.filter(
-            deleted_by=user,).order_by('-deleted_at').exclude(deleted_at=None)# 获取该活动管理员删除的活动的申诉
-            appeal_data = AppealSerializer(  # 序列化所有申请
-                appeal_set,
-                many=True,
-                context={'request': request}
-            )
+                    appeal_set = Appeal.objects.filter(
+                    deleted_by=user,).order_by('-deleted_at').exclude(deleted_at=None)# 获取该活动管理员删除的活动的申诉
+                    appeal_data = AppealSerializer(  # 序列化所有申请
+                        appeal_set,
+                        many=True,
+                        context={'request': request}
+                    )
 
-            appeals = appeal_data.data
-            deleteds['appeals'] = appeals
+                    appeals = appeal_data.data
+                    deleteds['appeals'] = appeals
 
 
         for application in deleteds['applications']:
