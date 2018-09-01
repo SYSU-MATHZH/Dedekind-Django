@@ -186,7 +186,7 @@
                                     </div>
                                     <div class="info">
                                       {% for sua in publicity.activity.sua %}
-                                        {% if sua.student.name == nav.student.name %}
+                                        {% if sua.student.name == nav.student.name and sua.is_valid %}
                                           你获得了 {{ sua.suahours }}个公益时
                                         {% endif %}
                                       {% endfor %}
