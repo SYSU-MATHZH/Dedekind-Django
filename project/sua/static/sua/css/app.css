@@ -49,6 +49,17 @@
     margin-bottom: 27px;
 }
 
+.my-card-footer {
+    text-align: left;
+    margin-top: 27px;
+}
+
+.my-card-footer .btn {
+    min-width: 96px;
+    font-size: 1.077rem;
+}
+
+
 .list-item {
     display: block;
     position: relative;
@@ -491,8 +502,26 @@ body {
     font-weight: 500;
 }
 
+.form-group label.fileLabel {
+    padding: 0 12px;
+    font-size: 1.1538rem;
+    line-height: 38px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.form-group label.required:after {
+    content: " *";
+    color: red;
+}
+
 .form-group textarea {
-  resize: none;
+    resize: none;
+}
+
+.form-group input[type=file] {
+    position: absolute;
+    clip: rect(0 0 0 0);
 }
 
 .parsley-errors-list.filled{

@@ -60,11 +60,11 @@
 
     <div class="container mt-5 pt-5">
         <div class="page-head">
-            <h2 class="page-head-title">编辑学生信息</h2>
+            <h2 class="page-head-title">编辑公示</h2>
             <nav aria-label="breadcrumb" role="navigation">
                 <ol class="breadcrumb page-head-nav">
                     <li class="breadcrumb-item"><a href="#">主页</a></li>
-                    <li class="breadcrumb-item active">学生信息</li>
+                    <li class="breadcrumb-item active">编辑活动公示</li>
                 </ol>
             </nav>
         </div>
@@ -77,46 +77,53 @@
                                 <div class="invoice-logo"></div>
                             </div>
                             <div class="col-sm-5 invoice-order">
-                                <span class="invoice-id">修改学生信息</span>
+                                <span class="invoice-id">编辑公示</span>
                             </div>
                         </div>
+                        
+                        <div class="row invoice-data">
+                            <div class="col-sm invoice-person">
+                                <span class="name">活动信息</span>
+                                <span>活动标题：暑期三下乡活动</span>
+                                <span>活动详情：就是大家一起去三下乡啦。</span>
+                                <span>主办单位：学工办</span>
+                                <span>活动日期：2018年8月18日</span>
+                            </div>
+                            <div class="col-sm"></div>
+                        </div>
 
-                        <div class="form-group pt-3">
-                            <label class="required">学号</label>
-                            <input name="number" class="form-control" type="number" placeholder="请输入学生的学号：如17001700" data-parsley-trigger="focusout" required/>
+                        <div class="form-group">
+                            <label class="required">公示标题</label>
+                            <input name="title" class="form-control" type="text" placeholder="请输入公示标题" data-parsley-trigger="focusout" required>
                         </div>
                         <div class="form-group pt-3">
-                            <label class="required">姓名</label>
-                            <input name="name" class="form-control" type="text" placeholder="请输入学生的姓名：如王郑吴" data-parsley-trigger="focusout" required/>
+                            <label class="required">公示详情</label>
+                            <textarea name="content" class="form-control" rows=5 type="text" placeholder="请输入公示详情" data-parsley-trigger="focusout" required></textarea>
                         </div>
                         <div class="form-group pt-3">
-                            <label class="required">年级</label>
-                            <input name="grade" class="form-control" type="text" placeholder="请输入学生的年级：如2017级" data-parsley-trigger="focusout" required/>
+                            <label class="required">联系方式</label>
+                            <input name="group" class="form-control" type="tel" placeholder="请输入联系电话" data-parsley-trigger="focusout" 	
+pattern="[\d\(\)+]+" data-parsley-pattern-message="请输入正确的电话号码" required>
                         </div>
                         <div class="form-group pt-3">
-                            <label class="required">班别</label>
-                            <input name="classtype" class="form-control" type="text" placeholder="请输入学生的班别：如1班" data-parsley-trigger="focusout" required/>
+                            <div class="checkbox">
+                                <label>
+                                <input type="checkbox" name="is_published"
+                                       value="true"
+                                       checked="true">
+                                是否公示
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group pt-3">
-                            <label>手机号</label>
-                            <input name="phone" class="form-control" type="tel" placeholder="请输入学生的联系电话：如13612341234" data-parsley-trigger="focusout" 	
-pattern="[\d\(\)+]+" data-parsley-pattern-message="请输入正确的电话号码"/>
+                            <label class="required">开始公示时间</label>
+                            <input name="begin" class="form-control" type="date" data-parsley-trigger="focusout" required>
                         </div>
                         <div class="form-group pt-3">
-                            <label>权限</label>
-                            <select class="form-control" name="power" value="0">
-                                <option value="0" selected>普通学生</option>
-                                <option value="1" >活动级管理员</option>
-                            </select>
+                            <label class="required">结束公示时间</label>
+                            <input name="end" class="form-control" type="date" data-parsley-trigger="focusout" required>
                         </div>
-                        <div class="form-group pt-3">
-                            <label class="required">密码</label>
-                            <input id="inputPassword" name="user.password" class="form-control" type="password" placeholder="请输入学生账号的密码，6位以上" data-parsley-trigger="focusout" required minlength="6" data-parsley-minlength-message="密码长度太短，至少应有6位"/>
-                        </div>
-                        <div class="form-group pt-3">
-                            <label class="required">确认密码</label>
-                            <input name="user.password" class="form-control" type="password" placeholder="请再输入一次密码" data-parsley-trigger="focusout" required data-parsley-equalto="#inputPassword" data-parsley-equalto-message="输入的密码与之前的不相同"/>
-                        </div>
+
                         <div class="row invoice-footer">
                             <div class="col-lg-12">
                                 <button type="submit" class="btn btn-lg btn-space btn-primary">提交</button>

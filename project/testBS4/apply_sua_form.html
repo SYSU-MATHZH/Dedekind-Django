@@ -60,11 +60,11 @@
 
     <div class="container mt-5 pt-5">
         <div class="page-head">
-            <h2 class="page-head-title">编辑学生信息</h2>
+            <h2 class="page-head-title">申请公益时</h2>
             <nav aria-label="breadcrumb" role="navigation">
                 <ol class="breadcrumb page-head-nav">
                     <li class="breadcrumb-item"><a href="#">主页</a></li>
-                    <li class="breadcrumb-item active">学生信息</li>
+                    <li class="breadcrumb-item active">申请公益时</li>
                 </ol>
             </nav>
         </div>
@@ -77,45 +77,53 @@
                                 <div class="invoice-logo"></div>
                             </div>
                             <div class="col-sm-5 invoice-order">
-                                <span class="invoice-id">修改学生信息</span>
+                                <span class="invoice-id">申请公益时</span>
                             </div>
                         </div>
 
+                        
+                        <h3 class="pt-5">活动信息：</h3>
                         <div class="form-group pt-3">
-                            <label class="required">学号</label>
-                            <input name="number" class="form-control" type="number" placeholder="请输入学生的学号：如17001700" data-parsley-trigger="focusout" required/>
+                            <label class="required">活动名称</label>
+                            <input name="title" class="form-control" type="text" placeholder="请填写您所参加的公益时活动名称" data-parsley-trigger="focusout" required>
                         </div>
                         <div class="form-group pt-3">
-                            <label class="required">姓名</label>
-                            <input name="name" class="form-control" type="text" placeholder="请输入学生的姓名：如王郑吴" data-parsley-trigger="focusout" required/>
+                            <label>活动详情</label>
+                            <textarea name="detail" class="form-control" rows=5 type="text" placeholder="请填写该公益时活动的详情"></textarea>
                         </div>
                         <div class="form-group pt-3">
-                            <label class="required">年级</label>
-                            <input name="grade" class="form-control" type="text" placeholder="请输入学生的年级：如2017级" data-parsley-trigger="focusout" required/>
+                            <label class="required">活动组织单位</label>
+                            <input name="group" class="form-control" type="text" placeholder="请填写该公益时活动组织单位的名称" data-parsley-trigger="focusout" required>
                         </div>
                         <div class="form-group pt-3">
-                            <label class="required">班别</label>
-                            <input name="classtype" class="form-control" type="text" placeholder="请输入学生的班别：如1班" data-parsley-trigger="focusout" required/>
+                            <label>活动时间</label>
+                            <input name="date" class="form-control" type="date">
                         </div>
                         <div class="form-group pt-3">
-                            <label>手机号</label>
-                            <input name="phone" class="form-control" type="tel" placeholder="请输入学生的联系电话：如13612341234" data-parsley-trigger="focusout" 	
-pattern="[\d\(\)+]+" data-parsley-pattern-message="请输入正确的电话号码"/>
+                            <label>参与组别</label>
+                            <input name="team" class="form-control" type="text" placeholder="请填写您在该公益时活动参加的小组名称">
                         </div>
                         <div class="form-group pt-3">
-                            <label>权限</label>
-                            <select class="form-control" name="power" value="0">
-                                <option value="0" selected>普通学生</option>
-                                <option value="1" >活动级管理员</option>
-                            </select>
+                            <label class="required">公益时数</label>
+                            <input name="suahours" class="form-control" type="number" placeholder="请填写您在该公益时活动中获得的公益时数" data-parsley-trigger="focusout" required>
                         </div>
+
+                        <h3 class="pt-5">联系方式：</h3>
                         <div class="form-group pt-3">
-                            <label class="required">密码</label>
-                            <input id="inputPassword" name="user.password" class="form-control" type="password" placeholder="请输入学生账号的密码，6位以上" data-parsley-trigger="focusout" required minlength="6" data-parsley-minlength-message="密码长度太短，至少应有6位"/>
+                            <label>活动组织单位负责人联系电话</label>
+                            <input name="contact" class="form-control" type="text" placeholder="请填写活动组织单位的联系电话：如13612341234" data-parsley-trigger="focusout" 	
+pattern="[\d\(\)+]+" data-parsley-pattern-message="请填写正确的电话号码">
                         </div>
+
+                        <h3 class="pt-5">提交相关证明：</h3>
                         <div class="form-group pt-3">
-                            <label class="required">确认密码</label>
-                            <input name="user.password" class="form-control" type="password" placeholder="请再输入一次密码" data-parsley-trigger="focusout" required data-parsley-equalto="#inputPassword" data-parsley-equalto-message="输入的密码与之前的不相同"/>
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right">是否为线下证明</label>
+                            <input id="inputOffline" type="checkbox" name="is_offline">
+                        </div>
+                        <div id="inputFiles" class="form-group pt-3">
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right">证明文件</label>
+                            <label for="inputFilesEle" class="fileLabel btn btn-lg btn-space btn-secondary">上传文件</label>
+                            <input id="inputFilesEle" name="proof_file" type="file">
                         </div>
                         <div class="row invoice-footer">
                             <div class="col-lg-12">
@@ -138,6 +146,22 @@ pattern="[\d\(\)+]+" data-parsley-pattern-message="请输入正确的电话号�
     <script src="../sua/static/sua/js/parsley.min.js"></script>
     <script src="../sua/static/sua/js/i18n/zh_cn.js"></script>
     <script src="../sua/static/sua/js/i18n/zh_cn.extra.js"></script>
+    <script>
+    $('#inputOffline').ready(function() {
+        if ($('#inputOffline').prop('checked')) {
+            $('#inputFiles').css('display', 'none');
+        } else {
+            $('#inputFiles').css('display', 'block');
+        }
+    });
+    $('#inputOffline').change(function() {
+        if (!$(this).prop('checked')) {
+            $('#inputFiles').show();
+        } else {
+            $('#inputFiles').hide();
+        }
+    });
+    </script>
 </body>
 
 </html>
