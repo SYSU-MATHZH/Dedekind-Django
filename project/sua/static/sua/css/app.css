@@ -490,3 +490,15 @@ body {
     font-size: 1.382rem;
     font-weight: 500;
 }
+
+.form-group textarea {
+  resize: none;
+}
+
+.parsley-errors-list.filled{
+    background-color: #eb6357;
+    color: #fff;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
