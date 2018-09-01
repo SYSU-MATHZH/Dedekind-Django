@@ -401,6 +401,7 @@ class Activity_tab_View(BaseView, NavMixin):
         for i in range(len(activities)):
             activities[i]['number'] = activity_set[i].number()
 
+        print(activities[0])
 
         serialized.update({
             'activities': activities,
