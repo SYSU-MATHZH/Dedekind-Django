@@ -49,6 +49,17 @@
     margin-bottom: 27px;
 }
 
+.my-card-footer {
+    text-align: left;
+    margin-top: 27px;
+}
+
+.my-card-footer .btn {
+    min-width: 96px;
+    font-size: 1.077rem;
+}
+
+
 .list-item {
     display: block;
     position: relative;
