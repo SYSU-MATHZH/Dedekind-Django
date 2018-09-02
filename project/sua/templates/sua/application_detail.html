@@ -150,10 +150,9 @@
                                     {% elif serializer.data.status == 2 %}
                                     <p id="" class="form-control-static">需要提交线下证明</p>
                                     {% endif %}
-                                    <label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
-                                    反馈
-                                    </label>
-                                    <textarea name="sua_ApplicationForm-detail" placeholder="{{ serializer.data.feedback }}" maxlength="400" rows="5" id="" cols="10" class="form-control" readonly></textarea>
+                                    <label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}"></label>
+                                    <span class="name">反馈</span>
+                                    <p id =""  class="form-control-static">{{ serializer.data.feedback }}</p>
                                   {% else %}
                                   <p id="" class="form-control-static">待审核</p>
                                   {% endif %}

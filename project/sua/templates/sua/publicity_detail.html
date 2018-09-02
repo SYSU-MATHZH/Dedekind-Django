@@ -120,6 +120,10 @@
                                 </tr>
                             </tbody>
                         </table>
+                        {% if nav.user.is_staff %}
+                          <button class="btn btn-lg btn-space btn-secondary"><a href = "/publicities/{{ serializer.data.id }}/change/">编辑</a></button>
+                          <button class="btn btn-lg btn-space btn-danger"><a href="/publicities/{{ serializer.data.id }}/delete/">删除</a></button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
