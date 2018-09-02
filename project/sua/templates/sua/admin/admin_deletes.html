@@ -129,13 +129,23 @@
                     </div>
                 </div>
 
+                <div class="card card-table mb-4">
+                <div class="card-body card-table-header">
+                    <div class="tools">
+                    </div>
+                    <div class="my-card-header">
+                        删除的公式
+                        <div class="tools">
+                        </div>
+                    </div>
+                </div>
+              <div class="card-body card-table-body">
                 <div class="table-responsive">
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <th style="width: 20%;">删除时间</th>
                                 <th style="width: 15%;">公示标题</th>
-                                <th>公示详情</th>
                                 <th>公示开始日</th>
                                 <th>公示结束日</th>
                                 <th style="width: 10%;"></th>
@@ -147,7 +157,6 @@
                             <tr>
                                 <td>{{ publicity.deleted_at }}</td>
                                 <td>{{ publicity.title }}</td>
-                                <td>{{ publicity.detail }}</td>
                                 <td>{{ publicity.begin }}</td>
                                 <td>{{ publicity.end }}</td>
                                 <td>
