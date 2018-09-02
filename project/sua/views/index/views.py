@@ -64,6 +64,10 @@ class IndexView(BaseView, NavMixin):
 
             if user.is_staff:
                 application_set = Application.objects.filter(deleted_at=None).order_by('is_checked', '-created')# 获取所有申请,按时间的倒序排序
+                activity_set = Activity.objects.filter(
+                    deleted_at=None,
+                    is_created_by_student=False,
+                    ).order_by('-created')  # 获取所有当前管理员创建的活动
                 unreviewed_applications_set = Application.objects.filter(deleted_at=None, is_checked=False).order_by('-created')# 获取未审核的申请
                 unreviewed_appeals_set = Appeal.objects.filter(deleted_at=None, is_checked=False).order_by('-created')# 获取未审核的申诉
                 serialized.update({
@@ -75,6 +79,11 @@ class IndexView(BaseView, NavMixin):
                 sua__activity__owner=user,
                 sua__activity__is_created_by_student=False,
                 deleted_at=None).order_by('-created')# 获取该学生创建的活动的申请
+                activity_set = Activity.objects.filter(
+                    owner=user,
+                    deleted_at=None,
+                    is_created_by_student=False,
+                    ).order_by('-created')                # 获取该活动级管理员创建的活动
                 unreviewed_applications_set = Application.objects.filter(
                 sua__activity__owner=user,
                 sua__activity__is_created_by_student=False,
@@ -101,18 +110,6 @@ class IndexView(BaseView, NavMixin):
                     tools.TZString2DateTime(application['created']))
             deleteds['applications'] = tools.get_deleteds(Application, ApplicationSerializer, request)
 
-            if user.is_staff:
-                activity_set = Activity.objects.filter(
-                    deleted_at=None,
-                    is_created_by_student=False,
-                    ).order_by('-created')  # 获取所有当前管理员创建的活动
-            elif user.student.power == 1:
-                activity_set = Activity.objects.filter(
-                    owner=user,
-                    deleted_at=None,
-                    is_created_by_student=False,
-                    ).order_by('-created')                # 获取该活动级管理员创建的活动
-
             activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
                 activity_set,
                 many=True,
@@ -134,50 +131,50 @@ class IndexView(BaseView, NavMixin):
                 'admin_applications':applications,
                 'admin_activities':activities,
             })
-
-        if user.is_staff:
-            classtypes =set([])
-            grades =set([])
-            student_all = Student.objects.filter(deleted_at=None,).order_by('number') #获取所有学生
-            for student in student_all:
-                classtypes.add(student.classtype)
-                grades.add(student.grade)
-
-            if 'classtype' and 'grade' in request.GET:
-                classtype = request.GET.get('classtype')
-                grade = request.GET.get('grade')
-                student_set = Student.objects.filter(deleted_at=None,classtype=classtype,grade=grade).order_by('number')
-            else:
-                student_set = Student.objects.filter(deleted_at=None,).order_by('number')  # 获取筛选的学生
-
-            student_data = StudentSerializer(  # 序列化所有学生信息
-                student_set,
-                many=True,
-                context={'request': request}
-            )
-
-            deleteds['students'] = tools.get_deleteds(Student, StudentSerializer, request)
-
-            appeal_set = Appeal.objects.filter(deleted_at=None).order_by(
-                'is_checked', '-created')  # 获取在公示期内的所有申诉
-            appeal_data = AppealSerializer(  # 序列化申诉
-                appeal_set,
-                many=True,
-                context={'request': request}
-            )
-            appeals = appeal_data.data
-            for appeal in appeals:
-                appeal['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(appeal['created']))
-
-            deleteds['appeals'] = tools.get_deleteds(Appeal, AppealSerializer, request)
-
-            serialized.update({
-                'admin_appeals': appeals,
-                'admin_students': student_data.data,
-                'classtypes':classtypes,
-                'grades':grades,
-            })
+        #
+        # if user.is_staff:
+        #     classtypes =set([])
+        #     grades =set([])
+        #     student_all = Student.objects.filter(deleted_at=None,).order_by('number') #获取所有学生
+        #     for student in student_all:
+        #         classtypes.add(student.classtype)
+        #         grades.add(student.grade)
+        #
+        #     if 'classtype' and 'grade' in request.GET:
+        #         classtype = request.GET.get('classtype')
+        #         grade = request.GET.get('grade')
+        #         student_set = Student.objects.filter(deleted_at=None,classtype=classtype,grade=grade).order_by('number')
+        #     else:
+        #         student_set = Student.objects.filter(deleted_at=None,).order_by('number')  # 获取筛选的学生
+        #
+        #     student_data = StudentSerializer(  # 序列化所有学生信息
+        #         student_set,
+        #         many=True,
+        #         context={'request': request}
+        #     )
+        #
+        #     deleteds['students'] = tools.get_deleteds(Student, StudentSerializer, request)
+        #
+        #     appeal_set = Appeal.objects.filter(deleted_at=None).order_by(
+        #         'is_checked', '-created')  # 获取在公示期内的所有申诉
+        #     appeal_data = AppealSerializer(  # 序列化申诉
+        #         appeal_set,
+        #         many=True,
+        #         context={'request': request}
+        #     )
+        #     appeals = appeal_data.data
+        #     for appeal in appeals:
+        #         appeal['created'] = tools.DateTime2String_SHOW(
+        #             tools.TZString2DateTime(appeal['created']))
+        #
+        #     deleteds['appeals'] = tools.get_deleteds(Appeal, AppealSerializer, request)
+        #
+        #     serialized.update({
+        #         'admin_appeals': appeals,
+        #         'admin_students': student_data.data,
+        #         'classtypes':classtypes,
+        #         'grades':grades,
+        #     })
 
         if hasattr(user,'student'):
 
@@ -193,29 +190,38 @@ class IndexView(BaseView, NavMixin):
             for application in applications:
                 application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
 
-            if 'year_begin' not in request.GET:
-                sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
-                    student.suas.filter(deleted_at=None,is_valid=True,activity__is_valid=True),
-                    many=True,
-                    context={'request': request}
-                )
-            else:
-                year_begin = int(request.GET['year_begin'])
-                year_end = int(request.GET['year_end'])
-                start_date = datetime.date(year_begin, 8, 1)
-                end_date = datetime.date(year_end, 8, 1)
-                sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
-                    student.suas.filter(deleted_at=None,is_valid=True,
-                        activity__is_valid=True,
-                        activity__date__range=(start_date, end_date)
-                    ),
-                    many=True,
-                    context={'request': request}
-                )
-                serialized.update({
-                    'year_begin':year_begin,
-                    'year_end':year_end
-                })
+            # if 'year_begin' not in request.GET:
+            #     sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
+            #         student.suas.filter(deleted_at=None,is_valid=True,activity__is_valid=True),
+            #         many=True,
+            #         context={'request': request}
+            #     )
+            # else:
+            #     year_begin = int(request.GET['year_begin'])
+            #     year_end = int(request.GET['year_end'])
+            #     start_date = datetime.date(year_begin, 8, 1)
+            #     end_date = datetime.date(year_end, 8, 1)
+            #     sua_data = SuaSerializer(# 序列化当前学生的某段学年的公益时记录
+            #         student.suas.filter(deleted_at=None,is_valid=True,
+            #             activity__is_valid=True,
+            #             activity__date__range=(start_date, end_date)
+            #         ),
+            #         many=True,
+            #         context={'request': request}
+            #     )
+            #     serialized.update({
+            #         'year_begin':year_begin,
+            #         'year_end':year_end
+            #     })
+            sua_set = user.suas.filter(
+                deleted_at=None,
+                activity__is_valid=True,
+                is_valid=True)
+            sua_data = SuaSerializer(
+                sua_set,
+                many=True,
+                context={'request':request}
+            )
             suas = sua_data.data
             # print(suas)
             for sua in suas:
