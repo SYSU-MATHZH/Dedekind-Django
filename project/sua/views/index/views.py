@@ -576,6 +576,7 @@ class Deleted_tab_View(BaseView, NavMixin):
                 deleteds['applications'] = tools.get_deleteds(Application, ApplicationSerializer, request)
                 # deleteds['activities'] = tools.get_deleteds(Activity, ActivitySerializer, request)
                 deleteds['appeals'] = tools.get_deleteds(Appeal, AppealSerializer, request)
+                deleteds['publicities'] = tools.get_deleteds(Publicity, PublicitySerializer, request)
 
                 activity_set = Activity.objects.order_by('-deleted_at').exclude(deleted_at=None) #获取被删除的活动
             else:
@@ -618,6 +619,17 @@ class Deleted_tab_View(BaseView, NavMixin):
                     appeals = appeal_data.data
                     deleteds['appeals'] = appeals
 
+                    publicity_set = Publicity.objects.filter(
+                    deleted_by=user,).order_by('-deleted_at').exclude(deleted_at=None)# 获取该活动管理员删除的活动的申诉
+                    publicity_data = PublicitySerializer(  # 序列化所有申请
+                        publicity_set,
+                        many=True,
+                        context={'request': request}
+                    )
+
+                    publicities = publicity_data.data
+                    deleteds['publicities'] = publicities
+
 
         for application in deleteds['applications']:
             application['created'] = tools.DateTime2String_SHOW(
@@ -625,6 +637,9 @@ class Deleted_tab_View(BaseView, NavMixin):
         for appeal in deleteds['appeals']:
             appeal['created'] = tools.DateTime2String_SHOW(
                 tools.TZString2DateTime(appeal['created']))
+        for publicity in deleteds['publicities']:
+            publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
+            publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
         serialized.update({
             'deleteds': deleteds,
         })
