@@ -11,6 +11,17 @@
 
     <!-- My CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
+    <style>
+    {% for sua in suas %}
+      .user-timeline>li.item-{{ forloop.counter }}:before {
+          {% if forloop.counter == 1 %}
+            background-color: #f6c163;
+            color: #fff;
+            {% endif %}
+          content: "+{{ sua.suahours }}";
+      }
+      {% endfor %}
+    </style>
     <title>公益时平台</title>
 </head>
 
