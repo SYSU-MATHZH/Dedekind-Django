@@ -160,19 +160,17 @@
                             </div>
                             <div class="col-sm invoice-person"></div>
                         </div>
-                        <div class="my-card-footer">
-                          {% if user.is_staff %}
-                            <button class="btn btn-lg btn-space btn-secondary"><a  href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a></button>
-                          {% elif nav.student.power == 1 and serializer.data.sua.activity.owner == nav.user.url and serializer.data.sua.activity.is_created_by_student == True %}
-                            <button class="btn btn-lg btn-space btn-secondary"><a  href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a></button>
-                          {% endif %}
-                          {% if nav.user.is_staff %}
-                            <button class="btn btn-lg btn-space btn-secondary"><a href = "/applications/{{ serializer.data.id }}/change/">编辑</a></button>
-                            <button class="btn btn-lg btn-space btn-danger"><a href="/applications/{{ serializer.data.id }}/delete/">删除</a></button>
-                          {% endif %}
-                        </div>
                     <div class="row invoice-footer">
                         <div class="col-lg-12">
+                          {% if user.is_staff %}
+                            <a class="btn btn-lg btn-space btn-secondary" href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a>
+                          {% elif nav.student.power == 1 and serializer.data.sua.activity.owner == nav.user.url and serializer.data.sua.activity.is_created_by_student == True %}
+                            <a class="btn btn-lg btn-space btn-secondary" href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a>
+                          {% endif %}
+                          {% if nav.user.is_staff %}
+                            <a class="btn btn-lg btn-space btn-secondary" href = "/applications/{{ serializer.data.id }}/change/">编辑</a>
+                            <a class="btn btn-lg btn-space btn-danger" href="/applications/{{ serializer.data.id }}/delete/">删除</a>
+                          {% endif %}
                             <button class="btn btn-lg btn-space btn-secondary">导出PDF</button>
                             <button class="btn btn-lg btn-space btn-secondary">打印</button>
 
