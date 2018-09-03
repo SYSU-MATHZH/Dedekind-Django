@@ -112,7 +112,7 @@ class ActivityViewSet(BaseViewSet, NavMixin):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(owner=self.request.user, is_valid=True)
 
 
 class ApplicationViewSet(BaseViewSet, NavMixin):
