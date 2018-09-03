@@ -118,8 +118,8 @@
                         </table>
                         <div class="my-card-footer">
                           {% if nav.user.is_staff %}
-                            <button class="btn btn-lg btn-space btn-secondary"><a href = "/activities/{{ serializer.data.id }}/change/">编辑</a></button>
-                            <button class="btn btn-lg btn-space btn-danger"><a href="/activities/{{ serializer.data.id }}/delete/">删除</a></button>
+                            <a class="btn btn-lg btn-space btn-secondary" href = "/activities/{{ serializer.data.id }}/change/">编辑</a>
+                            <a class="btn btn-lg btn-space btn-danger" href="/activities/{{ serializer.data.id }}/delete/">删除</a>
                           {% endif %}
                         </div>
                     </div>

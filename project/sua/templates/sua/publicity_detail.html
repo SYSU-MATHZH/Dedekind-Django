@@ -121,8 +121,8 @@
                             </tbody>
                         </table>
                         {% if nav.user.is_staff %}
-                          <button class="btn btn-lg btn-space btn-secondary"><a href = "/publicities/{{ serializer.data.id }}/change/">编辑</a></button>
-                          <button class="btn btn-lg btn-space btn-danger"><a href="/publicities/{{ serializer.data.id }}/delete/">删除</a></button>
+                          <a class="btn btn-lg btn-space btn-secondary" href = "/publicities/{{ serializer.data.id }}/change/">编辑</a>
+                          <a class="btn btn-lg btn-space btn-danger" href="/publicities/{{ serializer.data.id }}/delete/">删除</a>
                         {% endif %}
                     </div>
                 </div>
