@@ -116,8 +116,10 @@
                             </tbody>
                         </table>
                         <div class="my-card-footer">
-                                <button class="btn btn-lg btn-space btn-secondary">编辑</button>
-                                <button class="btn btn-lg btn-space btn-danger">删除</button>
+                          {% if nav.user.is_staff %}
+                            <a class="btn btn-lg btn-space btn-secondary" href = "/activities/{{ serializer.data.id }}/change/">编辑</a>
+                            <a class="btn btn-lg btn-space btn-danger" href="/activities/{{ serializer.data.id }}/delete/">删除</a>
+                          {% endif %}
                         </div>
                     </div>
                 </div>

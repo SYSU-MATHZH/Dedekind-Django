@@ -55,7 +55,7 @@
                             alt="" style="mix-blend-mode: #fff">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/applications/apply/">新增公益时申请</a>
+                        <a class="dropdown-item" href="activities/add/">创建活动</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown active">
@@ -114,7 +114,7 @@
                                     <tr>
                                         <td>{{ student.name }}</td>
                                         <td>{{ student.number }}</td>
-                                        <td>{{ student.grade }}级{{ studnet.classtype }}班</td>
+                                        <td>{{ student.grade }}级{{ student.classtype }}班</td>
                                         <td>{{ student.suahours }}</td>
                                         <td>{{ student.phone }}</td>
                                         <td>{% if student.power < 1 %}普通学生{% else %}活动级管理员{% endif %}</td>

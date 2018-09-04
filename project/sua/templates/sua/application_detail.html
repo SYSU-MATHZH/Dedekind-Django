@@ -150,10 +150,9 @@
                                     {% elif serializer.data.status == 2 %}
                                     <p id="" class="form-control-static">需要提交线下证明</p>
                                     {% endif %}
-                                    <label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}">
-                                    反馈
-                                    </label>
-                                    <textarea name="sua_ApplicationForm-detail" placeholder="{{ serializer.data.feedback }}" maxlength="400" rows="5" id="" cols="10" class="form-control" readonly></textarea>
+                                    <label for="id_{{ proofForm.prefix }}-{{ proofForm.proof_file.name }}"></label>
+                                    <span class="name">反馈</span>
+                                    <p id =""  class="form-control-static">{{ serializer.data.feedback }}</p>
                                   {% else %}
                                   <p id="" class="form-control-static">待审核</p>
                                   {% endif %}
@@ -161,9 +160,17 @@
                             </div>
                             <div class="col-sm invoice-person"></div>
                         </div>
-
                     <div class="row invoice-footer">
                         <div class="col-lg-12">
+                          {% if user.is_staff %}
+                            <a class="btn btn-lg btn-space btn-secondary" href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a>
+                          {% elif nav.student.power == 1 and serializer.data.sua.activity.owner == nav.user.url and serializer.data.sua.activity.is_created_by_student == True %}
+                            <a class="btn btn-lg btn-space btn-secondary" href='/admin/applications/{{ serializer.data.id }}/change/'>审核申请</a>
+                          {% endif %}
+                          {% if nav.user.is_staff %}
+                            <a class="btn btn-lg btn-space btn-secondary" href = "/applications/{{ serializer.data.id }}/change/">编辑</a>
+                            <a class="btn btn-lg btn-space btn-danger" href="/applications/{{ serializer.data.id }}/delete/">删除</a>
+                          {% endif %}
                             <button class="btn btn-lg btn-space btn-secondary">导出PDF</button>
                             <button class="btn btn-lg btn-space btn-secondary">打印</button>
 

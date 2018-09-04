@@ -124,9 +124,15 @@
                             </div>
                             <div class="col-sm-4 invoice-person"></div>
                         </div>
-
                     <div class="row invoice-footer">
                         <div class="col-lg-12">
+                          {% if user.is_staff %}
+                            <a class="btn btn-lg btn-space btn-secondary" href='/admin/appeals/{{ serializer.data.id }}/change/'>处理申诉</a>
+                          {% endif %}
+                          {% if nav.user.is_staff %}
+                            <a class="btn btn-lg btn-space btn-secondary" href = "/appeals/{{ serializer.data.id }}/change/">编辑</a>
+                            <a class="btn btn-lg btn-space btn-danger" href="/appeals/{{ serializer.data.id }}/delete/">删除</a>
+                          {% endif %}
                             <button class="btn btn-lg btn-space btn-secondary">导出PDF</button>
                             <button class="btn btn-lg btn-space btn-secondary">打印</button>
 

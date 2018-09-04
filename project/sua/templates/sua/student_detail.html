@@ -138,6 +138,12 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="my-card-footer">
+                          {% if nav.user.is_staff %}
+                            <a class="btn btn-lg btn-space btn-secondary" href = "/students/{{ serializer.data.id }}/change/">编辑</a>
+                            <a class="btn btn-lg btn-space btn-danger" href="/students/{{ serializer.data.id }}/delete/">删除</a>
+                          {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -145,11 +151,7 @@
                 <div class="card card-table">
                     <div class="card-body card-table-header">
                         <div class="tools">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                <img src="{% static 'sua/images/plus2.png' %}" width="20" height="20" class="d-inline-block"
-                                    alt="" style="mix-blend-mode: #fff">
-                            </a>
+
                         </div>
                         <div class="my-card-header">
                             参与活动列表

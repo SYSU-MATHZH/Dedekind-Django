@@ -11,6 +11,17 @@
 
     <!-- My CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
+    <style>
+    {% for sua in suas %}
+      .user-timeline>li.item-{{ forloop.counter }}:before {
+          {% if forloop.counter == 1 %}
+            background-color: #f6c163;
+            color: #fff;
+            {% endif %}
+          content: "+{{ sua.suahours }}";
+      }
+      {% endfor %}
+    </style>
     <title>公益时平台</title>
 </head>
 
@@ -53,6 +64,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="activities/add/">创建活动</a>
+                        <a class="dropdown-item" href="/applications/apply">新增公益时申请</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown active">
@@ -132,7 +144,7 @@
                 <div class="card mb-4">
                     <div class="card-body user-info">
                         <div class="my-card-header border-bottom">
-                            管理员信息
+                            我的信息
                         </div>
                         <table>
                             <tbody>

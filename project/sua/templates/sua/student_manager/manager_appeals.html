@@ -49,11 +49,12 @@
                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
-                        <img src="/Users/nouzan/git/tmp/Dedekind-Django/project/sua/static/sua/images/plus.png" width="15" height="15" class="d-inline-block"
+                        <img src="{% static 'sua/images/plus.png' %}" width="15" height="15" class="d-inline-block"
                             alt="" style="mix-blend-mode: #fff">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/applications/apply/">新增公益时申请</a>
+                        <a class="dropdown-item" href="activities/add/">创建活动</a>
+                        <a class="dropdown-item" href="/applications/apply">新增公益时申请</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown active">
@@ -149,8 +150,7 @@
                                             <div class="btn-group btn-hspace">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
                                                 <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
-                                                    <a class="dropdown-item" href="/admin/appeals/{{ appeal.id }}/change/">审核</a>
-                                                    <a class="dropdown-item" href="/appeals/{{ appeal.id }}/delete/">删除</a>
+                                                    <a class="dropdown-item" href="{{ appeal.url }}">查看详情</a>
                                                 </div>
                                             </div>
                                         </td>
