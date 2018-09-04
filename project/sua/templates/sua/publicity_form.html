@@ -1,41 +1,160 @@
-{% extends 'sua/_layout/info_template.html' %}
+<!doctype html>
+{% load staticfiles %}
+<html lang="en">
 
-{% block title %}创建新的公益时活动{% endblock %}
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block rewritten_content_title %}
-<div class="center-tab-header">{{ title }}</div>
-{% endblock %}
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'sua/css/bootstrap.min.css' %}">
 
+  <!-- My CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
 
-{% block content_detail %}
-{% load static %}
-{% load rest_framework %}
-<div class="row">
-	<div class="col-lg-6 col-lg-offset-3">
-		<p class="subtitle-descript">{{ description }}</p>
-		<hr>
-		<div class="row">
-			<div class="col-xs-12">
-				<form enctype="multipart/form-data" role="form" action="" method="POST">
-					{% csrf_token %}
-          <div class="row">
-            <!-- REST framework 自动生成的表单 -->
-            {% render_form serializer %}
+<title>编辑公示</title>
+</head>
+
+<body style="background-color: #EEEEEE">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #4d4d4d;">
+    <a class="navbar-brand mr-auto hide-desktop" href="/">
+      <img src="{% static 'sua/images/logo-icon3.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+      数院公益时
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">
+            < 返回主页 <span class="sr-only">(current)</span>
+          </a>
+        </li>
+      </ul>
+      <a class="navbar-brand mr-auto hide-mobile" href="/">
+        <img src="{% static 'sua/images/logo-icon3.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        数院公益时
+      </a>
+      <ul class="navbar-nav my-2 my-lg-0">
+        <li class="nav-item dropdown active">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <img src="{% static 'sua/images/plus.png' %}" width="15" height="15" class="d-inline-block" alt="" style="mix-blend-mode: #fff">
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/applications/apply/">新增公益时申请</a>
           </div>
-					<hr>
-					<div class="row">
-						<div class="col-lg-12">
-							<button type="submit" class="btn btn-block">提交</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-12">
-			<hr>
-		</div>
-	</div>
-</div>
-{% endblock %}
+        </li>
+        <li class="nav-item dropdown active">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            {% if nav.user.student == None %}
+            {{ nav.user.username }}
+            {% else %}
+            {{ nav.user.student.name }}
+            {% endif %}
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/students/{{ nav.student.id }}/detail/">我的信息</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/logout">登出</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+    <div class="container mt-5 pt-5">
+        <div class="page-head">
+            <h2 class="page-head-title">编辑公示</h2>
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb page-head-nav">
+                    <li class="breadcrumb-item"><a href="#">主页</a></li>
+                    <li class="breadcrumb-item active">编辑活动公示</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row main-content">
+            <div class="col-lg">
+                <div class="invoice">
+                    <form id="form" enctype="multipart/form-data" role="form" action="" method="POST" data-parsley-validate>
+                        {% csrf_token %}
+                        <div class="row invoice-form-header">
+                            <div class="col-sm-7">
+                                <div class="invoice-logo"></div>
+                            </div>
+                            <div class="col-sm-5 invoice-order">
+                                <span class="invoice-id">编辑公示#{{ serializer.data.activity.id }}</span>
+                            </div>
+                        </div>
+                         
+                        <div class="row invoice-data">
+                            <div class="col-sm invoice-person">
+                                <span class="name">活动信息</span>
+                                <span>活动标题：{{ serializer.data.activity.title }}</span>
+                                <span>活动详情：{{ serializer.data.activity.detail }}</span>
+                                <span>主办单位：{{ serializer.data.activity.group }}</span>
+                                <span>活动日期：{{ serializer.data.activity.date }}</span>
+                            </div>
+                            <div class="col-sm"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">公示标题</label>
+                            <input name="title" class="form-control" type="text" {% if serializer.data.title is not None %}value="{{ serializer.data.title }}" {% endif %}placeholder="请输入公示标题" data-parsley-trigger="focusout" required>
+                        </div>
+                        <div class="form-group pt-3">
+                            <label class="required">公示详情</label>
+                            <textarea name="content" class="form-control" rows=5 type="text" placeholder="请输入公示详情" data-parsley-trigger="focusout" required>{% if serializer.data.content is not None %}{{ serializer.data.content }}{% endif %}</textarea>
+                        </div>
+                        <div class="form-group pt-3">
+                            <label class="required">联系方式</label>
+                            <input name="group" class="form-control" type="tel" {% if serializer.data.contact is not None %}value="{{ serializer.data.contact }}" {% endif %}placeholder="请输入联系电话" data-parsley-trigger="focusout" 	
+pattern="[\d\(\)+]+" data-parsley-pattern-message="请输入正确的电话号码" required>
+                        </div>
+                        <div class="form-group pt-3">
+                            <div class="checkbox">
+                                <label>
+                                <input type="checkbox" name="is_published"
+                                       {% if serializer.data.is_published is not None %}value="{{ serializer.data.is_published }}" checked="{{ serializer.data.is_published }}"{% else %}checked="true"{% endif %}
+                                       >
+                                是否公示
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group pt-3">
+                            <label class="required">开始公示时间</label>
+                            <input name="begin" class="form-control" type="date" data-parsley-trigger="focusout" {% if serializer.data.begin is not None %}value="{{ serializer.data.begin }}" {% endif %}required>
+                        </div>
+                        <div class="form-group pt-3">
+                            <label class="required">结束公示时间</label>
+                            <input name="end" class="form-control" type="date" data-parsley-trigger="focusout" {% if serializer.data.end is not None %}value="{{ serializer.data.end }}" {% endif %}required>
+                        </div>
+
+                        <div class="row invoice-footer">
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-lg btn-space btn-primary">提交</button>
+                                <a class="btn btn-lg btn-space btn-secondary" href="./index.html">返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../sua/static/sua/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="../sua/static/sua/js/popper.min.js"></script>
+    <script src="../sua/static/sua/js/bootstrap.min.js"></script>
+    <script src="../sua/static/sua/js/parsley.min.js"></script>
+    <script src="../sua/static/sua/js/i18n/zh_cn.js"></script>
+    <script src="../sua/static/sua/js/i18n/zh_cn.extra.js"></script>
+</body>
+
+</html>
