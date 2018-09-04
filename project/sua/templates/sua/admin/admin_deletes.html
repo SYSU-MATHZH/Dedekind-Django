@@ -207,7 +207,7 @@
                                         <td>{{ activity.title }}</td>
                                         <td>{{ activity.date }}</td>
                                         <td>{{ activity.number }}</td>
-                                        <td>不知道怎么填</td>
+                                        <td>{% if activity.publicity.is_published %}是{% else %}否{% endif %}</td>
                                         <td>
                                             <div class="btn-group btn-hspace">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
@@ -295,7 +295,7 @@
                                             <th style="width: 15%;">申诉的公示</th>
                                             <th style="width: 20%;">申诉日期</th>
                                             <th>举办单位</th>
-                                            <th>处理结果</th>
+                                            <th>是否已处理</th>
                                             <th style="width: 10%;"></th>
                                         </tr>
                                     </thead>
