@@ -85,16 +85,13 @@ class BaseViewSet(
         if request.method == 'GET':
             serializer = self.get_serializer(instance, context={'request': request})
             extra_data = self.get_extra_data(serializer)
-            return Response({
-                'serializer': serializer,
-                'extra_data': extra_data,
-            })
-            Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'extra_data': extra_data}))
+            print(serializer.data)
+            return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'extra_data': extra_data}))
 
         # print(request.data)
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid()
-        # print(serializer.errors)
+        print(serializer.errors)
         self.perform_update(serializer)
 
         if getattr(instance, '_prefetched_objects_cache', None):

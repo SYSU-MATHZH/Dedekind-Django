@@ -112,7 +112,7 @@
                         </div>
                         <div class="form-group pt-3">
                             <label>活动详情</label>
-<textarea name="detail" class="form-control" rows=5 type="text" placeholder="请输入有关活动的详细信息" value="{{ serializer.data.detail }}"></textarea>
+<textarea name="detail" class="form-control" rows=5 type="text" placeholder="请输入有关活动的详细信息">{{ serializer.data.detail }}</textarea>
                         </div>
                         <div class="form-group pt-3">
                             <label class="required">主办单位</label>
@@ -121,12 +121,12 @@
                         </div>
                         <div class="form-group pt-3">
                             <label class="required">联系方式</label>
-                            <input name="contract" class="form-control" type="tel" placeholder="请输入活动组织单位的联系电话" data-parsley-trigger="focusout" 	
+                            <input name="contact" class="form-control" type="tel" {% if serializer.data.contact is not None %} value="{{ serializer.data.contact }}" {% endif %}  placeholder="请输入活动组织单位的联系电话" data-parsley-trigger="focusout" 	
 pattern="[\d\(\)+]+" data-parsley-pattern-message="请输入正确的电话号码" required>
                         </div>
                         <div class="form-group pt-3">
                             <label class="required">活动日期</label>
-<input name="date" class="form-control" type="date" data-parsley-trigger="focusout" value="{{ extra_data.date }}" required>
+<input name="date" class="form-control" type="date" data-parsley-trigger="focusout" value="{{ serializer.data.date }}" required>
                         </div>
 
                         <div class="row invoice-footer">
