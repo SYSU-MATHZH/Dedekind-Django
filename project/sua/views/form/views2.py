@@ -142,7 +142,7 @@ class ApplicationViewSet(BaseViewSet, NavMixin):
         if self.action == 'change':
             permission_classes = (IsAdminUser, )
         elif self.action == 'detail':
-            permission_classes = (IsTheStudentOrIsAdminUser,)
+            permission_classes = (IsTheStudentOrIsAdminUserOrActivity,)
         else:
             permission_classes = (IsAdminUserOrReadOnly,)
 
