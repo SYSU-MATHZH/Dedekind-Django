@@ -1,5 +1,5 @@
 <!doctype html>
-{% load staticfiles %}
+{% load static %}
 <html lang="en">
 
 <head>
@@ -149,12 +149,12 @@ pattern="[\d\(\)+]+" data-parsley-pattern-message="请输入正确的电话号�
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="../sua/static/sua/js/jquery-3.3.1.slim.min.js"></script>
-    <script src="../sua/static/sua/js/popper.min.js"></script>
-    <script src="../sua/static/sua/js/bootstrap.min.js"></script>
-    <script src="../sua/static/sua/js/parsley.min.js"></script>
-    <script src="../sua/static/sua/js/i18n/zh_cn.js"></script>
-    <script src="../sua/static/sua/js/i18n/zh_cn.extra.js"></script>
+    <script src="{% static 'sua/js/jquery-3.3.1.slim.min.js' %}"></script>
+    <script src="{% static 'sua/js/popper.min.js' %}"></script>
+    <script src="{% static 'sua/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'sua/js/parsley.min.js' %}"></script>
+    <script src="{% static 'sua/js/i18n/zh_cn.js' %}"></script>
+    <script src="{% static 'sua/js/i18n/zh_cn.extra.js' %}"></script>
 </body>
 
 </html>
