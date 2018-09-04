@@ -299,6 +299,7 @@ class PublicityView(BaseView, NavMixin):
         activity_id = kwargs['pk']
         serializer = PublicityWithActivitySerializer(
             data=request.data, context={'request': request})
+        # print(request.data)
         if serializer.is_valid():
             serializer.save(activity=Activity.objects.filter(deleted_at=None,
                 id=activity_id).get(), owner=user)

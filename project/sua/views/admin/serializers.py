@@ -64,11 +64,6 @@ class AdminAddSuaForActivitySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'student', 'team', 'suahours',)
 
 
-class PublicityWithActivitySerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Publicity
-        fields = ('url', 'created', 'title', 'content', 'contact', 'is_published', 'begin', 'end', 'id')
 
 class AdminActivitySerializer(serializers.ModelSerializer):
 

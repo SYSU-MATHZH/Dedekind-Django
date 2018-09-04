@@ -70,7 +70,7 @@ class BaseViewSet(
 
         serializer = self.get_serializer(data=request.data)
         # print(request.data)
-        serializer.is_valid()
+        serializer.is_valid(raise_exception=True)
         print(serializer.errors)
         self.perform_create(serializer)
         return HttpResponseRedirect(serializer.data['url'])
@@ -90,7 +90,7 @@ class BaseViewSet(
 
         # print(request.data)
         serializer = self.get_serializer(instance, data=request.data)
-        serializer.is_valid()
+        serializer.is_valid(raise_exception=True)
         print(serializer.errors)
         self.perform_update(serializer)
 
