@@ -73,7 +73,7 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid','contact','number','owner')
+        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid','contact','number')
 
     def create(self, validated_data):
         print(validated_data)
@@ -111,6 +111,11 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
             sua.save()
         return instance
 
+class ActivityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Activity
+        fields = ('url','url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid','contact','number','owner')
 
 class PublicityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
     activity = AddActivitySerializer()

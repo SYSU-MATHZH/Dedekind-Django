@@ -73,7 +73,7 @@
             <nav aria-label="breadcrumb" role="navigation">
                 <ol class="breadcrumb page-head-nav">
                     <li class="breadcrumb-item"><a href="/">主页</a></li>
-                    <li class="breadcrumb-item"><a href="/applications/tab">申请记录</a></li>
+                    <li class="breadcrumb-item"><a href="/applications/tab">申请列表</a></li>
                     <li class="breadcrumb-item active">公益时申请</li>
                 </ol>
             </nav>
@@ -86,8 +86,8 @@
                             <div class="invoice-logo"></div>
                         </div>
                         <div class="col-sm-5 invoice-order">
-                            <span class="invoice-id">公益时申请 #{{ serializer.data }}</span>
-                            <span class="incoice-date">{{ serializer.data.created }}</span>
+                            <span class="invoice-id">公益时申请 #{{ serializer.data.id }}</span>
+                            <span class="incoice-date">{{ created }}</span>
                         </div>
                     </div>
                     <div class="row invoice-data">

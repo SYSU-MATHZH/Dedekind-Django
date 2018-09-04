@@ -53,8 +53,8 @@ class IndexView(BaseView, NavMixin):
         for i in range(len(publicities)):
             publicities[i]['join_number'] = publicity_set[i].activity.number()
         for publicity in publicities:
-            publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
-            publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
+            publicity['begin'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['begin']))
+            publicity['end'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['end']))
 
         serialized.update({
             'publicities':publicities,
@@ -188,7 +188,7 @@ class IndexView(BaseView, NavMixin):
 
             applications = application_data.data
             for application in applications:
-                application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
+                application['created'] = tools.Date2String_SHOW(tools.TZString2Date(application['created']))
 
             # if 'year_begin' not in request.GET:
             #     sua_data = SuaSerializer(  # 序列化当前学生的所有公益时记录
@@ -239,7 +239,7 @@ class IndexView(BaseView, NavMixin):
 
             appeals = appeal_data.data
             for appeal in appeals:
-                appeal['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(appeal['created']))
+                appeal['created'] = tools.Date2String_SHOW(tools.TZString2Date(appeal['created']))
 
             serialized.update({
                 'applications': applications,
@@ -304,8 +304,8 @@ class Application_tab_View(BaseView, NavMixin):
             )
             unreviewed_applications = unreviewed_applications_data.data
             for application in unreviewed_applications:
-                application['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(application['created']))
+                application['created'] = tools.Date2String_SHOW(
+                    tools.TZString2Date(application['created']))
             serialized.update({
                 'unreviewed_applications': unreviewed_applications,
             })
@@ -337,11 +337,11 @@ class Application_tab_View(BaseView, NavMixin):
             unreviewed_applications = unreviewed_applications_data.data
 
             for application in unreviewed_applications:
-                application['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(application['created']))
+                application['created'] = tools.Date2String_SHOW(
+                    tools.TZString2Date(application['created']))
             for application in my_applications:
-                application['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(application['created']))
+                application['created'] = tools.Date2String_SHOW(
+                    tools.TZString2Date(application['created']))
             serialized.update({
                 'unreviewed_applications': unreviewed_applications,
                 'my_applications':my_applications,
@@ -359,8 +359,8 @@ class Application_tab_View(BaseView, NavMixin):
         applications = application_data.data
 
         for application in applications:
-            application['created'] = tools.DateTime2String_SHOW(
-                tools.TZString2DateTime(application['created']))
+            application['created'] = tools.Date2String_SHOW(
+                tools.TZString2Date(application['created']))
 
 
 
@@ -401,8 +401,8 @@ class Appeal_tab_View(BaseView, NavMixin):
             )
             unreviewed_appeals = unreviewed_appeals_data.data
             for appeal in unreviewed_appeals:
-                appeal['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(appeal['created']))
+                appeal['created'] = tools.Date2String_SHOW(
+                    tools.TZString2Date(appeal['created']))
             serialized.update({
                 'unreviewed_appeals':unreviewed_appeals,
             })
@@ -434,11 +434,11 @@ class Appeal_tab_View(BaseView, NavMixin):
             unreviewed_appeals = unreviewed_appeals_data.data
 
             for appeal in unreviewed_appeals:
-                appeal['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(appeal['created']))
+                appeal['created'] = tools.Date2String_SHOW(
+                    tools.TZString2Date(appeal['created']))
             for appeal in my_appeals:
-                appeal['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(appeal['created']))
+                appeal['created'] = tools.Date2String_SHOW(
+                    tools.TZString2Date(appeal['created']))
             serialized.update({
                 'unreviewed_appeals':unreviewed_appeals,
                 'my_appeals':my_appeals,
@@ -460,8 +460,8 @@ class Appeal_tab_View(BaseView, NavMixin):
 
 
         for appeal in appeals:
-            appeal['created'] = tools.DateTime2String_SHOW(
-                tools.TZString2DateTime(appeal['created']))
+            appeal['created'] = tools.Date2String_SHOW(
+                tools.TZString2Date(appeal['created']))
 
 
         serialized.update({
@@ -652,14 +652,14 @@ class Deleted_tab_View(BaseView, NavMixin):
 
 
         for application in deleteds['applications']:
-            application['created'] = tools.DateTime2String_SHOW(
-                tools.TZString2DateTime(application['created']))
+            application['created'] = tools.Date2String_SHOW(
+                tools.TZString2Date(application['created']))
         for appeal in deleteds['appeals']:
-            appeal['created'] = tools.DateTime2String_SHOW(
-                tools.TZString2DateTime(appeal['created']))
+            appeal['created'] = tools.Date2String_SHOW(
+                tools.TZString2Date(appeal['created']))
         for publicity in deleteds['publicities']:
-            publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
-            publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
+            publicity['begin'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['begin']))
+            publicity['end'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['end']))
         serialized.update({
             'deleteds': deleteds,
         })
