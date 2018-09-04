@@ -99,6 +99,7 @@
                                         <th>举办单位</th>
                                         <th>公益时数</th>
                                         <th>审核结果</th>
+                                        <th>是否已审核</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
@@ -110,7 +111,8 @@
                                         <td>{{ application.created }}</td>
                                         <td>{{ application.sua.activity.group }}</td>
                                         <td>{{ application.sua.suahours }}</td>
-                                        <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
+                                        <td>{% if application.is_checked %}{% if application.status == 0 %} 通过 {% else %}{% if application.status == 1 %}未通过{% else %}{% endif %}{% if application.status == 2 %}需要线下声明{% endif %}{% endif %}{% endif %}</td>
+                                        <td>{% if application.is_checked %}{% if application.sua.is_valid %} 已审核 有效 {% else %} 已审核 非有效 {% endif %}{% else %} 待审核 {% endif %}</td>
                                         <td>
                                             <div class="btn-group btn-hspace">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
