@@ -304,8 +304,8 @@ class Application_tab_View(BaseView, NavMixin):
             )
             unreviewed_applications = unreviewed_applications_data.data
             for application in unreviewed_applications:
-                application['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(application['created']))
+                application['created'] = tools.Date2String_SHOW(
+                    tools.TZString2Date(application['created']))
             serialized.update({
                 'unreviewed_applications': unreviewed_applications,
             })
@@ -401,8 +401,8 @@ class Appeal_tab_View(BaseView, NavMixin):
             )
             unreviewed_appeals = unreviewed_appeals_data.data
             for appeal in unreviewed_appeals:
-                appeal['created'] = tools.DateTime2String_SHOW(
-                    tools.TZString2DateTime(appeal['created']))
+                appeal['created'] = tools.Date2String_SHOW(
+                    tools.TZString2Date(appeal['created']))
             serialized.update({
                 'unreviewed_appeals':unreviewed_appeals,
             })
@@ -460,8 +460,8 @@ class Appeal_tab_View(BaseView, NavMixin):
 
 
         for appeal in appeals:
-            appeal['created'] = tools.DateTime2String_SHOW(
-                tools.TZString2DateTime(appeal['created']))
+            appeal['created'] = tools.Date2String_SHOW(
+                tools.TZString2Date(appeal['created']))
 
 
         serialized.update({

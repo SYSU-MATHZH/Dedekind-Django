@@ -59,8 +59,8 @@ class IndexView(BaseView, NavMixin):
 
         publicities = publicity_data.data
         for publicity in publicities:
-            publicity['begin'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['begin']))
-            publicity['end'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(publicity['end']))
+            publicity['begin'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['begin']))
+            publicity['end'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['end']))
 
         application_data = ApplicationSerializer(  # 序列化当前用户的所有申请
             user.applications.filter(deleted_at=None).order_by('created'),
@@ -70,7 +70,7 @@ class IndexView(BaseView, NavMixin):
 
         applications = application_data.data
         for application in applications:
-            application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
+            application['created'] = tools.Date2String_SHOW(tools.TZString2Date(application['created']))
 
         serialized.update({
             'publicities': publicities,
@@ -115,7 +115,7 @@ class IndexView(BaseView, NavMixin):
 
             appeals = appeal_data.data
             for appeal in appeals:
-                appeal['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(appeal['created']))
+                appeal['created'] = tools.Date2String_SHOW(tools.TZString2Date(appeal['created']))
 
             serialized.update({
                 'suas': sua_data.data,
@@ -133,7 +133,7 @@ class IndexView(BaseView, NavMixin):
                 )
                 activities = activity_data.data
                 for activity in activities:
-                    activity['date'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(activity['date']))
+                    activity['date'] = tools.Date2String_SHOW(tools.TZString2Date(activity['date']))
 
                 admin_applications = ApplicationSerializer(
                     Application.objects.filter(sua__activity__owner=user,deleted_at=None).order_by('-created'),
@@ -142,7 +142,7 @@ class IndexView(BaseView, NavMixin):
                 )
                 applications_admin = admin_applications.data
                 for application in applications_admin:
-                    application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
+                    application['created'] = tools.Date2String_SHOW(tools.TZString2Date(application['created']))
 
                 serialized.update({
                     'activities':activity_data.data,
