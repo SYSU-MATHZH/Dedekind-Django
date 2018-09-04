@@ -116,11 +116,24 @@ class Activity(BaseSchema):
             number += 1
         return number
     def get_is_published(self):#获取活动是否公示，若是，则将数据传出去
-        is_published = False
+        is_published = 0
         publicity = self.publicities.filter(is_published=True)
         if publicity:
             is_published = publicity
         return is_published
+    def get_already_published(self):
+        publicity = self.publicities.filter(is_published=True)
+        unpublicity = self.publicities.filter(is_published=False)
+        if not publicity and not unpublicity:
+            is_published = 0    #未创建公示
+        elif not publicity and unpublicity:
+            is_published = 1    #已创建但未公示
+        elif publicity and list(publicity)[0].end < datetime.date.today():
+            is_published = 2   #公示完毕
+        elif publicity and list(publicity)[0].end >= datetime.date.today():
+            is_published = 3    #公示中
+        return is_published
+
 
     # def delete(self, using=None, keep_parents=False):
     #     self.deleted_at = timezone.now()

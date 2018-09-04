@@ -63,8 +63,10 @@
                         {% endif %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                      {% if not nav.user.student == None %}
                         <a class="dropdown-item" href="/students/{{ nav.student.id }}/detail/">我的信息</a>
                         <div class="dropdown-divider"></div>
+                      {% endif %}
                         <a class="dropdown-item" href="/logout">登出</a>
                     </div>
                 </li>
@@ -73,7 +75,7 @@
     </nav>
 
     <div class="container mt-5 pt-5">
-        <div class="page-head"> 
+        <div class="page-head">
 <h2 class="page-head-title">{% if request.path == '/activities/add/' %}
     创建活动信息
     {% else %}
@@ -139,7 +141,7 @@ pattern="[\d\(\)+]+" data-parsley-pattern-message="请输入正确的电话号�
                 </div>
             </div>
 
-        </div> 
+        </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

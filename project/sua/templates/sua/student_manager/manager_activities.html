@@ -35,10 +35,10 @@
                   <a class="nav-link" href="/activities/tab">活动列表</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="/applications/tab">申请记录</a>
+                  <a class="nav-link" href="/applications/tab">申请列表</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="/appeals/tab">申诉记录</a>
+                  <a class="nav-link" href="/appeals/tab">申诉列表</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="/deleteds/tab">删除记录</a>
@@ -111,7 +111,15 @@
                                         <td>{{ activity.title }}</td>
                                         <td>{{ activity.date }}</td>
                                         <td>{{ activity.number }}</td>
-                                        <td>{% if not activity.is_published %}否{% else %}是{% endif %}</td>
+                                        <td>{% if activity.already_published == 0 %}
+                                              未创建公示
+                                             {% elif activity.already_published == 1 %}
+                                              已创建但未公示
+                                             {% elif activity.already_published == 2 %}
+                                              公示完毕
+                                             {% elif activity.already_published == 3 %}
+                                              公示中
+                                             {% endif %}</td>
                                         <td>
                                             <div class="btn-group btn-hspace">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
