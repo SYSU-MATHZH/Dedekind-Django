@@ -2,7 +2,7 @@ from .base import BaseViewSet
 
 from rest_framework.permissions import IsAdminUser
 from project.sua.views.utils.mixins import NavMixin
-from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly,IsAdminUserOrActivity,IsAdminUserOrStudent
+from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly,IsAdminUserOrActivity,IsAdminUserOrStudent,IsTheStudentOrIsAdminUserOrActivity
 from project.sua.models import Student, Sua, Activity, Application, Publicity, Appeal, Proof
 import project.sua.views.form.serializers as firs
 import project.sua.serializers as sirs
@@ -211,7 +211,7 @@ class AppealViewSet(BaseViewSet, NavMixin):
         if self.action == 'change':
             permission_classes = (IsAdminUser, )
         elif self.action == 'detail':
-            permission_classes = (IsTheStudentOrIsAdminUser, )
+            permission_classes = (IsTheStudentOrIsAdminUserOrActivity, )
         else:
             permission_classes = (IsAdminUserOrReadOnly, )
 

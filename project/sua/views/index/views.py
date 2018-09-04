@@ -610,6 +610,7 @@ class Deleted_tab_View(BaseView, NavMixin):
                         many=True,
                         context={'request': request}
                     )
+                    print(len(application_data.data))
 
                     applications = application_data.data
                     deleteds['applications'] = applications
