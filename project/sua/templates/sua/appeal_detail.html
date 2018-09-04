@@ -112,13 +112,17 @@
                     <div class="row invoice-data">
                             <div class="col-sm-8 invoice-person">
                                 <span class="name">申诉处理情况</span>
-                                <span>
-                                  {% if serializer.data.status == 0 %}
-                                    通过
-                                  {% elif serializer.data.status == 1 %}
-                                    未通过
-                                  {% elif serializer.data.status == 2 %}
-                                    需要线下处理
+                                <span>
+                                  {% if serializer.data.is_checked  %}
+                                    {% if serializer.data.status == 0 %}
+                                      通过
+                                    {% elif serializer.data.status == 1 %}
+                                      未通过
+                                    {% elif serializer.data.status == 2 %}
+                                      需要线下处理
+                                    {% endif %}
+                                  {% else %}
+                                    未审核
                                   {% endif %}
                                 </span>
                             </div>
@@ -127,20 +131,21 @@
                     <div class="row invoice-footer">
                         <div class="col-lg-12">
                           {% if user.is_staff %}
-                            <a class="btn btn-lg btn-space btn-secondary" href='/admin/appeals/{{ serializer.data.id }}/change/'>处理申诉</a>
+                            {% if serializer.data.is_checked %}
+                              <a class="btn btn-lg btn-space btn-secondary" href='/admin/appeals/{{ serializer.data.id }}/change/'>修改处理结果</a>
+                            {% else %}
+                              <a class="btn btn-lg btn-space btn-secondary" href='/admin/appeals/{{ serializer.data.id }}/change/'>处理申诉</a>
+                            {% endif %}
                           {% endif %}
                           {% if nav.user.is_staff %}
                             <a class="btn btn-lg btn-space btn-secondary" href = "/appeals/{{ serializer.data.id }}/change/">编辑</a>
                             <a class="btn btn-lg btn-space btn-danger" href="/appeals/{{ serializer.data.id }}/delete/">删除</a>
                           {% endif %}
-                            <button class="btn btn-lg btn-space btn-secondary">导出PDF</button>
-                            <button class="btn btn-lg btn-space btn-secondary">打印</button>
 
                         </div>
                     </div>
                 </div>
             </div>
-            {{ serializer.data }}
         </div>
     </div>
     <!-- Optional JavaScript -->

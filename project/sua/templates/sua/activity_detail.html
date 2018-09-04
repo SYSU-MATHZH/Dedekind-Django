@@ -157,7 +157,13 @@
                                 <tbody>
                                   {% for sua in serializer.data.suas %}
                                     <tr>
-                                        <td>{{ sua.student.name }}</td>
+                                        <td>
+                                          {% if nav.user.is_staff %}
+                                            <a href="/students/{{ sua.student.id }}/detail/">{{ sua.student.name }}</a>
+                                          {% else %}
+                                            {{ sua.student.name }}
+                                          {% endif %}
+                                        </td>
                                         <td>{{ sua.student.number }}</td>
                                         <td>{{ sua.team }}</td>
                                         <td>{{ sua.suahours }}</td>
