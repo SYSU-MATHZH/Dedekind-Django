@@ -213,7 +213,7 @@ class IndexView(BaseView, NavMixin):
             #         'year_begin':year_begin,
             #         'year_end':year_end
             #     })
-            sua_set = user.suas.filter(
+            sua_set = student.suas.filter(
                 deleted_at=None,
                 activity__is_valid=True,
                 is_valid=True)
