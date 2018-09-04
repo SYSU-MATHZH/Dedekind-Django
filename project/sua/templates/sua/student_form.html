@@ -120,8 +120,8 @@ value="{{serializer.data.name}}" required />
             </div>
             <div class="form-group pt-3">
               <label class="required">班别</label>
-              <input name="classtype" class="form-control" type="text" placeholder="请输入学生的班别数字：如1" data-parsley-trigger="focusout"
-value="{{serializer.data.classtype}}" required />
+<input name="classtype" class="form-control" type="number" placeholder="请输入学生的班别数字：如1" data-parsley-trigger="focusout"
+{% if serializer.data.classtype is not None%} value="{{serializer.data.classtype}}" {% endif %} required />
             </div>
             <div class="form-group pt-3">
               <label>手机号</label>
