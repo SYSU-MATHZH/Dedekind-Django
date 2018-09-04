@@ -151,7 +151,15 @@
                                         <td>{{ activity.title }}</td>
                                         <td>{{ activity.date }}</td>
                                         <td>{{ activity.number }}</td>
-                                        <td>不知道怎么填</td>
+                                        <td>{% if activity.already_published == 0 %}
+                                              未创建公示
+                                             {% elif activity.already_published == 1 %}
+                                              已创建但未公示
+                                             {% elif activity.already_published == 2 %}
+                                              公示完毕
+                                             {% elif activity.already_published == 3 %}
+                                              公示中,已删除
+                                             {% endif %}</td>
                                         <td>
                                             <div class="btn-group btn-hspace">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
