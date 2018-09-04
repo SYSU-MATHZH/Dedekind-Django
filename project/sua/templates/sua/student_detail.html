@@ -142,6 +142,8 @@
                           {% if nav.user.is_staff %}
                             <a class="btn btn-lg btn-space btn-secondary" href = "/students/{{ serializer.data.id }}/change/">编辑</a>
                             <a class="btn btn-lg btn-space btn-danger" href="/students/{{ serializer.data.id }}/delete/">删除</a>
+                          {% else %}
+                            <a class="btn btn-lg btn-space btn-secondary" href = "/students/{{ serializer.data.id }}/changepassword/">修改密码</a>
                           {% endif %}
                         </div>
                     </div>
