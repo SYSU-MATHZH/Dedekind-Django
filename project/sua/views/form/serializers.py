@@ -73,7 +73,7 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid','contact','number')
+        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid','contact','number','owner')
 
     def create(self, validated_data):
         print(validated_data)

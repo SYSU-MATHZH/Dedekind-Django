@@ -2,7 +2,7 @@ from .base import BaseViewSet
 
 from rest_framework.permissions import IsAdminUser
 from project.sua.views.utils.mixins import NavMixin
-from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly,IsAdminUserOrActivity,IsAdminUserOrStudent
+from project.sua.permissions import IsTheStudentOrIsAdminUser, IsAdminUserOrReadOnly,IsAdminUserOrActivity,IsAdminUserOrStudent,IsTheStudentOrIsAdminUserOrActivityManager
 from project.sua.models import Student, Sua, Activity, Application, Publicity, Appeal, Proof
 import project.sua.views.form.serializers as firs
 import project.sua.serializers as sirs
@@ -112,7 +112,7 @@ class ActivityViewSet(BaseViewSet, NavMixin):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(owner=self.request.user, is_valid=True)
 
 
 class ApplicationViewSet(BaseViewSet, NavMixin):
@@ -211,7 +211,7 @@ class AppealViewSet(BaseViewSet, NavMixin):
         if self.action == 'change':
             permission_classes = (IsAdminUser, )
         elif self.action == 'detail':
-            permission_classes = (IsTheStudentOrIsAdminUser, )
+            permission_classes = (IsTheStudentOrIsAdminUserOrActivityManager, )
         else:
             permission_classes = (IsAdminUserOrReadOnly, )
 
