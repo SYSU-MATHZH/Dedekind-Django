@@ -488,7 +488,9 @@ class Activity_tab_View(BaseView, NavMixin):
         user = request.user
 
         if user.is_staff:
-            activity_set = Activity.objects.filter(deleted_at=None).order_by('-created')  # 获取所有活动
+            activity_set = Activity.objects.filter(
+            deleted_at=None,
+            is_created_by_student=False,).order_by('-created')  # 获取所有活动
         elif user.student.power == 1:
             activity_set = Activity.objects.filter(
                 owner = user,
@@ -545,17 +547,25 @@ class Student_tab_View(BaseView, NavMixin):
                 grade = request.GET.get('grade')
                 student_set = Student.objects.filter(deleted_at=None,classtype=classtype,grade=grade).order_by('number')
             else:
-                student_set = Student.objects.filter(deleted_at=None,).order_by('number')  # 获取筛选的学生
+                student_set = Student.objects.filter(deleted_at=None).order_by('number')  # 获取筛选的学生
 
             student_data = StudentSerializer(  # 序列化所有学生信息
                 student_set,
                 many=True,
                 context={'request': request}
             )
+            students = []
+            un_students = []
+            for student in student_data.data:
+                if student['suahours'] >= 30:
+                    students.append(student)
+                else:
+                    un_students.append(student)
             serialized.update({
-                'students': student_data.data,
+                'students': students,
                 'classtypes':classtypes,
                 'grades':grades,
+                'un_students':un_students,
             })
         return serialized
 
