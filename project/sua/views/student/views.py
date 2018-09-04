@@ -365,6 +365,7 @@ class ApplyView(BaseView, NavMixin):
         else:
             return False
 
+        # print(request.data)
         activity_serializer = DEActivityForAddApplicationsSerializer(data=request.data, context={'request': request})
         sua_serializer = DESuaForAddApplicationsSerializer(data=request.data, context={'request': request})
         proof_serializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})

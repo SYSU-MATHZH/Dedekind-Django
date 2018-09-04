@@ -69,7 +69,9 @@ class BaseViewSet(
             return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer}))
 
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        # print(request.data)
+        serializer.is_valid()
+        print(serializer.errors)
         self.perform_create(serializer)
         return HttpResponseRedirect(serializer.data['url'])
 
@@ -89,8 +91,10 @@ class BaseViewSet(
             })
             Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'extra_data': extra_data}))
 
+        # print(request.data)
         serializer = self.get_serializer(instance, data=request.data)
-        serializer.is_valid(raise_exception=True)
+        serializer.is_valid()
+        # print(serializer.errors)
         self.perform_update(serializer)
 
         if getattr(instance, '_prefetched_objects_cache', None):
