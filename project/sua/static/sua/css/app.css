@@ -402,7 +402,7 @@ body {
 
 @media screen and (max-width: 575px) {
     .invoice {
-        padding: 1.25rem;
+        padding: 50px 1.25rem 70px 1.25rem;
     }
 }
 
@@ -422,6 +422,12 @@ body {
     background-position: 0;
 }
 
+@media screen and (max-width: 575px) {
+    .invoice-logo {
+        margin-bottom: 30px
+    }
+}
+
 @media screen and (min-width: 575px) {
     .invoice-order {
         text-align: right;
@@ -430,7 +436,7 @@ body {
 
 @media screen and (max-width: 575px) {
     .invoice-order {
-        text-align: left;
+        text-align: center;
     }
 }
 
