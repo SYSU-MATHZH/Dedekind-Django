@@ -52,10 +52,12 @@ class SuaViewSet(BaseViewSet, NavMixin):
     components = {
         'nav': 'nav',
     }
+
     serializer_class = firs.AddSuaSerializer
     queryset = Sua.objects.filter(deleted_at=None)
     revoke_queryset = Sua.objects.all()
     revoke_success_url = delete_success_url = '/'
+
     #filter_fields = ('grade', 'classtype')
 
     def get_template_names(self):
@@ -79,6 +81,23 @@ class SuaViewSet(BaseViewSet, NavMixin):
             permission_classes = (IsAdminUserOrReadOnly,)
 
         return [permission() for permission in permission_classes]
+
+    @detail_route(methods=['get'])
+    def delete(self, request, *args, **kwargs):
+        if 'from_url' in request.GET:
+            self.delete_success_url = request.GET['from_url']
+        instance = self.get_object()
+        user = request.user
+        deleted = None
+        if user.is_staff or user.student.power == 1:
+            if user.is_staff:
+                deleted = user.username
+            elif user.student.power == 1:
+                deleted = user.student.name
+        instance.deleted_by = deleted
+        instance.save()
+        self.perform_delete(instance)
+        return self.get_delete_response()
 
 class ActivityViewSet(BaseViewSet, NavMixin):
     components = {

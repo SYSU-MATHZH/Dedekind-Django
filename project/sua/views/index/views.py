@@ -506,6 +506,7 @@ class Activity_tab_View(BaseView, NavMixin):
         activities = activity_data.data
         for i in range(len(activities)):
             activities[i]['number'] = activity_set[i].number()
+            activities[i]['already_published'] = activity_set[i].get_already_published()
             activities[i]['is_published'] = activity_set[i].get_is_published()#获取活动是否公示，若是，则将数据序列化
             if activities[i]['is_published']:
                 publicity_data = PublicitySerializer(
@@ -608,7 +609,9 @@ class Deleted_tab_View(BaseView, NavMixin):
             activities = activity_data.data
             for i in range(len(activity_set)):
                 activities[i]['number'] = activity_set[i].number()
-                activities[i]['deleted_at'] = tools.Date2String_SHOW(activity_set[i].deleted_at)
+                activities[i]['already_published'] = activity_set[i].get_already_published()
+                print(activity_set[i].get_already_published())
+                activities[i]['deleted_at'] = tools.DateTime2String_SHOW(activity_set[i].deleted_at)
             deleteds['activities'] = activities
 
             if hasattr(user,'student'):

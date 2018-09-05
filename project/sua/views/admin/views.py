@@ -299,6 +299,7 @@ class PublicityView(BaseView, NavMixin):
         activity_id = kwargs['pk']
         serializer = PublicityWithActivitySerializer(
             data=request.data, context={'request': request})
+        # print(request.data)
         if serializer.is_valid():
             serializer.save(activity=Activity.objects.filter(deleted_at=None,
                 id=activity_id).get(), owner=user)
@@ -408,6 +409,7 @@ class AddSuaForActivityView(BaseView, NavMixin):
         'nav': 'nav',
     }
     def serialize(self, request, *args, **kwargs):
+
         activity_id = kwargs['pk']
         activity = Activity.objects.filter(deleted_at=None,id=activity_id).get()
         serialized = super(AddSuaForActivityView, self).serialize(request)
@@ -435,10 +437,12 @@ class AddSuaForActivityView(BaseView, NavMixin):
             'activity': activitySerializer.data,
             'serializer': suaSerializer,
             'students': students,
+            'type':'添加',
         })
         return serialized
 
     def deserialize(self, request, *args, **kwargs):
+
         user = request.user
         activity_id = kwargs['pk']
         activity = Activity.objects.filter(deleted_at=None,id=activity_id).get()
@@ -489,6 +493,7 @@ class ChangeSuaForActivityView(BaseView, NavMixin):
             'activity': activitySerializer.data,
             'serializer': suaSerializer,
             'students': students,
+            'type':'修改',
         })
         return serialized
 
