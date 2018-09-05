@@ -1,42 +1,149 @@
-{% extends 'sua/_layout/info_template.html' %}
+<!doctype html>
+{% load static %}
+<html lang="en">
 
-{% block title %}审核公益时申请{% endblock %}
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block rewritten_content_title %}
-<div class="center-tab-header">对"{{ sua.activity.title }}"的申请的审核</div>
-{% endblock %}
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'sua/css/bootstrap.min.css' %}">
 
-{% block content_detail %}
-{% load rest_framework %}
-<div class="row">
-  <div class="col-lg-6 col-lg-offset-3">
-    <p>申请人：{{ sua.student.name }}</p>
-    <p>活动标题：{{ sua.activity.title }}</p>
-    <p>活动详情：{{ sua.activity.detail }}</p>
-    <p>活动小组：{{ sua.activity.group }}</p>
-    <p>活动日期:{{ sua.activity.date }}</p>
-    <p>公益时：{{ sua.suahours }}</p>
-    <p>是否线下证明：{{ application.proof.is_offline }}
-    <p>证明文件:<a href="{{ application.proof.proof_file }}">{{ application.proof.proof_file }}</a></p>
+  <!-- My CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
 
-    <form enctype="multipart/form-data" action="" method="POST">
-      {% csrf_token %}
-		<div class="form-group">
-		<label>是否通过</label>
-		<select name="status" class="form-control">
-			<option value=0>通过</option>
-			<option value=1>未通过</option>
-			<option value=2>需要提交线下证明</option>
-		</select>
-	</div>
-	<div class="form-group">
-		<label>反馈</label>
-		<input name="feedback" class="form-control" type="text" />
-		</div>
-      <input class="btn btn-primary btn-block" type="submit" name="save" value="提交">
-      <a class="btn btn-default btn-block" href="{{ application.url }}">返回</a>
-    </form>
-  </div>
-</div>
+<title>审核公益时申请</title>
+</head>
 
-{% endblock %}
+<body style="background-color: #EEEEEE">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #4d4d4d;">
+    <a class="navbar-brand mr-auto hide-desktop" href="/">
+      <img src="{% static 'sua/images/logo-icon3.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+      数院公益时
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ application.url }}">
+            < 返回 <span class="sr-only">(current)</span>
+          </a>
+        </li>
+      </ul>
+      <a class="navbar-brand mr-auto hide-mobile" href="/">
+        <img src="{% static 'sua/images/logo-icon3.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        数院公益时
+      </a>
+      <ul class="navbar-nav my-2 my-lg-0">
+        <li class="nav-item dropdown active">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <img src="{% static 'sua/images/plus.png' %}" width="15" height="15" class="d-inline-block" alt="" style="mix-blend-mode: #fff">
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/applications/apply/">新增公益时申请</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown active">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            {% if nav.user.student == None %}
+            {{ nav.user.username }}
+            {% else %}
+            {{ nav.user.student.name }}
+            {% endif %}
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            {% if not nav.user.student == None %}
+              <a class="dropdown-item" href="/students/{{ nav.student.id }}/detail/">我的信息</a>
+              <div class="dropdown-divider"></div>
+            {% endif %}
+            <a class="dropdown-item" href="/logout">登出</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+    <div class="container mt-5 pt-5">
+        <div class="page-head">
+            <h2 class="page-head-title">审核公益时申请</h2>
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb page-head-nav">
+                    <li class="breadcrumb-item"><a href="/">主页</a></li>
+                    <li class="breadcrumb-item active">审核公益时申请</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row main-content">
+            <div class="col-lg">
+                <div class="invoice">
+                    <form id="form" enctype="multipart/form-data" role="form" action="" method="POST" data-parsley-validate>
+                        {% csrf_token %}
+                        <div class="row invoice-form-header">
+                            <div class="col-sm-7">
+                                <div class="invoice-logo"></div>
+                            </div>
+                            <div class="col-sm-5 invoice-order">
+                                <span class="invoice-id">审核公益时申请#{{ sua.id }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row invoice-data">
+                            <div class="col-sm invoice-person">
+                                <span class="name">申请信息</span>
+                                <span>申请人：{{ sua.student.name }}</span>
+                                <span>活动标题：{{ sua.activity.title }}</span>
+                                <span>活动详情：{{ sua.activity.detail }}</span>
+                                <span>活动小组：{{ sua.activity.group }}</span>
+                                <span>活动日期：{{ sua.activity.date }}</span>
+                                <span>公益时：{{ sua.suahours }}</span>
+                                <span>是否线下证明：{% if application.proof.is_offline %}是{% else %}否{% endif %}</span>
+                                {% if not application.proof.is_offline %}
+                                <span>证明文件：<a href="{{ application.proof.proof_file }}">{{ application.proof.proof_file }}</a></span>
+                                {% endif %}
+                            </div>
+                            <div class=""></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>是否通过</label>
+                            <select name="status" class="form-control">
+                                <option value=0{% if serializer.data.status == 0%} selected{% endif %}>通过</option>
+                                <option value=1{% if serializer.data.status == 1%} selected{% endif %}>未通过</option>
+                                <option value=2{% if serializer.data.status == 2%} selected{% endif %}>需要提交线下证明</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>反馈</label>
+                            <textarea name="feedback" class="form-control" rows=5 type="text" placeholder="请输入对申请人的反馈">{% if serializer.data.feedback is not None%}{{ serializer.data.feedback }}{% endif %}</textarea>
+                        </div>
+
+                        <div class="row invoice-footer">
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-lg btn-space btn-primary">提交</button>
+                                <a class="btn btn-lg btn-space btn-secondary" href="{{ application.url }}">返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'sua/js/jquery-3.3.1.slim.min.js' %}"></script>
+    <script src="{% static 'sua/js/popper.min.js' %}"></script>
+    <script src="{% static 'sua/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'sua/js/parsley.min.js' %}"></script>
+    <script src="{% static 'sua/js/i18n/zh_cn.js' %}"></script>
+    <script src="{% static 'sua/js/i18n/zh_cn.extra.js' %}"></script>
+</body>
+
+</html>
