@@ -128,10 +128,10 @@ class IndexView(BaseView, NavMixin):
             activity = Activity.objects.filter(id=request.data['activity_id'],deleted_at=None).get()
         elif bool(merge_applications):
             activity = merge_applications[0].sua.activity
-        print(activity)
+        # print(activity)
         for i in range(len(merge_applications)):
             sua = Sua.objects.filter(deleted_at=None,application=merge_applications[i]).update(activity=activity)
-            print(sua)
+            # print(sua)
             #sua.save(activity=activity)
             #else:
                 #return False
@@ -248,7 +248,7 @@ class ApplicationView(BaseView, NavMixin):
             deleted_at=None,
         ).get()
         activity = sua.activity
-        print(activity.is_valid)
+        # print(activity.is_valid)
         serializer = AdminApplicationSerializer(
             Application.objects.filter(deleted_at=None,id=application_id).get(),
             data=request.data,
@@ -299,8 +299,13 @@ class PublicityView(BaseView, NavMixin):
         activity_id = kwargs['pk']
         serializer = PublicityWithActivitySerializer(
             data=request.data, context={'request': request})
-        # print(request.data)
-        if serializer.is_valid():
+        publicity_set = Publicity.objects.filter(
+            deleted_at=None,
+            activity=Activity.objects.filter(deleted_at=None,
+                id=activity_id).get(),
+            is_published=True,
+                )
+        if serializer.is_valid() and len(publicity_set) == 0:
             serializer.save(activity=Activity.objects.filter(deleted_at=None,
                 id=activity_id).get(), owner=user)
             # self.url = '/admin/publicities/%s/manage/' % activity_id
