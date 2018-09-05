@@ -137,6 +137,7 @@
                     <div class="row invoice-footer">
                         <div class="col-lg-12">
                           {% if nav.user.is_staff %}
+                          <a class="btn btn-lg btn-space btn-secondary" href='{{ serializer.data.publicity.activity.url }}'>跳转至活动</a>
                             {% if serializer.data.is_checked %}
                               <a class="btn btn-lg btn-space btn-secondary" href='/admin/appeals/{{ serializer.data.id }}/change/'>修改处理结果</a>
                             {% else %}
