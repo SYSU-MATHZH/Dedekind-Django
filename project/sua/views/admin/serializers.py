@@ -39,7 +39,7 @@ class AdminApplicationMassageSerializer(serializers.HyperlinkedModelSerializer):
     sua = SuaSerializer()
     class Meta:
         model = Application
-        fields = ('url', 'proof', 'sua',)
+        fields = ('url', 'proof', 'sua', 'status')
 
 
 class SuaforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
