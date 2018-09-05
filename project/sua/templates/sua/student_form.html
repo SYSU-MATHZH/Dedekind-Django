@@ -128,7 +128,7 @@ value="{{serializer.data.name}}" required />
             <div class="form-group pt-3">
               <label>手机号</label>
               <input name="phone" class="form-control" type="tel" placeholder="请输入学生的联系电话：如13612341234"
-data-parsley-trigger="focusout" pattern="[\d\(\)+]+" data-parsley-pattern-message="请输入正确的电话号码"
+data-parsley-trigger="focusout" pattern="^(((\+?\d{1,4}-)?(\d{11}|\d{7,9}|\d{1,4}-\d{7,9}))|\(\d{1,4}\)\d{7,9})$" data-parsley-pattern-message="请输入正确的电话号码"
 value="{{serializer.data.phone}}" />
             </div>
             <div class="form-group pt-3">
