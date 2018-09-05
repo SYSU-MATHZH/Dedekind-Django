@@ -303,7 +303,8 @@ class PublicityView(BaseView, NavMixin):
         if serializer.is_valid():
             serializer.save(activity=Activity.objects.filter(deleted_at=None,
                 id=activity_id).get(), owner=user)
-            self.url = '/admin/publicities/%s/manage/' % activity_id
+            # self.url = '/admin/publicities/%s/manage/' % activity_id
+            self.url = '/activities/tab'
             return True
         else:
             print(serializer.errors)
