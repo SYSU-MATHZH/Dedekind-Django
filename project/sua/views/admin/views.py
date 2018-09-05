@@ -220,7 +220,7 @@ class ApplicationView(BaseView, NavMixin):
             context={'request': request}
         )
         serializer = AdminApplicationSerializer(
-            Application.objects.filter(deleted_at=None,id=application_id),
+            Application.objects.get(deleted_at=None,id=application_id),
             context={'request': request}
         )
         serialized.update({
