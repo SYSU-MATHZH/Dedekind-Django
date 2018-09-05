@@ -101,7 +101,7 @@
                 required>
             </div>
             <div class="form-group pt-3">
-              <label>活动详情</label>
+              <label class="required">活动详情</label>
               <textarea name="detail" class="form-control" rows=5 type="text" placeholder="请填写该公益时活动的详情"></textarea>
             </div>
             <div class="form-group pt-3">
@@ -110,16 +110,16 @@
                 required>
             </div>
             <div class="form-group pt-3">
-              <label>活动时间</label>
+              <label class="required">活动时间</label>
               <input name="date" class="form-control" type="date">
             </div>
             <div class="form-group pt-3">
-              <label>参与组别</label>
+              <label class="required">参与组别</label>
               <input name="team" class="form-control" type="text" placeholder="请填写您在该公益时活动参加的小组名称">
             </div>
             <div class="form-group pt-3">
               <label class="required">公益时数</label>
-              <input name="suahours" class="form-control" type="number" placeholder="请填写您在该公益时活动中获得的公益时数"
+              <input name="suahours" class="form-control" type="number" step="0.01" placeholder="请填写您在该公益时活动中获得的公益时数"
                 data-parsley-trigger="focusout" required>
             </div>
 
