@@ -105,7 +105,10 @@ class Activity(BaseSchema):
 
     def get_suas(self):
         return self.suas.filter(deleted_at=None, is_valid=True)
-
+    
+    def get_suas_deleted(self):
+        return self.suas.filter(deleted=True)
+    
     def get_suas_all(self):
         return self.suas.filter(deleted_at=None)
 
@@ -115,12 +118,21 @@ class Activity(BaseSchema):
         for sua in suas:
             number += 1
         return number
+    
+    def number_deleted(self):
+        number_deleted = 0
+        suas = self.get_suas_deleted()
+        for sua in suas:
+            number_deleted += 1
+        return number_deleted
+    
     def get_is_published(self):#获取活动是否公示，若是，则将数据传出去
         is_published = 0
         publicity = self.publicities.filter(is_published=True)
         if publicity:
             is_published = publicity
         return is_published
+    
     def get_already_published(self):
         publicity = self.publicities.filter(is_published=True)
         unpublicity = self.publicities.filter(is_published=False)

@@ -608,7 +608,7 @@ class Deleted_tab_View(BaseView, NavMixin):
             )
             activities = activity_data.data
             for i in range(len(activity_set)):
-                activities[i]['number'] = activity_set[i].number()
+                activities[i]['number'] = activity_set[i].number_deleted()
                 activities[i]['already_published'] = activity_set[i].get_already_published()
                 print(activity_set[i].get_already_published())
                 activities[i]['deleted_at'] = tools.DateTime2String_SHOW(activity_set[i].deleted_at)
