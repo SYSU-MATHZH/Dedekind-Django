@@ -106,10 +106,10 @@
 
                         <div class="form-group ">
                             <label>申诉状态</label>
-                            <select class="form-control" name="student">
-                                <option value=0{% if serializer.data.status == 0%} selected{% endif %}>通过</option>
-                                <option value=1{% if serializer.data.status == 1%} selected{% endif %}>未通过</option>
-                                <option value=2{% if serializer.data.status == 2%} selected{% endif %}>需要线下解决</option>
+                            <select class="form-control" name="status">
+                                <option value=0 {% if serializer.data.status == 0 %} selected {% endif %}>通过</option>
+                                <option value=1 {% if serializer.data.status == 1 %} selected {% endif %}>未通过</option>
+                                <option value=2 {% if serializer.data.status == 2 %} selected {% endif %}>需要线下解决</option>
                             </select>
                         </div>
                         <div class="form-group ">
