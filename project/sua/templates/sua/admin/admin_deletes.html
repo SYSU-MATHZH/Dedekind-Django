@@ -242,7 +242,8 @@
                                     <tr>
                                         <th style="width: 20%;">删除时间</th>
                                         <th style="width: 15%;">申请的活动</th>
-                                        <th style="width: 20%;">申请日期</th>
+                                        <th style="width: 15%;">申请日期</th>
+                                        <th>申请人</th>
                                         <th>举办单位</th>
                                         <th>公益时数</th>
                                         <th>是否已审核</th>
@@ -256,6 +257,7 @@
                                         <td>{{ application.deleted_at }}</td>
                                         <td>{{ application.sua.activity.title }}</td>
                                         <td>{{ application.created }}</td>
+                                        <td>{{ application.sua.student.name}}</td>
                                         <td>{{ application.sua.activity.group }}</td>
                                         <td>{{ application.sua.suahours }}</td>
                                         <td>{% if application.is_checked %}是{% else %}否{% endif %}</td>
@@ -293,7 +295,8 @@
                                         <tr>
                                             <th style="width: 20%;">删除时间</th>
                                             <th style="width: 15%;">申诉的公示</th>
-                                            <th style="width: 20%;">申诉日期</th>
+                                            <th style="width: 15%;">申诉日期</th>
+                                            <th>申诉人</th>
                                             <th>举办单位</th>
                                             <th>是否已处理</th>
                                             <th style="width: 10%;"></th>
@@ -306,6 +309,7 @@
                                             <td>{{ appeal.deleted_at }}</td>
                                             <td>{{ appeal.publicity.activity.title }}</td>
                                             <td>{{ appeal.created }}</td>
+                                            <td>{{ appeal.student.name }}</td>
                                             <td>{{ appeal.publicity.activity.group }}</td>
                                             <td>{% if appeal.is_checked %}是{% else %}否{% endif %}</td>
                                             <td>

@@ -233,6 +233,11 @@ class Application(BaseSchema):
         related_name='applications',
         on_delete=models.CASCADE,
     )
+    # student = models.ForeignKey(
+    #     Student,
+    #     related_name='applications',
+    #     on_delete=models.CASCADE,
+    # )
     created = models.DateTimeField('创建日期', default=timezone.now)
     contact = models.CharField(max_length=100, blank=True)
     proof = models.ForeignKey(
