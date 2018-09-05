@@ -97,7 +97,7 @@ class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
     sua = SuaSerializer()
     class Meta:
         model = Application
-        fields = ('url', 'created', 'contact', 'sua', 'proof', 'is_checked', 'status', 'feedback', 'id', 'deleted_by')
+        fields = ('url', 'owner', 'created', 'contact', 'sua', 'proof', 'is_checked', 'status', 'feedback', 'id', 'deleted_by')
 
 
 class PublicitySerializer(serializers.HyperlinkedModelSerializer):
@@ -114,7 +114,7 @@ class AppealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Appeal
-        fields = ('url', 'created', 'student', 'publicity', 'content', 'is_checked', 'status', 'feedback', 'id', 'deleted_by')
+        fields = ('url', 'owner', 'created', 'student', 'publicity', 'content', 'is_checked', 'status', 'feedback', 'id', 'deleted_by')
 
 
 class AddAppealSerializer(serializers.HyperlinkedModelSerializer):
