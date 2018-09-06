@@ -52,9 +52,15 @@ class IndexView(BaseView, NavMixin):
         publicities = publicity_data.data
         for i in range(len(publicities)):
             publicities[i]['join_number'] = publicity_set[i].activity.number()
+            if hasattr(user,'student'):
+                for sua in publicities[i]['activity']['suas']:
+                    if user.student.name == sua['student']['name']:
+                        publicities[i]['get_suahours'] = sua['suahours']
+                        break
         for publicity in publicities:
             publicity['begin'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['begin']))
             publicity['end'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['end']))
+
 
         serialized.update({
             'publicities':publicities,

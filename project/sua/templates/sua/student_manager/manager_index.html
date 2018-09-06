@@ -216,12 +216,9 @@
                                       ·
                                   </div>
                                   <div class="info">
-                                    <!-- {{ publicity.activity.suas }} -->
-                                    {% for sua in publicity.activity.suas %}
-                                      {% if sua.student.name == nav.student.name %}
-                                        你获得了 {{ sua.suahours }}个公益时
-                                      {% endif %}
-                                    {% endfor %}
+                                    {% if publicity.get_suahours %}
+                                    你获得了 {{ publicity.get_suahours }}个公益时
+                                    {% endif %}
                                   </div>
                               </div>
                               <a class="btn btn-primary btn-sm list-item-btn" href="/publicities/{{ publicity.id }}/detail/">
