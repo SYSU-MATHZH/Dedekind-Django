@@ -563,12 +563,12 @@ body {
     resize: none;
 }
 
-.form-group input[type=file] {
-    position: absolute;
-    clip: rect(0 0 0 0);
-    width: 0;
-    height: 0;
-}
+/* .form-group input[type=file] { */
+    /* position: absolute; */
+    /* clip: rect(0 0 0 0); */
+    /* width: 0; */
+    /* height: 0; */
+/* } */
 
 .parsley-errors-list.filled{
     background-color: #eb6357;
