@@ -139,7 +139,7 @@
                                         <th>名称</th>
                                         <th>活动日期</th>
                                         <th>参与总人数</th>
-                                        <th>是否已公示</th>
+                                        <th>活动创建人</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
@@ -151,15 +151,7 @@
                                         <td>{{ activity.title }}</td>
                                         <td>{{ activity.date }}</td>
                                         <td>{{ activity.number }}</td>
-                                        <td>{% if activity.already_published == 0 %}
-                                              未创建公示
-                                             {% elif activity.already_published == 1 %}
-                                              已创建但未公示
-                                             {% elif activity.already_published == 2 %}
-                                              公示完毕
-                                             {% elif activity.already_published == 3 %}
-                                              公示中,已删除
-                                             {% endif %}</td>
+                                        <td>{{ activity.owner }}</td>
                                         <td>
                                             <div class="btn-group btn-hspace">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
