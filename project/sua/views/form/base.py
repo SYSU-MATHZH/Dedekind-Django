@@ -85,7 +85,7 @@ class BaseViewSet(
         if request.method == 'GET':
             serializer = self.get_serializer(instance, context={'request': request})
             extra_data = self.get_extra_data(serializer)
-            print(serializer.data)
+            # print(serializer.data)
             return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer, 'extra_data': extra_data}))
 
         # print(request.data)
@@ -161,11 +161,11 @@ class StudentViewSet(BaseViewSet):
     queryset = Student.objects.all()
 
     def get_template_names(self):
-        print(self.action)
+        # print(self.action)
         return ['sua/tmp/test.html']
 
     def get_context(self, request, *args, **kwargs):
         context = super(StudentViewSet, self).get_context(request, *args, **kwargs)
-        print(context)
+        # print(context)
         context.update({'year': 2016})
         return context

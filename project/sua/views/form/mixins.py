@@ -21,7 +21,7 @@ class AddFormMixin(object):
             serializer = self.get_add_serializer(context={'request': request})
             return Response({'serializer': serializer})
         elif request.method == 'POST':
-            print(request.data)
+            # print(request.data)
             serializer = self.get_add_serializer(data=request.data, context={'request': request})
             if not serializer.is_valid():
                 return Response({'serializer': serializer})
