@@ -125,8 +125,8 @@
 						<h3 class="pt-5">联系方式：</h3>
 						<div class="form-group pt-3">
 							<label>活动组织单位负责人联系电话</label>
-							<input name="contact" class="form-control" type="text" placeholder="请填写活动组织单位的联系电话：如13612341234"
-							    data-parsley-trigger="focusout" pattern="[\d\(\)+]+" data-parsley-pattern-message="请填写正确的电话号码">
+							<input name="contact" class="form-control" type="tel" placeholder="请填写活动组织单位的联系电话：如13612341234"
+							    data-parsley-trigger="focusout" pattern="^(((\+?\d{1,4}-)?(\d{11}|\d{7,9}|\d{1,4}-\d{7,9}))|\(\d{1,4}\)\d{7,9})$" data-parsley-pattern-message="请填写正确的电话号码">
 						</div>
 
 						<h3 class="pt-5">提交相关证明：</h3>

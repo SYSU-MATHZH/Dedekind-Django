@@ -89,8 +89,8 @@
                   <table class="table table-hover table-striped">
                       <thead>
                           <tr>
-                              <th style="width: 20%;">删除时间</th>
-                              <th style="width: 15%;">公示标题</th>
+                              <th>删除时间</th>
+                              <th>公示标题</th>
                               <th>公示开始日</th>
                               <th>公示结束日</th>
                               <th style="width: 10%;"></th>
@@ -135,11 +135,11 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width: 20%;">删除时间</th>
-                                        <th style="width: 15%;">名称</th>
-                                        <th style="width: 20%;">活动日期</th>
+                                        <th>删除时间</th>
+                                        <th>名称</th>
+                                        <th>活动日期</th>
                                         <th>参与总人数</th>
-                                        <th>是否已公示</th>
+                                        <th>活动创建人</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
@@ -151,15 +151,7 @@
                                         <td>{{ activity.title }}</td>
                                         <td>{{ activity.date }}</td>
                                         <td>{{ activity.number }}</td>
-                                        <td>{% if activity.already_published == 0 %}
-                                              未创建公示
-                                             {% elif activity.already_published == 1 %}
-                                              已创建但未公示
-                                             {% elif activity.already_published == 2 %}
-                                              公示完毕
-                                             {% elif activity.already_published == 3 %}
-                                              公示中,已删除
-                                             {% endif %}</td>
+                                        <td>{{ activity.owner }}</td>
                                         <td>
                                             <div class="btn-group btn-hspace">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
@@ -192,9 +184,9 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width: 20%;">删除时间</th>
-                                        <th style="width: 15%;">申请的活动</th>
-                                        <th style="width: 20%;">申请日期</th>
+                                        <th>删除时间</th>
+                                        <th>申请的活动</th>
+                                        <th>申请日期</th>
                                         <th>举办单位</th>
                                         <th>公益时数</th>
                                         <th>是否已审核</th>
@@ -243,9 +235,9 @@
                                 <table class="table table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th style="width: 20%;">删除时间</th>
-                                            <th style="width: 15%;">申诉的公示</th>
-                                            <th style="width: 20%;">申诉日期</th>
+                                            <th>删除时间</th>
+                                            <th>申诉的公示</th>
+                                            <th>申诉日期</th>
                                             <th>举办单位</th>
                                             <th>处理结果</th>
                                             <th style="width: 10%;"></th>

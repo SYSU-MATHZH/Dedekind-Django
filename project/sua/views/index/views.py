@@ -52,9 +52,15 @@ class IndexView(BaseView, NavMixin):
         publicities = publicity_data.data
         for i in range(len(publicities)):
             publicities[i]['join_number'] = publicity_set[i].activity.number()
+            if hasattr(user,'student'):
+                for sua in publicities[i]['activity']['suas']:
+                    if user.student.name == sua['student']['name']:
+                        publicities[i]['get_suahours'] = sua['suahours']#获取学生在公示所属活动中所获得的公益时
+                        break
         for publicity in publicities:
             publicity['begin'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['begin']))
             publicity['end'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['end']))
+
 
         serialized.update({
             'publicities':publicities,
@@ -507,6 +513,7 @@ class Activity_tab_View(BaseView, NavMixin):
         for i in range(len(activities)):
             activities[i]['number'] = activity_set[i].number()
             activities[i]['already_published'] = activity_set[i].get_already_published()
+            activities[i]['unpublicity_url'] = activity_set[i].get_unpublicity_url()
             activities[i]['is_published'] = activity_set[i].get_is_published()#获取活动是否公示，若是，则将数据序列化
             if activities[i]['is_published']:
                 publicity_data = PublicitySerializer(
@@ -516,6 +523,14 @@ class Activity_tab_View(BaseView, NavMixin):
                 )
                 publicity = publicity_data.data
                 activities[i]['is_published'] = publicity[0]['url']
+            if activities[i]['unpublicity_url']:
+                publicity_data = PublicitySerializer(
+                    activities[i]['unpublicity_url'],
+                    many=True,
+                    context={'request':request},
+                )
+                publicity = publicity_data.data
+                activities[i]['unpublicity_url'] = publicity[0]['url']
 
         serialized.update({
             'activities': activities,

@@ -88,8 +88,9 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width: 50%;">活动名称</th>
-                                        <th style="width: 15%;">申请日期</th>
+                                        <th>活动名称</th>
+                                        <th>申请日期</th>
+                                        <th>申请人</th>
                                         <th>举办单位</th>
                                         <th>公益时数</th>
                                         <th>审核结果</th>
@@ -102,6 +103,7 @@
                                     <tr>
                                         <td>{{ application.sua.activity.title }}</td>
                                         <td>{{ application.created }}</td>
+                                        <td>{{ application.sua.student.name }}</td>
                                         <td>{{ application.sua.activity.group }}</td>
                                         <td>{{ application.sua.suahours }}</td>
                                         <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
@@ -136,8 +138,9 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width: 50%;">活动名称</th>
-                                        <th style="width: 15%;">申请日期</th>
+                                        <th >活动名称</th>
+                                        <th >申请日期</th>
+                                        <th>申请人</th>
                                         <th>举办单位</th>
                                         <th>公益时数</th>
                                         <th>审核结果</th>
@@ -150,6 +153,7 @@
                                     <tr>
                                         <td>{{ application.sua.activity.title }}</td>
                                         <td>{{ application.created }}</td>
+                                        <td>{{ application.sua.student.name }}</td>
                                         <td>{{ application.sua.activity.group }}</td>
                                         <td>{{ application.sua.suahours }}</td>
                                         <td>{% if application.is_checked %}已审核{% else %}未审核{% endif %}</td>
@@ -185,8 +189,8 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width: 50%;">活动名称</th>
-                                        <th style="width: 15%;">申请日期</th>
+                                        <th>活动名称</th>
+                                        <th>申请日期</th>
                                         <th>举办单位</th>
                                         <th>公益时数</th>
                                         <th>审核结果</th>
