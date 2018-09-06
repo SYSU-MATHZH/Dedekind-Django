@@ -55,7 +55,7 @@ class IndexView(BaseView, NavMixin):
             if hasattr(user,'student'):
                 for sua in publicities[i]['activity']['suas']:
                     if user.student.name == sua['student']['name']:
-                        publicities[i]['get_suahours'] = sua['suahours']
+                        publicities[i]['get_suahours'] = sua['suahours']#获取学生在公示所属活动中所获得的公益时
                         break
         for publicity in publicities:
             publicity['begin'] = tools.Date2String_SHOW(tools.TZString2Date(publicity['begin']))
