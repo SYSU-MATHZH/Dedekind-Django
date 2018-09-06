@@ -13,6 +13,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
 
     <title>公益时平台</title>
+    <script>
+    function Add(){
+    	
+    }
+    </script>
 </head>
 
 <body style="background-color: #EEEEEE">
@@ -108,7 +113,7 @@
                         </div>
                         <div class="row invoice-footer">
                             <div class="col-lg-12">
-                          
+                                <button type="submit" class="btn btn-lg btn-space btn-primary" onclick="Add">提交并添加新的参与人</button>
                                 <button type="submit" class="btn btn-lg btn-space btn-primary">提交</button>
                                 <a class="btn btn-lg btn-space btn-secondary" href="{{ activity.url }}">返回</a>
                             </div>
