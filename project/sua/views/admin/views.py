@@ -449,7 +449,7 @@ class AddSuaForActivityView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
 
-        print(request.data)
+        url = request.data['url']
 
         user = request.user
         activity_id = kwargs['pk']
@@ -469,7 +469,10 @@ class AddSuaForActivityView(BaseView, NavMixin):
                     activity=activity,
                     is_valid=True
                     )
-                self.url = activitySerializer.data['url']
+                if url:
+                    self.url = url
+                else:
+                    self.url = activitySerializer.data['url']
                 return True
         else:
             return False
@@ -506,12 +509,16 @@ class ChangeSuaForActivityView(BaseView, NavMixin):
         return serialized
 
     def deserialize(self, request, *args, **kwargs):
+        url = request.data['url']
+
         sua_id = kwargs['pk']
         sua = Sua.objects.filter(deleted_at=None,id=sua_id).get()
+        activity = sua.activity
         activitySerializer = ActivitySerializer(
-            sua.activity,
+            activity,
             context={'request': request}
         )
+
         suaSerializer = AdminAddSuaForActivitySerializer(
             instance=sua,
             data=request.data,
@@ -520,7 +527,10 @@ class ChangeSuaForActivityView(BaseView, NavMixin):
         if suaSerializer.is_valid():
             if((request.user.is_staff) or (request.user.student.power == 1 and activity.owner == request.user)):
                 suaSerializer.save()
-                self.url = activitySerializer.data['url']
+                if url:
+                    self.url = url
+                else:
+                    self.url = activitySerializer.data['url']
                 return True
         else:
             return False
