@@ -449,6 +449,8 @@ class AddSuaForActivityView(BaseView, NavMixin):
 
     def deserialize(self, request, *args, **kwargs):
 
+        print(request.data)
+
         user = request.user
         activity_id = kwargs['pk']
         activity = Activity.objects.filter(deleted_at=None,id=activity_id).get()
