@@ -463,8 +463,6 @@ class AddSuaForActivityView(BaseView, NavMixin):
             data=request.data,
             context={'request': request},
         )
-        print(suaSerializer)
-        print(request.data)
         if suaSerializer.is_valid():
             if((request.user.is_staff) or (request.user.student.power == 1 and activity.owner == request.user)):
                 suaSerializer.save(
@@ -614,15 +612,11 @@ class ApplicationsMergeView(BaseView, NavMixin):
         for application in applications:
             if str(application.id) in request.data:
                 merge_applications.append(application)
-        #print(request.data)
         if 'activity_id' in request.data:
             if request.data['activity_id'] in ['None', ''] and bool(merge_applications):
                 activity = merge_applications[0].sua.activity
             else:
                 activity = Activity.objects.filter(id=request.data['activity_id'],deleted_at=None).get()
-
-        #print(activity)
-        #print(merge_applications)
         for i in range(len(merge_applications)):
             sua = Sua.objects.filter(deleted_at=None,application=merge_applications[i]).get()
             old_activity = sua.activity
