@@ -52,7 +52,7 @@ def get_deleteds(model, serializer, request):
                 set = model.objects.filter(owner=user).order_by('-deleted_at').exclude(deleted_at=None)
             elif model == myModels.Application:
                 set = model.objects.filter(sua__activity__owner=user).order_by('-deleted_at').exclude(deleted_at=None)
-            
+
     set_data = serializer(
         set,
         many=True,

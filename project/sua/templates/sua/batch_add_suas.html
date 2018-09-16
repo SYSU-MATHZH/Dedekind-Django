@@ -1,0 +1,17 @@
+<!DOCTYPE html>                         <!--文档类型数据-->
+<html lang="en">                     <!--表示HTML文档开始-->
+  <head>                                  <!--包含文档元数据开始-->
+      <meta charset="utf-8">              <!--声明字符编码-->
+      <title>测试</title>             <!--设置文档标题-->
+    </head>                                 <!--包含文档元数据结束-->
+
+    <body>                                  <!--表示HTML文档的内容-->
+      	<form id="form" enctype="multipart/form-data" role="form" action="" method="POST" data-parsley-validate>
+          {% csrf_token %}
+        <input id="upload" name="filename" type="file" accept="application/msexcel">
+        <input type='submit'>   <!--一个超链接元素（标签）-->
+      </form>
+      <p>说明，上传的excel文件格式必须是只有sheet[0]，而且第一行有标题，第一列是名字，第二列是组别，第三列是公益时，数据是从第二行开始录入的</p>
+      </body>                                 <!--表示HTML文档的内容结束   -->
+
+</html>                                 <!--表示HTML文档结束-->

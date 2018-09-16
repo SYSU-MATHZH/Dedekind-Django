@@ -33,6 +33,7 @@ from project.sua.permissions import IsAdminUserOrActivity
 
 from django.http import HttpResponseRedirect, Http404
 
+import xlrd
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/adminindex.html'
@@ -462,6 +463,8 @@ class AddSuaForActivityView(BaseView, NavMixin):
             data=request.data,
             context={'request': request},
         )
+        print(suaSerializer)
+        print(request.data)
         if suaSerializer.is_valid():
             if((request.user.is_staff) or (request.user.student.power == 1 and activity.owner == request.user)):
                 suaSerializer.save(
@@ -628,4 +631,47 @@ class ApplicationsMergeView(BaseView, NavMixin):
                 old_activity.delete()
 
         self.url="/"
+        return True
+
+class Batch_AddSuasView(BaseView, NavMixin):
+    template_name = 'sua/batch_add_suas.html'
+    components = {
+        'nav': 'nav',
+    }
+    def deserialize(self, request, *args, **kwargs):
+        user = request.user
+        activity_id = kwargs['pk']
+        activity = Activity.objects.filter(deleted_at=None,id=activity_id).get()
+        activitySerializer = ActivitySerializer(
+            activity,
+            context={'request': request}
+        )
+        students = []
+        for sua in activity.suas.filter(deleted_at=None):
+            students.append(sua.student.name)
+        uploadedFile = request.FILES.get('filename')  #获取上次的excel
+        book = xlrd.open_workbook(filename=None, file_contents=uploadedFile.read())
+        table = book.sheets()[0]
+        row = table.nrows
+        for i in range(1, row):             #每行录入sua记录
+            col = table.row_values(i)
+            if col[0] not in students:
+                if Student.objects.filter(deleted_at=None, name=col[0]):
+                    student = Student.objects.filter(deleted_at=None, name=col[0]).get()
+                    sua = Sua(
+                        student=student,
+                        team=col[1],
+                        suahours=col[2],
+                        owner=user,
+                        activity=activity,
+                        is_valid=True
+                    )
+                    sua.save()
+
+            else:
+                sua = activity.suas.filter(deleted_at=None,student=Student.objects.filter(name=col[0]).get()).get()
+                sua.team=col[1]
+                sua.suahours=col[2]
+                sua.save()
+        self.url = activitySerializer.data['url']
         return True
