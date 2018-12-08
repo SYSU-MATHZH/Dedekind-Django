@@ -6,7 +6,8 @@ django-filter
 bootstrap-admin
 reportlab
 drf-yasg
-swagger_spec_validator 
+swagger_spec_validator
 flex
 python-dateutil
 djangodeletes
+xlrd
