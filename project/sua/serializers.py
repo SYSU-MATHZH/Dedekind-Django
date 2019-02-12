@@ -48,7 +48,7 @@ class ActivityForAdminSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
+        fields = ('url', 'title', 'start', 'end', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
 
 
 class ActivitySerializer(serializers.HyperlinkedModelSerializer):
@@ -56,7 +56,7 @@ class ActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id', 'is_created_by_student', 'deleted_by')
+        fields = ('url', 'title', 'start', 'end', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id', 'is_created_by_student', 'deleted_by')
 
 class ProofSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -90,7 +90,7 @@ class ActivityWithSuaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'date', 'detail', 'group', 'suas', 'id')
+        fields = ('url', 'title', 'start', 'end', 'detail', 'group', 'suas', 'id')
 
 
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
@@ -127,4 +127,4 @@ class ActivityforApplicationsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid','id')
+        fields = ('url', 'title', 'start', 'end', 'detail', 'group', 'is_valid','id')

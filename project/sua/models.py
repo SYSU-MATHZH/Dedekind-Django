@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 from django.utils import timezone
 from project.sua.storage import FileStorage
 import datetime
+import time
 import hashlib
 from project.sua.softdeletes.models import SoftDeletable
 
@@ -58,6 +59,26 @@ class Student(BaseSchema):
     def __str__(self):
         return self.name
 
+    def totalhours_AcademicYear(self):
+        total = 0
+        for sua in self.get_suas_AcademicYear():
+            total += sua.suahours
+        return total
+
+    def get_suas_AcademicYear(self):
+        suas = self.get_suas()
+        academicYear = AcademicYear.objects.last()
+        suas_AcademicYear = []
+        if academicYear:
+            startTimestamp = time.mktime(academicYear.start.timetuple())
+            endTimestamp = time.mktime(academicYear.end.timetuple())
+            for sua in suas:
+                if startTimestamp <= time.mktime(sua.activity.end.timetuple()) <= endTimestamp:
+                    suas_AcademicYear.append(sua)
+        else:
+            suas_AcademicYear = suas
+        return suas_AcademicYear
+
     def totalhours(self):
         total = 0
         for sua in self.suas.filter(deleted_at=None, is_valid=True, activity__is_valid=True,):
@@ -95,7 +116,8 @@ class Activity(BaseSchema):
     title = models.CharField(max_length=100)
     detail = models.CharField(max_length=400)
     group = models.CharField(max_length=100)
-    date = models.DateField('活动日期')
+    start = models.DateField('活动开始日期',default=None)
+    end = models.DateField('活动结束日期',default=None)
     is_valid = models.BooleanField(default=False)
     id = models.AutoField(primary_key=True)
     is_created_by_student = models.BooleanField(default=False)
@@ -331,3 +353,7 @@ class Nonce(models.Model):
         s = bytes(str(self.nonce) + str(self.timestamp) + TOKEN, encoding='utf8')
         signature = hashlib.sha1(s).hexdigest()
         return signature
+
+class AcademicYear(models.Model):
+    start = models.DateField()
+    end = models.DateField()

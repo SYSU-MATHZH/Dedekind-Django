@@ -70,4 +70,5 @@ urlpatterns = [
     path('students/tab',login_required(Student_tab_View.as_view()), ),
     path('activities/tab',login_required(Activity_tab_View.as_view()), ),
     path('deleteds/tab',login_required(Deleted_tab_View.as_view()), ),
+    path('admin/AcademicYear/',login_required(admin.AcademicYearView.as_view()), ),
 ]

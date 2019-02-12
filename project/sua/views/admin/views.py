@@ -4,6 +4,7 @@ from project.sua.models import Application
 from project.sua.models import Student
 from project.sua.models import Activity
 from project.sua.models import Appeal
+from project.sua.models import AcademicYear
 
 from project.sua.serializers import PublicitySerializer
 from project.sua.serializers import SuaSerializer
@@ -98,8 +99,10 @@ class IndexView(BaseView, NavMixin):
         deleteds['activities'] = tools.get_deleteds(Activity, ActivitySerializer, request)
         activities = activity_data.data
         for activity in activities:
-            activity['date'] = tools.Date2String_SHOW(
-                tools.TZString2DateTime(activity['date']))
+            activity['start'] = tools.Date2String_SHOW(
+                tools.TZString2DateTime(activity['start']))
+            activity['end'] = tools.Date2String_SHOW(
+                tools.TZString2DateTime(activity['end']))
             for publicity in activity['publicities']:
                 publicity['begin'] = tools.DateTime2String_SHOW(
                     tools.TZString2DateTime(publicity['begin']))
@@ -668,4 +671,29 @@ class Batch_AddSuasView(BaseView, NavMixin):
                 sua.suahours=col[2]
                 sua.save()
         self.url = activitySerializer.data['url']
+        return True
+
+class AcademicYearView(BaseView, NavMixin):
+    template_name = 'sua/AcademicYear.html'
+    components = {
+        'nav': 'nav',
+    }
+    def serialize(self, request, *args, **kwargs):
+        academicYear = AcademicYear.objects.last()
+        serialized = super(AcademicYearView, self).serialize(request)
+        serialized.update({
+            "academicYear":academicYear,
+        })
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        academicYear = AcademicYear.objects.last()
+        if academicYear:
+            academicYear.start = request.data['start']
+            academicYear.end = request.data['end']
+        else:
+            academicYear = AcademicYear(start=request.data['start'],end=request.data['end'])
+        academicYear.save()
+
+        self.url = "/admin/AcademicYear/"
         return True

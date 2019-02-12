@@ -124,8 +124,10 @@ class IndexView(BaseView, NavMixin):
 
             activities = activity_data.data
             for activity in activities:
-                activity['date'] = tools.Date2String_SHOW(
-                    tools.TZString2DateTime(activity['date']))
+                activity['start'] = tools.Date2String_SHOW(
+                    tools.TZString2DateTime(activity['start']))
+                activity['end'] = tools.Date2String_SHOW(
+                    tools.TZString2DateTime(activity['end']))
                 for publicity in activity['publicities']:
                     publicity['begin'] = tools.DateTime2String_SHOW(
                         tools.TZString2DateTime(publicity['begin']))

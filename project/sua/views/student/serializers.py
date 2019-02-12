@@ -6,7 +6,7 @@ class DEActivityForAddApplicationsSerializer(serializers.HyperlinkedModelSeriali
 
     class Meta:
         model = Activity
-        fields = ('url','title', 'detail', 'group', 'date')
+        fields = ('url','title', 'detail', 'group', 'start', 'end')
 
 
 class DESuaForAddApplicationsSerializer(serializers.HyperlinkedModelSerializer):

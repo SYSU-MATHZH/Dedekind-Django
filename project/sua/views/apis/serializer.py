@@ -46,7 +46,7 @@ class ActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
+        fields = ('url', 'title', 'start', 'end', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
         extra_kwargs = {
             'url':{'view_name': 'api-activity-detail'},
             'suas':{'view_name':'api-sua-detail'},
@@ -73,7 +73,7 @@ class SuaSerializer(serializers.HyperlinkedModelSerializer):
             'student':{'view_name': 'api-student-detail'},
             'application':{'view_name': 'api-application-detail'},
         }
-        
+
 class PublicitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Publicity
@@ -83,7 +83,7 @@ class PublicitySerializer(serializers.HyperlinkedModelSerializer):
             'activity':{'view_name': 'api-activity-detail'},
             'appeals':{'view_name': 'api-appeal-detail'},
         }
-        
+
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -104,7 +104,7 @@ class AppealSerializer(serializers.HyperlinkedModelSerializer):
             'student':{'view_name': 'api-student-detail'},
             'publicity':{'view_name': 'api-publicity-detail'},
         }
-        
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)

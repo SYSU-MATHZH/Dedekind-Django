@@ -53,7 +53,7 @@ class ActivityWithSuaSerialiezer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url','title','date','group','owner','is_created_by_student','id')
+        fields = ('url','title','start', 'end', 'group','owner','is_created_by_student','id')
 
 
 class AddSuaSerializer(serializers.HyperlinkedModelSerializer):
@@ -73,7 +73,7 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid','contact','number')
+        fields = ('url', 'title', 'detail', 'group', 'start', 'end', 'suas', 'id','is_valid','contact','number')
 
     def create(self, validated_data):
         print(validated_data)
@@ -97,7 +97,8 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
         instance.title = validated_data.get('title',instance.title)
         instance.detail = validated_data.get('detail',instance.detail)
         instance.group = validated_data.get('group',instance.group)
-        instance.date = validated_data.get('date',instance.date)
+        instance.start = validated_data.get('start',instance.start)
+        instance.end = validated_data.get('end',instance.end)
         instance.id = validated_data.get('id',instance.id)
         instance.number = validated_data.get('number',instance.number)
         instance.contact = validated_data.get('contact', instance.contact)
@@ -116,7 +117,7 @@ class ActivityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url','url', 'title', 'detail', 'group', 'date','suas', 'id','is_valid','contact','number','owner')
+        fields = ('url','url', 'title', 'detail', 'group', 'start', 'end', 'suas', 'id','is_valid','contact','number','owner')
 
 class PublicityWithAppealSerializer(serializers.HyperlinkedModelSerializer):
     activity = AddActivitySerializer()

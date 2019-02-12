@@ -66,6 +66,7 @@ class BaseViewSet(
 
         if request.method == 'GET':
             serializer = self.get_serializer()
+            print(kwargs)
             return Response(self.get_context(request, *args, **kwargs, extra_context={'serializer': serializer}))
 
         serializer = self.get_serializer(data=request.data)

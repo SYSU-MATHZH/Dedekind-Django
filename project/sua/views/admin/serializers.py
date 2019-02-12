@@ -10,7 +10,7 @@ class ActivityForAdminSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Activity
-        fields = ('url', 'title', 'date', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
+        fields = ('url', 'title', 'start', 'end', 'detail', 'group', 'is_valid', 'suas', 'publicities', 'id')
 
 
 class AdminAppealSerializer(serializers.HyperlinkedModelSerializer):

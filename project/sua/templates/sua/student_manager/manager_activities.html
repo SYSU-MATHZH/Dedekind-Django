@@ -98,7 +98,8 @@
                                 <thead>
                                     <tr>
                                         <th >名称</th>
-                                        <th >活动日期</th>
+                                        <th >活动开始日期</th>
+                                        <th >活动结束日期</th>
                                         <th>参与总人数</th>
                                         <th>是否已公示</th>
                                         <th style="width: 10%;"></th>
@@ -109,7 +110,8 @@
                                   {% for activity in activities %}
                                     <tr>
                                         <td>{{ activity.title }}</td>
-                                        <td>{{ activity.date }}</td>
+                                        <td>{{ activity.start }}</td>
+                                        <td>{{ activity.end }}</td>
                                         <td>{{ activity.number }}</td>
                                         <td>{% if activity.already_published == 0 %}
                                               未创建公示
