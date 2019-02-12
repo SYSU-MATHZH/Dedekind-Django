@@ -687,13 +687,15 @@ class AcademicYearView(BaseView, NavMixin):
         return serialized
 
     def deserialize(self, request, *args, **kwargs):
-        academicYear = AcademicYear.objects.last()
-        if academicYear:
-            academicYear.start = request.data['start']
-            academicYear.end = request.data['end']
-        else:
-            academicYear = AcademicYear(start=request.data['start'],end=request.data['end'])
-        academicYear.save()
+        if request.user.is_valid:
+            academicYear = AcademicYear.objects.last()
+            if academicYear:
+                academicYear.start = request.data['start']
+                academicYear.end = request.data['end']
+            else:
+                academicYear = AcademicYear(start=request.data['start'],end=request.data['end'])
+            academicYear.save()
 
-        self.url = "/admin/AcademicYear/"
-        return True
+            self.url = "/admin/AcademicYear/"
+            return True
+        return False
