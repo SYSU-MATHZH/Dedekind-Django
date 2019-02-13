@@ -36,8 +36,8 @@ from django.http import HttpResponseRedirect, Http404
 from django.http import HttpResponse
 import xlwt
 from io import BytesIO
-
-
+import datetime
+import time
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/adminindex.html'
@@ -705,18 +705,21 @@ class AcademicYearView(BaseView, NavMixin):
 
  # 导出excel数据
 def ActivityDownload(request, *args, **kwargs):
+    activity_id = kwargs['pk']
+    activity = Activity.objects.get(id=activity_id)
+    time_now = time.strftime('%Y.%m.%d %H:%M:%S ',time.localtime(time.time()))
    # 设置HTTPResponse的类型
     response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment;filename=order.xls'
+    response['Content-Disposition'] = 'attachment;filename='+ activity.title +'_'+ time_now +'.xls' #文件命名
     # 创建一个文件对象
     wb = xlwt.Workbook(encoding='utf8')
     # 创建一个sheet对象
-    sheet = wb.add_sheet('order-sheet')
+    sheet = wb.add_sheet('order-sheet',cell_overwrite_ok=True)
     # 设置文件头的样式,这个不是必须的可以根据自己的需求进行更改
     style_heading = xlwt.easyxf("""
                            font:
                                name Arial,
-                               colour_index white,
+                               colour_index black,
                                bold on,
                                height 0xA0;
                            align:
@@ -725,13 +728,33 @@ def ActivityDownload(request, *args, **kwargs):
                                horiz center;
                            pattern:
                                pattern solid,
-                               fore-colour 0x19;
+                               fore-colour 0x09;
                            borders:
                                left THIN,
                                right THIN,
                                top THIN,
                                bottom THIN;
                            """)
+    # 设置文本格式
+    style_text = xlwt.easyxf("""
+                              font:
+                                  name Arial,
+                                  colour_index black,
+                                  bold off,
+                                  height 0xA0;
+                              align:
+                                  wrap off,
+                                  vert center,
+                                  horiz center;
+                              pattern:
+                                  pattern solid,
+                                  fore-colour 0x09;
+                                     borders:
+                                  left THIN,
+                                  right THIN,
+                                  top THIN,
+                                  bottom THIN;
+                              """)
     # 写入文件标题
     sheet.write(0, 0, '姓名', style_heading)
     sheet.write(0, 1, '学号', style_heading)
@@ -741,14 +764,12 @@ def ActivityDownload(request, *args, **kwargs):
 
     data_row = 1
     #Activity.objects.get()这个是查询条件,可以根据自己的实际需求做调整.
-    activity_id = kwargs['pk']
-    activity = Activity.objects.get(id=activity_id)
     for sua in activity.get_suas():
-        sheet.write(data_row, 0, sua.student.name)
-        sheet.write(data_row, 1, sua.student.number)  # 学号
-        sheet.write(data_row, 2, sua.team)
-        sheet.write(data_row, 3, sua.suahours)
-    data_row = data_row + 1
+        sheet.write(data_row, 0, sua.student.name, style_text)
+        sheet.write(data_row, 1, sua.student.number, style_text)  # 学号
+        sheet.write(data_row, 2, sua.team, style_text)
+        sheet.write(data_row, 3, sua.suahours, style_text)
+        data_row = data_row + 1
 
     # 写出到IO
     output = BytesIO()
