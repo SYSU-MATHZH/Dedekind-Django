@@ -5,7 +5,6 @@ from django.utils.translation import ugettext as _
 from django.utils import timezone
 from project.sua.storage import FileStorage
 import datetime
-import time
 import hashlib
 from project.sua.softdeletes.models import SoftDeletable
 
@@ -68,13 +67,8 @@ class Student(BaseSchema):
     def get_suas_AcademicYear(self):
         suas = self.get_suas()
         academicYear = AcademicYear.objects.last()
-        suas_AcademicYear = []
         if academicYear:
-            startTimestamp = time.mktime(academicYear.start.timetuple())
-            endTimestamp = time.mktime(academicYear.end.timetuple())
-            for sua in suas:
-                if startTimestamp <= time.mktime(sua.activity.end.timetuple()) <= endTimestamp:
-                    suas_AcademicYear.append(sua)
+            suas_AcademicYear = suas.filter(activity__end__gte=academicYear.start,activity__end__lte=academicYear.end)
         else:
             suas_AcademicYear = suas
         return suas_AcademicYear
