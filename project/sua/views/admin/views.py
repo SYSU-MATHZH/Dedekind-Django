@@ -743,11 +743,11 @@ def ActivityDownload(request, *args, **kwargs):
     #Activity.objects.get()这个是查询条件,可以根据自己的实际需求做调整.
     activity_id = kwargs['pk']
     activity = Activity.objects.get(id=activity_id)
-    for i in activity.get_suas():
-        sheet.write(data_row, 0, i.student)
-        sheet.write(data_row, 1, i.student.number)  # 学号
-        sheet.write(data_row, 2, i.team)
-        sheet.write(data_row, 3, i.suahours)
+    for sua in activity.get_suas():
+        sheet.write(data_row, 0, sua.student.name)
+        sheet.write(data_row, 1, sua.student.number)  # 学号
+        sheet.write(data_row, 2, sua.team)
+        sheet.write(data_row, 3, sua.suahours)
     data_row = data_row + 1
 
     # 写出到IO
