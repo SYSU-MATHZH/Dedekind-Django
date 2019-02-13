@@ -33,8 +33,11 @@ from .serializers import PublicityWithActivitySerializer
 from project.sua.permissions import IsAdminUserOrActivity
 
 from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponse
+import xlwt
+from io import BytesIO
 
-import xlrd
+
 
 class IndexView(BaseView, NavMixin):
     template_name = 'sua/adminindex.html'
@@ -699,3 +702,58 @@ class AcademicYearView(BaseView, NavMixin):
             self.url = "/admin/AcademicYear/"
             return True
         return False
+
+ # 导出excel数据
+def ActivityDownload(request, *args, **kwargs):
+   # 设置HTTPResponse的类型
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment;filename=order.xls'
+    # 创建一个文件对象
+    wb = xlwt.Workbook(encoding='utf8')
+    # 创建一个sheet对象
+    sheet = wb.add_sheet('order-sheet')
+    # 设置文件头的样式,这个不是必须的可以根据自己的需求进行更改
+    style_heading = xlwt.easyxf("""
+                           font:
+                               name Arial,
+                               colour_index white,
+                               bold on,
+                               height 0xA0;
+                           align:
+                               wrap off,
+                               vert center,
+                               horiz center;
+                           pattern:
+                               pattern solid,
+                               fore-colour 0x19;
+                           borders:
+                               left THIN,
+                               right THIN,
+                               top THIN,
+                               bottom THIN;
+                           """)
+    # 写入文件标题
+    sheet.write(0, 0, '姓名', style_heading)
+    sheet.write(0, 1, '学号', style_heading)
+    sheet.write(0, 2, '组别', style_heading)
+    sheet.write(0, 3, '公益时数', style_heading)
+    # 写入数据
+
+    data_row = 1
+    #Activity.objects.get()这个是查询条件,可以根据自己的实际需求做调整.
+    activity_id = kwargs['pk']
+    activity = Activity.objects.get(id=activity_id)
+    for i in activity.get_suas():
+        sheet.write(data_row, 0, i.student)
+        sheet.write(data_row, 1, i.student.number)  # 学号
+        sheet.write(data_row, 2, i.team)
+        sheet.write(data_row, 3, i.suahours)
+    data_row = data_row + 1
+
+    # 写出到IO
+    output = BytesIO()
+    wb.save(output)
+    # 重新定位到开始
+    output.seek(0)
+    response.write(output.getvalue())
+    return response
