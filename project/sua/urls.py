@@ -61,6 +61,7 @@ urlpatterns = [
     path('applications/merge',login_required(admin.ApplicationsMergeView.as_view())),
     path('admin/activities/<int:pk>/check/',login_required(admin.CheckTheActivityView)),
     path('admin/publicities/<int:pk>/check/',login_required(admin.CheckThePublicityView)),
+    path('admin/applications/<int:pk>/mark/', login_required(admin.MarkApplicationView)),
     path('admin/suas/<int:pk>/check/',login_required(admin.CheckTheSuaView)),
     path('students/<int:pk>/changepassword/',login_required(student.ChangePasswordView.as_view())),
     path('admin/activities/<int:pk>/batch_suas/add/',login_required(admin.Batch_AddSuasView.as_view())),

@@ -97,7 +97,7 @@ class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
     sua = SuaSerializer()
     class Meta:
         model = Application
-        fields = ('url', 'owner', 'created', 'contact', 'sua', 'proof', 'is_checked', 'status', 'feedback', 'id', 'deleted_by')
+        fields = ('url', 'owner', 'created', 'contact', 'sua', 'proof', 'is_checked', 'is_marked', 'status', 'feedback', 'id', 'deleted_by')
 
 
 class PublicitySerializer(serializers.HyperlinkedModelSerializer):
