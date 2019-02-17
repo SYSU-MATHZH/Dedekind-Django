@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="en">
 {% load static %}
@@ -340,3 +341,347 @@
 </body>
 
 </html>
+=======
+<!doctype html>
+<html lang="en">
+{% load static %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'sua/css/bootstrap.min.css' %}">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
+    <title>公益时平台</title>
+</head>
+
+<body style="background-color: #EEEEEE">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #4d4d4d;">
+        <a class="navbar-brand" href="/">
+          <img src="{% static 'sua/images/logo-icon3.png' %}" width="30" height="30" class="d-inline-block align-top"
+              alt=""> 数院公益时
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="/">主页 <span
+                          class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/students/tab">学生列表</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/activities/tab">活动列表</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/applications/tab">申请列表</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/appeals/tab">申诉列表</a>
+              </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="/deleteds/tab">删除记录</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-2 my-lg-0">
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <img src="{% static 'sua/images/plus.png' %}" width="15" height="15" class="d-inline-block"
+                            alt="" style="mix-blend-mode: #fff">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/activities/add/">创建活动</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        {{ nav.user.username }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <!-- <a class="dropdown-item" href="#">我的信息</a>
+                        <div class="dropdown-divider"></div> -->
+                        <a class="dropdown-item" href="/logout">登出</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-sm">
+                <div class="card card-table mb-4">
+                    <div class="card-body card-table-header">
+                        <div class="tools">
+                        </div>
+                        <div class="my-card-header">
+                            删除的学生
+                            <div class="tools">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body card-table-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>删除时间</th>
+                                        <th >姓名</th>
+                                        <th>学号</th>
+                                        <th>班级</th>
+                                        <th>公益时</th>
+                                        <th>联系方式</th>
+                                        <th>身份</th>
+                                        <th style="width: 10%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {% if deleteds.students %}
+                                  {% for student in deleteds.students %}
+                                    <tr>
+                                        <td>{{ student.deleted_at }}</td>
+                                        <td>{{ student.name }}</td>
+                                        <td>{{ student.number }}</td>
+                                        <td>{{ student.grade }}级{{ student.classtype }}班</td>
+                                        <td>{{ student.suahours }}</td>
+                                        <td>{{ student.phone }}</td>
+                                        <td>{% if student.power < 1 %}普通学生{% else %}活动级管理员{% endif %}</td>
+                                        <td>
+                                            <div class="btn-group btn-hspace">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
+                                                <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
+                                                    <a class="dropdown-item" href="/students/{{ student.id }}/revoke/">恢复</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-table mb-4">
+                <div class="card-body card-table-header">
+                    <div class="tools">
+                    </div>
+                    <div class="my-card-header">
+                        删除的公示
+                        <div class="tools">
+                        </div>
+                    </div>
+                </div>
+              <div class="card-body card-table-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>删除时间</th>
+                                <th >公示标题</th>
+                                <th>公示开始日</th>
+                                <th>公示结束日</th>
+                                <th style="width: 10%;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% if deleteds.publicities %}
+                          {% for publicity in deleteds.publicities %}
+                            <tr>
+                                <td>{{ publicity.deleted_at }}</td>
+                                <td>{{ publicity.title }}</td>
+                                <td>{{ publicity.begin }}</td>
+                                <td>{{ publicity.end }}</td>
+                                <td>
+                                    <div class="btn-group btn-hspace">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
+                                        <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
+                                            <a class="dropdown-item" href="/publicities/{{ publicity.id }}/revoke/">恢复</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+                <div class="card card-table mb-4">
+                    <div class="card-body card-table-header">
+                        <div class="tools">
+                        </div>
+                        <div class="my-card-header">
+                            删除的活动
+                            <div class="tools">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body card-table-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>删除时间</th>
+                                        <th >名称</th>
+                                        <th>活动日期</th>
+                                        <th>参与总人数</th>
+                                        <th>活动创建人</th>
+                                        <th style="width: 10%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {% if deleteds.activities %}
+                                  {% for activity in deleteds.activities %}
+                                    <tr>
+                                        <td>{{ activity.deleted_at }}</td>
+                                        <td>{{ activity.title }}</td>
+                                        <td>{{ activity.date }}</td>
+                                        <td>{{ activity.number }}</td>
+                                        <td>{{ activity.owner }}</td>
+                                        <td>
+                                            <div class="btn-group btn-hspace">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
+                                                <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
+                                                    <a class="dropdown-item" href="/activities/{{ activity.id }}/revoke/">恢复</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-table mb-4">
+                    <div class="card-body card-table-header">
+                        <div class="tools">
+                        </div>
+                        <div class="my-card-header">
+                            删除的申请
+                            <div class="tools">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body card-table-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>删除时间</th>
+                                        <th >申请的活动</th>
+                                        <th >申请日期</th>
+                                        <th>申请人</th>
+                                        <th>举办单位</th>
+                                        <th>公益时数</th>
+                                        <th>是否已审核</th>
+                                        <th style="width: 10%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {% if deleteds.applications %}
+                                  {% for application in deleteds.applications %}
+                                    <tr>
+                                        <td>{{ application.deleted_at }}</td>
+                                        <td>{{ application.sua.activity.title }}</td>
+                                        <td>{{ application.created }}</td>
+                                        <td>{{ application.sua.student.name}}</td>
+                                        <td>{{ application.sua.activity.group }}</td>
+                                        <td>{{ application.sua.suahours }}</td>
+                                        <td>{% if application.is_checked %}是{% else %}否{% endif %}</td>
+                                        <td>
+                                            <div class="btn-group btn-hspace">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
+                                                <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
+                                                    <a class="dropdown-item" href="/applications/{{ application.id }}/revoke/">恢复</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-table mb-4">
+                        <div class="card-body card-table-header">
+                            <div class="tools">
+                            </div>
+                            <div class="my-card-header">
+                                删除的申诉
+                                <div class="tools">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body card-table-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>删除时间</th>
+                                            <th >申诉的公示</th>
+                                            <th >申诉日期</th>
+                                            <th>申诉人</th>
+                                            <th>举办单位</th>
+                                            <th>是否已处理</th>
+                                            <th style="width: 10%;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      {% if deleteds.appeals %}
+                                      {% for appeal in deleteds.appeals %}
+                                        <tr>
+                                            <td>{{ appeal.deleted_at }}</td>
+                                            <td>{{ appeal.publicity.activity.title }}</td>
+                                            <td>{{ appeal.created }}</td>
+                                            <td>{{ appeal.student.name }}</td>
+                                            <td>{{ appeal.publicity.activity.group }}</td>
+                                            <td>{% if appeal.is_checked %}是{% else %}否{% endif %}</td>
+                                            <td>
+                                                <div class="btn-group btn-hspace">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
+                                                    <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
+                                                        <a class="dropdown-item" href="/appeals/{{ appeal.id }}/revoke/">恢复</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'sua/js/jquery-3.3.1.slim.min.js' %}"></script>
+    <script src="{% static 'sua/js/popper.min.js' %}"></script>
+    <script src="{% static 'sua/js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>
+>>>>>>> 4aeedf022c269cdd7612b09a4c4b063cbcb5fdf6
