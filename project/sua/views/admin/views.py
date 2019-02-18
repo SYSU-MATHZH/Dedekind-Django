@@ -35,6 +35,7 @@ from project.sua.permissions import IsAdminUserOrActivity
 from django.http import HttpResponseRedirect, Http404
 from django.http import HttpResponse
 import xlwt
+import xlrd
 from io import BytesIO
 import datetime
 import time
@@ -671,7 +672,7 @@ class Batch_AddSuasView(BaseView, NavMixin):
         students = []
         for sua in activity.suas.filter(deleted_at=None):
             students.append(sua.student.name)
-        uploadedFile = request.FILES.get('filename')  #获取上次的excel
+        uploadedFile = request.FILES.get('filename')  #获取上传的excel
         book = xlrd.open_workbook(filename=None, file_contents=uploadedFile.read())
         table = book.sheets()[0]
         row = table.nrows
@@ -695,7 +696,8 @@ class Batch_AddSuasView(BaseView, NavMixin):
                 sua.team=col[1]
                 sua.suahours=col[2]
                 sua.save()
-        self.url = activitySerializer.data['url']
+        self.url = '/activities/'+str(activity_id)+'/detail/'
+        print(self.url)
         return True
 
 #调整学年度
