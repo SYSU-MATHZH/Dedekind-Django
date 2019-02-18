@@ -122,6 +122,7 @@ project/media/proofs/
 
 # ide
 .vscode/
+.idea
 
 # local_settings
 project/sua/migrations
