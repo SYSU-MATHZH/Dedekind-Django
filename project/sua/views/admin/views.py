@@ -654,16 +654,9 @@ class Batch_AddSuasView(BaseView, NavMixin):
         'nav': 'nav',
     }
     def serialize(self, request, *args, **kwargs):
-        activity_id = kwargs['pk']
-        activity = Activity.objects.filter(deleted_at=None, id=activity_id).get()
-        activity_data = ActivitySerializer(
-            activity,
-            many=True,
-            context={'request':request}
-        )
         serialized = super(Batch_AddSuasView, self).serialize(request)
         serialized.update({
-            'activity':activity_data,
+            'activity_id':kwargs['pk'],
         })
         return serialized
 
