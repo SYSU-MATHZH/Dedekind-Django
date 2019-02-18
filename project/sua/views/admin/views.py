@@ -653,6 +653,13 @@ class Batch_AddSuasView(BaseView, NavMixin):
     components = {
         'nav': 'nav',
     }
+    def serialize(self, request, *args, **kwargs):
+        serialized = super(Batch_AddSuasView, self).serialize(request)
+        serialized.update({
+            'activity_id':kwargs['pk'],
+        })
+        return serialized
+
     def deserialize(self, request, *args, **kwargs):
         user = request.user
         activity_id = kwargs['pk']
