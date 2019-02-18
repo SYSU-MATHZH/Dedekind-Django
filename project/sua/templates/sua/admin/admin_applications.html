@@ -101,7 +101,11 @@
                                 <tbody>
                                   {% if unreviewed_applications %}
                                   {% for application in unreviewed_applications %}
+                                  {% if application.mark %}
+                                    <tr style="background-color:#FFEC8B">
+                                  {% else %}
                                     <tr>
+                                  {% endif %}
                                         <td>{{ application.sua.activity.title }}</td>
                                         <td>{{ application.created }}</td>
                                         <td>{{ application.sua.student.name }}</td>
@@ -113,6 +117,11 @@
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
                                                 <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
                                                     <a class="dropdown-item" href="{{ application.url }}">查看详情</a>
+                                                    {% if application.mark %}
+                                                        <a class="dropdown-item" href="/admin/applications/{{ application.id }}/mark/">取消标记</a>
+                                                    {% else %}
+                                                        <a class="dropdown-item" href="/admin/applications/{{ application.id }}/mark/">标记</a>
+                                                    {% endif %}
                                                     <a class="dropdown-item" href="/applications/{{ application.id }}/delete/">删除</a>
                                                 </div>
                                             </div>
@@ -120,7 +129,6 @@
                                     </tr>
                                     {% endfor %}
                                     {% endif %}
-
                                 </tbody>
                             </table>
                         </div>
@@ -148,10 +156,15 @@
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
                                   {% if applications %}
                                   {% for application in applications %}
+                                  {% if application.mark %}
+                                    <tr style="background-color:#FFEC8B">
+                                  {% else %}
                                     <tr>
+                                  {% endif %}
                                         <td>{{ application.sua.activity.title }}</td>
                                         <td>{{ application.created }}</td>
                                         <td>{{ application.sua.student.name }}</td>
@@ -163,6 +176,11 @@
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
                                                 <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
                                                     <a class="dropdown-item" href="{{ application.url }}">查看详情</a>
+                                                    {% if application.mark %}
+                                                        <a class="dropdown-item" href="/admin/applications/{{ application.id }}/mark/">取消标记</a>
+                                                    {% else %}
+                                                        <a class="dropdown-item" href="/admin/applications/{{ application.id }}/mark/">标记</a>
+                                                    {% endif %}
                                                     <a class="dropdown-item" href="/applications/{{ application.id }}/delete/">删除</a>
                                                 </div>
                                             </div>

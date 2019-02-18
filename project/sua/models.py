@@ -268,6 +268,7 @@ class Application(BaseSchema):
     status = models.IntegerField(default=0)  # 0: 通过; 1: 未通过; 2: 需要线下证明
     feedback = models.CharField(max_length=400, blank=True)
     id = models.AutoField(primary_key=True)
+    mark = models.BooleanField(default=False)
 
     def __str__(self):
         return self.sua.student.name + '的 ' + self.sua.activity.title + '的 ' + '申请'

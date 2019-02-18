@@ -583,6 +583,21 @@ def CheckThePublicityView(request, *args, **kwargs):
         publicity.save()
     return HttpResponseRedirect("/")
 
+def MarkApplicationView(request, *args,**kwargs):
+    application_id = kwargs['pk']
+    application = Application.objects.filter(deleted_at=None, id=application_id).get()
+    applicationSerializer = AdminApplicationSerializer(
+        application,
+        context={'request': request}
+    )
+    if request.user.is_staff:
+        if application.mark:
+            application.mark = False
+        else:
+            application.mark = True
+        application.save()
+    return HttpResponseRedirect('/applications/tab')
+
 
 class ApplicationsMergeView(BaseView, NavMixin):
     template_name = 'sua/applications_activity_merge.html'
