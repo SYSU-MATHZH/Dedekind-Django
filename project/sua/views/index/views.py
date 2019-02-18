@@ -233,7 +233,8 @@ class IndexView(BaseView, NavMixin):
             suas = sua_data.data
             # print(suas)
             for sua in suas:
-                sua['activity']['date'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['date']))
+                sua['activity']['start'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['start']))
+                sua['activity']['end'] = tools.Date2String_SHOW(tools.TZString2Date(sua['activity']['end']))
             join_suas_number = 0#获取学生参与活动数
             for sua in suas:
                 if sua['is_valid']:

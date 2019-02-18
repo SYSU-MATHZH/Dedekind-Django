@@ -676,6 +676,7 @@ class Batch_AddSuasView(BaseView, NavMixin):
         self.url = activitySerializer.data['url']
         return True
 
+#调整学年度
 class AcademicYearView(BaseView, NavMixin):
     template_name = 'sua/AcademicYear.html'
     components = {
