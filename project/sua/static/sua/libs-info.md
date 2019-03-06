@@ -48,7 +48,7 @@ the dependencies listed below are all active right now, which means they are sti
 - **sites**
 
     - [bootstrap official site](https://getbootstrap.com)
-    - [bootstrap chinese document site](https://getbootstrap.com)
+    - [bootstrap chinese documents](https://v3.bootcss.com)
     - [jquery official site](https://jquery.com)
 
 ### `bootstrap-select`
