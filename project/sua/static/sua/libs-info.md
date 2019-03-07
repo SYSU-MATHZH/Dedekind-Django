@@ -119,6 +119,25 @@ the dependencies listed below are all active right now, which means they are sti
 
     - [official site](https://github.com/guillaumepotier/Parsley.js)
 
+### `bootstrap-table`
+
+- **description**
+
+  advanced table element, including multiple selection, search, pagination, sort and more.
+
+- **files**
+
+      css
+         bootstrap-table.min.css
+
+      js
+         bootstrap-table.min.js
+         bootstrap-table-zh-CN.min.js
+
+- **sites**
+
+    - [official site](https://github.com/wenzhixin/bootstrap-table)
+
 ## Need Migration
 
 the deps listed below may still be used in this project, but they are not recommended to keep using and need migration to newer deps.

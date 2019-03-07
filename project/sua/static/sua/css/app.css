@@ -610,3 +610,42 @@ body {
 .bootstrap-select>button.dropdown-toggle.bs-placeholder {
     color: #6b747c;
 }
+
+/* bootstrap-table styles */
+
+.fixed-table-pagination {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+@media screen and (max-width: 800px) {
+    .fixed-table-pagination {
+        text-align: center;
+    }
+
+    .fixed-table-pagination>.pagination {
+        width: 100%;
+        display: block;
+    }
+
+    .fixed-table-pagination>.pagination>ul {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        -webkit-box-align: center;
+        -moz-box-align: center;
+        -ms-flex-align:center;
+        -webkit-box-pack: center;
+        -moz-box-pack: center;
+        -ms-flex-pack:center;
+    }
+}
+
+.fixed-table-toolbar {
+    padding-left: 15px;
+    padding-right: 20px;
+}
+
+.fixed-table-toolbar .btn {
+    padding: .23rem .75rem;
+}
