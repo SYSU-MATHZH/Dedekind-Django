@@ -95,8 +95,7 @@
                                data-search-align="left"
 
                                data-show-fullscreen="true"
-                               
-                               {% comment %} data-checkbox-header="true" {% endcomment %}
+
                                data-click-to-select="true"
                                data-maintain-selected="true"
 
@@ -161,15 +160,27 @@
                     </div>
                     <div class="card-body card-table-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table data-toggle="table"
+                                   data-classes="table table-hover table-striped"
+   
+                                   data-search="true"
+                                   data-search-align="left"
+   
+                                   data-show-fullscreen="true"
+                                   
+                                   data-click-to-select="true"
+                                   data-maintain-selected="true"
+   
+                                   data-pagination="true">
                                 <thead>
                                     <tr>
-                                        <th >活动名称</th>
-                                        <th>申请日期</th>
-                                        <th>申请人</th>
-                                        <th>举办单位</th>
-                                        <th>公益时数</th>
-                                        <th>审核结果</th>
+                                        <th data-sortable="true" data-checkbox="true"></th>
+                                        <th data-sortable="true">活动名称</th>
+                                        <th data-sortable="true">申请日期</th>
+                                        <th data-sortable="true">申请人</th>
+                                        <th data-sortable="true">举办单位</th>
+                                        <th data-sortable="true">公益时数</th>
+                                        <th data-sortable="true">审核结果</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
@@ -182,6 +193,7 @@
                                   {% else %}
                                     <tr>
                                   {% endif %}
+                                        <td></td>
                                         <td>{{ application.sua.activity.title }}</td>
                                         <td>{{ application.created }}</td>
                                         <td>{{ application.sua.student.name }}</td>
