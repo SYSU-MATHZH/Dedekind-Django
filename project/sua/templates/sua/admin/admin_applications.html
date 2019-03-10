@@ -163,17 +163,21 @@
                     <div class="card-body card-table-body">
                         <div class="table-responsive">
                             <table data-toggle="table"
-                                   data-classes="table table-hover table-striped"
-   
-                                   data-search="true"
-                                   data-search-align="left"
-   
-                                   data-show-fullscreen="true"
-                                   
-                                   data-click-to-select="true"
-                                   data-maintain-selected="true"
-   
-                                   data-pagination="true">
+                               data-classes="table table-hover table-striped"
+
+                               data-search="true"
+                               data-search-align="left"
+
+                               data-show-fullscreen="true"
+                               
+                               {% comment %} data-checkbox-header="true" {% endcomment %}
+                               data-click-to-select="true"
+                               data-maintain-selected="true"
+
+                               data-pagination="true">
+                                <thead>
+                                    <tr>
+                                        <th data-checkbox="true" data-sortable="true"></th>
                                 <thead>
                                     <tr>
                                         <th data-sortable="true" data-checkbox="true"></th>

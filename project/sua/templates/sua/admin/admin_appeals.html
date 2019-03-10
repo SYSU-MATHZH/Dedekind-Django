@@ -5,9 +5,12 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'sua/css/bootstrap.min.css' %}">
+    <!-- bootstrap-table CSS -->
+    <link rel="stylesheet" href="{% static 'sua/css/bootstrap-table.min.css' %}">
 
     <!-- My CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
@@ -89,14 +92,27 @@
                     </div>
                     <div class="card-body card-table-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table data-toggle="table"
+                                   data-classes="table table-hover table-striped"
+
+                                   data-search="true"
+                                   data-search-align="left"
+
+                                   data-show-fullscreen="true"
+                                   
+                                   {% comment %} data-checkbox-header="true" {% endcomment %}
+                                   data-click-to-select="true"
+                                   data-maintain-selected="true"
+
+                                   data-pagination="true">
                                 <thead>
                                     <tr>
-                                        <th>申诉的公示</th>
-                                        <th>申诉日期</th>
-                                        <th>申诉人</th>
-                                        <th>举办单位</th>
-                                        <th>处理结果</th>
+                                        <th data-checkbox="true" data-sortable="true"></th>
+                                        <th data-sortable="true">申诉的公示</th>
+                                        <th data-sortable="true">申诉日期</th>
+                                        <th data-sortable="true">申诉人</th>
+                                        <th data-sortable="true">举办单位</th>
+                                        <th data-sortable="true">处理结果</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
@@ -104,6 +120,7 @@
                                   {% if unreviewed_appeals %}
                                   {% for appeal in unreviewed_appeals %}
                                     <tr>
+                                        <td></td>
                                         <td>{{ appeal.publicity.title }}</td>
                                         <td>{{ appeal.created }}</td>
                                         <td>{{ appeal.student.name }}</td>
@@ -136,14 +153,27 @@
                     </div>
                     <div class="card-body card-table-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table data-toggle="table"
+                                   data-classes="table table-hover table-striped"
+
+                                   data-search="true"
+                                   data-search-align="left"
+
+                                   data-show-fullscreen="true"
+                                   
+                                   {% comment %} data-checkbox-header="true" {% endcomment %}
+                                   data-click-to-select="true"
+                                   data-maintain-selected="true"
+
+                                   data-pagination="true">
                                 <thead>
                                     <tr>
-                                        <th>申诉的公示</th>
-                                        <th>申诉日期</th>
-                                        <th>申诉人</th>
-                                        <th>举办单位</th>
-                                        <th>处理结果</th>
+                                        <th data-checkbox="true" data-sortable="true"></th>
+                                        <th data-sortable="true">申诉的公示</th>
+                                        <th data-sortable="true">申诉日期</th>
+                                        <th data-sortable="true">申诉人</th>
+                                        <th data-sortable="true">举办单位</th>
+                                        <th data-sortable="true">处理结果</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
@@ -151,6 +181,7 @@
                                   {% if appeals %}
                                   {% for appeal in appeals %}
                                     <tr>
+                                        <td></td>
                                         <td>{{ appeal.publicity.title }}</td>
                                         <td>{{ appeal.created }}</td>
                                         <td>{{ appeal.student.name }}</td>
@@ -183,6 +214,8 @@
     <script src="{% static 'sua/js/jquery-3.3.1.slim.min.js' %}"></script>
     <script src="{% static 'sua/js/popper.min.js' %}"></script>
     <script src="{% static 'sua/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'sua/js/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'sua/js/i18n/bootstrap-table-zh-CN.min.js' %}"></script>
 </body>
 
 </html>
