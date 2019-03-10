@@ -6,9 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'sua/css/bootstrap.min.css' %}">
-
+    <!-- bootstrap-table CSS -->
+    <link rel="stylesheet" href="{% static 'sua/css/bootstrap-table.min.css' %}">
     <!-- My CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
     <title>公益时平台</title>
@@ -86,13 +88,26 @@
               </div>
             <div class="card-body card-table-body">
               <div class="table-responsive">
-                  <table class="table table-hover table-striped">
+                  <table data-toggle="table"
+                         data-classes="table table-hover table-striped"
+
+                         data-search="true"
+                         data-search-align="left"
+
+                         data-show-fullscreen="true"
+                         
+                         {% comment %} data-checkbox-header="true" {% endcomment %}
+                         data-click-to-select="true"
+                         data-maintain-selected="true"
+
+                         data-pagination="true">
                       <thead>
                           <tr>
-                              <th>删除时间</th>
-                              <th>公示标题</th>
-                              <th>公示开始日</th>
-                              <th>公示结束日</th>
+                              <th data-checkbox="true" data-sortable="true"></th>
+                              <th data-sortable="true">删除时间</th>
+                              <th data-sortable="true">公示标题</th>
+                              <th data-sortable="true">公示开始日</th>
+                              <th data-sortable="true">公示结束日</th>
                               <th style="width: 10%;"></th>
                           </tr>
                       </thead>
@@ -100,6 +115,7 @@
                         {% if deleteds.publicities %}
                         {% for publicity in deleteds.publicities %}
                           <tr>
+                              <td></td>
                               <td>{{ publicity.deleted_at }}</td>
                               <td>{{ publicity.title }}</td>
                               <td>{{ publicity.begin }}</td>
@@ -132,14 +148,27 @@
                     </div>
                     <div class="card-body card-table-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table data-toggle="table"
+                                   data-classes="table table-hover table-striped"
+
+                                   data-search="true"
+                                   data-search-align="left"
+
+                                   data-show-fullscreen="true"
+                                   
+                                   {% comment %} data-checkbox-header="true" {% endcomment %}
+                                   data-click-to-select="true"
+                                   data-maintain-selected="true"
+
+                                   data-pagination="true">
                                 <thead>
                                     <tr>
-                                        <th>删除时间</th>
-                                        <th>名称</th>
-                                        <th>活动日期</th>
-                                        <th>参与总人数</th>
-                                        <th>活动创建人</th>
+                                        <th data-checkbox="true" data-sortable="true"></th>
+                                        <th data-sortable="true">删除时间</th>
+                                        <th data-sortable="true">名称</th>
+                                        <th data-sortable="true">活动日期</th>
+                                        <th data-sortable="true">参与总人数</th>
+                                        <th data-sortable="true">活动创建人</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
@@ -147,6 +176,7 @@
                                   {% if deleteds.activities %}
                                   {% for activity in deleteds.activities %}
                                     <tr>
+                                        <td></td>
                                         <td>{{ activity.deleted_at }}</td>
                                         <td>{{ activity.title }}</td>
                                         <td>{{ activity.date }}</td>
@@ -181,15 +211,28 @@
                     </div>
                     <div class="card-body card-table-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table data-toggle="table"
+                                   data-classes="table table-hover table-striped"
+
+                                   data-search="true"
+                                   data-search-align="left"
+
+                                   data-show-fullscreen="true"
+                                   
+                                   {% comment %} data-checkbox-header="true" {% endcomment %}
+                                   data-click-to-select="true"
+                                   data-maintain-selected="true"
+
+                                   data-pagination="true">
                                 <thead>
                                     <tr>
-                                        <th>删除时间</th>
-                                        <th>申请的活动</th>
-                                        <th>申请日期</th>
-                                        <th>举办单位</th>
-                                        <th>公益时数</th>
-                                        <th>是否已审核</th>
+                                        <th data-checkbox="true" data-sortable="true"></th>
+                                        <th data-sortable="true">删除时间</th>
+                                        <th data-sortable="true">申请的活动</th>
+                                        <th data-sortable="true">申请日期</th>
+                                        <th data-sortable="true">举办单位</th>
+                                        <th data-sortable="true">公益时数</th>
+                                        <th data-sortable="true">是否已审核</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
@@ -197,6 +240,7 @@
                                   {% if deleteds.applications %}
                                   {% for application in deleteds.applications %}
                                     <tr>
+                                        <td></td>
                                         <td>{{ application.deleted_at }}</td>
                                         <td>{{ application.sua.activity.title }}</td>
                                         <td>{{ application.created }}</td>
@@ -232,14 +276,27 @@
                         </div>
                         <div class="card-body card-table-body">
                             <div class="table-responsive">
-                                <table class="table table-hover table-striped">
+                                <table data-toggle="table"
+                                       data-classes="table table-hover table-striped"
+
+                                       data-search="true"
+                                       data-search-align="left"
+
+                                       data-show-fullscreen="true"
+                                       
+                                       {% comment %} data-checkbox-header="true" {% endcomment %}
+                                       data-click-to-select="true"
+                                       data-maintain-selected="true"
+
+                                       data-pagination="true">
                                     <thead>
                                         <tr>
-                                            <th>删除时间</th>
-                                            <th>申诉的公示</th>
-                                            <th>申诉日期</th>
-                                            <th>举办单位</th>
-                                            <th>处理结果</th>
+                                            <th data-checkbox="true" data-sortable="true"></th>
+                                            <th data-sortable="true">删除时间</th>
+                                            <th data-sortable="true">申诉的公示</th>
+                                            <th data-sortable="true">申诉日期</th>
+                                            <th data-sortable="true">举办单位</th>
+                                            <th data-sortable="true">处理结果</th>
                                             <th style="width: 10%;"></th>
                                         </tr>
                                     </thead>
@@ -247,6 +304,7 @@
                                       {% if deleteds.appeals %}
                                       {% for appeal in deleteds.appeals %}
                                         <tr>
+                                            <td></td>
                                             <td>{{ appeal.deleted_at }}</td>
                                             <td>{{ appeal.publicity.activity.title }}</td>
                                             <td>{{ appeal.created }}</td>
@@ -277,6 +335,8 @@
     <script src="{% static 'sua/js/jquery-3.3.1.slim.min.js' %}"></script>
     <script src="{% static 'sua/js/popper.min.js' %}"></script>
     <script src="{% static 'sua/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'sua/js/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'sua/js/i18n/bootstrap-table-zh-CN.min.js' %}"></script>
 </body>
 
 </html>

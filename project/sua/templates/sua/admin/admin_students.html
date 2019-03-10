@@ -5,10 +5,14 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'sua/css/bootstrap.min.css' %}">
 
+    <!-- bootstrap-table CSS -->
+    <link rel="stylesheet" href="{% static 'sua/css/bootstrap-table.min.css' %}">
     <!-- My CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
     <title>公益时平台</title>
@@ -96,15 +100,28 @@
                     </div>
                     <div class="card-body card-table-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table data-toggle="table"
+                                   data-classes="table table-hover table-striped"
+
+                                   data-search="true"
+                                   data-search-align="left"
+
+                                   data-show-fullscreen="true"
+                                   
+                                   {% comment %} data-checkbox-header="true" {% endcomment %}
+                                   data-click-to-select="true"
+                                   data-maintain-selected="true"
+
+                                   data-pagination="true">
                                 <thead>
                                     <tr>
-                                        <th>姓名</th>
-                                        <th>学号</th>
-                                        <th>班级</th>
-                                        <th>公益时</th>
-                                        <th>联系方式</th>
-                                        <th>身份</th>
+                                        <th data-checkbox="true" data-sortable="true"></th>
+                                        <th data-sortable="true">姓名</th>
+                                        <th data-sortable="true">学号</th>
+                                        <th data-sortable="true">班级</th>
+                                        <th data-sortable="true">公益时</th>
+                                        <th data-sortable="true">联系方式</th>
+                                        <th data-sortable="true">身份</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
@@ -112,6 +129,7 @@
                                   {% if students %}
                                   {% for student in students %}
                                     <tr>
+                                        <td></td>
                                         <td>{{ student.name }}</td>
                                         <td>{{ student.number }}</td>
                                         <td>{{ student.grade }}级{{ student.classtype }}班</td>
@@ -158,15 +176,28 @@
                     </div>
                     <div class="card-body card-table-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table data-toggle="table"
+                                   data-classes="table table-hover table-striped"
+
+                                   data-search="true"
+                                   data-search-align="left"
+
+                                   data-show-fullscreen="true"
+                                   
+                                   {% comment %} data-checkbox-header="true" {% endcomment %}
+                                   data-click-to-select="true"
+                                   data-maintain-selected="true"
+
+                                   data-pagination="true">
                                 <thead>
                                     <tr>
-                                        <th>姓名</th>
-                                        <th>学号</th>
-                                        <th>班级</th>
-                                        <th>公益时</th>
-                                        <th>联系方式</th>
-                                        <th>身份</th>
+                                        <th data-checkbox="true" data-sortable="true"></th>
+                                        <th data-sortable="true">姓名</th>
+                                        <th data-sortable="true">学号</th>
+                                        <th data-sortable="true">班级</th>
+                                        <th data-sortable="true">公益时</th>
+                                        <th data-sortable="true">联系方式</th>
+                                        <th data-sortable="true">身份</th>
                                         <th style="width: 10%;"></th>
                                     </tr>
                                 </thead>
@@ -174,6 +205,7 @@
                                   {% if un_students %}
                                   {% for student in un_students %}
                                     <tr>
+                                        <td></td>
                                         <td>{{ student.name }}</td>
                                         <td>{{ student.number }}</td>
                                         <td>{{ student.grade }}级{{ student.classtype }}班</td>
@@ -208,6 +240,8 @@
     <script src="{% static 'sua/js/jquery-3.3.1.slim.min.js' %}"></script>
     <script src="{% static 'sua/js/popper.min.js' %}"></script>
     <script src="{% static 'sua/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'sua/js/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'sua/js/i18n/bootstrap-table-zh-CN.min.js' %}"></script>
 </body>
 
 </html>
