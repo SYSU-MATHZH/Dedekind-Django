@@ -59,6 +59,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/activities/add/">创建活动</a>
+                        <a class="dropdown-item" href="/admin/AcademicYear/">更改学年度</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown active">
@@ -95,8 +96,7 @@
                                data-search-align="left"
 
                                data-show-fullscreen="true"
-                               
-                               {% comment %} data-checkbox-header="true" {% endcomment %}
+
                                data-click-to-select="true"
                                data-maintain-selected="true"
 
@@ -177,6 +177,9 @@
                                 <thead>
                                     <tr>
                                         <th data-checkbox="true" data-sortable="true"></th>
+                                <thead>
+                                    <tr>
+                                        <th data-sortable="true" data-checkbox="true"></th>
                                         <th data-sortable="true">活动名称</th>
                                         <th data-sortable="true">申请日期</th>
                                         <th data-sortable="true">申请人</th>

@@ -715,7 +715,7 @@ class AcademicYearView(BaseView, NavMixin):
         return serialized
 
     def deserialize(self, request, *args, **kwargs):
-        if request.user.is_valid:
+        if request.user.is_staff:
             academicYear = AcademicYear.objects.last()
             if academicYear:
                 academicYear.start = request.data['start']

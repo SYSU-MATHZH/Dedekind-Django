@@ -17,12 +17,6 @@
 </head>
 
 <body style="background-color: #EEEEEE">
-    {% if academicYear %}
-      <p> {{ academicYear.start }} </p>
-      <p> {{ academicYear.end }} </p>
-    {% else %}
-      <p> 还未设置学年度，请设置学年度 </p>
-    {% endif %}
     <div class="row main-content">
         <div class="col-lg">
             <div class="invoice">
@@ -33,22 +27,26 @@
                             <div class="invoice-logo"></div>
                         </div>
                         <div class="col-sm-5 invoice-order">
-                            <span class="invoice-id">修改密码</span>
+                            <span class="invoice-id">当前学年度：</span>
+                            {% if academicYear %}
+                            <span class="invoice-id" style="font-size:80%">{{ academicYear.start }} ～ {{ academicYear.end }}</span>
+                            {% else %}
+                            <span class="invoice-id" style="font-size:80%">{还未设置学年度，请设置学年度</span>
+                            {% endif %}
                         </div>
                     </div>
-
-                    <div class="form-group pt-3">
-                        <label class="required">start</label>
-                        <input name="start" type="date"/>
+                    <div>
+                    <label class="required">学年度开始日期</label>
+                      <input name="start" class="form-control" type="date" data-parsley-trigger="focusout" value="{{ serializer.data.start }}" required>
                     </div>
-                    <div class="form-group pt-3">
-                        <label class="required">end</label>
-                        <input name="end" type="date"/>
+                    <div>
+                    <label class="required">学年度结束日期</label>
+                      <input name="end" class="form-control" type="date" data-parsley-trigger="focusout" value="{{ serializer.data.end }}" required>
                     </div>
                     <div class="row invoice-footer">
                         <div class="col-lg-12">
                             <button type="submit" class="btn btn-lg btn-space btn-primary">提交</button>
-                            <a class="btn btn-lg btn-space btn-secondary" href="/students/{{ nav.student.id }}/detail/">返回</a>
+                            <a class="btn btn-lg btn-space btn-secondary" href="/">返回</a>  <!-- 目前返回主页，后续待修改-->
                         </div>
                     </div>
                 </form>
