@@ -1,0 +1,57 @@
+
+<!doctype html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'sua/css/bootstrap.min.css' %}">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
+
+    <title>公益时平台</title>
+</head>
+
+<body style="background-color: #EEEEEE">
+    <div class="row main-content">
+        <div class="col-lg">
+            <div class="invoice">
+                <form id="form" enctype="multipart/form-data" role="form" action="" method="POST" data-parsley-validate>
+                    {% csrf_token %}
+                    <div class="row invoice-form-header">
+                        <div class="col-sm-7">
+                            <div class="invoice-logo"></div>
+                        </div>
+                        <div class="col-sm-5 invoice-order">
+                            <span class="invoice-id">当前联系方式</span>
+                            {% if email %}
+                            <span class="invoice-id" style="font-size:80%">{{email}}</span>
+                            {% else %}
+                            <span class="invoice-id" style="font-size:80%">{还未设置联系方式，请设置联系方式</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                    <label class="required">新的联系方式</label>
+                      <input name="newemail" class="form-control" type="text" data-parsley-trigger="focusout" value="{{ serializer.data.email }}" required> <!-- test -->
+                    </div>
+
+                    <div class="row invoice-footer">
+                        <div class="col-lg-12">
+                            <button type="submit" class="btn btn-lg btn-space btn-primary">提交</button>
+                            <a class="btn btn-lg btn-space btn-secondary" href="/">返回</a>  <!-- 目前返回主页，后续待修改-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <script src="{% static 'sua/js/jquery-3.3.1.slim.min.js' %}"></script>
+    <script src="{% static 'sua/js/popper.min.js' %}"></script>
+    <script src="{% static 'sua/js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>
