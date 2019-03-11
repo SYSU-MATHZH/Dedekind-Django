@@ -27,22 +27,19 @@
                             <div class="invoice-logo"></div>
                         </div>
                         <div class="col-sm-5 invoice-order">
-                            <span class="invoice-id">当前学年度：</span>
-                            {% if academicYear %}
-                            <span class="invoice-id" style="font-size:80%">{{ academicYear.start }} ～ {{ academicYear.end }}</span>
+                            <span class="invoice-id">当前联系方式</span>
+                            {% if email %}
+                            <span class="invoice-id" style="font-size:80%">{{email}}</span>
                             {% else %}
-                            <span class="invoice-id" style="font-size:80%">{还未设置学年度，请设置学年度</span>
+                            <span class="invoice-id" style="font-size:80%">{还未设置联系方式，请设置联系方式</span>
                             {% endif %}
                         </div>
                     </div>
                     <div>
-                    <label class="required">学年度开始日期</label>
-                      <input name="start" class="form-control" type="date" data-parsley-trigger="focusout" value="{{ serializer.data.start }}" required>
+                    <label class="required">新的联系方式</label>
+                      <input name="newemail" class="form-control" type="text" data-parsley-trigger="focusout" value="{{ serializer.data.email }}" required> <!-- test -->
                     </div>
-                    <div>
-                    <label class="required">学年度结束日期</label>
-                      <input name="end" class="form-control" type="date" data-parsley-trigger="focusout" value="{{ serializer.data.end }}" required>
-                    </div>
+
                     <div class="row invoice-footer">
                         <div class="col-lg-12">
                             <button type="submit" class="btn btn-lg btn-space btn-primary">提交</button>

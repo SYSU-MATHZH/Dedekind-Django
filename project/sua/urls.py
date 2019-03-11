@@ -72,5 +72,7 @@ urlpatterns = [
     path('activities/tab',login_required(Activity_tab_View.as_view()), ),
     path('deleteds/tab',login_required(Deleted_tab_View.as_view()), ),
     path('admin/AcademicYear/',login_required(admin.AcademicYearView.as_view()), ),
+    path('admin/AdminChangeInfo/',login_required(admin.AdminChangeInfo.as_view()), ),   ## change admin info
     path('activities/<int:pk>/download/', login_required(admin.ActivityDownload) )
+
 ]

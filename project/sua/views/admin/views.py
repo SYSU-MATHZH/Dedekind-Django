@@ -34,6 +34,7 @@ from project.sua.permissions import IsAdminUserOrActivity
 
 from django.http import HttpResponseRedirect, Http404
 from django.http import HttpResponse
+from django.contrib.auth.models import User, Group
 import xlwt
 import xlrd
 from io import BytesIO
@@ -803,3 +804,28 @@ def ActivityDownload(request, *args, **kwargs):
     output.seek(0)
     response.write(output.getvalue())
     return response
+
+# 更改 admin 联系方式
+class AdminChangeInfo(BaseView, NavMixin):
+    template_name = 'sua/AdminChangeInfo.html'
+    components = {
+        'nav': 'nav',
+    }
+    def serialize(self, request, *args, **kwargs):
+        email=User.objects.get(id=1).email
+        serialized = super(AdminChangeInfo, self).serialize(request)
+        serialized.update({
+            "email":email,
+        })
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        if request.user.is_staff:
+            user=User.objects.get(id=1)
+            user.email = request.data['newemail']
+            user.save()
+            self.url = "/admin/AdminChangeInfo/"
+            return True
+        return False
+
+
