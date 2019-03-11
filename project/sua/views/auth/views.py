@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
+from project.sua.models import User
 
 from .forms import LoginForm
 
@@ -24,7 +25,7 @@ def login_view(request):
                 return HttpResponseRedirect('/login')
     else:
         form = LoginForm()
-    return render(request, 'sua/login.html', {'form': form})
+    return render(request, 'sua/login.html', {'form': form, 'user':User.objects.first()})
 
 
 def logout_view(request):
