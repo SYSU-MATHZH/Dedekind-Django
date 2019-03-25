@@ -1,3 +1,5 @@
+from project.sua.views.form.serializers import AddStudentSerializer
+
 from project.sua.models import Publicity
 from project.sua.models import Sua
 from project.sua.models import Application
@@ -584,7 +586,7 @@ def CheckThePublicityView(request, *args, **kwargs):
             publicity.is_published=False
         publicity.save()
     return HttpResponseRedirect("/")
-
+#为申请标志
 def MarkApplicationView(request, *args,**kwargs):
     application_id = kwargs['pk']
     application = Application.objects.filter(deleted_at=None, id=application_id).get()
@@ -649,7 +651,7 @@ class ApplicationsMergeView(BaseView, NavMixin):
 
         self.url="/"
         return True
-
+#批量添加公益时记录
 class Batch_AddSuasView(BaseView, NavMixin):
     template_name = 'sua/batch_add_suas.html'
     components = {
@@ -698,9 +700,29 @@ class Batch_AddSuasView(BaseView, NavMixin):
                 sua.suahours=col[2]
                 sua.save()
         self.url = '/activities/'+str(activity_id)+'/detail/'
-        print(self.url)
         return True
 
+class Batch_AddStudentsView(BaseView, NavMixin):
+    template_name = 'sua/batch_add_students.html'
+    components = {
+        'nav': 'nav',
+    }
+    def deserialize(self, request, *args, **kwargs):
+        uploadedFile = request.FILES.get('filename')  #获取上传的excel
+        book = xlrd.open_workbook(filename=None, file_contents=uploadedFile.read())
+        table = book.sheets()[0]
+        row = table.nrows
+        for i in range(1, row):             #每行录入sua记录
+            col = table.row_values(i)
+            if '' in col[:-1]:
+                continue
+            else:
+                if not Student.objects.filter(deleted_at=None, name=col[1], number=col[0]):
+                    stu = AddStudentSerializer()
+                    stu.create(validated_data={'number':col[0],'name':col[1],'grade':col[2],'classtype':col[3],'phone':col[4],
+                                                'power':col[5],'user':{'password':'123456'}})
+        self.url = '/students/tab'
+        return True
 #调整学年度
 class AcademicYearView(BaseView, NavMixin):
     template_name = 'sua/AcademicYear.html'

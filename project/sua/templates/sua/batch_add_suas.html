@@ -81,6 +81,7 @@
           <form id="form" enctype="multipart/form-data" role="form" action="" method="POST" data-parsley-validate>
             {% csrf_token %}
             <h3 class="pt-5">Excel文件：</h3>
+            <p>说明，上传的excel文件格式必须是只有sheet[0]，而且第一行有标题，第一列是名字，第二列是组别，第三列是公益时，数据是从第二行开始录入的</p>
             <div id="inputFiles" class="form-group pt-3">
               <!-- <label for="inputFilesEle" class="fileLabel btn btn-lg btn-space btn-secondary">上传文件</label> -->
               <input id="inputFilesEle" name="filename" type="file" class="file" multiple>
@@ -95,7 +96,6 @@
           </form>
         </div>
       </div>
-        <p>说明，上传的excel文件格式必须是只有sheet[0]，而且第一行有标题，第一列是名字，第二列是组别，第三列是公益时，数据是从第二行开始录入的</p>
     </div>
 
   </div>
