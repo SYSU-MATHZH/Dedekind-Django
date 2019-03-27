@@ -709,7 +709,10 @@ class Batch_AddStudentsView(BaseView, NavMixin):
     }
     def deserialize(self, request, *args, **kwargs):
         uploadedFile = request.FILES.get('filename')  #获取上传的excel
-        book = xlrd.open_workbook(filename=None, file_contents=uploadedFile.read())
+        try:
+            book = xlrd.open_workbook(filename=None, file_contents=uploadedFile.read())
+        except:
+            return HttpResponse("请上传文件。")
         table = book.sheets()[0]
         row = table.nrows
         for i in range(1, row):             #每行录入sua记录
@@ -717,10 +720,12 @@ class Batch_AddStudentsView(BaseView, NavMixin):
             if '' in col[:-1]:
                 continue
             else:
-                if not Student.objects.filter(deleted_at=None, name=col[1], number=col[0]):
+                if not Student.objects.filter(deleted_at=None, number=int(col[0])):
+                    if col[6] != '':
+                        col[6] = int(col[6])
                     stu = AddStudentSerializer()
-                    stu.create(validated_data={'number':col[0],'name':col[1],'grade':col[2],'classtype':col[3],'phone':col[4],
-                                                'power':col[5],'user':{'password':'123456'}})
+                    stu.create(validated_data={'number':int(col[0]),'name':col[1],'grade':int(col[2]),'classtype':int(col[3]),'power':int(col[4]),
+                                                'phone':col[6],'user':{'password':str(int(col[5]))}})
         self.url = '/students/tab'
         return True
 #调整学年度
@@ -849,5 +854,3 @@ class AdminChangeInfo(BaseView, NavMixin):
             self.url = "/admin/AdminChangeInfo/"
             return True
         return False
-
-
