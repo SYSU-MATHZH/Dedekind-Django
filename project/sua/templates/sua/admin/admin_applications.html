@@ -90,7 +90,8 @@
                         </div>
                     </div>
                     <div class="card-body card-table-body">
-                        <table data-toggle="table"
+                        <table id="pending-applications"
+                               data-toggle="table"
                                data-classes="table table-hover table-striped"
 
                                data-search="true"
@@ -115,13 +116,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% if unreviewed_applications %}
                                 {% for application in unreviewed_applications %}
-                                {% if application.mark %}
-                                <tr style="background-color:#FFEC8B">
-                                {% else %}
-                                <tr>
-                                {% endif %}
+                                <tr data-application-id="{{ application.id }}" data-initial-checked="{{ application.mark|lower }}">
                                     <td></td>
                                     <td>{{ application.sua.activity.title }}</td>
                                     <td>{{ application.created }}</td>
@@ -147,7 +143,6 @@
                                     </td>
                                 </tr>
                                 {% endfor %}
-                                {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -162,15 +157,15 @@
                     </div>
                     <div class="card-body card-table-body">
                         <div class="table-responsive">
-                            <table data-toggle="table"
+                            <table id="approved-applications"
+                                   data-toggle="table"
                                    data-classes="table table-hover table-striped"
 
                                    data-search="true"
                                    data-search-align="left"
 
                                    data-show-fullscreen="true"
-                                    
-                                    {% comment %} data-checkbox-header="true" {% endcomment %}
+
                                    data-click-to-select="true"
                                    data-maintain-selected="true"
 
@@ -189,14 +184,9 @@
                                 </thead>
 
                                 <tbody>
-                                  {% if applications %}
                                   {% for application in applications %}
-                                  {% if application.mark %}
-                                    <tr style="background-color:#FFEC8B">
-                                  {% else %}
-                                    <tr>
-                                  {% endif %}
-                                        <td></td>
+                                    <tr data-application-id="{{ application.id }}" data-initial-checked="{{ application.mark|lower }}">
+                                        <td ></td>
                                         <td>{{ application.sua.activity.title }}</td>
                                         <td>{{ application.created }}</td>
                                         <td>{{ application.sua.student.name }}</td>
@@ -219,8 +209,6 @@
                                         </td>
                                     </tr>
                                     {% endfor %}
-                                    {% endif %}
-
                                 </tbody>
                             </table>
                         </div>
@@ -237,6 +225,52 @@
     <script src="{% static 'sua/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'sua/js/bootstrap-table.min.js' %}"></script>
     <script src="{% static 'sua/js/i18n/bootstrap-table-zh-CN.min.js' %}"></script>
+    <script>
+    ;"use strict"
+    var applicationTables = ["#pending-applications", "#approved-applications"]
+
+    // click event factory
+    var clickEvent = function() {
+        return new MouseEvent('click', {
+            'view': window,
+            'bubbles': true,
+            'cancelable': true
+        })
+    }
+
+    var markHandler = function(table, oncheck) {
+        return function(e, row, elem) {
+            markAPIurl = "/admin/applications/" + row._data["application-id"] + "/mark/"
+            request = new XMLHttpRequest()
+            request.onerror = function() {e.preventDefault()}
+            request.onabort = function() {e.preventDefault()}
+            request.open("GET", markAPIurl)
+            request.send(null)
+        }
+    }
+
+    $(document).ready(function() {
+        applicationTables.map(function(tableId) {
+            //remove selectAll checkbox, since it is useless
+            $('th.bs-checkbox>div').text("标记")
+            $('th.bs-checkbox>div.fht-cell').text('')
+            // check all the table that is marked
+            var table = $(tableId)
+            $.each($(tableId + '>tbody>tr[data-initial-checked="true"]'), function(index, elem) {
+                table.bootstrapTable("check", $(this).attr("data-index"))
+            })
+            // simulate click to toggle sort
+            // click twice to make the sort order "decrease"
+            var header = $(tableId + '>thead>tr>th[data-field="0"]>div')[0]
+            header.dispatchEvent(clickEvent())
+            header.dispatchEvent(clickEvent())
+
+            //addMarkHandler
+            table.on('check.bs.table', markHandler(table, true))
+            table.on('uncheck.bs.table', markHandler(table, false))
+        })
+    })
+    </script>
 </body>
 
 </html>

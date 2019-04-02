@@ -600,7 +600,8 @@ def MarkApplicationView(request, *args,**kwargs):
         else:
             application.mark = True
         application.save()
-    return HttpResponseRedirect('/applications/tab')
+    return HttpResponse(status=200)
+    # return HttpResponseRedirect('/applications/tab')
 
 
 class ApplicationsMergeView(BaseView, NavMixin):
