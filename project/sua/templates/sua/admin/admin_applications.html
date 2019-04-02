@@ -94,6 +94,8 @@
                                data-toggle="table"
                                data-classes="table table-hover table-striped"
 
+                               data-checkbox-header="false"
+
                                data-search="true"
                                data-search-align="left"
 
@@ -161,6 +163,8 @@
                                    data-toggle="table"
                                    data-classes="table table-hover table-striped"
 
+                                   data-checkbox-header="false"
+
                                    data-search="true"
                                    data-search-align="left"
 
@@ -198,11 +202,6 @@
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">操作</button>
                                                 <div class="dropdown-menu" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
                                                     <a class="dropdown-item" href="{{ application.url }}">查看详情</a>
-                                                    {% if application.mark %}
-                                                        <a class="dropdown-item" href="/admin/applications/{{ application.id }}/mark/">取消标记</a>
-                                                    {% else %}
-                                                        <a class="dropdown-item" href="/admin/applications/{{ application.id }}/mark/">标记</a>
-                                                    {% endif %}
                                                     <a class="dropdown-item" href="/applications/{{ application.id }}/delete/">删除</a>
                                                 </div>
                                             </div>
@@ -226,50 +225,59 @@
     <script src="{% static 'sua/js/bootstrap-table.min.js' %}"></script>
     <script src="{% static 'sua/js/i18n/bootstrap-table-zh-CN.min.js' %}"></script>
     <script>
-    ;"use strict"
-    var applicationTables = ["#pending-applications", "#approved-applications"]
+    ;(function() {
+        ;"use strict"
+        var applicationTables = ["#pending-applications", "#approved-applications"]
 
-    // click event factory
-    var clickEvent = function() {
-        return new MouseEvent('click', {
-            'view': window,
-            'bubbles': true,
-            'cancelable': true
-        })
-    }
-
-    var markHandler = function(table, oncheck) {
-        return function(e, row, elem) {
-            markAPIurl = "/admin/applications/" + row._data["application-id"] + "/mark/"
-            request = new XMLHttpRequest()
-            request.onerror = function() {e.preventDefault()}
-            request.onabort = function() {e.preventDefault()}
-            request.open("GET", markAPIurl)
-            request.send(null)
-        }
-    }
-
-    $(document).ready(function() {
-        applicationTables.map(function(tableId) {
-            //remove selectAll checkbox, since it is useless
-            $('th.bs-checkbox>div').text("标记")
-            $('th.bs-checkbox>div.fht-cell').text('')
-            // check all the table that is marked
-            var table = $(tableId)
-            $.each($(tableId + '>tbody>tr[data-initial-checked="true"]'), function(index, elem) {
-                table.bootstrapTable("check", $(this).attr("data-index"))
+        // click event factory
+        var clickEvent = function() {
+            return new MouseEvent('click', {
+                'view': window,
+                'bubbles': true,
+                'cancelable': true
             })
-            // simulate click to toggle sort
-            // click twice to make the sort order "decrease"
-            var header = $(tableId + '>thead>tr>th[data-field="0"]>div')[0]
-            header.dispatchEvent(clickEvent())
-            header.dispatchEvent(clickEvent())
+        }
 
-            //addMarkHandler
-            table.on('check.bs.table', markHandler(table, true))
-            table.on('uncheck.bs.table', markHandler(table, false))
+        var lastMarkTime = Date.now();
+
+        var markHandler = function(table, oncheck) {
+            return function(e, row, elem) {
+                if (Math.abs(Date.now() - lastMarkTime) < 300){
+                    e.preventDefault()
+                    return
+                }
+                markAPIurl = "/admin/applications/" + row._data["application-id"] + "/mark/"
+                request = new XMLHttpRequest()
+                request.onerror = function() {e.preventDefault()}
+                request.onabort = function() {e.preventDefault()}
+                request.open("GET", markAPIurl)
+                request.send(null)
+                lastMarkTime = Date.now()
+            }
+        }
+
+        $(document).ready(function() {
+            applicationTables.map(function(tableId) {
+                //add text to the chackbox header
+                $('th.bs-checkbox>div').text("标记")
+                $('th.bs-checkbox>div.fht-cell').text('')
+                // check all the table that is marked
+                var table = $(tableId)
+                $.each($(tableId + '>tbody>tr[data-initial-checked="true"]'), function(index, elem) {
+                    table.bootstrapTable("check", $(this).attr("data-index"))
+                })
+                // simulate click to toggle sort
+                // click twice to make the sort order "decrease"
+                var header = $(tableId + '>thead>tr>th[data-field="0"]>div')[0]
+                header.dispatchEvent(clickEvent())
+                header.dispatchEvent(clickEvent())
+
+                //addMarkHandler
+                table.on('check.bs.table', markHandler(table, true))
+                table.on('uncheck.bs.table', markHandler(table, false))
+            })
         })
-    })
+    })()
     </script>
 </body>
 
