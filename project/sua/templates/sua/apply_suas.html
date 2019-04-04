@@ -86,7 +86,7 @@
     <div class="row main-content">
       <div class="col-lg">
         <div class="invoice">
-          <form id="form" enctype="multipart/form-data" role="form" action="" method="POST" data-parsley-validate>
+          <form id="form" enctype="multipart/form-data" role="form" action="" method="POST" ><!-- data-parsley-validate -->
               {% csrf_token %}
             <div class="row invoice-form-header">
               <div class="col-sm-7">
@@ -106,7 +106,7 @@
             </div>
             <div class="form-group pt-3">
               <label class="required">活动详情</label>
-              <textarea name="detail" class="form-control" rows=5 type="text" placeholder="请填写该公益时活动的详情"></textarea>
+              <textarea name="detail" class="form-control" rows=5 type="text" placeholder="请填写该公益时活动的详情" data-parsley-trigger="focusout"></textarea>
             </div>
             <div class="form-group pt-3">
               <label class="required">活动组织单位</label>
@@ -128,12 +128,13 @@
                 <div class="form-group pt-3">
                   <label class="required">学号</label>
                   <input name="number" class="form-control" type="text" placeholder="请填写参与者的学号"
-                    required>
+                    data-parsley-trigger="focusout" required>
                 </div>
                 <div class="form-group pt-3">
                   <label class="required">参与组别</label>
                   <input name="team" class="form-control" type="text"
-                    placeholder="请填写参与者在该公益时活动参加的小组名称" required>
+                    placeholder="请填写参与者在该公益时活动参加的小组名称"
+                    data-parsley-trigger="focusout" required>
                 </div>
                 <div class="form-group pt-3">
                   <label class="required">公益时数</label>
@@ -218,11 +219,13 @@
         ++participantCount;
 
         var participants = $("#participants")
-        var participantsArr = participants.children()
 
         var info = {}
+        var lastParticipant = function() {
+          return participants.children().last()
+        }
         var lastParticipantInput = function(name) {
-          return participants.children().last().find(`input[name=${name}]`)
+          return lastParticipant().find(`input[name=${name}]`)
         }
         formToCopy.map(function(name) {
           info[name] = lastParticipantInput(name).val()
@@ -235,8 +238,14 @@
               删除参与人&nbsp;<i class="fas fa-times"></i>
             </div>
           </div>
-            ${participantsArr[0].innerHTML}
+            ${participants.children()[0].innerHTML}
           </div>`)
+        var last = lastParticipant()
+        last.find("ul").remove()
+        last.find(".parsley-error").removeClass("parsley-error")
+        ;["data-parsley-id", "aria-describedby"].map(function(attr) {
+          last.find(`[${attr}]`).removeAttr(attr)
+        })
 
         formToCopy.map(function(name) {
           lastParticipantInput(name).val(info[name])
@@ -247,7 +256,12 @@
         removeButton.on("click", function() {
           $(formId).remove()
         })
+
+        // update validator
+        $('#form').parsley().refresh()
       })
+
+      $('#form').parsley()
     })
   </script>
 </body>
