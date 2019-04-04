@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
 
-from project.sua.models import Publicity,Activity,Application,Student
+from project.sua.models import Publicity,Activity,Application,Student,Sua,Proof
 
 from project.sua.serializers import PublicitySerializer
 from project.sua.serializers import SuaSerializer
@@ -365,7 +365,7 @@ class ApplyView(BaseView, NavMixin):
         else:
             return False
 
-        # print(request.data)
+        print(request.data)
         activity_serializer = DEActivityForAddApplicationsSerializer(data=request.data, context={'request': request})
         sua_serializer = DESuaForAddApplicationsSerializer(data=request.data, context={'request': request})
         proof_serializer = DEProofForAddApplicationsSerializer(data=request.data, context={'request': request})
@@ -380,6 +380,68 @@ class ApplyView(BaseView, NavMixin):
         else:
             return False
 
+class ApplySuasView(BaseView,NavMixin):
+    template_name = 'sua/apply_suas.html'
+    components = {
+        'nav': 'nav',
+    }
+    def serialize(self, request, *args, **kwargs):
+        serialized = super(ApplySuasView, self).serialize(request)
+
+        # user = request.user
+        # if hasattr(user, 'student'): # 判断当前用户是否为学生
+        activity_serializer = DEActivityForAddApplicationsSerializer()
+        sua_serializer = DESuaForAddApplicationsSerializer()
+        proof_serializer = DEProofForAddApplicationsSerializer()
+        application_serializer = DEAddApplicationsSerializer()
+
+        serialized.update({
+            'activity':activity_serializer,
+            'sua':sua_serializer,
+            'proof':proof_serializer,
+            'application':application_serializer
+        })
+
+        return serialized
+
+    def deserialize(self, request, *args, **kwargs):
+        user = request.user
+        if hasattr(user, 'student'):  # 判断当前用户是否为学生
+            student = user.student
+        else:
+            return False
+
+        activity_serializer = DEActivityForAddApplicationsSerializer(data=request.data, context={'request': request})
+        if activity_serializer.is_valid():
+            activity = activity_serializer.save(owner=user, is_created_by_student=True)
+
+        suas = list()
+        for id,number in enumerate(request.data.getlist('number')):
+            try:
+                suahours = request.data.getlist('suahours')[id]
+                team = request.data.getlist('team')[id]
+            except:
+                return False
+            student = Student.objects.get(number=number)
+            sua = Sua.objects.create(
+                team=team,
+                suahours=suahours,
+                student=student,
+                owner=student.user,
+                activity=activity,
+                )
+            suas.append(sua)
+
+        try:
+            for sua in suas:
+                proof = Proof.objects.create(owner=sua.owner,is_offline=bool(request.data.get('is_offline')),proof_file=request.data.get('proof_file'))
+                application = Application.objects.create(sua=sua, proof=proof, owner=sua.owner,contact=request.data.get('contact',None))
+            self.url = '/applications/tab'
+            return True
+        except:
+            return False
+
+
 class ChangePasswordView(BaseView, NavMixin):
     template_name = 'sua/change_password.html'
     components = {
@@ -390,7 +452,7 @@ class ChangePasswordView(BaseView, NavMixin):
 
         id = kwargs['pk']
         user = request.user
-        
+
         user_data = authenticate(username = user,password = request.data['OldPassword'])
         if user_data == user and request.data['NewPassword1'] == request.data['NewPassword2']:
             user.set_password(request.data['NewPassword1'])

@@ -74,6 +74,7 @@ urlpatterns = [
     path('deleteds/tab',login_required(Deleted_tab_View.as_view()), ),
     path('admin/AcademicYear/',login_required(admin.AcademicYearView.as_view()), ),
     path('admin/AdminChangeInfo/',login_required(admin.AdminChangeInfo.as_view()), ),   ## change admin info
-    path('activities/<int:pk>/download/', login_required(admin.ActivityDownload) )
+    path('activities/<int:pk>/download/', login_required(admin.ActivityDownload) ),
+    path('applications/applySuas/', login_required(student.ApplySuasView.as_view()))
 
 ]

@@ -624,6 +624,7 @@ class ApplicationsMergeView(BaseView, NavMixin):
         for application in applications_data.data:
             application['created'] = tools.DateTime2String_SHOW(tools.TZString2DateTime(application['created']))
         serialized = super(ApplicationsMergeView, self).serialize(request)
+        print(activities_data.data)
         serialized.update({
             'activities': activities_data.data,
             'applications': applications_data.data,
