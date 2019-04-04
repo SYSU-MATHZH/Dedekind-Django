@@ -649,3 +649,18 @@ body {
 .fixed-table-toolbar .btn {
     padding: .23rem .75rem;
 }
+
+@media screen and (max-width: 990px) {
+    nav div.dropdown-menu {
+        background: #4d4d4d;
+    }
+    nav div.dropdown-menu>.dropdown-item {
+        color: rgba(255,255,255,.80);
+    }
+    nav div.dropdown-menu>.dropdown-item:hover {
+        color: #16181b;
+    }
+    nav .dropdown-divider {
+        border-top: 1px solid #e9ecef86
+    }
+}
