@@ -110,7 +110,7 @@
   <script src="{% static 'sua/js/piexif.min.js' %}" type="text/javascript"></script>
   <script src="{% static 'sua/js/fileinput.min.js' %}"></script>
   <script src="{% static 'sua/js/i18n/bootstrap-fileinput/zh.js' %}"></script>
-  <script>
+  {% comment %} <script>
     $('#inputFilesEle').fileinput({
         language: 'zh',
         showUpload: false,
@@ -130,7 +130,7 @@
         $('#inputFiles').css('display', 'none');
       }
     });
-  </script>
+  </script> {% endcomment %}
 </body>
 
 </html>
