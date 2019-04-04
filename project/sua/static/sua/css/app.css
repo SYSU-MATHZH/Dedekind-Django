@@ -664,3 +664,29 @@ body {
         border-top: 1px solid #e9ecef86
     }
 }
+
+.form-participants {
+    margin-bottom: 1.5rem;
+}
+
+.form-participants>.form-participant {
+    border-bottom: 1px solid #8c8c8cc0;
+    padding-bottom: 1rem;
+}
+
+.form-participants>.form-participant:last-child {
+    border-bottom-width: 0px;
+    padding-bottom: initial;
+}
+
+.form-participant-operator {
+    padding: 2px 12px;
+    display: inline-block;
+    border: 2px solid #8c8c8cc0;
+    border-radius: 20% / 100%;
+}
+
+.form-participant-operator:hover {
+    background: #b0b0b0c0;
+    color: #fffdfd;
+}
