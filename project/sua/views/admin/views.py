@@ -639,19 +639,21 @@ class ApplicationsMergeView(BaseView, NavMixin):
         for application in applications:
             if str(application.id) in request.data:
                 merge_applications.append(application)
-        if 'activity_id' in request.data:
-            if request.data['activity_id'] in ['None', ''] and bool(merge_applications):
-                activity = merge_applications[0].sua.activity
-            else:
-                activity = Activity.objects.filter(id=request.data['activity_id'],deleted_at=None).get()
+        if request.data['activity_id'] in ['None', ''] and bool(merge_applications):
+            activity = merge_applications[0].sua.activity
+        else:
+            activity = Activity.objects.filter(id=request.data['activity_id'],deleted_at=None).get()
         for application in merge_applications:
             sua = Sua.objects.filter(deleted_at=None,application=application).get()
+            for sua in sua.student.get_suas():
+                if sua.activity == activity:
+                    continue
             old_activity = sua.activity
             Sua.objects.filter(deleted_at=None,application=application).update(activity=activity)
             if old_activity != activity and old_activity.is_created_by_student:
                 old_activity.delete()
 
-        self.url="/activities/tab"
+        self.url="/applications/tab"
         return True
 #批量添加公益时记录
 class Batch_AddSuasView(BaseView, NavMixin):

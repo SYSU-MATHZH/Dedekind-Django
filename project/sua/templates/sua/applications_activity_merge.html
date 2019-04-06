@@ -11,6 +11,7 @@
 
     <!-- My CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'sua/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'sua/css/bootstrap-select.css' %}">
 
     <title>
       合并申请
@@ -73,31 +74,40 @@
     </nav>
 
     <div class="container mt-5 pt-5">
-        <div class="page-head">
-<h2 class="page-head-title">
-  合并申请
-                </h2>
-            <nav aria-label="breadcrumb" role="navigation">
-                <ol class="breadcrumb page-head-nav">
-                                  </ol>
-            </nav>
-        </div>
+      <div class="page-head">
+          <h2 class="page-head-title">
+                合并申请活动
+            </h2>
+          <nav aria-label="breadcrumb" role="navigation">
+              <ol class="breadcrumb page-head-nav">
+                  <li class="breadcrumb-item"><a href="/">主页</a></li>
+                  <li class="breadcrumb-item active">选择合并的申请与活动</li>
+              </ol>
+          </nav>
+      </div>
         <div class="row main-content">
             <div class="col-lg">
                 <div class="invoice">
                     <form id="form" enctype="multipart/form-data" role="form" action="" method="POST" data-parsley-validate>
                       {% csrf_token %}
+                      <div class="row invoice-form-header">
+                          <div class="col-sm-7">
+                              <div class="invoice-logo"></div>
+                          </div>
+                          <div class="col-sm-5 invoice-order">
+                              <span class="invoice-id">合并申请活动</span>
+                          </div>
+                      </div>
 
-                      <label>请选择一个活动:</label>
-                      <select name="activity_id" title="请选择活动" class="selectpicker show-tick form-control" data-live-search="true">
-                        <option value="None">请选择相同活动名称的申请以创建该活动</option>
-                        {% for activity in activities %}
-                        <option value="{{ activity.id }}">
-                          {{ activity.title }}
-                        </option>
-                        {% endfor %}
-                      </select>
-
+                      <div class="form-group pt-3">
+                        <label class="required">选择活动</label>
+                        <select name="activity_id" title="请选择活动" class="selectpicker show-tick form-control" data-live-search="true">
+                          <option value="None">请选择申请以合并到一个活动</option>
+                          {% for activity in activities %}
+                          <option value="{{ activity.id }}"> {{ activity.title }} </option>
+                          {% endfor %}
+                        </select>
+                      </div>
                       <div class="table-responsive">
                         <table class="table">
                           <thead>
@@ -143,6 +153,8 @@
     <script src="{% static 'sua/js/parsley.min.js' %}"></script>
     <script src="{% static 'sua/js/i18n/zh_cn.js' %}"></script>
     <script src="{% static 'sua/js/i18n/zh_cn.extra.js' %}"></script>
+    <script src="{% static 'sua/js/i18n/bootstrap-select-zh_CN.min.js' %}"></script>
+    <script src="{% static 'sua/js/bootstrap-select.js' %}"></script>
 </body>
 </html>
 
