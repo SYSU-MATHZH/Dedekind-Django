@@ -277,7 +277,7 @@ class ApplicationView(BaseView, NavMixin):
                     activity.is_valid=False
                     activity.save()
                     sua_data.save(is_valid=False)
-                self.url = serializer.data['url']
+                self.url = "/applications/tab"
                 return True
         else:
             return False
@@ -644,14 +644,14 @@ class ApplicationsMergeView(BaseView, NavMixin):
                 activity = merge_applications[0].sua.activity
             else:
                 activity = Activity.objects.filter(id=request.data['activity_id'],deleted_at=None).get()
-        for i in range(len(merge_applications)):
-            sua = Sua.objects.filter(deleted_at=None,application=merge_applications[i]).get()
+        for application in merge_applications:
+            sua = Sua.objects.filter(deleted_at=None,application=application).get()
             old_activity = sua.activity
-            Sua.objects.filter(deleted_at=None,application=merge_applications[i]).update(activity=activity)
+            Sua.objects.filter(deleted_at=None,application=application).update(activity=activity)
             if old_activity != activity and old_activity.is_created_by_student:
                 old_activity.delete()
 
-        self.url="/"
+        self.url="/activities/tab"
         return True
 #批量添加公益时记录
 class Batch_AddSuasView(BaseView, NavMixin):
