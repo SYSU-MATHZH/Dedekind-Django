@@ -498,6 +498,7 @@ class Activity_tab_View(BaseView, NavMixin):
 
         if user.is_staff:
             activity_set = Activity.objects.filter(
+            owner = user,
             deleted_at=None,
             is_created_by_student=False,).order_by('-created')  # 获取所有活动
         elif user.student.power == 1:
@@ -538,6 +539,42 @@ class Activity_tab_View(BaseView, NavMixin):
         serialized.update({
             'activities': activities,
         })
+
+        if user.is_staff:
+            activity_set = Activity.objects.filter(
+                is_created_by_student=False,
+                deleted_at=None).exclude(owner=user).order_by('-created')  
+            activity_stu_data = ActivityForAdminSerializer(  
+                activity_set,
+                many=True,
+                context={'request': request}
+            )
+            activities = activity_stu_data.data
+            for i in range(len(activities)):
+                activities[i]['number'] = activity_set[i].number()
+                activities[i]['already_published'] = activity_set[i].get_already_published()
+                activities[i]['unpublicity_url'] = activity_set[i].get_unpublicity_url()
+                activities[i]['is_published'] = activity_set[i].get_is_published()#获取活动是否公示，若是，则将数据序列化
+                if activities[i]['is_published']:
+                    publicity_data = PublicitySerializer(
+                        activities[i]['is_published'],
+                        many=True,
+                        context={'request':request},
+                    )
+                    publicity = publicity_data.data
+                    activities[i]['is_published'] = publicity[0]['url']
+                if activities[i]['unpublicity_url']:
+                    publicity_data = PublicitySerializer(
+                        activities[i]['unpublicity_url'],
+                        many=True,
+                        context={'request':request},
+                    )
+                    publicity = publicity_data.data
+                    activities[i]['unpublicity_url'] = publicity[0]['url']
+
+            serialized.update({
+                'activities_stu': activities,
+            })
 
         return serialized
 

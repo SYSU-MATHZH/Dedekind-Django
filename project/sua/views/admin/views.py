@@ -96,6 +96,7 @@ class IndexView(BaseView, NavMixin):
         deleteds['applications'] = tools.get_deleteds(Application, ApplicationSerializer, request)
 
         activity_set = Activity.objects.filter(
+            is_created_by_student=False,
             deleted_at=None).order_by('-created')  # 获取所有当前管理员创建的活动
         activity_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
             activity_set,
@@ -116,6 +117,29 @@ class IndexView(BaseView, NavMixin):
                 publicity['end'] = tools.DateTime2String_SHOW(
                     tools.TZString2DateTime(publicity['end']))
 
+        activity_stu_set = Activity.objects.filter(
+            is_created_by_student=True,
+            deleted_at=None).order_by('-created')  # 获取所有当前管理员创建的活动
+        activity_stu_data = ActivityForAdminSerializer(  # 序列化所有所有当前管理员创建的活动
+            activity_set,
+            many=True,
+            context={'request': request}
+        )
+        deleteds['activities_stu'] = tools.get_deleteds(Activity, ActivitySerializer, request)
+        activities_stu = activity_stu_data.data
+        for activity in activities_stu:
+            activity['start'] = tools.Date2String_SHOW(
+                tools.TZString2DateTime(activity['start']))
+            activity['end'] = tools.Date2String_SHOW(
+                tools.TZString2DateTime(activity['end']))
+            for publicity in activity['publicities']:
+                publicity['begin'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(publicity['begin']))
+                publicity['end'] = tools.DateTime2String_SHOW(
+                    tools.TZString2DateTime(publicity['end']))
+        
+        print(activities_stu)
+
         # deleteds.sort(key=tools.sort_by_deletedAt, reverse=True)
 
         #print(deleteds)
@@ -126,6 +150,7 @@ class IndexView(BaseView, NavMixin):
             'applications': applications,
             'students': student_data.data,
             'activities': activities,
+            'activities_stu':activities_stu,
             'deleteds': deleteds,
         })
         return serialized
@@ -474,7 +499,7 @@ class AddSuaForActivityView(BaseView, NavMixin):
             context={'request': request},
         )
         if suaSerializer.is_valid():
-            if((request.user.is_staff) or (request.user.student.power == 1 and activity.owner == request.user)):
+            if((request.user.is_staff) or (request.user.student.power == 1 and activity.owner == request.user and activity.is_valid==False)):
                 suaSerializer.save(
                     owner=user,
                     activity=activity,
@@ -536,7 +561,7 @@ class ChangeSuaForActivityView(BaseView, NavMixin):
             context={'request': request},
         )
         if suaSerializer.is_valid():
-            if((request.user.is_staff) or (request.user.student.power == 1 and activity.owner == request.user)):
+            if((request.user.is_staff) or (request.user.student.power == 1 and activity.owner == request.user and activity.is_valid == False)):
                 suaSerializer.save()
                 if url:
                     self.url = url

@@ -133,6 +133,11 @@
                         <div class="my-card-footer">
                           {% if nav.user.is_staff %}
                             <a class="btn btn-lg btn-space btn-secondary" href = "/activities/{{ serializer.data.id }}/change/">编辑</a>
+                            {% if serializer.data.is_valid %}
+                                <a class="btn btn-lg btn-space btn-secondary" href="/admin/activities/{{ serializer.data.id }}/check/">不通过</a>
+                            {% elif serializer.data.is_valid == False %}
+                                <a class="btn btn-lg btn-space btn-secondary" href="/admin/activities/{{ serializer.data.id }}/check/">通过</a>
+                            {% endif %}
                             <a class="btn btn-lg btn-space btn-secondary" href = "/activities/{{ serializer.data.id }}/download/">导出</a>
                             <a class="btn btn-lg btn-space btn-danger" href="/activities/{{ serializer.data.id }}/delete/">删除</a>
                           {% endif %}

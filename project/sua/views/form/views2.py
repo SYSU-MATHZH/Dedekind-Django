@@ -131,7 +131,10 @@ class ActivityViewSet(BaseViewSet, NavMixin):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user, is_valid=True)
+        if self.request.user.is_staff:
+            serializer.save(owner=self.request.user, is_valid=True)
+        elif self.request.user.student.power==1:
+            serializer.save(owner=self.request.user, is_valid=False)
 
 
 class ApplicationViewSet(BaseViewSet, NavMixin):

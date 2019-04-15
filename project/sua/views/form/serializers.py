@@ -76,7 +76,7 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'title', 'detail', 'group', 'start', 'end', 'suas', 'id','is_valid','contact','number')
 
     def create(self, validated_data):
-        print(validated_data)
+       # print(validated_data)
         sua_datas = []
         if 'suas' in validated_data:
             sua_datas = validated_data.pop('suas')
@@ -88,6 +88,7 @@ class AddActivitySerializer(serializers.HyperlinkedModelSerializer):
         for sua_data in sua_datas:
             sua = Sua.objects.create(owner=owner, activity=activity, **sua_data)
         return activity
+
     def update(self, instance, validated_data):
         sua_datas = []
         if 'suas' in validated_data:

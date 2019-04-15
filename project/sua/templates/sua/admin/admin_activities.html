@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         <div class="my-card-header">
-                            活动列表
+                            管理员创建的活动列表
                             <div class="tools">
                             </div>
                         </div>
@@ -171,6 +171,97 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-sm">
+                <div class="card card-table mb-4">
+                    <div class="card-body card-table-header">
+                        <div class="tools">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{% static 'sua/images/plus2.png' %}" width="20" height="20" class="d-inline-block"
+                                    alt="" style="mix-blend-mode: #fff">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/activities/add/">创建活动</a>
+                            </div>
+                        </div>
+                        <div class="my-card-header">
+                            学生创建的活动列表
+                            <div class="tools">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body card-table-body">
+                        <div class="table-responsive">
+                            <table data-toggle="table" data-classes="table table-hover table-striped" data-search="true"
+                                data-search-align="left" data-show-fullscreen="true" {% comment %}
+                                data-checkbox-header="true" {% endcomment %} data-click-to-select="true"
+                                data-maintain-selected="true" data-pagination="true">
+                                <thead>
+                                    <tr>
+                                        <th data-checkbox="true" data-sortable="true"></th>
+                                        <th data-sortable="true">名称</th>
+                                        <th data-sortable="true">活动开始日期</th>
+                                        <th data-sortable="true">活动结束日期</th>
+                                        <th data-sortable="true">参与总人数</th>
+                                        <th data-sortable="true">是否已公示</th>
+                                        <th style="width: 10%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if activities_stu %}
+                                    {% for activity in activities_stu %}
+                                    <tr>
+                                        <td></td>
+                                        <td>{{ activity.title }}</td>
+                                        <td>{{ activity.start }}</td>
+                                        <td>{{ activity.end }}</td>
+                                        <td>{{ activity.number }}</td>
+                                        <td>{% if activity.already_published == 0 %}
+                                            未创建公示
+                                            {% elif activity.already_published == 1 %}
+                                            已创建但未公示
+                                            {% elif activity.already_published == 2 %}
+                                            公示完毕
+                                            {% elif activity.already_published == 3 %}
+                                            公示中
+                                            {% endif %}</td>
+                                        <td>
+                                            <div class="btn-group btn-hspace">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    data-toggle="dropdown" aria-expanded="false">操作</button>
+                                                <div class="dropdown-menu" role="menu" x-placement="bottom-start"
+                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-95px, 30px, 0px);">
+                                                    <a class="dropdown-item" href="{{ activity.url }}">查看详情</a>
+                                                    {% if activity.already_published == 0 %}
+                                                    <a class="dropdown-item"
+                                                        href="/admin/publicities/{{ activity.id }}/create/">创建公示</a>
+                                                    {% elif activity.already_published == 1 %}
+                                                    <a class="dropdown-item" href="{{ activity.unpublicity_url }}">公示详情</a>
+                                                    {% else %}
+                                                    <a class="dropdown-item" href="{{ activity.is_published }}">公示详情</a>
+                                                    {% endif %}
+                                                    <a class="dropdown-item"
+                                                        href="/activities/{{ activity.id }}/change/">编辑</a>
+                                                    <a class="dropdown-item"
+                                                        href="/activities/{{ activity.id }}/delete/">删除</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
