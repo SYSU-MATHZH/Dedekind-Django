@@ -34,6 +34,7 @@ class AddStudentSerializer(serializers.HyperlinkedModelSerializer):
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user')
         user = instance.user
+        print(user_data)
         user.set_password(user_data['password'])
         user.save()
         instance.number = validated_data.get('number',instance.number)

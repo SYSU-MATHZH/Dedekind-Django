@@ -75,7 +75,7 @@ class Student(BaseSchema):
 
     def totalhours(self):
         total = 0
-        for sua in self.suas.filter(deleted_at=None, is_valid=True, activity__is_valid=True,):
+        for sua in self.get_suas_AcademicYear():
             total += sua.suahours
         self.suahours = total
         self.save()
