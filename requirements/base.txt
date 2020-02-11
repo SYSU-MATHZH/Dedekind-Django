@@ -1,4 +1,4 @@
-django==2.0.12
+django==2.2.10
 djangorestframework==3.7.7
 django-environ==0.4.4
 django_crontab==0.7.1
