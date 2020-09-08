@@ -40,15 +40,13 @@ CORS_ALLOW_HEADERS = (
 )
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
-      'localhost:63343',
-      'localhost:8000',
-      'localhost:8001',
-      '127.0.0.1:8000',
-      '127.0.0.1:8001',
+    #   'localhost:63343',
+    #   'localhost:8000',
+    #   'localhost:8001',
+      'http://127.0.0.1:8000',
+      'http://127.0.0.1:8001',
       'http://localhost:63343',
       'http://localhost:8000',
       'http://localhost:8001',
-      'http://127.0.0.1:8000',
-      'http://127.0.0.1:8001',
-      'chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop'
+      'chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop',
 )
